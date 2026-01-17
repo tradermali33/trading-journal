@@ -23,13 +23,14 @@
     }
 
     body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont;
-      background: var(--bg);
-      color: var(--text);
-      padding: 16px;
-      transition: 0.3s;
-    }
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+  background: var(--bg);
+  color: var(--text);
+  padding: clamp(14px, 4vw, 28px);
+  font-size: clamp(16px, 4vw, 20px);
+  transition: 0.3s;
+}
 
     header {
       display: flex;
