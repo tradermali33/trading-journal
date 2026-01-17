@@ -7,74 +7,70 @@
 
   <!-- ===== CSS ===== -->
 <style>
-:root{
-  --bg:#0b0e1a;
-  --card:#131722;
-  --text:#e6e8eb;
-  --muted:#9aa0a6;
-  --accent:#f5b700;
-}
-
-body.light{
-  --bg:#f4f6fa;
-  --card:#eef1f7;
-  --text:#111;
-  --muted:#555;
-  --accent:#2962ff;
-}
-
+/* ===== DARK THEME ===== */
 body{
   margin:0;
   font-family:system-ui,-apple-system,BlinkMacSystemFont;
-  background:var(--bg);
-  color:var(--text);
-  padding:clamp(16px,4vw,32px);
-  font-size:clamp(17px,4vw,22px);
-  transition:.3s;
+  background:#0b0e1a;
+  color:#e6e8eb;
+  padding:clamp(18px,4vw,36px);
+  font-size:clamp(18px,5vw,24px);
+  transition:background .3s,color .3s;
 }
 
 header{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:24px;
+  margin-bottom:28px;
 }
 
 h1{
-  font-size:clamp(22px,6vw,30px);
+  font-size:clamp(24px,7vw,34px);
   margin:0;
 }
 
 .theme-btn{
   background:none;
   border:none;
-  font-size:24px;
+  font-size:26px;
   cursor:pointer;
 }
 
 .dashboard{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:16px;
+  gap:20px;
 }
 
 .card{
-  background:var(--card);
-  border-radius:18px;
-  padding:clamp(18px,4vw,26px);
-  font-size:clamp(16px,4vw,20px);
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  background:#131722;
+  border-radius:20px;
+  padding:clamp(20px,4vw,30px);
+  font-size:clamp(18px,5vw,22px);
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
-body.light .card{
-  box-shadow: 0 8px 24px rgba(0,0,0,.08);
-}
+
 .card strong{
-  font-size:clamp(20px,5vw,26px);
+  display:block;
+  margin-top:8px;
+  font-size:clamp(22px,6vw,28px);
+}
+
+/* ===== LIGHT THEME ===== */
+body.light{
+  background:#f4f6fa;
+  color:#111;
+}
+
+body.light .card{
+  background:#ffffff;
+  box-shadow:0 10px 30px rgba(0,0,0,.12);
 }
 </style>
 </head>
 
-<body class="light">
+<body>
 
   <!-- ===== HEADER ===== -->
   <header>
@@ -90,17 +86,12 @@ body.light .card{
 
   <!-- ===== JS ===== -->
 <script>
-  // SAYFA AÇILINCA TEMAYI ZORLA AKTİF ET
-  document.addEventListener("DOMContentLoaded", function () {
-    document.body.classList.remove("light");
-  });
-
-  function toggleTheme() {
-    document.body.classList.toggle("light");
-    const btn = document.querySelector(".theme-btn");
-    btn.textContent =
-      document.body.classList.contains("light") ? "☀️" : "🌙";
-  }
+function toggleTheme(){
+  document.body.classList.toggle("light");
+  const btn = document.querySelector(".theme-btn");
+  btn.textContent =
+    document.body.classList.contains("light") ? "🌙" : "☀️";
+}
 </script>
 
 </body>
