@@ -1,32 +1,87 @@
-.value{
-  font-size:26px;
-  font-weight:700;
-}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Trading Journal</title>
 
-input,button{
-  width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:none;
-  font-size:16px;
-}
+  <!-- ===== CSS ===== -->
+  <style>
+    :root {
+      --bg: #0b0e1a;
+      --card: #131722;
+      --text: #e6e8eb;
+      --muted: #9aa0a6;
+      --accent: #f5b700;
+    }
 
-input{
-  background:#0b0e1a;
-  color:var(--text);
-  margin-bottom:10px;
-}
+    body.light {
+      --bg: #f4f6fa;
+      --card: #ffffff;
+      --text: #111;
+      --muted: #555;
+      --accent: #2962ff;
+    }
 
-button{
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  font-weight:700;
-  cursor:pointer;
-}
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      transition: 0.3s;
+    }
 
-button:active{transform:scale(.98)}
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
 
-.log{
-  font-size:14px;
-  color:var(--muted);
-  margin-top:8px;
-}
+    h1 {
+      font-size: 22px;
+      margin: 0;
+    }
+
+    .theme-btn {
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+
+<body class="dark">
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <h1>📊 Trading Journal</h1>
+    <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+  </header>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="card">
+    <p>🏦 Kasa: <strong>Hazır</strong></p>
+    <p>💰 SMC: <strong>Hazır</strong></p>
+  </div>
+
+  <!-- ===== JS ===== -->
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle("light");
+      const btn = document.querySelector(".theme-btn");
+      btn.textContent =
+        document.body.classList.contains("light") ? "☀️" : "🌙";
+    }
+  </script>
+
+</body>
+</html>
