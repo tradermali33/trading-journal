@@ -40,9 +40,9 @@
     }
 
     h1 {
-      font-size: 22px;
-      margin: 0;
-    }
+  font-size: clamp(20px, 6vw, 28px);
+  margin: 0;
+}
 
     .theme-btn {
       background: none;
@@ -51,12 +51,13 @@
       cursor: pointer;
     }
 
-    .card {
-      background: var(--card);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
+.card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: clamp(16px, 4vw, 24px);
+  margin-bottom: 18px;
+  font-size: clamp(15px, 4vw, 18px);
+}
   </style>
 </head>
 
