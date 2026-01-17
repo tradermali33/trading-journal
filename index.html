@@ -89,14 +89,19 @@ body.light .card{
   </div>
 
   <!-- ===== JS ===== -->
-  <script>
-    function toggleTheme() {
-      document.body.classList.toggle("light");
-      const btn = document.querySelector(".theme-btn");
-      btn.textContent =
-        document.body.classList.contains("light") ? "☀️" : "🌙";
-    }
-  </script>
+<script>
+  // SAYFA AÇILINCA TEMAYI ZORLA AKTİF ET
+  document.addEventListener("DOMContentLoaded", function () {
+    document.body.classList.remove("light");
+  });
+
+  function toggleTheme() {
+    document.body.classList.toggle("light");
+    const btn = document.querySelector(".theme-btn");
+    btn.textContent =
+      document.body.classList.contains("light") ? "☀️" : "🌙";
+  }
+</script>
 
 </body>
 </html>
