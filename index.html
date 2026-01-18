@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ne<!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
@@ -130,12 +130,40 @@ footer{
 </footer>
 
 <script>
+/* ===== THEME ===== */
 function toggleTheme(){
   document.body.classList.toggle("light");
   const btn = document.querySelector(".theme-btn");
   btn.textContent =
-    document.body.classList.contains("light") ? "🌙" : "☀️";
+    document.body.classList.contains("light") ? "☀️" : "🌙";
 }
+
+/* ===== DATA LAYER ===== */
+const defaultData = {
+  kasa: 100000,
+  islemler: [],
+  smc: "Uyumlu"
+};
+
+function loadData(){
+  return JSON.parse(localStorage.getItem("journal")) || defaultData;
+}
+
+function saveData(data){
+  localStorage.setItem("journal", JSON.stringify(data));
+}
+
+let journal = loadData();
+
+/* ===== UI UPDATE ===== */
+function updateUI(){
+  document.getElementById("kasaValue").innerText =
+    journal.kasa.toLocaleString("tr-TR") + " ₺";
+
+  document.getElementById("smcValue").innerText = journal.smc;
+}
+
+updateUI();
 </script>
 
 </body>
