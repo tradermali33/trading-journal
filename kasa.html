@@ -1,244 +1,176 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Kasa</title>
 
 <style>
 :root{
-  --bg:#f4f6f8;
+  --bg:#f4f7f8;
   --card:#ffffff;
-  --text:#111827;
-  --sub:#6b7280;
+  --text:#0f172a;
+  --muted:#6b7280;
   --blue:#2563eb;
-  --dark:#111827;
-}
-
-body.dark{
-  --bg:#0b1220;
-  --card:#111827;
-  --text:#e5e7eb;
-  --sub:#9ca3af;
+  --dark:#1f2937;
 }
 
 body{
   margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,system-ui;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
   background:var(--bg);
   color:var(--text);
-  padding:16px;
-  transition:.3s;
 }
 
-/* HEADER */
-.header{
+.container{
+  max-width:420px;
+  margin:auto;
+  padding:16px;
+}
+
+/* ÜST BAR */
+.top{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:18px;
+  margin-bottom:14px;
 }
 
-.date-card{
-  background:linear-gradient(135deg,#2563eb,#1e40af);
-  color:white;
-  padding:12px 18px;
-  border-radius:16px;
+.date-pill{
+  background:var(--blue);
+  color:#fff;
+  padding:10px 14px;
+  border-radius:14px;
   font-weight:600;
-  font-size:15px;
-  box-shadow:0 6px 18px rgba(37,99,235,.35);
+  font-size:14px;
 }
 
-body.dark .date-card{
-  background:linear-gradient(135deg,#1f2937,#020617);
+.theme-pill{
+  background:#fff;
+  padding:8px 12px;
+  border-radius:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  font-size:18px;
 }
 
-.theme-btn button{
-  font-size:22px;
-  background:none;
-  border:none;
-  cursor:pointer;
-  margin-left:6px;
+/* ANA PANEL BUTON */
+.panel-btn{
+  background:#fff;
+  border-radius:18px;
+  padding:14px;
+  font-weight:600;
+  box-shadow:0 8px 22px rgba(0,0,0,.08);
+  margin-bottom:14px;
 }
 
-/* CARD */
+/* KART */
 .card{
   background:var(--card);
-  border-radius:20px;
-  padding:18px;
+  border-radius:22px;
+  padding:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
   margin-bottom:16px;
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
-/* ANA PANEL */
-.panel-btn{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:18px;
-  font-weight:600;
-  cursor:pointer;
-  color:var(--blue);
-}
-
-/* KASA */
-.kasa-title{
+.card h2{
+  margin:0;
   text-align:center;
   font-size:28px;
-  font-weight:700;
 }
 
-.kasa-sub{
+.card p{
+  margin:6px 0 0;
   text-align:center;
-  color:var(--sub);
-  margin-bottom:12px;
+  color:var(--muted);
 }
 
-.amount{
-  text-align:center;
-  font-size:34px;
+/* BAKİYE */
+.balance{
+  font-size:40px;
   font-weight:700;
-  margin-bottom:12px;
+  text-align:center;
+  margin-bottom:16px;
 }
 
+/* INPUT */
 input{
   width:100%;
-  padding:14px;
-  border-radius:14px;
+  height:52px;
+  border-radius:16px;
   border:none;
-  background:#f1f5f9;
+  background:#eef2f3;
+  padding:0 16px;
   font-size:16px;
   box-sizing:border-box;
+  margin-bottom:12px;
 }
 
-body.dark input{
-  background:#020617;
-  color:white;
-}
-
-.btn{
+/* BUTON */
+button{
   width:100%;
-  padding:14px;
-  margin-top:10px;
+  height:54px;
   border:none;
-  border-radius:14px;
+  border-radius:18px;
   font-size:18px;
   font-weight:600;
-  cursor:pointer;
+  margin-bottom:10px;
 }
 
-.btn.plus{
-  background:var(--blue);
-  color:white;
-}
+.btn-add{background:var(--blue);color:#fff;}
+.btn-sub{background:#334155;color:#fff;}
 
-.btn.minus{
-  background:#334155;
-  color:white;
-}
-
-/* OZET */
-.ozet-row{
+/* ÖZET */
+.summary{
   display:flex;
   justify-content:space-between;
-  font-size:17px;
-  margin:6px 0;
+  font-size:18px;
+  font-weight:600;
 }
+
+.summary span{color:var(--muted);}
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="date-card" id="dateBox"></div>
-  <div class="theme-btn">
-    <button onclick="setDark()">🌙</button>
-    <button onclick="setLight()">☀️</button>
+<div class="container">
+
+  <!-- TARİH + TEMA -->
+  <div class="top">
+    <div class="date-pill" id="date"></div>
+    <div class="theme-pill">🌙 ☀️</div>
   </div>
-</div>
 
-<!-- ANA PANEL -->
-<div class="card panel-btn" onclick="location.href='index.html'">
-  ✨ Ana Panel
-</div>
+  <!-- ANA PANEL -->
+  <div class="panel-btn">✨ Ana Panel</div>
 
-<!-- KASA BASLIK -->
-<div class="card">
-  <div class="kasa-title">🏦 Kasa</div>
-  <div class="kasa-sub">Para Giriş / Çıkış ve Kasa Takibi</div>
-</div>
-
-<!-- KASA ISLEM -->
-<div class="card">
-  <div class="amount" id="kasaValue">0 ₺</div>
-
-  <input type="number" id="tutar" placeholder="Tutar gir">
-
-  <button class="btn plus" onclick="yatir()">+ Yatır</button>
-  <button class="btn minus" onclick="cek()">– Çek</button>
-</div>
-
-<!-- OZET -->
-<div class="card">
-  <div class="ozet-row">
-    <span>+ Yatırılan</span>
-    <strong id="toplamYatirilan">0 ₺</strong>
+  <!-- KASA BAŞLIK -->
+  <div class="card">
+    <h2>🏦 Kasa</h2>
+    <p>Para Giriş / Çıkış ve Kasa Takibi</p>
   </div>
-  <div class="ozet-row">
-    <span>– Çekilen</span>
-    <strong id="toplamCekilen">0 ₺</strong>
+
+  <!-- KASA -->
+  <div class="card">
+    <div class="balance">0 ₺</div>
+    <input type="number" placeholder="Tutar gir">
+    <button class="btn-add">+ Yatır</button>
+    <button class="btn-sub">− Çek</button>
   </div>
+
+  <!-- ÖZET -->
+  <div class="card">
+    <div class="summary"><span>+ Yatırılan</span>0 ₺</div>
+    <div class="summary"><span>− Çekilen</span>0 ₺</div>
+  </div>
+
 </div>
 
 <script>
-/* THEME */
-function setDark(){
-  document.body.classList.add("dark");
-  localStorage.theme="dark";
-}
-function setLight(){
-  document.body.classList.remove("dark");
-  localStorage.theme="light";
-}
-if(localStorage.theme==="dark") setDark();
-
-/* TARIH */
-const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
 const d=new Date();
-document.getElementById("dateBox").innerText=
-  d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
-
-/* DATA */
-let kasa=0;
-let yatirilan=0;
-let cekilen=0;
-
-function guncelle(){
-  kasaValue.innerText=kasa.toLocaleString("tr-TR")+" ₺";
-  toplamYatirilan.innerText=yatirilan.toLocaleString("tr-TR")+" ₺";
-  toplamCekilen.innerText=cekilen.toLocaleString("tr-TR")+" ₺";
-}
-
-function yatir(){
-  const t=Number(tutar.value);
-  if(!t) return;
-  kasa+=t;
-  yatirilan+=t;
-  tutar.value="";
-  guncelle();
-}
-
-function cek(){
-  const t=Number(tutar.value);
-  if(!t) return;
-  kasa-=t;
-  cekilen+=t;
-  tutar.value="";
-  guncelle();
-}
-
-guncelle();
+const days=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+document.getElementById("date").innerText=
+`${String(d.getDate()).padStart(2,"0")}.${String(d.getMonth()+1).padStart(2,"0")}.${d.getFullYear()} ${days[d.getDay()]}`;
 </script>
 
 </body>
