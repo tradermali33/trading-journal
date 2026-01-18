@@ -91,6 +91,18 @@ footer{
   font-size:14px;
   opacity:.6;
 }
+/* ===== SMC STATES ===== */
+#smcCard.uyumlu{
+  border-left:6px solid #22c55e;
+}
+
+#smcCard.riskli{
+  border-left:6px solid #f59e0b;
+}
+
+#smcCard.disi{
+  border-left:6px solid #ef4444;
+}
 </style>
 </head>
 
@@ -108,9 +120,13 @@ footer{
   <strong id="kasaValue"></strong>
 </div>
 
-<div class="card">
-  <p>💰 SMC</p>
+<div class="card" id="smcCard">
+  <p>💰 SMC Durumu</p>
   <strong id="smcValue"></strong>
+
+  <button class="btn" onclick="setSMC('Uyumlu')">✅ Uyumlu</button>
+  <button class="btn" onclick="setSMC('Riskli')">⚠️ Riskli</button>
+  <button class="btn" onclick="setSMC('Dışı')">❌ Dışı</button>
 </div>
 
 <div class="card">
@@ -171,7 +187,27 @@ function updateKasa(amount){
   saveData(journal);
   updateUI();
 }
-updateUI();
+function updateUI(){
+  document.getElementById("kasaValue").innerText =
+    journal.kasa.toLocaleString("tr-TR") + " ₺";
+
+  document.getElementById("smcValue").innerText = journal.smc;
+  updateSMCStyle();
+}
+function setSMC(status){
+  journal.smc = status;
+  saveData(journal);
+  updateUI();
+}
+
+function updateSMCStyle(){
+  const card = document.getElementById("smcCard");
+  card.classList.remove("uyumlu","riskli","disi");
+
+  if(journal.smc === "Uyumlu") card.classList.add("uyumlu");
+  if(journal.smc === "Riskli") card.classList.add("riskli");
+  if(journal.smc === "Dışı") card.classList.add("disi");
+}
 </script>
 
 </body>
