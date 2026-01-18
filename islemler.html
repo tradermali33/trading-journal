@@ -7,257 +7,248 @@
 
 <style>
 :root{
+  --bg:#f3f6f9;
+  --card:#ffffff;
+  --blue:#2563eb;
   --green:#16a34a;
   --red:#dc2626;
   --gray:#9ca3af;
-  --blue:#2563eb;
-  --bg:#f3f6f7;
+  --dark:#0f172a;
 }
 
 *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto}
-body{margin:0;background:var(--bg)}
-.container{max-width:480px;margin:auto;padding:16px;min-height:100vh;display:flex;flex-direction:column;gap:12px}
+body{margin:0;background:var(--bg);color:var(--dark)}
+.container{max-width:430px;margin:auto;padding:16px 14px 120px}
 
 .card{
-  background:#fff;
-  border-radius:16px;
+  background:var(--card);
+  border-radius:18px;
   padding:16px;
-  box-shadow:0 8px 20px rgba(0,0,0,.05);
+  margin-bottom:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,.05);
 }
 
 h1{margin:0;font-size:22px}
-.sub{font-size:14px;color:#6b7280}
-
-.section{font-weight:600;margin-bottom:6px}
+h2{margin:0 0 6px;font-size:16px}
+small{color:#64748b}
 
 input,select{
   width:100%;
   padding:14px;
-  border:none;
   border-radius:12px;
-  background:#eef2f3;
+  border:none;
+  background:#eef2f5;
   font-size:15px;
 }
 
-button{
-  width:100%;
+.row{display:flex;gap:10px}
+.btn{
+  flex:1;
   padding:14px;
   border:none;
   border-radius:14px;
+  font-weight:700;
   font-size:15px;
+}
+.long{background:#dcfce7;color:var(--green)}
+.short{background:#fee2e2;color:var(--red)}
+.range{background:#e5e7eb;color:#374151}
+
+.active.long{background:var(--green);color:#fff}
+.active.short{background:var(--red);color:#fff}
+.active.range{background:#6b7280;color:#fff}
+
+.primary{background:var(--blue);color:#fff}
+.danger{background:var(--red);color:#fff}
+
+.badge{
+  display:inline-block;
+  padding:8px 12px;
+  border-radius:999px;
+  background:#e0e7ff;
+  color:#1e40af;
+  font-weight:600;
+}
+
+.kasa{
+  display:flex;
+  justify-content:space-between;
+  font-weight:700;
+}
+
+.risk{color:var(--red);font-weight:700}
+
+.toggle{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.checkbox-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.option{
+  padding:10px;
+  background:#eef2f5;
+  border-radius:10px;
+  text-align:center;
   font-weight:600;
   cursor:pointer;
 }
 
-.row{display:flex;gap:8px}
-
-.trend button{color:#fff;opacity:.4}
-.trend .active{opacity:1}
-.long{background:var(--green)}
-.short{background:var(--red)}
-.range{background:var(--gray)}
-
-.auto{background:#f1f5f9;border-radius:12px;padding:8px;font-size:13px}
-.warn{color:var(--red);font-size:13px}
-
-.alt{background:#f8fafc;border-radius:12px;padding:10px;margin-top:6px}
-.hidden{display:none}
-
-.ema-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-.ema{padding:8px;background:#e5e7eb;border-radius:8px;text-align:center;font-size:13px}
-.ema.active{background:var(--blue);color:#fff}
-
-.primary{background:var(--blue);color:#fff;margin-top:auto}
-
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
+.option.active{
+  background:var(--blue);
+  color:#fff;
 }
-
-.auto-btn{
-  padding:8px 12px;
-  border-radius:10px;
-  font-size:13px;
-}
-
-.auto-on{background:var(--green);color:#fff}
-.auto-off{background:#e5e7eb}
 </style>
 </head>
 
 <body>
 <div class="container">
 
-<!-- TOP -->
-<div class="card topbar">
-  <button onclick="location.href='index.html'">⬅ Ana Panel</button>
-  <button id="autoBtn" class="auto-btn auto-off" onclick="toggleAuto()">⚡ Otomatik KAPALI</button>
-</div>
-
-<!-- HEADER -->
+<!-- BAŞLIK -->
 <div class="card">
   <h1>📈 İşlem Aç</h1>
-  <div class="sub">Yeni işlem girişi</div>
+  <small>Yeni işlem girişi</small>
+</div>
+
+<!-- ÜST BUTONLAR -->
+<div class="card row">
+  <button class="btn range" onclick="location.href='index.html'">← Ana Panel</button>
+  <button class="btn primary">⚙️ Otomatik İşlem</button>
 </div>
 
 <!-- VARLIK -->
 <div class="card">
-  <div class="section">Varlık</div>
-  <input id="symbolInput" placeholder="Hisse / Coin yaz">
-  <div id="symbolList" class="auto hidden"></div>
+  <h2>Varlık</h2>
+  <input id="asset" placeholder="Coin / Hisse yaz (BTC, ETH, ALKA…)">
+  <div id="suggestions"></div>
 </div>
 
 <!-- TREND -->
 <div class="card">
-  <div class="section">Trend Yönü</div>
-  <div class="row trend">
-    <button class="long" onclick="setTrend('LONG',this)">Yükselen</button>
-    <button class="short" onclick="setTrend('SHORT',this)">Düşen</button>
-    <button class="range" onclick="setTrend('RANGE',this)">Yatay</button>
+  <h2>Trend Yönü</h2>
+  <div class="row">
+    <button class="btn long" onclick="setTrend(this,'YÜKSELEN')">YÜKSELEN</button>
+    <button class="btn short" onclick="setTrend(this,'DÜŞEN')">DÜŞEN</button>
+    <button class="btn range" onclick="setTrend(this,'YATAY')">YATAY</button>
   </div>
 </div>
 
-<!-- TIMEFRAME -->
+<!-- ZAMAN -->
 <div class="card">
-  <div class="section">Zaman Dilimi</div>
+  <h2>Zaman Dilimi</h2>
   <select>
     <option>1m</option><option>5m</option><option selected>15m</option>
     <option>30m</option><option>1h</option><option>4h</option><option>1d</option>
   </select>
 </div>
 
-<!-- PRICE -->
+<!-- FİYAT -->
 <div class="card">
-  <div class="section">Alış Fiyatı</div>
-  <input id="entry" type="number">
+  <h2>Alış Fiyatı</h2>
+  <input id="entry" type="number" step="0.01">
+</div>
+
+<!-- KASA -->
+<div class="card kasa">
+  <div>💰 Kalan Kasa</div>
+  <div id="kasa">12.500 ₺</div>
 </div>
 
 <!-- STOP -->
 <div class="card">
-  <div class="section">Stop</div>
-  <label><input type="checkbox" id="manualStop"> Manuel</label>
-  <input id="stop" disabled>
-  <div id="risk" class="warn"></div>
+  <h2>Stop</h2>
+  <div class="toggle">
+    <input type="checkbox" id="manualStop">
+    <label>Manuel</label>
+  </div>
+  <input id="stop" type="number" step="0.01">
+  <div class="risk" id="riskText"></div>
+  <button class="btn danger" id="confirmStop" style="display:none">SON KARARIN MI?</button>
 </div>
 
-<!-- TARGET -->
+<!-- HEDEF -->
 <div class="card">
-  <div class="section">Hedef (Opsiyonel)</div>
-  <input id="target" type="number">
-  <div id="rr" class="auto"></div>
+  <h2>Hedef (Opsiyonel)</h2>
+  <input id="target" type="number" step="0.01">
+  <small id="rr"></small>
 </div>
 
-<!-- ANALYSIS -->
+<!-- TEKNİK ANALİZ -->
 <div class="card">
-  <div class="section">Teknik Analiz Veri Girişi</div>
+  <h2>Teknik Analiz Veri Girişi</h2>
 
-  <label><input type="checkbox" onchange="toggle('smc')"> SMC</label>
-  <div id="smc" class="alt hidden">BOS · CHoCH · OB · Likidite</div>
+  <h3>SMC</h3>
+  <div class="checkbox-grid">
+    <div class="option">BOS</div>
+    <div class="option">CHoCH</div>
+    <div class="option">OB</div>
+    <div class="option">Likidite</div>
+  </div>
 
-  <label><input type="checkbox" onchange="toggle('ema')"> EMA</label>
-  <div id="ema" class="alt hidden"><div class="ema-grid" id="emaGrid"></div></div>
+  <h3>EMA</h3>
+  <div class="checkbox-grid">
+    <div class="option">9</div><div class="option">21</div>
+    <div class="option">50</div><div class="option">200</div>
+  </div>
 
-  <label><input type="checkbox"> RSI</label>
-  <label><input type="checkbox"> MACD</label>
-  <label><input type="checkbox"> Hacim</label>
+  <h3>RSI / MACD / Hacim</h3>
+  <div class="checkbox-grid">
+    <div class="option">RSI</div>
+    <div class="option">MACD</div>
+    <div class="option">Hacim</div>
+  </div>
 
-  <label><input type="checkbox" onchange="toggle('other')"> Diğer</label>
-  <div id="other" class="alt hidden"><input placeholder="Açıklama (zorunlu)"></div>
+  <h3>Diğer</h3>
+  <input placeholder="Açıklama (zorunlu)">
 </div>
 
-<button class="primary" onclick="openTrade()">+ İŞLEM AÇ</button>
+<!-- AÇ -->
+<div class="card">
+  <button class="btn primary">+ İŞLEM AÇ</button>
+</div>
 
 </div>
 
 <script>
-/* ---------- DATA ---------- */
-const symbols=["FROTO","ASELS","THYAO","ALKIM","BTCUSDT","ETHUSDT","ADAUSDT"];
-let trend=null,auto=false;
+let trend=null;
 
-/* ---------- AUTOCOMPLETE ---------- */
-const sInput=document.getElementById("symbolInput");
-const sList=document.getElementById("symbolList");
-sInput.oninput=()=>{
-  const v=sInput.value.toUpperCase();
-  const m=symbols.filter(x=>x.startsWith(v));
-  sList.innerHTML=m.map(x=>`<div onclick="selectSymbol('${x}')">${x}</div>`).join("");
-  sList.classList.toggle("hidden",!m.length);
-}
-function selectSymbol(v){
-  sInput.value=v;
-  sList.classList.add("hidden");
-  startPriceTracking(v);
+function setTrend(btn,val){
+  document.querySelectorAll('.btn.long,.btn.short,.btn.range')
+    .forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  trend=val;
 }
 
-/* ---------- TREND ---------- */
-function setTrend(v,el){
-  trend=v;
-  document.querySelectorAll(".trend button").forEach(b=>b.classList.remove("active"));
-  el.classList.add("active");
+const entry=document.getElementById('entry');
+const stop=document.getElementById('stop');
+const target=document.getElementById('target');
+const riskText=document.getElementById('riskText');
+const rr=document.getElementById('rr');
+const manual=document.getElementById('manualStop');
+const confirm=document.getElementById('confirmStop');
+
+function calc(){
+  if(!entry.value||!stop.value)return;
+  const risk=((entry.value-stop.value)/entry.value*100).toFixed(2);
+  riskText.innerText=`Risk: %${risk}`;
+  if(target.value){
+    const reward=((target.value-entry.value)/ (entry.value-stop.value)).toFixed(2);
+    rr.innerText=`RR: 1 : ${reward}`;
+  }
 }
+entry.oninput=calc;
+stop.oninput=calc;
+target.oninput=calc;
 
-/* ---------- STOP ---------- */
-const entry=document.getElementById("entry");
-const stop=document.getElementById("stop");
-const manual=document.getElementById("manualStop");
-const risk=document.getElementById("risk");
-
-entry.oninput=()=>{if(!manual.checked)stop.value=(entry.value*0.99).toFixed(2)}
-manual.onchange=()=>stop.disabled=!manual.checked;
-stop.oninput=()=>{
-  const r=((entry.value-stop.value)/entry.value*100).toFixed(2);
-  risk.textContent=`Risk: %${r}`;
-}
-
-/* ---------- RR ---------- */
-document.getElementById("target").oninput=()=>{
-  const r=((target.value-entry.value)/(entry.value-stop.value)).toFixed(2);
-  document.getElementById("rr").textContent=`RR: 1 : ${r}`;
-}
-
-/* ---------- EMA ---------- */
-const emaVals=[3,5,7,9,11,13,14,19,20,21,48,50,100,144,200];
-const eg=document.getElementById("emaGrid");
-emaVals.forEach(v=>{
-  const d=document.createElement("div");
-  d.className="ema";
-  d.textContent=v;
-  d.onclick=()=>{document.querySelectorAll(".ema").forEach(x=>x.classList.remove("active"));d.classList.add("active")}
-  eg.appendChild(d);
-})
-
-/* ---------- TOGGLE ---------- */
-function toggle(id){document.getElementById(id).classList.toggle("hidden")}
-
-/* ---------- AUTO ---------- */
-function toggleAuto(){
-  auto=!auto;
-  const b=document.getElementById("autoBtn");
-  b.className="auto-btn "+(auto?"auto-on":"auto-off");
-  b.textContent=auto?"⚡ Otomatik AÇIK":"⚡ Otomatik KAPALI";
-}
-
-/* ---------- PRICE (BINANCE) ---------- */
-let timer=null;
-async function fetchPrice(sym){
-  if(!sym.endsWith("USDT"))return;
-  const r=await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${sym}`);
-  const d=await r.json();
-  if(!entry.value)entry.value=parseFloat(d.price).toFixed(2);
-}
-function startPriceTracking(sym){
-  if(timer)clearInterval(timer);
-  fetchPrice(sym);
-  timer=setInterval(()=>fetchPrice(sym),15000);
-}
-
-/* ---------- SUBMIT ---------- */
-function openTrade(){
-  if(!trend||!sInput.value||!entry.value){alert("Zorunlu alanlar eksik");return;}
-  alert("İşlem açıldı (demo)");
-}
+manual.onchange=()=>{
+  confirm.style.display=manual.checked?'block':'none';
+};
 </script>
+
 </body>
 </html>
