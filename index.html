@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trading Journal</title>
+
+<style>
+/* ========== BASE ========== */
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,system-ui;
+  background:#0b0e1a;
+  color:#e6e8eb;
+  padding:20px;
+  font-size:18px;
+  line-height:1.5;
+  transition:background .3s,color .3s;
+}
+
+body.light{
+  background:#f4f6fa;
+  color:#111;
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:24px;
+}
+
+h1{
+  margin:0;
+  font-size:26px;
+}
+
+.theme-btn{
+  background:none;
+  border:none;
+  font-size:26px;
+  cursor:pointer;
+}
+
+/* ========== DASHBOARD ========== */
+.dashboard{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:18px;
+}
+
+.card{
+  background:#131722;
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+}
+
+body.light .card{
+  background:#ffffff;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+
+.card-title{
+  font-size:18px;
+  margin-bottom:8px;
+}
+
+.card-value{
+  font-size:28px;
+  font-weight:700;
+}
+
+/* ========== BUTTONS ========== */
+.btn{
+  width:100%;
+  margin-top:12px;
+  padding:12px;
+  font-size:16px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:#2563eb;
+  color:white;
+}
+
+/* ========== FOOTER ========== */
+footer{
+  margin-top:32px;
+  text-align:center;
+  font-size:14px;
+  opacity:.6;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>📊 Trading Journal</h1>
+  <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+</header>
+
+<section class="dashboard">
+
+  <div class="card">
+    <div class="card-title">🏦 Kasa</div>
+    <div class="card-value">100.000 ₺</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💰 SMC Durumu</div>
+    <div class="card-value">Uyumlu</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📈 Bugünkü İşlemler</div>
+    <div class="card-value">3</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧠 Analist Yorumu</div>
+    <div class="card-value">Disiplinli 👍</div>
+  </div>
+
+</section>
+
+<footer>
+  Kendi kendinin analisti • Trading Journal
+</footer>
+
+<script>
+function toggleTheme(){
+  document.body.classList.toggle("light");
+  const btn = document.querySelector(".theme-btn");
+  btn.textContent =
+    document.body.classList.contains("light") ? "🌙" : "☀️";
+}
+</script>
+
+</body>
+</html>
