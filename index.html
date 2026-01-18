@@ -6,194 +6,199 @@
 <title>Trading Journal</title>
 
 <style>
-/* ===== THEME ===== */
 :root{
   --bg:#0b0e1a;
   --card:#131722;
   --text:#e6e8eb;
-  --muted:#9aa0a6;
-  --accent:#f5b700;
-  --blue:#2563eb;
+  --accent:#f5c542; /* ALTIN */
 }
 
 body.light{
   --bg:#f4f6fa;
   --card:#ffffff;
   --text:#111;
-  --muted:#555;
-  --accent:#2563eb;
 }
 
-/* ===== BASE ===== */
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,system-ui;
   background:var(--bg);
   color:var(--text);
-  padding:20px;
+  padding:16px;
   transition:.3s;
 }
 
-header{
-  display:grid;
-  grid-template-columns:1fr auto 1fr;
+.topbar{
+  display:flex;
+  justify-content:space-between;
   align-items:center;
-  margin-bottom:28px;
 }
 
-/* ===== HEADER CONTROLS ===== */
-.header-left,
-.header-right{
-  display:flex;
+.toggle-group span{
+  margin:0 6px;
+  cursor:pointer;
+  opacity:.4;
+  font-size:20px;
+}
+.toggle-group .active{opacity:1;color:var(--accent);}
+
+.logo{
+  text-align:center;
+  margin:12px 0 16px;
+}
+.logo h1{margin:0;font-size:26px;}
+.logo small{opacity:.6;}
+
+.menu{
+  display:grid;
   gap:12px;
 }
 
-.header-left{
-  justify-content:flex-start;
+.card{
+  background:var(--card);
+  border-radius:16px;
+  padding:16px;
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
 }
 
-.header-right{
-  justify-content:flex-end;
-}
+.card h3{margin:0 0 8px;font-size:16px;opacity:.8}
+.value{font-size:26px;font-weight:700}
 
-.icon-btn{
-  background:none;
+input{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border-radius:10px;
   border:none;
-  font-size:22px;
-  cursor:pointer;
-  color:var(--text);
-}
-
-/* ===== LOGO ===== */
-.logo{
-  text-align:center;
-}
-
-.logo-badge{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  width:70px;
-  height:70px;
-  border-radius:50%;
-  background:radial-gradient(circle at top,#f7d27d,#b8902f);
-  color:#000;
-  font-weight:800;
-  font-size:22px;
-  box-shadow:0 10px 30px rgba(0,0,0,.4);
-}
-
-.logo-name{
-  margin-top:10px;
-  font-size:18px;
-  letter-spacing:1px;
-  font-weight:600;
-}
-
-/* ===== MENU GRID ===== */
-.menu{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:16px;
-  max-width:520px;
-  margin:0 auto;
-}
-
-/* ===== MENU CARD ===== */
-.menu-card{
-  background:linear-gradient(160deg,#1b2133,#0f1320);
-  border-radius:18px;
-  padding:22px;
-  text-align:center;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.05),
-    0 15px 35px rgba(0,0,0,.45);
-  transition:.25s;
-}
-
-body.light .menu-card{
-  background:#fff;
-  box-shadow:0 10px 25px rgba(0,0,0,.12);
-}
-
-.menu-card:hover{
-  transform:translateY(-4px) scale(1.02);
-}
-
-.menu-icon{
-  font-size:28px;
-  margin-bottom:8px;
-}
-
-.menu-title{
   font-size:16px;
-  font-weight:600;
 }
 
-/* ===== FOOTER ===== */
-footer{
-  margin-top:28px;
+.btn{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  margin-top:8px;
+  font-size:16px;
+  background:#2563eb;
+  color:white;
+  cursor:pointer;
+}
+
+.smc-uyumlu{border-left:6px solid #22c55e;border-right:6px solid #22c55e}
+.smc-riskli{border-left:6px solid #facc15;border-right:6px solid #facc15}
+.smc-disi{border-left:6px solid #ef4444;border-right:6px solid #ef4444}
+
+.footer{
   text-align:center;
+  margin-top:14px;
   font-size:13px;
-  opacity:.6;
+  opacity:.5;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ===== HEADER ===== -->
-<header>
-  <div class="header-left">
-    <button class="icon-btn" onclick="toggleTheme()">🌙</button>
+<div class="topbar">
+  <div class="toggle-group">
+    <span id="moon" class="active" onclick="setTheme('dark')">🌙</span>
+    <span id="sun" onclick="setTheme('light')">☀️</span>
+  </div>
+  <div class="toggle-group">
+    <span class="active">TR</span>
+    <span>EN</span>
+  </div>
+</div>
+
+<div class="logo">
+  <h1>👑 KING</h1>
+  <strong>MEHMET ALİ YILMAZ</strong><br>
+  <small>TRADER</small>
+</div>
+
+<div class="menu">
+
+  <div class="card">
+    <h3>🏦 Kasa</h3>
+    <div class="value" id="kasa">0 ₺</div>
+    <input id="amount" type="number" placeholder="Tutar gir">
+    <button class="btn" onclick="addMoney()">+ Yatır</button>
+    <button class="btn" onclick="removeMoney()">- Çek</button>
   </div>
 
-  <div class="logo">
-    <div class="logo-badge">MAY</div>
-    <div class="logo-name">MEHMET ALİ YILMAZ</div>
+  <div class="card" id="smcCard">
+    <h3>💰 SMC Durumu</h3>
+    <div class="value" id="smcText">Uyumlu</div>
+    <button class="btn" onclick="setSMC('Uyumlu')">✅ Uyumlu</button>
+    <button class="btn" onclick="setSMC('Riskli')">⚠️ Riskli</button>
+    <button class="btn" onclick="setSMC('Dışı')">❌ Dışı</button>
   </div>
 
-  <div class="header-right">
-    <button class="icon-btn">🇹🇷</button>
-  </div>
-</header>
-
-<!-- ===== MENU ===== -->
-<section class="menu">
-  <div class="menu-card">
-    <div class="menu-icon">✨</div>
-    <div class="menu-title">Ana Panel</div>
+  <div class="card">
+    <h3>📊 Toplam Özet</h3>
+    <div>➕ Yatırılan: <strong id="inTotal">0 ₺</strong></div>
+    <div>➖ Çekilen: <strong id="outTotal">0 ₺</strong></div>
   </div>
 
-  <div class="menu-card">
-    <div class="menu-icon">🏦</div>
-    <div class="menu-title">Kasa</div>
+  <div class="card">
+    <h3>🧠 Analist Yorumu</h3>
+    <div class="value" id="analyst">Disiplinli 👍</div>
   </div>
 
-  <div class="menu-card">
-    <div class="menu-icon">📈</div>
-    <div class="menu-title">İşlemler</div>
-  </div>
+</div>
 
-  <div class="menu-card">
-    <div class="menu-icon">🧠</div>
-    <div class="menu-title">Analist</div>
-  </div>
-
-  <div class="menu-card">
-    <div class="menu-icon">⚙️</div>
-    <div class="menu-title">Ayarlar</div>
-  </div>
-</section>
-
-<footer>
+<div class="footer">
   Kendi kendinin analisti • Trading Journal
-</footer>
+</div>
 
 <script>
-function toggleTheme(){
-  document.body.classList.toggle("light");
+let data = JSON.parse(localStorage.getItem("journal")) || {
+  kasa:0,
+  in:0,
+  out:0,
+  smc:"Uyumlu",
+  theme:"dark"
+};
+
+function save(){localStorage.setItem("journal",JSON.stringify(data));}
+
+function render(){
+  document.getElementById("kasa").innerText=data.kasa.toLocaleString("tr-TR")+" ₺";
+  document.getElementById("inTotal").innerText=data.in.toLocaleString("tr-TR")+" ₺";
+  document.getElementById("outTotal").innerText=data.out.toLocaleString("tr-TR")+" ₺";
+  document.getElementById("smcText").innerText=data.smc;
+
+  const c=document.getElementById("smcCard");
+  c.classList.remove("smc-uyumlu","smc-riskli","smc-disi");
+  if(data.smc==="Uyumlu") c.classList.add("smc-uyumlu");
+  if(data.smc==="Riskli") c.classList.add("smc-riskli");
+  if(data.smc==="Dışı") c.classList.add("smc-disi");
 }
+
+function addMoney(){
+  const v=+amount.value||0;
+  data.kasa+=v; data.in+=v; amount.value="";
+  save(); render();
+}
+
+function removeMoney(){
+  const v=+amount.value||0;
+  data.kasa-=v; data.out+=v; amount.value="";
+  save(); render();
+}
+
+function setSMC(s){data.smc=s; save(); render();}
+
+function setTheme(t){
+  document.body.classList.toggle("light",t==="light");
+  moon.classList.toggle("active",t==="dark");
+  sun.classList.toggle("active",t==="light");
+  data.theme=t; save();
+}
+
+if(data.theme==="light") setTheme("light");
+render();
 </script>
 
 </body>
