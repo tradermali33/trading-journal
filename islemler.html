@@ -3,209 +3,184 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Kasa</title>
+<title>İşlemler</title>
 
 <style>
 :root{
-  --bg:#f3f6f7;
+  --bg:#f4f6f8;
   --card:#ffffff;
   --text:#0f172a;
-  --sub:#64748b;
+  --muted:#64748b;
   --primary:#2563eb;
-  --dark:#1e293b;
-  --input:#eef2f5;
+  --dark:#0b1220;
 }
 
 body.dark{
   --bg:#0b1220;
-  --card:#111827;
+  --card:#131a2a;
   --text:#e5e7eb;
-  --sub:#9ca3af;
-  --input:#1f2937;
+  --muted:#9ca3af;
 }
 
-*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;}
 body{
   margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,system-ui;
   background:var(--bg);
   color:var(--text);
-}
-
-.container{
-  max-width:420px;
-  margin:auto;
   padding:16px;
 }
 
-/* ÜST BAR */
-.top{
+.card{
+  background:var(--card);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.header{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:14px;
-}
-
-.date{
-  background:var(--primary);
-  color:#fff;
-  padding:10px 14px;
-  border-radius:14px;
-  font-weight:600;
-  font-size:15px;
-}
-
-.theme{
-  background:var(--card);
-  border-radius:20px;
-  padding:6px 12px;
-  font-size:18px;
-  cursor:pointer;
-  box-shadow:0 6px 18px rgba(0,0,0,.08);
-}
-
-/* KART */
-.card{
-  background:var(--card);
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:14px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-}
-
-/* ANA PANEL */
-.home-btn{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:700;
-  font-size:17px;
-  cursor:pointer;
-}
-
-/* BAŞLIK */
-.title{
-  text-align:center;
-}
-.title h1{
-  margin:0;
-  font-size:26px;
-}
-.title p{
-  margin:6px 0 0;
-  color:var(--sub);
-}
-
-/* KASA */
-.balance{
-  text-align:center;
-  font-size:40px;
-  font-weight:800;
-  margin:10px 0 18px;
-}
-
-input{
-  width:100%;
-  padding:14px;
-  border-radius:14px;
-  border:none;
-  background:var(--input);
-  font-size:16px;
-  margin-bottom:12px;
 }
 
 .btn{
   width:100%;
   padding:14px;
-  border-radius:14px;
-  font-size:17px;
-  font-weight:700;
   border:none;
-  cursor:pointer;
-  margin-bottom:10px;
-}
-
-.btn.plus{background:var(--primary);color:#fff;}
-.btn.minus{background:var(--dark);color:#fff;}
-
-.stats{
-  display:flex;
-  justify-content:space-between;
+  border-radius:12px;
   font-size:16px;
-  font-weight:600;
+  cursor:pointer;
 }
+
+.primary{background:var(--primary);color:#fff;}
+.darkbtn{background:#334155;color:#fff;}
+
+input,select,textarea{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:none;
+  background:#e5e7eb;
+  margin-bottom:10px;
+  font-size:16px;
+}
+body.dark input,
+body.dark select,
+body.dark textarea{
+  background:#1f2937;
+  color:#fff;
+}
+
+small{color:var(--muted)}
+
+.item{
+  padding:10px 0;
+  border-bottom:1px solid #e5e7eb;
+}
+body.dark .item{border-color:#1f2937}
 </style>
 </head>
 
 <body>
-<div class="container">
 
-  <!-- ÜST -->
-  <div class="top">
-    <div class="date" id="date"></div>
-    <div class="theme" onclick="toggleTheme()">🌙 ☀️</div>
+<!-- ÜST BAR -->
+<div class="header">
+  <div class="card" id="dateCard"></div>
+  <div>
+    <button onclick="toggleTheme()">🌙 / ☀️</button>
   </div>
+</div>
 
-  <!-- ANA PANEL -->
-  <div class="card home-btn" onclick="location.href='index.html'">
-    ✨ Ana Panel
-  </div>
+<!-- ANA PANEL -->
+<div class="card" onclick="goHome()" style="cursor:pointer">
+✨ Ana Panel
+</div>
 
-  <!-- KASA BAŞLIK -->
-  <div class="card title">
-    <h1>🏦 Kasa</h1>
-    <p>Para Giriş / Çıkış ve Kasa Takibi</p>
-  </div>
+<!-- BAŞLIK -->
+<div class="card">
+<h2>📈 İşlemler</h2>
+<small>Günlük işlem ekle ve kapat</small>
+</div>
 
-  <!-- KASA -->
-  <div class="card">
-    <div class="balance" id="balance">0 ₺</div>
-    <input id="amount" type="number" placeholder="Tutar gir">
-    <button class="btn plus" onclick="add()">+ Yatır</button>
-    <button class="btn minus" onclick="remove()">− Çek</button>
-  </div>
+<!-- İŞLEM EKLE -->
+<div class="card">
+<input id="amount" type="number" placeholder="İşlem tutarı"/>
+<select id="reason">
+  <option value="">Giriş nedeni seç</option>
+  <option>SMC</option>
+  <option>EMA</option>
+  <option>Diğer</option>
+</select>
+<button class="btn primary" onclick="addTrade()">➕ İşlem Aç</button>
+</div>
 
-  <!-- ÖZET -->
-  <div class="card stats">
-    <div>+ Yatırılan</div><div id="in">0 ₺</div>
-  </div>
-  <div class="card stats">
-    <div>− Çekilen</div><div id="out">0 ₺</div>
-  </div>
-
+<!-- LİSTE -->
+<div class="card">
+<h3>Bugünkü İşlemler</h3>
+<div id="list"></div>
 </div>
 
 <script>
-/* TARİH */
-const d=new Date();
-const days=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
-document.getElementById("date").innerText=
-`${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()} ${days[d.getDay()]}`;
-
-/* TEMA */
+/* ===== THEME ===== */
 function toggleTheme(){
   document.body.classList.toggle("dark");
+  localStorage.setItem("theme",document.body.classList.contains("dark"));
+}
+if(localStorage.getItem("theme")==="true") document.body.classList.add("dark");
+
+/* ===== DATE ===== */
+const d=new Date();
+const days=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+document.getElementById("dateCard").innerText=
+`${String(d.getDate()).padStart(2,"0")}.${String(d.getMonth()+1).padStart(2,"0")}.${d.getFullYear()} ${days[d.getDay()]}`;
+
+/* ===== DATA ===== */
+let trades=JSON.parse(localStorage.getItem("trades"))||[];
+
+/* ===== UI ===== */
+function render(){
+  const list=document.getElementById("list");
+  list.innerHTML="";
+  trades.forEach((t,i)=>{
+    const div=document.createElement("div");
+    div.className="item";
+    div.innerHTML=`
+      <strong>${t.amount} ₺</strong> — ${t.reason}<br/>
+      ${t.closed?`❌ ${t.note}`:`<button onclick="closeTrade(${i})">Kapat</button>`}
+    `;
+    list.appendChild(div);
+  });
+}
+render();
+
+/* ===== ACTIONS ===== */
+function addTrade(){
+  const amount=document.getElementById("amount").value;
+  const reason=document.getElementById("reason").value;
+  if(!amount||!reason) return alert("Tüm alanlar zorunlu");
+  trades.push({amount,reason,closed:false});
+  save();
 }
 
-/* KASA */
-let balance=0,income=0,expense=0;
-
-function update(){
-  balanceEl.innerText=balance+" ₺";
-  inEl.innerText=income+" ₺";
-  outEl.innerText=expense+" ₺";
+function closeTrade(i){
+  const note=prompt("İşlem kapatma gerekçesi (zorunlu)");
+  if(!note) return;
+  trades[i].closed=true;
+  trades[i].note=note;
+  save();
 }
-const balanceEl=document.getElementById("balance");
-const inEl=document.getElementById("in");
-const outEl=document.getElementById("out");
 
-function add(){
-  const v=+amount.value||0;
-  balance+=v; income+=v; update(); amount.value="";
+function save(){
+  localStorage.setItem("trades",JSON.stringify(trades));
+  render();
 }
-function remove(){
-  const v=+amount.value||0;
-  balance-=v; expense+=v; update(); amount.value="";
+
+/* ===== NAV ===== */
+function goHome(){
+  window.location.href="index.html";
 }
 </script>
+
 </body>
 </html>
