@@ -1,26 +1,17 @@
 <!DOCTYPE html>
 <html lang="tr">
-  <div class="card">
-  <div class="card-title">📊 Toplam Özet</div>
-  <div>➕ Yatırılan: <strong id="toplamYatirilan"></strong></div>
-  <div>➖ Çekilen: <strong id="toplamCekilen"></strong></div>
-</div>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trading Journal</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trading Journal</title>
 
 <style>
-/* ========== BASE ========== */
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,system-ui;
   background:#0b0e1a;
   color:#e6e8eb;
   padding:20px;
-  font-size:18px;
-  line-height:1.5;
-  transition:background .3s,color .3s;
 }
 
 body.light{
@@ -35,10 +26,7 @@ header{
   margin-bottom:24px;
 }
 
-h1{
-  margin:0;
-  font-size:26px;
-}
+h1{margin:0;font-size:26px}
 
 .theme-btn{
   background:none;
@@ -47,10 +35,8 @@ h1{
   cursor:pointer;
 }
 
-/* ========== DASHBOARD ========== */
 .dashboard{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:18px;
 }
 
@@ -62,74 +48,45 @@ h1{
 }
 
 body.light .card{
-  background:#ffffff;
-  box-shadow:0 8px 24px rgba(0,0,0,.12);
+  background:#fff;
 }
 
-.card-title{
-  font-size:18px;
-  margin-bottom:8px;
-}
-
-.card-value{
+.value{
   font-size:28px;
   font-weight:700;
+  margin-top:6px;
 }
 
-/* ========== BUTTONS ========== */
-.btn{
-  width:100%;
-  margin-top:12px;
-  padding:12px;
-  font-size:16px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  background:#2563eb;
-  color:white;
-}
-
-/* ========== FOOTER ========== */
-footer{
-  margin-top:32px;
-  text-align:center;
-  font-size:14px;
-  opacity:.6;
-}
-/* ===== SMC STATES ===== */
-#smcCard.uyumlu{
-  border-left:6px solid #22c55e;
-}
-
-#smcCard.riskli{
-  border-left:6px solid #f59e0b;
-}
-
-#smcCard.disi{
-  border-left:6px solid #ef4444;
-}
-/* SMC Renkleri */
-.smc-uyumlu{
-  border-left:6px solid #22c55e;
-  border-right:6px solid #22c55e;
-}
-
-.smc-riskli{
-  border-left:6px solid #facc15;
-  border-right:6px solid #facc15;
-}
-
-.smc-disi{
-  border-left:6px solid #ef4444;
-  border-right:6px solid #ef4444;
-}
-.kasa-input{
+input{
   width:100%;
   padding:12px;
+  font-size:18px;
   margin:12px 0;
   border-radius:10px;
   border:none;
-  font-size:16px;
+}
+
+.btn{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  border:none;
+  border-radius:12px;
+  background:#2563eb;
+  color:#fff;
+  font-size:18px;
+  cursor:pointer;
+}
+
+.smc-uyumlu{border-left:6px solid #22c55e;border-right:6px solid #22c55e;}
+.smc-riskli{border-left:6px solid #facc15;border-right:6px solid #facc15;}
+.smc-disi{border-left:6px solid #ef4444;border-right:6px solid #ef4444;}
+
+footer{
+  margin-top:30px;
+  text-align:center;
+  opacity:.6;
+  font-size:14px;
 }
 </style>
 </head>
@@ -142,92 +99,62 @@ footer{
 </header>
 
 <section class="dashboard">
+
 <div class="card">
-  <p>🏦 Kasa</p>
-  <strong id="kasaValue"></strong>
+  <div>🏦 Kasa</div>
+  <div class="value" id="kasaValue"></div>
 
-  <input
-    type="number"
-    id="kasaInput"
-    placeholder="Tutar gir (₺)"
-    class="kasa-input"
-  />
+  <input id="amountInput" type="number" placeholder="Tutar gir">
 
-  <button class="btn" onclick="kasaIslem('ekle')">➕ Yatır</button>
-  <button class="btn" onclick="kasaIslem('cikar')">➖ Çek</button>
+  <button class="btn" onclick="kasaIslem('yatir')">➕ Yatır</button>
+  <button class="btn" onclick="kasaIslem('cek')">➖ Çek</button>
 </div>
 
-
-<div class="card smc-card" id="smcCard">
-  <p>💰 SMC Durumu</p>
-  <strong id="smcValue"></strong>
+<div class="card" id="smcCard">
+  <div>💰 SMC Durumu</div>
+  <div class="value" id="smcValue"></div>
 
   <button class="btn" onclick="setSMC('Uyumlu')">✅ Uyumlu</button>
   <button class="btn" onclick="setSMC('Riskli')">⚠️ Riskli</button>
   <button class="btn" onclick="setSMC('Dışı')">❌ Dışı</button>
 </div>
 
+<div class="card">
+  <div>📊 Toplam Özet</div>
+  <div class="value">➕ <span id="toplamYatirilan"></span></div>
+  <div class="value">➖ <span id="toplamCekilen"></span></div>
+</div>
 
 <div class="card">
-  <div class="card-title">📈 Bugünkü İşlemler</div>
-  <div class="card-value" id="islemCount">0</div>
+  <div>🧠 Analist Yorumu</div>
+  <div class="value">Disiplinli 👍</div>
 </div>
-  <div class="card">
-    <div class="card-title">🧠 Analist Yorumu</div>
-    <div class="card-value">Disiplinli 👍</div>
-  </div>
 
 </section>
 
 <footer>
-  MEHMET ALİ YILMAZ • Trading Journal
+  Kendi kendinin analisti • Trading Journal
 </footer>
 
 <script>
 /* ===== THEME ===== */
 function toggleTheme(){
   document.body.classList.toggle("light");
-  const btn = document.querySelector(".theme-btn");
-  btn.textContent =
-    document.body.classList.contains("light") ? "☀️" : "🌙";
 }
 
 /* ===== DATA ===== */
 const defaultData = {
   kasa: 100000,
-  toplamYatirilan: 100000,
+  toplamYatirilan: 0,
   toplamCekilen: 0,
-  islemler: [], // log
-  smc: "Uyumlu"
+  smc: "Uyumlu",
+  loglar: []
 };
 
-function loadData(){
-  return JSON.parse(localStorage.getItem("journal")) || defaultData;
-}
+let journal = JSON.parse(localStorage.getItem("journal")) || defaultData;
 
-function saveData(data){
-  localStorage.setItem("journal", JSON.stringify(data));
-}
-
-let journal = loadData();
-
-/* ===== ACTIONS ===== */
-function addKasa(amount){
-  journal.kasa += amount;
-
-  journal.islemler.push({
-    tutar: amount,
-    tarih: new Date().toISOString()
-  });
-
-  saveData(journal);
-  updateUI();
-}
-
-function setSMC(status){
-  journal.smc = status;
-  saveData(journal);
-  updateUI();
+function save(){
+  localStorage.setItem("journal", JSON.stringify(journal));
 }
 
 /* ===== UI ===== */
@@ -235,40 +162,57 @@ function updateUI(){
   document.getElementById("kasaValue").innerText =
     journal.kasa.toLocaleString("tr-TR") + " ₺";
 
-  document.getElementById("smcValue").innerText = journal.smc;
-
-  document.getElementById("islemCount").innerText =
-    journal.islemler.length;
-
-  updateSMCStyle();
-}
-
-function updateSMCStyle(){
-  const card = document.getElementById("smcCard");
-  card.classList.remove("smc-uyumlu","smc-riskli","smc-disi");
-
-  if(journal.smc === "Uyumlu") card.classList.add("smc-uyumlu");
-  if(journal.smc === "Riskli") card.classList.add("smc-riskli");
-  if(journal.smc === "Dışı") card.classList.add("smc-disi");
-}
-
-function updateUI(){
-  document.getElementById("kasaValue").innerText =
-    journal.kasa.toLocaleString("tr-TR") + " ₺";
-
-  document.getElementById("smcValue").innerText = journal.smc;
-
-  document.getElementById("islemCount").innerText =
-    journal.islemler.length;
-
   document.getElementById("toplamYatirilan").innerText =
     journal.toplamYatirilan.toLocaleString("tr-TR") + " ₺";
 
   document.getElementById("toplamCekilen").innerText =
     journal.toplamCekilen.toLocaleString("tr-TR") + " ₺";
 
+  document.getElementById("smcValue").innerText = journal.smc;
+
   updateSMCStyle();
 }
+
+function updateSMCStyle(){
+  const card = document.getElementById("smcCard");
+  card.className = "card";
+
+  if(journal.smc === "Uyumlu") card.classList.add("smc-uyumlu");
+  if(journal.smc === "Riskli") card.classList.add("smc-riskli");
+  if(journal.smc === "Dışı") card.classList.add("smc-disi");
+}
+
+/* ===== ACTIONS ===== */
+function kasaIslem(tip){
+  const tutar = Number(document.getElementById("amountInput").value);
+  if(!tutar || tutar <= 0) return alert("Tutar gir");
+
+  if(tip === "yatir"){
+    journal.kasa += tutar;
+    journal.toplamYatirilan += tutar;
+  }else{
+    journal.kasa -= tutar;
+    journal.toplamCekilen += tutar;
+  }
+
+  journal.loglar.push({
+    tip,
+    tutar,
+    tarih:new Date().toLocaleString("tr-TR")
+  });
+
+  save();
+  updateUI();
+  document.getElementById("amountInput").value = "";
+}
+
+function setSMC(durum){
+  journal.smc = durum;
+  save();
+  updateUI();
+}
+
+updateUI();
 </script>
 
 </body>
