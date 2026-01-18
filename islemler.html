@@ -2,127 +2,220 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8" />
-<title>İşlemler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>İşlem Aç</title>
 
 <style>
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont;
-  background:#f3f6f7;
-  margin:0;
+:root{
+  --bg:#f4f7f8;
+  --card:#ffffff;
+  --blue:#2563eb;
+  --green:#16a34a;
+  --red:#dc2626;
+  --gray:#9ca3af;
+  --dark:#111827;
+}
+
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;}
+body{margin:0;background:var(--bg);}
+
+.container{
+  min-height:100vh;
   padding:16px;
-}
-
-.card {
-  background:#fff;
-  border-radius:16px;
-  padding:16px;
-  margin-bottom:16px;
-  box-shadow:0 10px 25px rgba(0,0,0,.06);
-}
-
-.title {
-  font-size:20px;
-  font-weight:700;
-}
-
-.sub {
-  color:#6b7280;
-  margin-top:4px;
-}
-
-.input {
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:none;
-  background:#eef1f4;
-  font-size:16px;
-  margin-top:12px;
-}
-
-.row {
   display:flex;
-  gap:10px;
-  margin-top:12px;
+  flex-direction:column;
+  gap:14px;
 }
 
-.btn {
-  flex:1;
+.card{
+  background:var(--card);
+  border-radius:18px;
+  padding:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,.05);
+}
+
+.title{
+  font-size:18px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.sub{
+  font-size:13px;
+  color:#6b7280;
+}
+
+input,select{
+  width:100%;
   padding:14px;
   border-radius:14px;
   border:none;
+  background:#eef2f3;
+  font-size:15px;
+}
+
+button{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:16px;
   font-size:16px;
-  font-weight:600;
+  font-weight:700;
   cursor:pointer;
 }
 
-.btn-long { background:#16a34a; color:#fff; }
-.btn-short { background:#dc2626; color:#fff; }
-.btn-range { background:#9ca3af; color:#fff; }
+.row{display:flex;gap:10px;}
+.col{flex:1;}
 
-.select {
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:none;
-  background:#eef1f4;
-  font-size:16px;
-  margin-top:12px;
+.trend button{color:#fff;}
+.long{background:var(--green);}
+.short{background:var(--red);}
+.range{background:var(--gray);}
+
+.active{outline:3px solid rgba(0,0,0,.15);}
+
+.section-title{
+  font-weight:700;
+  margin:6px 0;
 }
 
-.check {
-  margin-top:10px;
+.check{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
 }
 
-.hidden {
-  display:none;
+.hidden{display:none;}
+
+.alt{
+  background:#f1f5f9;
+  border-radius:14px;
+  padding:12px;
+  margin-top:8px;
+  font-size:13px;
 }
 
-.primary {
-  background:#2563eb;
+.open-btn{
+  background:var(--blue);
   color:#fff;
+  margin-top:auto;
 }
 </style>
 </head>
 
 <body>
+<div class="container">
 
-<!-- İŞLEM KARTI -->
-<div class="card">
-  <div class="title">📈 İşlem Aç</div>
-  <div class="sub">Yeni işlem girişi</div>
+  <!-- BAŞLIK -->
+  <div class="card">
+    <div class="title">📈 İşlem Aç</div>
+    <div class="sub">Yeni işlem girişi</div>
+  </div>
 
-  <!-- VARLIK -->
-  <input class="input" placeholder="Hisse / Coin (ADAUSDT)" />
+  <!-- HİSSE / COIN -->
+  <div class="card">
+    <div class="section-title">Varlık</div>
+    <input id="symbol" placeholder="Hisse / Coin (örn: ADAUSDT)" />
+  </div>
 
   <!-- TREND -->
-  <div class="row">
-    <button class="btn btn-long">LONG</button>
-    <button class="btn btn-short">SHORT</button>
-    <button class="btn btn-range">RANGE</button>
+  <div class="card">
+    <div class="section-title">TREND YÖNÜ</div>
+    <div class="row trend">
+      <button class="col long" onclick="setTrend('LONG',this)">LONG</button>
+      <button class="col short" onclick="setTrend('SHORT',this)">SHORT</button>
+      <button class="col range" onclick="setTrend('RANGE',this)">RANGE</button>
+    </div>
   </div>
 
   <!-- ZAMAN DİLİMİ -->
-  <select class="select">
-    <option selected disabled>Zaman Dilimi Seç</option>
-    <option>1m</option><option>5m</option><option>15m</option>
-    <option>30m</option><option>1h</option><option>4h</option><option>1d</option>
-  </select>
+  <div class="card">
+    <div class="section-title">Zaman Dilimi</div>
+    <select id="tf">
+      <option>1m</option><option>5m</option><option>15m</option>
+      <option>30m</option><option>1h</option><option>4h</option><option>1d</option>
+    </select>
+  </div>
 
-  <!-- GİRİŞ SEBEPLERİ -->
-  <div class="check"><input type="checkbox"> SMC</div>
-  <div class="check"><input type="checkbox"> EMA</div>
-  <div class="check"><input type="checkbox"> RSI</div>
-  <div class="check"><input type="checkbox"> MACD</div>
-  <div class="check"><input type="checkbox"> HACİM</div>
-  <div class="check"><input type="checkbox"> DİĞER</div>
+  <!-- FİYAT -->
+  <div class="card">
+    <div class="section-title">Alış Fiyatı</div>
+    <input id="entry" type="number" placeholder="Alış fiyatı" />
+  </div>
 
   <!-- STOP -->
-  <input class="input" value="%1 STOP (otomatik)" disabled />
+  <div class="card">
+    <div class="section-title">Stop</div>
+    <div class="check">
+      <input type="checkbox" id="manualStop" onchange="toggleManual()" />
+      <label>Manuel</label>
+    </div>
+    <input id="stop" disabled placeholder="%1 otomatik" />
+    <div id="stopInfo" class="sub"></div>
+  </div>
 
-  <!-- AÇ -->
-  <button class="btn primary" style="margin-top:16px;">+ İŞLEM AÇ</button>
+  <!-- GİRİŞ SEBEPLERİ -->
+  <div class="card">
+    <div class="section-title">Giriş Sebepleri</div>
+
+    <div class="check"><input type="checkbox" onchange="toggle('smc')"> SMC</div>
+    <div id="smc" class="alt hidden">BOS / CHoCH / OB / Likidite</div>
+
+    <div class="check"><input type="checkbox" onchange="toggle('ema')"> EMA</div>
+    <div id="ema" class="alt hidden">
+      <select>
+        <option>3</option><option>5</option><option>7</option><option>9</option>
+        <option>11</option><option>13</option><option>14</option><option>19</option>
+        <option>20</option><option>21</option><option>48</option><option>50</option>
+        <option>100</option><option>144</option><option>200</option>
+      </select>
+    </div>
+
+    <div class="check"><input type="checkbox" onchange="toggle('rsi')"> RSI</div>
+    <div id="rsi" class="alt hidden">30 altı / 70 üstü / Uyumsuzluk</div>
+
+    <div class="check"><input type="checkbox" onchange="toggle('macd')"> MACD</div>
+    <div id="macd" class="alt hidden">Kesişim / Sıfır çizgisi</div>
+
+    <div class="check"><input type="checkbox" onchange="toggle('hacim')"> HACİM</div>
+    <div id="hacim" class="alt hidden">Ortalama üstü / Patlama</div>
+
+    <div class="check"><input type="checkbox" onchange="toggle('diger')"> DİĞER</div>
+    <div id="diger" class="alt hidden">
+      <input placeholder="Açıklama (zorunlu)" />
+    </div>
+  </div>
+
+  <!-- BUTON -->
+  <button class="open-btn" onclick="openTrade()">+ İŞLEM AÇ</button>
+
 </div>
 
+<script>
+let trend=null;
+
+function setTrend(val,el){
+  trend=val;
+  document.querySelectorAll('.trend button').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function toggle(id){
+  document.getElementById(id).classList.toggle('hidden');
+}
+
+function toggleManual(){
+  const m=document.getElementById('manualStop');
+  const s=document.getElementById('stop');
+  s.disabled=!m.checked;
+  s.placeholder=m.checked?"Stop fiyatı":"%1 otomatik";
+}
+
+function openTrade(){
+  if(!trend){alert("Trend yönü seç");return;}
+  console.log("İşlem açıldı");
+}
+</script>
 </body>
 </html>
