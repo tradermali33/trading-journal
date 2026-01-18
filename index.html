@@ -10,195 +10,217 @@
   --bg:#0b0e1a;
   --card:#131722;
   --text:#e6e8eb;
-  --accent:#f5c542; /* ALTIN */
+  --muted:#9aa0a6;
+  --accent:#2563eb;
 }
 
 body.light{
   --bg:#f4f6fa;
   --card:#ffffff;
   --text:#111;
+  --muted:#555;
+  --accent:#2563eb;
 }
+
+*{box-sizing:border-box}
 
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,system-ui;
   background:var(--bg);
   color:var(--text);
+  min-height:100vh;
   padding:16px;
   transition:.3s;
 }
 
+/* ===== TOP BAR ===== */
 .topbar{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  margin-bottom:12px;
 }
 
-.toggle-group span{
-  margin:0 6px;
-  cursor:pointer;
-  opacity:.4;
-  font-size:20px;
-}
-.toggle-group .active{opacity:1;color:var(--accent);}
-
-.logo{
-  text-align:center;
-  margin:12px 0 16px;
-}
-.logo h1{margin:0;font-size:26px;}
-.logo small{opacity:.6;}
-
-.menu{
-  display:grid;
+.topbar .left,
+.topbar .right{
+  display:flex;
   gap:12px;
+  align-items:center;
 }
 
-.card{
+.topbar button{
+  background:none;
+  border:none;
+  font-size:22px;
+  cursor:pointer;
+  color:var(--text);
+}
+
+.lang span{
+  cursor:pointer;
+  font-weight:600;
+  opacity:.4;
+}
+
+.lang span.active{
+  opacity:1;
+  color:var(--accent);
+}
+
+/* ===== LOGO ===== */
+.logo-area{
+  text-align:center;
+  margin-bottom:16px;
+}
+
+.logo-area img{
+  width:120px;
+  max-width:40vw;
+  display:block;
+  margin:0 auto 8px;
+}
+
+.logo-area h1{
+  margin:0;
+  font-size:20px;
+  letter-spacing:.5px;
+}
+
+.logo-area small{
+  opacity:.6;
+}
+
+/* ===== MENU ===== */
+.menu{
+  display:flex;
+  justify-content:space-between;
   background:var(--card);
-  border-radius:16px;
-  padding:16px;
-  box-shadow:0 8px 24px rgba(0,0,0,.35);
+  border-radius:14px;
+  padding:8px;
+  margin-bottom:16px;
 }
 
-.card h3{margin:0 0 8px;font-size:16px;opacity:.8}
-.value{font-size:26px;font-weight:700}
-
-input{
-  width:100%;
-  padding:12px;
-  margin:10px 0;
+.menu button{
+  flex:1;
+  background:none;
+  border:none;
+  color:var(--muted);
+  padding:10px 4px;
   border-radius:10px;
-  border:none;
-  font-size:16px;
-}
-
-.btn{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:12px;
-  margin-top:8px;
-  font-size:16px;
-  background:#2563eb;
-  color:white;
+  font-size:14px;
   cursor:pointer;
 }
 
-.smc-uyumlu{border-left:6px solid #22c55e;border-right:6px solid #22c55e}
-.smc-riskli{border-left:6px solid #facc15;border-right:6px solid #facc15}
-.smc-disi{border-left:6px solid #ef4444;border-right:6px solid #ef4444}
+.menu button.active{
+  background:linear-gradient(135deg,var(--accent),#1e40af);
+  color:#fff;
+}
 
+/* ===== CONTENT ===== */
+.content{
+  background:var(--card);
+  border-radius:18px;
+  padding:20px;
+  min-height:40vh;
+}
+
+/* ===== FOOTER ===== */
 .footer{
   text-align:center;
-  margin-top:14px;
   font-size:13px;
   opacity:.5;
+  margin-top:14px;
 }
 </style>
 </head>
 
 <body>
 
+<!-- TOP BAR -->
 <div class="topbar">
-  <div class="toggle-group">
-    <span id="moon" class="active" onclick="setTheme('dark')">🌙</span>
-    <span id="sun" onclick="setTheme('light')">☀️</span>
+  <div class="left">
+    <button onclick="toggleTheme()">🌙</button>
   </div>
-  <div class="toggle-group">
-    <span class="active">TR</span>
-    <span>EN</span>
+
+  <div class="right lang">
+    <span class="active" onclick="setLang('tr')">TR</span>
+    <span onclick="setLang('en')">EN</span>
   </div>
 </div>
 
-<div class="logo">
-  <h1>👑 KING</h1>
-  <strong>MEHMET ALİ YILMAZ</strong><br>
+<!-- LOGO -->
+<div class="logo-area">
+  <img src="logo.png" alt="Logo">
+  <h1>MEHMET ALİ YILMAZ</h1>
   <small>TRADER</small>
 </div>
 
+<!-- MENU -->
 <div class="menu">
+  <button class="active" onclick="openPage('panel',this)">✨<br>Ana</button>
+  <button onclick="openPage('kasa',this)">🏦<br>Kasa</button>
+  <button onclick="openPage('islem',this)">📈<br>İşlem</button>
+  <button onclick="openPage('analist',this)">🧠<br>Analist</button>
+  <button onclick="openPage('ayar',this)">⚙️<br>Ayar</button>
+</div>
 
-  <div class="card">
-    <h3>🏦 Kasa</h3>
-    <div class="value" id="kasa">0 ₺</div>
-    <input id="amount" type="number" placeholder="Tutar gir">
-    <button class="btn" onclick="addMoney()">+ Yatır</button>
-    <button class="btn" onclick="removeMoney()">- Çek</button>
-  </div>
-
-  <div class="card" id="smcCard">
-    <h3>💰 SMC Durumu</h3>
-    <div class="value" id="smcText">Uyumlu</div>
-    <button class="btn" onclick="setSMC('Uyumlu')">✅ Uyumlu</button>
-    <button class="btn" onclick="setSMC('Riskli')">⚠️ Riskli</button>
-    <button class="btn" onclick="setSMC('Dışı')">❌ Dışı</button>
-  </div>
-
-  <div class="card">
-    <h3>📊 Toplam Özet</h3>
-    <div>➕ Yatırılan: <strong id="inTotal">0 ₺</strong></div>
-    <div>➖ Çekilen: <strong id="outTotal">0 ₺</strong></div>
-  </div>
-
-  <div class="card">
-    <h3>🧠 Analist Yorumu</h3>
-    <div class="value" id="analyst">Disiplinli 👍</div>
-  </div>
-
+<!-- CONTENT -->
+<div class="content" id="content">
+  <h2>✨ Ana Panel</h2>
+  <p>Genel durum burada görünecek.</p>
 </div>
 
 <div class="footer">
-  Kendi kendinin analisti • Trading Journal
+  Trading Journal
 </div>
 
 <script>
-let data = JSON.parse(localStorage.getItem("journal")) || {
-  kasa:0,
-  in:0,
-  out:0,
-  smc:"Uyumlu",
-  theme:"dark"
-};
-
-function save(){localStorage.setItem("journal",JSON.stringify(data));}
-
-function render(){
-  document.getElementById("kasa").innerText=data.kasa.toLocaleString("tr-TR")+" ₺";
-  document.getElementById("inTotal").innerText=data.in.toLocaleString("tr-TR")+" ₺";
-  document.getElementById("outTotal").innerText=data.out.toLocaleString("tr-TR")+" ₺";
-  document.getElementById("smcText").innerText=data.smc;
-
-  const c=document.getElementById("smcCard");
-  c.classList.remove("smc-uyumlu","smc-riskli","smc-disi");
-  if(data.smc==="Uyumlu") c.classList.add("smc-uyumlu");
-  if(data.smc==="Riskli") c.classList.add("smc-riskli");
-  if(data.smc==="Dışı") c.classList.add("smc-disi");
+/* ===== THEME ===== */
+function toggleTheme(){
+  document.body.classList.toggle("light");
+  localStorage.setItem("theme",
+    document.body.classList.contains("light") ? "light" : "dark"
+  );
 }
 
-function addMoney(){
-  const v=+amount.value||0;
-  data.kasa+=v; data.in+=v; amount.value="";
-  save(); render();
+/* ===== LANG ===== */
+function setLang(lang){
+  document.querySelectorAll(".lang span").forEach(s=>s.classList.remove("active"));
+  document.querySelector(`.lang span:nth-child(${lang==="tr"?1:2})`).classList.add("active");
+  localStorage.setItem("lang",lang);
 }
 
-function removeMoney(){
-  const v=+amount.value||0;
-  data.kasa-=v; data.out+=v; amount.value="";
-  save(); render();
+/* ===== MENU ===== */
+function openPage(page,btn){
+  document.querySelectorAll(".menu button").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+
+  const c = document.getElementById("content");
+
+  if(page==="panel"){
+    c.innerHTML = "<h2>✨ Ana Panel</h2><p>Genel durum burada.</p>";
+  }
+  if(page==="kasa"){
+    c.innerHTML = "<h2>🏦 Kasa</h2><p>Kasa ekranı gelecek.</p>";
+  }
+  if(page==="islem"){
+    c.innerHTML = "<h2>📈 İşlemler</h2><p>İşlem listesi gelecek.</p>";
+  }
+  if(page==="analist"){
+    c.innerHTML = "<h2>🧠 Analist</h2><p>Analist yorumları burada.</p>";
+  }
+  if(page==="ayar"){
+    c.innerHTML = "<h2>⚙️ Ayarlar</h2><p>Tema, dil ve menü opsiyonları.</p>";
+  }
 }
 
-function setSMC(s){data.smc=s; save(); render();}
-
-function setTheme(t){
-  document.body.classList.toggle("light",t==="light");
-  moon.classList.toggle("active",t==="dark");
-  sun.classList.toggle("active",t==="light");
-  data.theme=t; save();
-}
-
-if(data.theme==="light") setTheme("light");
-render();
+/* ===== LOAD SAVED ===== */
+(function(){
+  if(localStorage.getItem("theme")==="light"){
+    document.body.classList.add("light");
+  }
+})();
 </script>
 
 </body>
