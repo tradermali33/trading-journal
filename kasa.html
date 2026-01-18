@@ -1,170 +1,194 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kasa</title>
 
 <style>
-/* ================= BASE ================= */
+:root{
+  --bg-dark:#0b0e1a;
+  --bg-light:#f3f5f7;
+  --card-dark:#131722;
+  --card-light:#ffffff;
+  --text-dark:#e6e8eb;
+  --text-light:#0f172a;
+  --primary:#2563eb;
+}
+
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,system-ui;
-  background:#0b0e1a;
-  color:#e6e8eb;
+  background:var(--bg-light);
+  color:var(--text-light);
   transition:.3s;
 }
 
-/* GÜNDÜZ MODU */
-body:not(.dark){
-  background:#f5f6f8;
-  color:#0f172a;
+body.dark{
+  background:var(--bg-dark);
+  color:var(--text-dark);
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 .header{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:18px 20px;
+  padding:16px 18px;
 }
 
-.header-left{
+.header button{
+  background:transparent;
+  border:none;
   font-size:20px;
-  font-weight:600;
-}
-
-.header-right span{
-  font-size:22px;
-  margin-left:12px;
   cursor:pointer;
 }
 
-/* ================= PAGE TITLE ================= */
-.page-title{
-  text-align:center;
-  margin-top:10px;
-}
-
-.page-title h1{
-  font-size:30px;
-  margin:0;
-}
-
-.page-title p{
-  margin-top:6px;
-  font-size:15px;
-  opacity:.75;
-}
-
-/* ================= CARD ================= */
-.card{
-  margin:24px 16px;
-  padding:20px;
-  border-radius:18px;
-  background:#131722;
-  box-shadow:0 10px 30px rgba(0,0,0,.35);
-}
-
-body:not(.dark) .card{
-  background:#ffffff;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-}
-
-/* ================= BALANCE ================= */
-.balance{
-  font-size:34px;
-  font-weight:700;
-  text-align:center;
-  margin-bottom:16px;
-}
-
-/* ================= INPUT ================= */
-input{
-  width:100%;
+/* ANA PANEL BUTON */
+.nav-btn{
+  margin:0 16px 10px;
   padding:14px;
-  border-radius:12px;
-  border:none;
-  font-size:18px;
-  outline:none;
-  margin-bottom:14px;
+  border-radius:16px;
+  background:var(--card-light);
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
 }
 
-body:not(.dark) input{
-  background:#f1f5f9;
+body.dark .nav-btn{
+  background:var(--card-dark);
 }
 
-/* ================= BUTTONS ================= */
-.btn{
+/* CARD */
+.card{
+  margin:16px;
+  padding:20px;
+  border-radius:20px;
+  background:var(--card-light);
+}
+
+body.dark .card{
+  background:var(--card-dark);
+}
+
+/* TITLE */
+.title{
+  text-align:center;
+}
+
+.title h1{
+  margin:0;
+  font-size:28px;
+}
+
+.title p{
+  margin-top:6px;
+  opacity:.7;
+}
+
+/* BALANCE */
+.balance{
+  text-align:center;
+  font-size:36px;
+  font-weight:700;
+  margin:16px 0;
+}
+
+/* INPUT + BUTTONS */
+.control{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.control input,
+.control button{
   width:100%;
+  box-sizing:border-box;
   padding:14px;
   border-radius:14px;
-  border:none;
   font-size:18px;
-  font-weight:600;
-  cursor:pointer;
-  margin-bottom:10px;
+  border:none;
 }
 
-.btn.plus{
-  background:#2563eb;
+.control input{
+  background:#eef1f4;
+}
+
+body.dark .control input{
+  background:#1f2430;
   color:white;
 }
 
-.btn.minus{
+.btn-plus{
+  background:var(--primary);
+  color:white;
+  font-weight:600;
+}
+
+.btn-minus{
   background:#334155;
   color:white;
+  font-weight:600;
 }
 
-/* ================= SUMMARY ================= */
+/* SUMMARY */
 .summary{
-  margin:24px 16px;
-  padding:18px;
+  margin:16px;
+  padding:16px;
   border-radius:16px;
-  background:#131722;
+  background:var(--card-light);
 }
 
-body:not(.dark) .summary{
-  background:#ffffff;
+body.dark .summary{
+  background:var(--card-dark);
 }
 
 .summary div{
   display:flex;
   justify-content:space-between;
-  margin-bottom:8px;
   font-size:16px;
+  margin-bottom:6px;
 }
 </style>
 </head>
 
-<body class="dark">
+<body>
 
 <!-- HEADER -->
 <div class="header">
-  <div class="header-left">✨ Ana Panel</div>
-  <div class="header-right">
-    <span onclick="setDark()">🌙</span>
-    <span onclick="setLight()">☀️</span>
+  <button>✨ Ana Panel</button>
+  <div>
+    <button onclick="setDark()">🌙</button>
+    <button onclick="setLight()">☀️</button>
   </div>
 </div>
 
-<!-- TITLE -->
-<div class="page-title">
+<!-- ANA PANEL BUTON -->
+<div class="nav-btn">
+  ✨ Ana Panel
+</div>
+
+<!-- KASA BAŞLIK KART -->
+<div class="card title">
   <h1>🏦 Kasa</h1>
   <p>Para Giriş / Çıkış ve Kasa Takibi</p>
 </div>
 
-<!-- CARD -->
+<!-- KASA KART -->
 <div class="card">
   <div class="balance" id="balance">0 ₺</div>
 
-  <input type="number" id="amount" placeholder="Tutar gir">
-
-  <button class="btn plus" onclick="addMoney()">+ Yatır</button>
-  <button class="btn minus" onclick="removeMoney()">− Çek</button>
+  <div class="control">
+    <input type="number" id="amount" placeholder="Tutar gir">
+    <button class="btn-plus" onclick="add()">+ Yatır</button>
+    <button class="btn-minus" onclick="remove()">− Çek</button>
+  </div>
 </div>
 
-<!-- SUMMARY -->
+<!-- ÖZET -->
 <div class="summary">
   <div><span>➕ Yatırılan</span><strong id="in">0 ₺</strong></div>
   <div><span>➖ Çekilen</span><strong id="out">0 ₺</strong></div>
@@ -178,16 +202,13 @@ let data = JSON.parse(localStorage.getItem("kasa")) || {
 };
 
 function update(){
-  document.getElementById("balance").innerText =
-    data.balance.toLocaleString("tr-TR")+" ₺";
-  document.getElementById("in").innerText =
-    data.in.toLocaleString("tr-TR")+" ₺";
-  document.getElementById("out").innerText =
-    data.out.toLocaleString("tr-TR")+" ₺";
+  balance.innerText = data.balance.toLocaleString("tr-TR")+" ₺";
+  in.innerText = data.in.toLocaleString("tr-TR")+" ₺";
+  out.innerText = data.out.toLocaleString("tr-TR")+" ₺";
   localStorage.setItem("kasa",JSON.stringify(data));
 }
 
-function addMoney(){
+function add(){
   let v = Number(amount.value);
   if(!v) return;
   data.balance += v;
@@ -196,7 +217,7 @@ function addMoney(){
   update();
 }
 
-function removeMoney(){
+function remove(){
   let v = Number(amount.value);
   if(!v) return;
   data.balance -= v;
@@ -205,13 +226,8 @@ function removeMoney(){
   update();
 }
 
-function setLight(){
-  document.body.classList.remove("dark");
-}
-
-function setDark(){
-  document.body.classList.add("dark");
-}
+function setDark(){ document.body.classList.add("dark"); }
+function setLight(){ document.body.classList.remove("dark"); }
 
 update();
 </script>
