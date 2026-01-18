@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trading Journal | Ana Panel</title>
+<title>Trading Journal</title>
 
 <style>
 :root{
   --bg:#0b0e1a;
   --card:#131722;
   --text:#e6e8eb;
-  --accent:#2563eb;
   --muted:#9aa0a6;
+  --accent:#2563eb;
 }
 
 body.light{
@@ -21,86 +21,110 @@ body.light{
   --muted:#555;
 }
 
+*{box-sizing:border-box}
+
 body{
   margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,system-ui;
   background:var(--bg);
   color:var(--text);
-  font-family:system-ui,-apple-system,BlinkMacSystemFont;
-  padding:18px;
+  padding:20px;
   transition:.3s;
 }
 
 /* ===== TOP BAR ===== */
-.top-bar{
+.topbar{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:12px;
+  margin-bottom:14px;
 }
 
-.theme-switch button{
-  background:none;
-  border:none;
+.topbar .left,
+.topbar .right{
+  display:flex;
+  gap:14px;
   font-size:20px;
-  margin-right:6px;
-  cursor:pointer;
-  opacity:.4;
-}
-.theme-switch button.active{
-  opacity:1;
 }
 
-.lang-switch{
-  font-size:14px;
-  color:var(--muted);
+.toggle{
+  cursor:pointer;
+  opacity:.9;
+}
+
+.lang span{
+  cursor:pointer;
+  opacity:.5;
+  font-weight:600;
+}
+.lang .active{
+  opacity:1;
+  color:var(--accent);
 }
 
 /* ===== LOGO ===== */
-.logo{
+.logo-area{
   text-align:center;
-  margin:10px 0 20px;
+  margin:10px 0 22px;
 }
 
-.logo img{
-  width:140px;
+.logo-area img{
+  width:160px;
   max-width:70%;
   display:block;
   margin:0 auto 10px;
 }
 
-.logo h1{
-  margin:0;
-  font-size:22px;
+.logo-area h1{
+  margin:6px 0 2px;
+  font-size:26px;
   letter-spacing:.5px;
 }
 
-.logo p{
-  margin:4px 0 0;
-  font-size:14px;
+.logo-area p{
+  margin:0;
+  font-size:15px;
   color:var(--muted);
 }
 
 /* ===== MENU ===== */
 .menu{
-  display:grid;
+  display:flex;
+  flex-direction:column;
   gap:14px;
+  max-width:520px;
+  margin:0 auto;
 }
 
-.menu a{
-  text-decoration:none;
+.menu-card{
   background:var(--card);
-  padding:18px;
   border-radius:16px;
-  color:var(--text);
+  padding:18px;
+  font-size:20px;
   display:flex;
   align-items:center;
   gap:14px;
-  font-size:17px;
-  box-shadow:0 8px 26px rgba(0,0,0,.35);
+  cursor:pointer;
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+  transition:.2s;
 }
 
-.menu a:hover{
-  outline:2px solid var(--accent);
+.menu-card:hover{
+  transform:translateY(-2px);
+}
+
+.icon{
+  font-size:22px;
+}
+
+/* ===== PAGE PLACEHOLDER ===== */
+.page{
+  max-width:520px;
+  margin:0 auto;
+  font-size:22px;
+  text-align:center;
+  padding:40px 20px;
+  color:var(--muted);
 }
 </style>
 </head>
@@ -108,52 +132,69 @@ body{
 <body>
 
 <!-- TOP BAR -->
-<div class="top-bar">
-  <div class="theme-switch">
-    <button id="moon" onclick="setTheme('dark')">🌙</button>
-    <button id="sun" onclick="setTheme('light')">☀️</button>
+<div class="topbar">
+  <div class="left">
+    <span class="toggle" onclick="setTheme('dark')">🌙</span>
+    <span class="toggle" onclick="setTheme('light')">☀️</span>
   </div>
-  <div class="lang-switch">TR | EN</div>
+
+  <div class="right lang">
+    <span class="active">TR</span>
+    <span>EN</span>
+  </div>
 </div>
 
 <!-- LOGO -->
-<div class="logo">
-  <img src="assets/logo.png" alt="KING">
+<div class="logo-area">
+  <img src="logo.png" alt="Logo">
   <h1>MEHMET ALİ YILMAZ</h1>
-  <p id="subtitle">Kendi kendinin analisti</p>
+  <p>Kendi kendinin analisti</p>
 </div>
 
-<!-- MENU -->
-<div class="menu">
-  <a href="index.html">✨ Ana Panel</a>
-  <a href="kasa.html">🏦 Kasa</a>
-  <a href="islem.html">📈 İşlemler</a>
-  <a href="analist.html">🧠 Analist</a>
-  <a href="ayar.html">⚙️ Ayarlar</a>
-</div>
+<!-- ROUTE CONTENT -->
+<div id="app"></div>
 
 <script>
+/* ===== THEME ===== */
 function setTheme(mode){
-  if(mode==="light"){
-    document.body.classList.add("light");
-    localStorage.setItem("theme","light");
-  }else{
-    document.body.classList.remove("light");
-    localStorage.setItem("theme","dark");
+  document.body.classList.toggle("light", mode==="light");
+  localStorage.setItem("theme", mode);
+}
+const savedTheme = localStorage.getItem("theme");
+if(savedTheme==="light") setTheme("light");
+
+/* ===== ROUTER ===== */
+function render(){
+  const route = location.hash || "#menu";
+  const app = document.getElementById("app");
+
+  if(route === "#menu"){
+    app.innerHTML = `
+      <div class="menu">
+        <div class="menu-card" onclick="go('#ana')"><span class="icon">✨</span>Ana Panel</div>
+        <div class="menu-card" onclick="go('#kasa')"><span class="icon">🏦</span>Kasa</div>
+        <div class="menu-card" onclick="go('#islem')"><span class="icon">📈</span>İşlemler</div>
+        <div class="menu-card" onclick="go('#analist')"><span class="icon">🧠</span>Analist</div>
+        <div class="menu-card" onclick="go('#ayar')"><span class="icon">⚙️</span>Ayarlar</div>
+      </div>
+    `;
+    return;
   }
-  updateThemeButtons();
+
+  app.innerHTML = `
+    <div class="page">
+      ${route.replace("#","").toUpperCase()} SAYFASI<br><br>
+      (Bu sayfa 2. adımda doldurulacak)
+    </div>
+  `;
 }
 
-function updateThemeButtons(){
-  const theme = localStorage.getItem("theme") || "dark";
-  document.getElementById("moon").classList.toggle("active", theme==="dark");
-  document.getElementById("sun").classList.toggle("active", theme==="light");
+function go(hash){
+  location.hash = hash;
 }
 
-if(localStorage.getItem("theme")==="light"){
-  document.body.classList.add("light");
-}
-updateThemeButtons();
+window.addEventListener("hashchange", render);
+render();
 </script>
 
 </body>
