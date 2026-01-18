@@ -103,6 +103,21 @@ footer{
 #smcCard.disi{
   border-left:6px solid #ef4444;
 }
+/* SMC Renkleri */
+.smc-uyumlu{
+  border-left:6px solid #22c55e;
+  border-right:6px solid #22c55e;
+}
+
+.smc-riskli{
+  border-left:6px solid #facc15;
+  border-right:6px solid #facc15;
+}
+
+.smc-disi{
+  border-left:6px solid #ef4444;
+  border-right:6px solid #ef4444;
+}
 </style>
 </head>
 
@@ -120,7 +135,7 @@ footer{
   <strong id="kasaValue"></strong>
 </div>
 
-<div class="card" id="smcCard">
+<div class="card smc-card" id="smcCard">
   <p>💰 SMC Durumu</p>
   <strong id="smcValue"></strong>
 
@@ -193,6 +208,21 @@ function updateUI(){
 
   document.getElementById("smcValue").innerText = journal.smc;
   updateSMCStyle();
+  function updateSMCStyle(){
+  const card = document.getElementById("smcCard");
+
+  card.classList.remove("smc-uyumlu","smc-riskli","smc-disi");
+
+  if(journal.smc === "Uyumlu"){
+    card.classList.add("smc-uyumlu");
+  } 
+  else if(journal.smc === "Riskli"){
+    card.classList.add("smc-riskli");
+  } 
+  else {
+    card.classList.add("smc-disi");
+  }
+}
 }
 function setSMC(status){
   journal.smc = status;
