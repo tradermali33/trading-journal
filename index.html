@@ -19,9 +19,8 @@ body.light{
   --card:#ffffff;
   --text:#111;
   --muted:#555;
+  --accent:#2563eb;
 }
-
-*{box-sizing:border-box}
 
 body{
   margin:0;
@@ -32,68 +31,57 @@ body{
   transition:.3s;
 }
 
-/* ===== TOP BAR ===== */
-.topbar{
+.top-bar{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:14px;
+  margin-bottom:16px;
 }
 
-.topbar .left,
-.topbar .right{
-  display:flex;
-  gap:14px;
+.top-left button,
+.top-right button{
+  background:none;
+  border:none;
   font-size:20px;
+  color:var(--text);
+  cursor:pointer;
+  margin-right:6px;
 }
 
-.toggle{
-  cursor:pointer;
-  opacity:.9;
-}
-
-.lang span{
-  cursor:pointer;
-  opacity:.5;
-  font-weight:600;
-}
-.lang .active{
-  opacity:1;
+.lang-btn.active,
+.theme-btn.active{
   color:var(--accent);
+  font-weight:700;
 }
 
-/* ===== LOGO ===== */
 .logo-area{
   text-align:center;
-  margin:10px 0 22px;
+  margin-bottom:18px;
 }
 
 .logo-area img{
-  width:160px;
-  max-width:70%;
+  width:120px;
+  height:auto;
   display:block;
   margin:0 auto 10px;
 }
 
 .logo-area h1{
-  margin:6px 0 2px;
+  margin:0;
   font-size:26px;
-  letter-spacing:.5px;
+  letter-spacing:1px;
 }
 
 .logo-area p{
-  margin:0;
-  font-size:15px;
+  margin:4px 0 0;
+  font-size:14px;
   color:var(--muted);
 }
 
-/* ===== MENU ===== */
 .menu{
   display:flex;
   flex-direction:column;
   gap:14px;
-  max-width:520px;
-  margin:0 auto;
 }
 
 .menu-card{
@@ -101,100 +89,66 @@ body{
   border-radius:16px;
   padding:18px;
   font-size:20px;
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
   display:flex;
   align-items:center;
-  gap:14px;
+  gap:12px;
   cursor:pointer;
-  box-shadow:0 8px 24px rgba(0,0,0,.35);
   transition:.2s;
 }
 
 .menu-card:hover{
-  transform:translateY(-2px);
+  transform:scale(1.01);
 }
 
-.icon{
+.menu-card span{
   font-size:22px;
-}
-
-/* ===== PAGE PLACEHOLDER ===== */
-.page{
-  max-width:520px;
-  margin:0 auto;
-  font-size:22px;
-  text-align:center;
-  padding:40px 20px;
-  color:var(--muted);
 }
 </style>
 </head>
 
 <body>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <div class="left">
-    <span class="toggle" onclick="setTheme('dark')">🌙</span>
-    <span class="toggle" onclick="setTheme('light')">☀️</span>
+<!-- ÜST BAR -->
+<div class="top-bar">
+  <div class="top-left">
+    <button class="theme-btn active" onclick="setTheme('dark')">🌙</button>
+    <button class="theme-btn" onclick="setTheme('light')">☀️</button>
   </div>
 
-  <div class="right lang">
-    <span class="active">TR</span>
-    <span>EN</span>
+  <div class="top-right">
+    <button class="lang-btn active">TR</button>
+    <button class="lang-btn">EN</button>
   </div>
 </div>
 
 <!-- LOGO -->
 <div class="logo-area">
-  <img src="logo.png" alt="Logo">
+  <img src="assets/logo.png" alt="KING Logo">
   <h1>MEHMET ALİ YILMAZ</h1>
   <p>Kendi kendinin analisti</p>
 </div>
 
-<!-- ROUTE CONTENT -->
-<div id="app"></div>
+<!-- MENÜ -->
+<div class="menu">
+  <div class="menu-card"><span>✨</span> Ana Panel</div>
+  <div class="menu-card"><span>🏦</span> Kasa</div>
+  <div class="menu-card"><span>📈</span> İşlemler</div>
+  <div class="menu-card"><span>🧠</span> Analist</div>
+  <div class="menu-card"><span>⚙️</span> Ayarlar</div>
+</div>
 
 <script>
-/* ===== THEME ===== */
 function setTheme(mode){
-  document.body.classList.toggle("light", mode==="light");
-  localStorage.setItem("theme", mode);
-}
-const savedTheme = localStorage.getItem("theme");
-if(savedTheme==="light") setTheme("light");
-
-/* ===== ROUTER ===== */
-function render(){
-  const route = location.hash || "#menu";
-  const app = document.getElementById("app");
-
-  if(route === "#menu"){
-    app.innerHTML = `
-      <div class="menu">
-        <div class="menu-card" onclick="go('#ana')"><span class="icon">✨</span>Ana Panel</div>
-        <div class="menu-card" onclick="go('#kasa')"><span class="icon">🏦</span>Kasa</div>
-        <div class="menu-card" onclick="go('#islem')"><span class="icon">📈</span>İşlemler</div>
-        <div class="menu-card" onclick="go('#analist')"><span class="icon">🧠</span>Analist</div>
-        <div class="menu-card" onclick="go('#ayar')"><span class="icon">⚙️</span>Ayarlar</div>
-      </div>
-    `;
-    return;
+  if(mode === "light"){
+    document.body.classList.add("light");
+  }else{
+    document.body.classList.remove("light");
   }
 
-  app.innerHTML = `
-    <div class="page">
-      ${route.replace("#","").toUpperCase()} SAYFASI<br><br>
-      (Bu sayfa 2. adımda doldurulacak)
-    </div>
-  `;
+  document.querySelectorAll(".theme-btn").forEach(b=>b.classList.remove("active"));
+  event.target.classList.add("active");
 }
-
-function go(hash){
-  location.hash = hash;
-}
-
-window.addEventListener("hashchange", render);
-render();
 </script>
 
 </body>
