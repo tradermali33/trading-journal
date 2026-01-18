@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kasa</title>
 
 <style>
 :root{
-  --bg:#f4f7f8;
+  --bg:#f3f6f7;
   --card:#ffffff;
   --text:#0f172a;
-  --muted:#6b7280;
+  --muted:#64748b;
   --blue:#2563eb;
   --dark:#1f2937;
 }
@@ -22,156 +22,184 @@ body{
   color:var(--text);
 }
 
-.container{
+.wrapper{
   max-width:420px;
   margin:auto;
   padding:16px;
 }
 
-/* ÜST BAR */
+.card{
+  background:var(--card);
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,.06);
+}
+
 .top{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:14px;
-}
-
-.date-pill{
-  background:var(--blue);
-  color:#fff;
-  padding:10px 14px;
-  border-radius:14px;
-  font-weight:600;
-  font-size:14px;
-}
-
-.theme-pill{
-  background:#fff;
-  padding:8px 12px;
-  border-radius:14px;
-  box-shadow:0 6px 18px rgba(0,0,0,.08);
-  font-size:18px;
-}
-
-/* ANA PANEL BUTON */
-.panel-btn{
-  background:#fff;
-  border-radius:18px;
-  padding:14px;
-  font-weight:600;
-  box-shadow:0 8px 22px rgba(0,0,0,.08);
-  margin-bottom:14px;
-}
-
-/* KART */
-.card{
-  background:var(--card);
-  border-radius:22px;
-  padding:20px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-  margin-bottom:16px;
-}
-
-.card h2{
-  margin:0;
-  text-align:center;
-  font-size:28px;
-}
-
-.card p{
-  margin:6px 0 0;
-  text-align:center;
-  color:var(--muted);
-}
-
-/* BAKİYE */
-.balance{
-  font-size:40px;
-  font-weight:700;
-  text-align:center;
-  margin-bottom:16px;
-}
-
-/* INPUT */
-input{
-  width:100%;
-  height:52px;
-  border-radius:16px;
-  border:none;
-  background:#eef2f3;
-  padding:0 16px;
-  font-size:16px;
-  box-sizing:border-box;
   margin-bottom:12px;
 }
 
-/* BUTON */
+.date{
+  background:var(--blue);
+  color:#fff;
+  padding:10px 16px;
+  border-radius:16px;
+  font-weight:600;
+}
+
+.theme{
+  background:#fff;
+  padding:6px 10px;
+  border-radius:14px;
+  cursor:pointer;
+}
+
+.btn-panel{
+  cursor:pointer;
+  font-weight:600;
+}
+
+.title{
+  text-align:center;
+  font-size:28px;
+  font-weight:700;
+}
+
+.sub{
+  text-align:center;
+  color:var(--muted);
+  margin-top:6px;
+}
+
+.balance{
+  text-align:center;
+  font-size:40px;
+  font-weight:800;
+  margin:10px 0;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:none;
+  background:#eef2f4;
+  font-size:16px;
+  box-sizing:border-box;
+}
+
 button{
   width:100%;
-  height:54px;
+  padding:16px;
   border:none;
-  border-radius:18px;
+  border-radius:14px;
   font-size:18px;
   font-weight:600;
-  margin-bottom:10px;
+  cursor:pointer;
+  margin-top:10px;
 }
 
-.btn-add{background:var(--blue);color:#fff;}
-.btn-sub{background:#334155;color:#fff;}
+.plus{background:var(--blue);color:#fff;}
+.minus{background:#334155;color:#fff;}
 
-/* ÖZET */
-.summary{
+.row{
   display:flex;
   justify-content:space-between;
-  font-size:18px;
   font-weight:600;
 }
 
-.summary span{color:var(--muted);}
+/* DARK */
+.dark{
+  --bg:#0b1220;
+  --card:#111827;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+}
 </style>
 </head>
 
 <body>
+<div class="wrapper">
 
-<div class="container">
-
-  <!-- TARİH + TEMA -->
+  <!-- ÜST -->
   <div class="top">
-    <div class="date-pill" id="date"></div>
-    <div class="theme-pill">🌙 ☀️</div>
+    <div class="date" id="date"></div>
+    <div class="theme" id="themeBtn">🌙 ☀️</div>
   </div>
 
-  <!-- ANA PANEL -->
-  <div class="panel-btn">✨ Ana Panel</div>
+  <!-- ANA PANEL BUTONU -->
+  <div class="card btn-panel" id="goHome">✨ Ana Panel</div>
 
   <!-- KASA BAŞLIK -->
   <div class="card">
-    <h2>🏦 Kasa</h2>
-    <p>Para Giriş / Çıkış ve Kasa Takibi</p>
+    <div class="title">🏦 Kasa</div>
+    <div class="sub">Para Giriş / Çıkış ve Kasa Takibi</div>
   </div>
 
   <!-- KASA -->
   <div class="card">
-    <div class="balance">0 ₺</div>
-    <input type="number" placeholder="Tutar gir">
-    <button class="btn-add">+ Yatır</button>
-    <button class="btn-sub">− Çek</button>
+    <div class="balance" id="balance">0 ₺</div>
+    <input type="number" id="amount" placeholder="Tutar gir">
+    <button class="plus" onclick="deposit()">+ Yatır</button>
+    <button class="minus" onclick="withdraw()">− Çek</button>
   </div>
 
   <!-- ÖZET -->
   <div class="card">
-    <div class="summary"><span>+ Yatırılan</span>0 ₺</div>
-    <div class="summary"><span>− Çekilen</span>0 ₺</div>
+    <div class="row"><span>+ Yatırılan</span><span id="in">0 ₺</span></div>
+  </div>
+
+  <div class="card">
+    <div class="row"><span>− Çekilen</span><span id="out">0 ₺</span></div>
   </div>
 
 </div>
 
 <script>
+/* TARİH */
 const d=new Date();
 const days=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
 document.getElementById("date").innerText=
 `${String(d.getDate()).padStart(2,"0")}.${String(d.getMonth()+1).padStart(2,"0")}.${d.getFullYear()} ${days[d.getDay()]}`;
-</script>
 
+/* ANA PANEL YÖNLENDİRME */
+document.getElementById("goHome").onclick=()=>{
+  window.location.href="index.html"; // ana panel dosya adı
+};
+
+/* KASA */
+let balance=0,inp=0,out=0;
+
+function deposit(){
+  const v=Number(amount.value);
+  if(!v)return;
+  balance+=v;inp+=v;
+  update();
+}
+function withdraw(){
+  const v=Number(amount.value);
+  if(!v)return;
+  balance-=v;out+=v;
+  update();
+}
+function update(){
+  balanceEl.innerText=balance+" ₺";
+  inEl.innerText=inp+" ₺";
+  outEl.innerText=out+" ₺";
+  amount.value="";
+}
+const balanceEl=document.getElementById("balance");
+const inEl=document.getElementById("in");
+const outEl=document.getElementById("out");
+
+/* TEMA */
+document.getElementById("themeBtn").onclick=()=>{
+  document.body.classList.toggle("dark");
+};
+</script>
 </body>
 </html>
