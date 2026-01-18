@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trading Journal</title>
 
 <style>
@@ -10,8 +10,18 @@
   --bg:#0b0e1a;
   --card:#131722;
   --text:#e6e8eb;
+  --muted:#9aa0a6;
   --accent:#2563eb;
 }
+
+body.light{
+  --bg:#f4f6fa;
+  --card:#ffffff;
+  --text:#111;
+  --muted:#555;
+}
+
+*{box-sizing:border-box}
 
 body{
   margin:0;
@@ -19,6 +29,7 @@ body{
   background:var(--bg);
   color:var(--text);
   padding:20px;
+  transition:.3s;
 }
 
 /* ===== TOP BAR ===== */
@@ -26,99 +37,136 @@ body{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:20px;
+  margin-bottom:16px;
 }
 
-.topbar .left,
-.topbar .right{
-  display:flex;
-  gap:14px;
-  font-size:22px;
+.top-left button,
+.top-right button{
+  background:none;
+  border:none;
+  font-size:20px;
+  color:var(--text);
   cursor:pointer;
+  margin-right:6px;
 }
 
-.lang span{
-  font-weight:600;
-  opacity:.5;
-}
-.lang .active{
-  opacity:1;
+.theme-btn.active,
+.lang-btn.active{
   color:var(--accent);
+  font-weight:700;
 }
 
 /* ===== LOGO ===== */
-.logo-wrap{
+.logo-area{
   text-align:center;
-  margin-bottom:22px;
+  margin:10px 0 22px;
 }
 
-.logo-wrap img{
-  width:160px;
-  max-width:60%;
-  height:auto;
+.logo-area img{
+  width:140px;
+  max-width:70%;
   display:block;
   margin:0 auto 10px;
 }
 
-.logo-wrap h1{
+.logo-area h1{
   margin:0;
-  font-size:24px;
-  letter-spacing:1px;
+  font-size:26px;
+  letter-spacing:.5px;
 }
 
-.logo-wrap p{
+.logo-area p{
   margin:4px 0 0;
-  opacity:.7;
+  font-size:14px;
+  color:var(--muted);
 }
 
 /* ===== MENU ===== */
 .menu{
+  max-width:520px;
+  margin:0 auto;
   display:flex;
   flex-direction:column;
   gap:14px;
 }
 
+.menu a{
+  text-decoration:none;
+  color:inherit;
+}
+
 .menu-card{
   background:var(--card);
-  padding:18px;
   border-radius:16px;
-  font-size:18px;
+  padding:18px;
+  font-size:20px;
   display:flex;
   align-items:center;
   gap:12px;
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+  transition:.2s;
+}
+
+.menu-card:hover{
+  transform:translateY(-2px);
+}
+
+.icon{
+  font-size:22px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ===== TOP ===== -->
+<!-- TOP BAR -->
 <div class="topbar">
-  <div class="left">
-    🌙 ☀️
+  <div class="top-left">
+    <button class="theme-btn active" onclick="setTheme('dark')">🌙</button>
+    <button class="theme-btn" onclick="setTheme('light')">☀️</button>
   </div>
-  <div class="right lang">
-    <span class="active">TR</span>
-    <span>EN</span>
+
+  <div class="top-right">
+    <button class="lang-btn active">TR</button>
+    <button class="lang-btn">EN</button>
   </div>
 </div>
 
-<!-- ===== LOGO ===== -->
-<div class="logo-wrap">
-  <!-- LOGO YOLU BURASI -->
-  <img src="assets/logo.png" alt="KING Logo" />
+<!-- LOGO -->
+<div class="logo-area">
+  <img src="assets/logo.png" alt="Logo">
   <h1>MEHMET ALİ YILMAZ</h1>
   <p>Kendi kendinin analisti</p>
 </div>
 
-<!-- ===== MENU ===== -->
+<!-- MENU -->
 <div class="menu">
-  <div class="menu-card">✨ Ana Panel</div>
-  <div class="menu-card">🏦 Kasa</div>
-  <div class="menu-card">📈 İşlemler</div>
-  <div class="menu-card">🧠 Analist</div>
-  <div class="menu-card">⚙️ Ayarlar</div>
+  <a href="index.html"><div class="menu-card"><span class="icon">✨</span>Ana Panel</div></a>
+  <a href="kasa.html"><div class="menu-card"><span class="icon">🏦</span>Kasa</div></a>
+  <a href="islemler.html"><div class="menu-card"><span class="icon">📈</span>İşlemler</div></a>
+  <a href="analist.html"><div class="menu-card"><span class="icon">🧠</span>Analist</div></a>
+  <a href="ayarlar.html"><div class="menu-card"><span class="icon">⚙️</span>Ayarlar</div></a>
 </div>
+
+<script>
+function setTheme(mode){
+  if(mode === "light"){
+    document.body.classList.add("light");
+  }else{
+    document.body.classList.remove("light");
+  }
+
+  document.querySelectorAll(".theme-btn").forEach(b=>b.classList.remove("active"));
+  event.target.classList.add("active");
+
+  localStorage.setItem("theme", mode);
+}
+
+const savedTheme = localStorage.getItem("theme");
+if(savedTheme){
+  setTheme(savedTheme);
+}
+</script>
 
 </body>
 </html>
