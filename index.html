@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="tr">
+  <div class="card">
+  <div class="card-title">📊 Toplam Özet</div>
+  <div>➕ Yatırılan: <strong id="toplamYatirilan"></strong></div>
+  <div>➖ Çekilen: <strong id="toplamCekilen"></strong></div>
+</div>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -118,6 +123,14 @@ footer{
   border-left:6px solid #ef4444;
   border-right:6px solid #ef4444;
 }
+.kasa-input{
+  width:100%;
+  padding:12px;
+  margin:12px 0;
+  border-radius:10px;
+  border:none;
+  font-size:16px;
+}
 </style>
 </head>
 
@@ -133,9 +146,15 @@ footer{
   <p>🏦 Kasa</p>
   <strong id="kasaValue"></strong>
 
-  <!-- 👇 BURAYA EKLE -->
-  <button class="btn" onclick="updateKasa(10000)">+10.000 ₺</button>
-  <button class="btn" onclick="updateKasa(-10000)">-10.000 ₺</button>
+  <input
+    type="number"
+    id="kasaInput"
+    placeholder="Tutar gir (₺)"
+    class="kasa-input"
+  />
+
+  <button class="btn" onclick="kasaIslem('ekle')">➕ Yatır</button>
+  <button class="btn" onclick="kasaIslem('cikar')">➖ Çek</button>
 </div>
 
 
@@ -176,7 +195,9 @@ function toggleTheme(){
 /* ===== DATA ===== */
 const defaultData = {
   kasa: 100000,
-  islemler: [],
+  toplamYatirilan: 100000,
+  toplamCekilen: 0,
+  islemler: [], // log
   smc: "Uyumlu"
 };
 
@@ -231,7 +252,23 @@ function updateSMCStyle(){
   if(journal.smc === "Dışı") card.classList.add("smc-disi");
 }
 
-updateUI();
+function updateUI(){
+  document.getElementById("kasaValue").innerText =
+    journal.kasa.toLocaleString("tr-TR") + " ₺";
+
+  document.getElementById("smcValue").innerText = journal.smc;
+
+  document.getElementById("islemCount").innerText =
+    journal.islemler.length;
+
+  document.getElementById("toplamYatirilan").innerText =
+    journal.toplamYatirilan.toLocaleString("tr-TR") + " ₺";
+
+  document.getElementById("toplamCekilen").innerText =
+    journal.toplamCekilen.toLocaleString("tr-TR") + " ₺";
+
+  updateSMCStyle();
+}
 </script>
 
 </body>
