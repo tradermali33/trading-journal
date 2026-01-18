@@ -7,26 +7,28 @@
 
 <style>
 :root{
-  --bg-light:#f3f5f7;
-  --bg-dark:#0b0e1a;
-  --card-light:#ffffff;
-  --card-dark:#131722;
-  --text-light:#0f172a;
-  --text-dark:#e6e8eb;
-  --primary:#2563eb;
+  --bg:#f4f6f8;
+  --card:#ffffff;
+  --text:#111827;
+  --sub:#6b7280;
+  --blue:#2563eb;
+  --dark:#111827;
+}
+
+body.dark{
+  --bg:#0b1220;
+  --card:#111827;
+  --text:#e5e7eb;
+  --sub:#9ca3af;
 }
 
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,system-ui;
-  background:var(--bg-light);
-  color:var(--text-light);
+  background:var(--bg);
+  color:var(--text);
+  padding:16px;
   transition:.3s;
-}
-
-body.dark{
-  background:var(--bg-dark);
-  color:var(--text-dark);
 }
 
 /* HEADER */
@@ -34,137 +36,113 @@ body.dark{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:16px 18px;
+  margin-bottom:18px;
 }
 
-.date-box{
-  background:var(--card-light);
-  padding:10px 14px;
-  border-radius:14px;
+.date-card{
+  background:linear-gradient(135deg,#2563eb,#1e40af);
+  color:white;
+  padding:12px 18px;
+  border-radius:16px;
   font-weight:600;
+  font-size:15px;
+  box-shadow:0 6px 18px rgba(37,99,235,.35);
 }
 
-body.dark .date-box{
-  background:var(--card-dark);
+body.dark .date-card{
+  background:linear-gradient(135deg,#1f2937,#020617);
 }
 
-.header button{
+.theme-btn button{
+  font-size:22px;
   background:none;
   border:none;
-  font-size:20px;
   cursor:pointer;
-}
-
-/* NAV BUTTON */
-.nav-btn{
-  margin:14px 16px;
-  padding:16px;
-  border-radius:18px;
-  background:var(--card-light);
-  font-size:18px;
-  font-weight:600;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  cursor:pointer;
-  text-decoration:none;
-  color:inherit;
-}
-
-body.dark .nav-btn{
-  background:var(--card-dark);
+  margin-left:6px;
 }
 
 /* CARD */
 .card{
-  margin:16px;
-  padding:20px;
-  border-radius:22px;
-  background:var(--card-light);
+  background:var(--card);
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
-body.dark .card{
-  background:var(--card-dark);
-}
-
-/* TITLE */
-.title{
-  text-align:center;
-}
-
-.title h1{
-  margin:0;
-  font-size:28px;
-}
-
-.title p{
-  margin-top:6px;
-  opacity:.7;
-}
-
-/* BALANCE */
-.balance{
-  text-align:center;
-  font-size:36px;
-  font-weight:700;
-  margin:16px 0;
-}
-
-/* CONTROL */
-.control{
+/* ANA PANEL */
+.panel-btn{
   display:flex;
-  flex-direction:column;
-  gap:12px;
+  align-items:center;
+  gap:10px;
+  font-size:18px;
+  font-weight:600;
+  cursor:pointer;
+  color:var(--blue);
 }
 
-.control input,
-.control button{
+/* KASA */
+.kasa-title{
+  text-align:center;
+  font-size:28px;
+  font-weight:700;
+}
+
+.kasa-sub{
+  text-align:center;
+  color:var(--sub);
+  margin-bottom:12px;
+}
+
+.amount{
+  text-align:center;
+  font-size:34px;
+  font-weight:700;
+  margin-bottom:12px;
+}
+
+input{
   width:100%;
   padding:14px;
   border-radius:14px;
-  font-size:18px;
   border:none;
+  background:#f1f5f9;
+  font-size:16px;
   box-sizing:border-box;
 }
 
-.control input{
-  background:#eef1f4;
-}
-
-body.dark .control input{
-  background:#1f2430;
+body.dark input{
+  background:#020617;
   color:white;
 }
 
-.btn-plus{
-  background:var(--primary);
-  color:white;
+.btn{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  border:none;
+  border-radius:14px;
+  font-size:18px;
   font-weight:600;
+  cursor:pointer;
 }
 
-.btn-minus{
+.btn.plus{
+  background:var(--blue);
+  color:white;
+}
+
+.btn.minus{
   background:#334155;
   color:white;
-  font-weight:600;
 }
 
-/* SUMMARY */
-.summary{
-  margin:16px;
-  padding:16px;
-  border-radius:16px;
-  background:var(--card-light);
-}
-
-body.dark .summary{
-  background:var(--card-dark);
-}
-
-.summary div{
+/* OZET */
+.ozet-row{
   display:flex;
   justify-content:space-between;
-  font-size:16px;
-  margin-bottom:6px;
+  font-size:17px;
+  margin:6px 0;
 }
 </style>
 </head>
@@ -173,82 +151,94 @@ body.dark .summary{
 
 <!-- HEADER -->
 <div class="header">
-  <div class="date-box" id="dateBox"></div>
-  <div>
+  <div class="date-card" id="dateBox"></div>
+  <div class="theme-btn">
     <button onclick="setDark()">🌙</button>
     <button onclick="setLight()">☀️</button>
   </div>
 </div>
 
-<!-- ANA PANEL BUTONU (ÇALIŞIR) -->
-<a href="index.html" class="nav-btn">
+<!-- ANA PANEL -->
+<div class="card panel-btn" onclick="location.href='index.html'">
   ✨ Ana Panel
-</a>
-
-<!-- KASA BAŞLIK -->
-<div class="card title">
-  <h1>🏦 Kasa</h1>
-  <p>Para Giriş / Çıkış ve Kasa Takibi</p>
 </div>
 
-<!-- KASA -->
+<!-- KASA BASLIK -->
 <div class="card">
-  <div class="balance" id="balance">0 ₺</div>
+  <div class="kasa-title">🏦 Kasa</div>
+  <div class="kasa-sub">Para Giriş / Çıkış ve Kasa Takibi</div>
+</div>
 
-  <div class="control">
-    <input type="number" id="amount" placeholder="Tutar gir">
-    <button class="btn-plus" onclick="add()">+ Yatır</button>
-    <button class="btn-minus" onclick="remove()">− Çek</button>
+<!-- KASA ISLEM -->
+<div class="card">
+  <div class="amount" id="kasaValue">0 ₺</div>
+
+  <input type="number" id="tutar" placeholder="Tutar gir">
+
+  <button class="btn plus" onclick="yatir()">+ Yatır</button>
+  <button class="btn minus" onclick="cek()">– Çek</button>
+</div>
+
+<!-- OZET -->
+<div class="card">
+  <div class="ozet-row">
+    <span>+ Yatırılan</span>
+    <strong id="toplamYatirilan">0 ₺</strong>
+  </div>
+  <div class="ozet-row">
+    <span>– Çekilen</span>
+    <strong id="toplamCekilen">0 ₺</strong>
   </div>
 </div>
 
-<!-- ÖZET -->
-<div class="summary">
-  <div><span>➕ Yatırılan</span><strong id="in">0 ₺</strong></div>
-  <div><span>➖ Çekilen</span><strong id="out">0 ₺</strong></div>
-</div>
-
 <script>
-/* DATE */
-const days = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
-const d = new Date();
-dateBox.innerText =
-  d.toLocaleDateString("tr-TR") + " / " + days[d.getDay()];
+/* THEME */
+function setDark(){
+  document.body.classList.add("dark");
+  localStorage.theme="dark";
+}
+function setLight(){
+  document.body.classList.remove("dark");
+  localStorage.theme="light";
+}
+if(localStorage.theme==="dark") setDark();
+
+/* TARIH */
+const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+const d=new Date();
+document.getElementById("dateBox").innerText=
+  d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
 
 /* DATA */
-let data = JSON.parse(localStorage.getItem("kasa")) || {
-  balance:0, in:0, out:0
-};
+let kasa=0;
+let yatirilan=0;
+let cekilen=0;
 
-function update(){
-  balance.innerText = data.balance.toLocaleString("tr-TR")+" ₺";
-  in.innerText = data.in.toLocaleString("tr-TR")+" ₺";
-  out.innerText = data.out.toLocaleString("tr-TR")+" ₺";
-  localStorage.setItem("kasa",JSON.stringify(data));
+function guncelle(){
+  kasaValue.innerText=kasa.toLocaleString("tr-TR")+" ₺";
+  toplamYatirilan.innerText=yatirilan.toLocaleString("tr-TR")+" ₺";
+  toplamCekilen.innerText=cekilen.toLocaleString("tr-TR")+" ₺";
 }
 
-function add(){
-  let v = Number(amount.value);
-  if(!v) return;
-  data.balance += v;
-  data.in += v;
-  amount.value="";
-  update();
+function yatir(){
+  const t=Number(tutar.value);
+  if(!t) return;
+  kasa+=t;
+  yatirilan+=t;
+  tutar.value="";
+  guncelle();
 }
 
-function remove(){
-  let v = Number(amount.value);
-  if(!v) return;
-  data.balance -= v;
-  data.out += v;
-  amount.value="";
-  update();
+function cek(){
+  const t=Number(tutar.value);
+  if(!t) return;
+  kasa-=t;
+  cekilen+=t;
+  tutar.value="";
+  guncelle();
 }
 
-function setDark(){ document.body.classList.add("dark"); }
-function setLight(){ document.body.classList.remove("dark"); }
-
-update();
+guncelle();
 </script>
 
 </body>
