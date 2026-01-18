@@ -1,143 +1,219 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kasa | Trading Journal</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kasa</title>
 
 <style>
-:root{
-  --bg:#0b0e1a;
-  --card:#131722;
-  --text:#e6e8eb;
-  --muted:#9aa0a6;
-  --accent:#2563eb;
-}
-
-body.light{
-  --bg:#f4f6fa;
-  --card:#ffffff;
-  --text:#111;
-  --muted:#555;
-}
-
-*{box-sizing:border-box}
-
+/* ================= BASE ================= */
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,system-ui;
-  background:var(--bg);
-  color:var(--text);
-  padding:20px;
+  background:#0b0e1a;
+  color:#e6e8eb;
   transition:.3s;
 }
 
-/* ===== TOP BAR ===== */
-.topbar{
+/* GÜNDÜZ MODU */
+body:not(.dark){
+  background:#f5f6f8;
+  color:#0f172a;
+}
+
+/* ================= HEADER ================= */
+.header{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:16px;
+  padding:18px 20px;
 }
 
-.top-left{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.top-left a{
-  text-decoration:none;
-  color:var(--text);
-  font-size:18px;
-}
-
-.top-right button{
-  background:none;
-  border:none;
+.header-left{
   font-size:20px;
-  color:var(--text);
+  font-weight:600;
+}
+
+.header-right span{
+  font-size:22px;
+  margin-left:12px;
   cursor:pointer;
-  margin-left:6px;
 }
 
-.theme-btn.active{
-  color:var(--accent);
-  font-weight:700;
-}
-
-/* ===== PAGE TITLE ===== */
+/* ================= PAGE TITLE ================= */
 .page-title{
   text-align:center;
-  margin:20px 0 10px;
+  margin-top:10px;
 }
 
 .page-title h1{
+  font-size:30px;
   margin:0;
-  font-size:26px;
 }
 
 .page-title p{
-  margin:6px 0 0;
-  color:var(--muted);
-}
-/* ===== LIGHT MODE KONTRAST DÜZELTMESİ ===== */
-body.light{
-  background:#f5f6f8;
+  margin-top:6px;
+  font-size:15px;
+  opacity:.75;
 }
 
-body.light h1,
-body.light h2,
-body.light .page-title,
-body.light .page-title h1{
-  color:#0f172a; /* koyu lacivert */
+/* ================= CARD ================= */
+.card{
+  margin:24px 16px;
+  padding:20px;
+  border-radius:18px;
+  background:#131722;
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
-body.light p,
-body.light .page-title p{
-  color:#475569; /* okunur gri */
+body:not(.dark) .card{
+  background:#ffffff;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+/* ================= BALANCE ================= */
+.balance{
+  font-size:34px;
+  font-weight:700;
+  text-align:center;
+  margin-bottom:16px;
+}
+
+/* ================= INPUT ================= */
+input{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:none;
+  font-size:18px;
+  outline:none;
+  margin-bottom:14px;
+}
+
+body:not(.dark) input{
+  background:#f1f5f9;
+}
+
+/* ================= BUTTONS ================= */
+.btn{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:none;
+  font-size:18px;
+  font-weight:600;
+  cursor:pointer;
+  margin-bottom:10px;
+}
+
+.btn.plus{
+  background:#2563eb;
+  color:white;
+}
+
+.btn.minus{
+  background:#334155;
+  color:white;
+}
+
+/* ================= SUMMARY ================= */
+.summary{
+  margin:24px 16px;
+  padding:18px;
+  border-radius:16px;
+  background:#131722;
+}
+
+body:not(.dark) .summary{
+  background:#ffffff;
+}
+
+.summary div{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:8px;
+  font-size:16px;
 }
 </style>
 </head>
 
-<body>
+<body class="dark">
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <div class="top-left">
-    <a href="index.html">✨ Ana Panel</a>
-  </div>
-
-  <div class="top-right">
-    <button class="theme-btn active" onclick="setTheme('dark')">🌙</button>
-    <button class="theme-btn" onclick="setTheme('light')">☀️</button>
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">✨ Ana Panel</div>
+  <div class="header-right">
+    <span onclick="setDark()">🌙</span>
+    <span onclick="setLight()">☀️</span>
   </div>
 </div>
 
-<!-- PAGE HEADER -->
+<!-- TITLE -->
 <div class="page-title">
   <h1>🏦 Kasa</h1>
   <p>Para Giriş / Çıkış ve Kasa Takibi</p>
 </div>
 
+<!-- CARD -->
+<div class="card">
+  <div class="balance" id="balance">0 ₺</div>
+
+  <input type="number" id="amount" placeholder="Tutar gir">
+
+  <button class="btn plus" onclick="addMoney()">+ Yatır</button>
+  <button class="btn minus" onclick="removeMoney()">− Çek</button>
+</div>
+
+<!-- SUMMARY -->
+<div class="summary">
+  <div><span>➕ Yatırılan</span><strong id="in">0 ₺</strong></div>
+  <div><span>➖ Çekilen</span><strong id="out">0 ₺</strong></div>
+</div>
+
 <script>
-function setTheme(mode){
-  if(mode === "light"){
-    document.body.classList.add("light");
-  }else{
-    document.body.classList.remove("light");
-  }
+let data = JSON.parse(localStorage.getItem("kasa")) || {
+  balance:0,
+  in:0,
+  out:0
+};
 
-  document.querySelectorAll(".theme-btn").forEach(b=>b.classList.remove("active"));
-  event.target.classList.add("active");
-
-  localStorage.setItem("theme", mode);
+function update(){
+  document.getElementById("balance").innerText =
+    data.balance.toLocaleString("tr-TR")+" ₺";
+  document.getElementById("in").innerText =
+    data.in.toLocaleString("tr-TR")+" ₺";
+  document.getElementById("out").innerText =
+    data.out.toLocaleString("tr-TR")+" ₺";
+  localStorage.setItem("kasa",JSON.stringify(data));
 }
 
-const savedTheme = localStorage.getItem("theme");
-if(savedTheme){
-  setTheme(savedTheme);
+function addMoney(){
+  let v = Number(amount.value);
+  if(!v) return;
+  data.balance += v;
+  data.in += v;
+  amount.value="";
+  update();
 }
+
+function removeMoney(){
+  let v = Number(amount.value);
+  if(!v) return;
+  data.balance -= v;
+  data.out += v;
+  amount.value="";
+  update();
+}
+
+function setLight(){
+  document.body.classList.remove("dark");
+}
+
+function setDark(){
+  document.body.classList.add("dark");
+}
+
+update();
 </script>
 
 </body>
