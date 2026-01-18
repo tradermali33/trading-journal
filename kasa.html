@@ -1,1 +1,128 @@
-<!-- boş sayfa -->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasa | Trading Journal</title>
+
+<style>
+:root{
+  --bg:#0b0e1a;
+  --card:#131722;
+  --text:#e6e8eb;
+  --muted:#9aa0a6;
+  --accent:#2563eb;
+}
+
+body.light{
+  --bg:#f4f6fa;
+  --card:#ffffff;
+  --text:#111;
+  --muted:#555;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,system-ui;
+  background:var(--bg);
+  color:var(--text);
+  padding:20px;
+  transition:.3s;
+}
+
+/* ===== TOP BAR ===== */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
+}
+
+.top-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.top-left a{
+  text-decoration:none;
+  color:var(--text);
+  font-size:18px;
+}
+
+.top-right button{
+  background:none;
+  border:none;
+  font-size:20px;
+  color:var(--text);
+  cursor:pointer;
+  margin-left:6px;
+}
+
+.theme-btn.active{
+  color:var(--accent);
+  font-weight:700;
+}
+
+/* ===== PAGE TITLE ===== */
+.page-title{
+  text-align:center;
+  margin:20px 0 10px;
+}
+
+.page-title h1{
+  margin:0;
+  font-size:26px;
+}
+
+.page-title p{
+  margin:6px 0 0;
+  color:var(--muted);
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="top-left">
+    <a href="index.html">✨ Ana Panel</a>
+  </div>
+
+  <div class="top-right">
+    <button class="theme-btn active" onclick="setTheme('dark')">🌙</button>
+    <button class="theme-btn" onclick="setTheme('light')">☀️</button>
+  </div>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-title">
+  <h1>🏦 Kasa</h1>
+  <p>Para giriş / çıkış ve kasa takibi</p>
+</div>
+
+<script>
+function setTheme(mode){
+  if(mode === "light"){
+    document.body.classList.add("light");
+  }else{
+    document.body.classList.remove("light");
+  }
+
+  document.querySelectorAll(".theme-btn").forEach(b=>b.classList.remove("active"));
+  event.target.classList.add("active");
+
+  localStorage.setItem("theme", mode);
+}
+
+const savedTheme = localStorage.getItem("theme");
+if(savedTheme){
+  setTheme(savedTheme);
+}
+</script>
+
+</body>
+</html>
