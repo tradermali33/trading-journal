@@ -132,7 +132,9 @@ footer{
 
 <div class="card">
   <p>🏦 Kasa</p>
-  <strong id="kasaValue"></strong>
+
+  <button class="btn" onclick="addKasa(10000)">+10.000 ₺</button>
+  <button class="btn" onclick="addKasa(-10000)">-10.000 ₺</button>
 </div>
 
 <div class="card smc-card" id="smcCard">
@@ -152,7 +154,10 @@ footer{
   <button class="btn" onclick="updateKasa(10000)">+10.000 ₺</button>
   <button class="btn" onclick="updateKasa(-10000)">-10.000 ₺</button>
 </div>
-
+<div class="card">
+  <div class="card-title">📈 Bugünkü İşlemler</div>
+  <div class="card-value" id="islemCount">0</div>
+</div>
   <div class="card">
     <div class="card-title">🧠 Analist Yorumu</div>
     <div class="card-value">Disiplinli 👍</div>
@@ -161,7 +166,7 @@ footer{
 </section>
 
 <footer>
-  Kendi kendinin analisti • Trading Journal
+  MEHMET ALİ YILMAZ • Trading Journal
 </footer>
 
 <script>
@@ -173,7 +178,7 @@ function toggleTheme(){
     document.body.classList.contains("light") ? "☀️" : "🌙";
 }
 
-/* ===== DATA LAYER ===== */
+/* ===== DATA ===== */
 const defaultData = {
   kasa: 100000,
   islemler: [],
@@ -190,54 +195,48 @@ function saveData(data){
 
 let journal = loadData();
 
-/* ===== UI UPDATE ===== */
-function updateUI(){
-  document.getElementById("kasaValue").innerText =
-    journal.kasa.toLocaleString("tr-TR") + " ₺";
-
-  document.getElementById("smcValue").innerText = journal.smc;
-}
-function updateKasa(amount){
+/* ===== ACTIONS ===== */
+function addKasa(amount){
   journal.kasa += amount;
+
+  journal.islemler.push({
+    tutar: amount,
+    tarih: new Date().toISOString()
+  });
+
   saveData(journal);
   updateUI();
 }
-function updateUI(){
-  document.getElementById("kasaValue").innerText =
-    journal.kasa.toLocaleString("tr-TR") + " ₺";
 
-  document.getElementById("smcValue").innerText = journal.smc;
-  updateSMCStyle();
-  function updateSMCStyle(){
-  const card = document.getElementById("smcCard");
-
-  card.classList.remove("smc-uyumlu","smc-riskli","smc-disi");
-
-  if(journal.smc === "Uyumlu"){
-    card.classList.add("smc-uyumlu");
-  } 
-  else if(journal.smc === "Riskli"){
-    card.classList.add("smc-riskli");
-  } 
-  else {
-    card.classList.add("smc-disi");
-  }
-}
-}
 function setSMC(status){
   journal.smc = status;
   saveData(journal);
   updateUI();
 }
 
+/* ===== UI ===== */
+function updateUI(){
+  document.getElementById("kasaValue").innerText =
+    journal.kasa.toLocaleString("tr-TR") + " ₺";
+
+  document.getElementById("smcValue").innerText = journal.smc;
+
+  document.getElementById("islemCount").innerText =
+    journal.islemler.length;
+
+  updateSMCStyle();
+}
+
 function updateSMCStyle(){
   const card = document.getElementById("smcCard");
-  card.classList.remove("uyumlu","riskli","disi");
+  card.classList.remove("smc-uyumlu","smc-riskli","smc-disi");
 
-  if(journal.smc === "Uyumlu") card.classList.add("uyumlu");
-  if(journal.smc === "Riskli") card.classList.add("riskli");
-  if(journal.smc === "Dışı") card.classList.add("disi");
+  if(journal.smc === "Uyumlu") card.classList.add("smc-uyumlu");
+  if(journal.smc === "Riskli") card.classList.add("smc-riskli");
+  if(journal.smc === "Dışı") card.classList.add("smc-disi");
 }
+
+updateUI();
 </script>
 
 </body>
