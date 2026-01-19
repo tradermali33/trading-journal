@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>İşlem Aç</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>İşlemler</title>
 
 <style>
 :root{
-  --bg:#f4f6fa;
+  --bg:#f2f3f5;
   --card:#ffffff;
-  --text:#111;
-  --muted:#777;
+  --muted:#9aa0a6;
   --green:#2ecc71;
   --red:#e74c3c;
   --gray:#bdc3c7;
@@ -18,13 +17,11 @@
 }
 
 *{box-sizing:border-box}
-
 body{
   margin:0;
   background:var(--bg);
-  font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
   padding:16px;
-  color:var(--text);
 }
 
 .card{
@@ -34,14 +31,14 @@ body{
   margin-bottom:14px;
 }
 
-h1{
-  margin:0;
+.title{
   font-size:22px;
+  font-weight:700;
 }
 
 .sub{
+  font-size:13px;
   color:var(--muted);
-  font-size:14px;
 }
 
 .btn{
@@ -50,7 +47,7 @@ h1{
   border:none;
   border-radius:14px;
   font-size:16px;
-  font-weight:600;
+  font-weight:700;
 }
 
 .btn-green{background:var(--green);color:#fff}
@@ -63,28 +60,50 @@ h1{
   gap:10px;
 }
 
-.row .btn{flex:1}
-
 input, select, textarea{
   width:100%;
-  padding:14px;
+  padding:12px;
   border-radius:12px;
   border:1px solid #ddd;
   font-size:15px;
 }
 
-textarea{resize:none;height:90px}
+.badge{
+  padding:12px;
+  border-radius:14px;
+  flex:1;
+  text-align:center;
+  font-weight:700;
+  background:#ecf0f1;
+}
 
-.tag{
-  padding:10px;
+.badge.active.green{background:var(--green);color:#fff}
+.badge.active.red{background:var(--red);color:#fff}
+.badge.active.gray{background:var(--gray)}
+
+.chip{
+  padding:10px 14px;
   border-radius:12px;
   background:#ecf0f1;
-  text-align:center;
-  font-weight:500;
+  font-weight:600;
 }
-.tag.active{
-  background:var(--green);
+
+.chip.active{
+  background:#2d3436;
   color:#fff;
+}
+
+.grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.grid .chip{flex:1 0 30%}
+
+.footer{
+  text-align:center;
+  font-weight:700;
+  font-size:18px;
 }
 </style>
 </head>
@@ -93,112 +112,118 @@ textarea{resize:none;height:90px}
 
 <!-- BAŞLIK -->
 <div class="card">
-  <h1>📈 İşlem Aç</h1>
-  <div class="sub">Yeni işlem girişi</div>
-</div>
-
-<!-- ANA PANEL -->
-<div class="card">
-  <button class="btn btn-gray" onclick="location.href='index.html'">← Ana Panel</button>
+  <div class="title">🏦 İŞLEMLER</div>
+  <div class="sub">Yeni İşlem</div>
 </div>
 
 <!-- VARLIK -->
 <div class="card">
-  <b>Varlık</b><br><br>
-  <input placeholder="Hisse / Coin yaz">
-  <div class="sub" style="margin-top:6px">🔴 Canlı Fiyat: --</div>
+  <label>Varlık</label>
+  <input id="symbol" placeholder="ALKA / BTCUSDT"/>
+  <div class="sub" style="margin-top:8px">🔴 Canlı Fiyat: <b id="price">--</b></div>
 </div>
 
 <!-- TREND -->
 <div class="card">
-  <b>Trend Yönü</b><br><br>
+  <label>Trend Yönü</label>
   <div class="row">
-    <button class="btn btn-green">Yükselen</button>
-    <button class="btn btn-red">Düşen</button>
-    <button class="btn btn-gray">Yatay</button>
+    <div class="badge green" onclick="setTrend('up',this)">Yükselen</div>
+    <div class="badge red" onclick="setTrend('down',this)">Düşen</div>
+    <div class="badge gray active" onclick="setTrend('flat',this)">Yatay</div>
   </div>
 </div>
 
 <!-- ZAMAN -->
 <div class="card">
-  <b>Zaman Dilimi</b><br><br>
+  <label>Zaman Dilimi</label>
   <select>
-    <option>1m</option>
     <option>5m</option>
     <option selected>15m</option>
     <option>30m</option>
     <option>1h</option>
-    <option>4h</option>
-    <option>1d</option>
   </select>
 </div>
 
-<!-- TEKNİK PANEL -->
+<!-- TEKNİK ANALİZ -->
 <div class="card">
-  <b>🎯 Teknik Analiz Paneli</b><br><br>
+  <label>🎯 Teknik Analiz Paneli</label>
 
-  <b>SMC</b><br><br>
-  <div class="row">
-    <div class="tag">BOS</div>
-    <div class="tag">CHoCH</div>
-    <div class="tag">OB</div>
-  </div><br>
-  <div class="row">
-    <div class="tag">Likidite</div>
-    <div class="tag">FVG</div>
-    <div class="tag">Sweep</div>
+  <h4>SMC</h4>
+  <div class="grid">
+    <div class="chip">BOS</div>
+    <div class="chip">CHoCH</div>
+    <div class="chip">OB</div>
+    <div class="chip">Likidite</div>
+    <div class="chip">FVG</div>
+    <div class="chip">Sweep</div>
   </div>
 
-  <br><b>EMA</b><br><br>
-  <div class="row">
-    <div class="tag">9</div>
-    <div class="tag">21</div>
-    <div class="tag">50</div>
-    <div class="tag">200</div>
+  <h4>EMA</h4>
+  <div class="grid">
+    <div class="chip">9</div>
+    <div class="chip">21</div>
+    <div class="chip">50</div>
+    <div class="chip">200</div>
   </div>
 
-  <br><b>RSI / MACD / Hacim</b><br><br>
-  <div class="row">
-    <div class="tag">RSI</div>
-    <div class="tag">MACD</div>
-    <div class="tag">Hacim</div>
+  <h4>RSI / MACD / Hacim</h4>
+  <div class="grid">
+    <div class="chip">RSI</div>
+    <div class="chip">MACD</div>
+    <div class="chip">Hacim</div>
   </div>
 
-  <br><b>Diğer</b><br><br>
-  <textarea placeholder="Açıklama (zorunlu)"></textarea>
+  <textarea placeholder="Diğer açıklamalar (zorunlu)" style="margin-top:10px"></textarea>
 </div>
 
 <!-- STOP -->
 <div class="card">
-  <b>Stop</b><br><br>
+  <label>Stop</label>
   <select>
-    <option selected>%1</option>
-    <option>%0.5</option>
-    <option>%2</option>
-  </select><br><br>
-  <input placeholder="Stop Fiyatı">
+    <option>0.5%</option>
+    <option selected>1%</option>
+    <option>2%</option>
+    <option>3%</option>
+  </select>
+  <input placeholder="Stop Fiyatı" style="margin-top:8px"/>
 </div>
 
 <!-- TP -->
 <div class="card">
-  <b>Hedef Fiyat</b><br><br>
-  <input placeholder="TP1"><br><br>
-  <input placeholder="TP2"><br><br>
-  <input placeholder="TP3">
+  <label>Hedef Fiyat</label>
+  <input placeholder="TP1"/>
+  <input placeholder="TP2" style="margin-top:8px"/>
+  <input placeholder="TP3" style="margin-top:8px"/>
 </div>
 
 <!-- BUTONLAR -->
 <div class="card">
-  <button class="btn btn-yellow">🚨 Otomatik İşlem Sonlandır</button><br><br>
-  <button class="btn btn-red">⛔ Manuel İşlem Sonlandır</button><br><br>
+  <button class="btn btn-yellow">🚨 Otomatik İşlem Sonlandır</button>
+</div>
+
+<div class="card">
+  <button class="btn btn-red">⛔ Manuel İşlem Sonlandır</button>
+</div>
+
+<div class="card">
   <button class="btn btn-green">⚡ İŞLEM BAŞLAT ⚡</button>
 </div>
 
 <!-- KASA -->
-<div class="card">
-  <b>🏦 İşlem Sonrası Kasa</b><br><br>
-  <h2>0 TL</h2>
+<div class="card footer">
+  🏦 İşlem Sonrası Kasa<br>
+  <span id="kasa">0 TL</span>
 </div>
+
+<script>
+let trend='flat';
+
+function setTrend(t,el){
+  trend=t;
+  document.querySelectorAll('.badge').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+</script>
 
 </body>
 </html>
