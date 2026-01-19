@@ -6,23 +6,99 @@
 <title>Yeni İşlem Aç</title>
 
 <style>
-*{box-sizing:border-box;font-family:"Times New Roman",serif;}
-body{margin:0;padding:16px;background:#f2f4f6;}
-.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:0 4px 10px rgba(0,0,0,.06);}
-.card h2{text-align:center;margin:0 0 12px;font-size:18px;font-weight:bold;}
-input,select{width:100%;padding:12px;border-radius:12px;border:1px solid #ddd;font-size:15px;}
-.row{display:flex;gap:12px;}
-.row>div{flex:1;}
-.badge-group{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
-.badge{padding:10px 16px;background:#eef1f4;border-radius:20px;font-size:14px;cursor:pointer;}
-.badge.active{background:#2ecc71;color:#fff;}
+*{
+  box-sizing:border-box;
+  font-family:"Times New Roman", serif;
+}
+
+body{
+  margin:0;
+  padding:16px;
+  background:#f2f4f6;
+}
+
+.card{
+  background:#ffffff;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.06);
+}
+
+.card h2{
+  margin:0 0 12px 0;
+  font-size:18px;
+  font-weight:bold;
+  text-align:center;
+}
+
+label{
+  display:block;
+  margin-bottom:6px;
+}
+
+input, select{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  font-size:15px;
+}
+
+.row{
+  display:flex;
+  gap:12px;
+}
+
+.row > div{
+  flex:1;
+}
+
+.badge-group{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+}
+
+.badge{
+  padding:10px 16px;
+  background:#eef1f4;
+  border-radius:20px;
+  font-size:14px;
+  cursor:pointer;
+}
+
+.badge.active{
+  background:#2ecc71;
+  color:white;
+}
+
 .center{text-align:center;}
-.btn{width:100%;padding:16px;border:none;border-radius:16px;font-size:16px;font-weight:bold;}
-.btn-green{background:#2ecc71;color:#fff;}
-.btn-red{background:#e74c3c;color:#fff;}
+
+.btn{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:16px;
+  font-size:16px;
+  font-weight:bold;
+}
+
+.btn-green{background:#2ecc71;color:white;}
+.btn-red{background:#e74c3c;color:white;}
 .btn-yellow{background:#f1c40f;}
-.btn[disabled]{opacity:.5;}
-.risk-text{margin-top:8px;text-align:right;font-weight:bold;color:#e74c3c;}
+
+.btn[disabled]{
+  opacity:.5;
+}
+
+.risk-text{
+  margin-top:8px;
+  text-align:right;
+  font-weight:bold;
+  color:#e74c3c;
+}
 </style>
 </head>
 
@@ -33,6 +109,34 @@ input,select{width:100%;padding:12px;border-radius:12px;border:1px solid #ddd;fo
   <h2>💎 Varlık</h2>
   <input placeholder="ALKA / BTCUSDT">
   <div class="center" style="margin-top:8px;font-weight:bold;">🔴 Canlı Fiyat: --</div>
+</div>
+
+<!-- 📈 TREND -->
+<div class="card">
+  <h2>📈 Trend Yönü</h2>
+  <div class="badge-group" id="trendGroup">
+    <div class="badge active">Yükselen</div>
+    <div class="badge">Düşen</div>
+    <div class="badge">Yatay</div>
+  </div>
+</div>
+
+<!-- ⏳ ZAMAN -->
+<div class="card">
+  <h2>⏳ Zaman Dilimi</h2>
+  <div class="badge-group">
+    <div class="badge">5m</div>
+    <div class="badge active">15m</div>
+    <div class="badge">1h</div>
+    <div class="badge">4h</div>
+    <div class="badge">1D</div>
+  </div>
+</div>
+
+<!-- 🏦 KASA -->
+<div class="card center">
+  <h2>🏦 Kasa</h2>
+  <div style="font-size:22px;font-weight:bold;">12.500 TL</div>
 </div>
 
 <!-- 📌 GİRİŞ -->
@@ -53,28 +157,24 @@ input,select{width:100%;padding:12px;border-radius:12px;border:1px solid #ddd;fo
     <option value="1" selected>1%</option>
     <option value="2">2%</option>
   </select>
+
   <input id="stopFiyat" style="margin-top:10px;" placeholder="Stop Fiyatı">
   <div id="riskText" class="risk-text"></div>
 </div>
 
-<!-- 🚀 HEDEF (RR) -->
+<!-- 🚀 HEDEF -->
 <div class="card">
-  <h2>🚀 Hedef (RR)</h2>
-
-  <div class="badge-group" id="rrGroup">
-    <div class="badge" data-rr="1">1R</div>
-    <div class="badge" data-rr="1.5">1.5R</div>
-    <div class="badge" data-rr="2">2R</div>
-    <div class="badge" data-rr="2.5">2.5R</div>
-    <div class="badge" data-rr="3">3R</div>
+  <h2>🚀 Hedef</h2>
+  <div class="row">
+    <div><input placeholder="TP1"></div>
+    <div><input placeholder="TP2"></div>
+    <div><input placeholder="TP3"></div>
   </div>
-
-  <input id="tp1" style="margin-top:12px;" placeholder="TP1 (Otomatik / Manuel)">
 </div>
 
 <!-- BUTONLAR -->
 <div class="card">
-  <button class="btn btn-yellow" disabled id="autoBtn">🚨 Otomatik İşlem Sonlandır</button><br><br>
+  <button class="btn btn-yellow">🚨 Otomatik İşlem Sonlandır</button><br><br>
   <button class="btn btn-red">⚠️ Manuel İşlem Sonlandır</button><br><br>
   <button id="islemBtn" class="btn btn-green" disabled>⚡ İŞLEM BAŞLAT ⚡</button>
 </div>
@@ -85,62 +185,70 @@ const adet=document.getElementById("adet");
 const tutar=document.getElementById("tutar");
 const stopYuzde=document.getElementById("stopYuzde");
 const stopFiyat=document.getElementById("stopFiyat");
-const rrBadges=document.querySelectorAll("#rrGroup .badge");
-const tp1=document.getElementById("tp1");
+const riskText=document.getElementById("riskText");
 const islemBtn=document.getElementById("islemBtn");
-const autoBtn=document.getElementById("autoBtn");
 
-let rrSecili=null;
-let tpManuel=false;
+let manuelOnay=false;
+let manuelDegisti=false;
 
-adet.oninput=()=>{ if(fiyat.value) tutar.value=(adet.value*fiyat.value).toFixed(2); };
-tutar.oninput=()=>{ if(fiyat.value) adet.value=(tutar.value/fiyat.value).toFixed(2); };
-
-function hesaplaStop(){
-  if(!fiyat.value) return;
-  const g=parseFloat(fiyat.value);
-  const y=parseFloat(stopYuzde.value);
-  stopFiyat.value=(g-(g*y/100)).toFixed(2);
-}
-stopYuzde.onchange=hesaplaStop;
-fiyat.onblur=hesaplaStop;
-
-rrBadges.forEach(b=>{
-  b.onclick=()=>{
-    rrBadges.forEach(x=>x.classList.remove("active"));
-    b.classList.add("active");
-    rrSecili=parseFloat(b.dataset.rr);
-    tpManuel=false;
-    hesaplaTP();
-  };
+adet.addEventListener("input",()=>{
+  if(fiyat.value) tutar.value=(adet.value*fiyat.value).toFixed(2);
+});
+tutar.addEventListener("input",()=>{
+  if(fiyat.value) adet.value=(tutar.value/fiyat.value).toFixed(2);
 });
 
-tp1.oninput=()=>{
-  tpManuel=true;
-  rrBadges.forEach(x=>x.classList.remove("active"));
-  rrSecili=null;
-  kontrol();
-};
-
-function hesaplaTP(){
-  if(!fiyat.value || !stopFiyat.value || !rrSecili) return;
-  const g=parseFloat(fiyat.value);
-  const s=parseFloat(stopFiyat.value);
-  const risk=g-s;
-  const tp=g+(risk*rrSecili);
-  tp1.value=tp.toFixed(2);
-  kontrol();
+function otomatikStop(){
+  if(!fiyat.value) return;
+  const yuzde=parseFloat(stopYuzde.value);
+  const giris=parseFloat(fiyat.value);
+  const stop=giris-(giris*yuzde/100);
+  stopFiyat.value=stop.toFixed(2);
+  riskText.innerText="";
+  manuelDegisti=false;
+  manuelOnay=false;
+  islemBtn.disabled=false;
 }
 
-function kontrol(){
-  if(tp1.value){
-    islemBtn.disabled=false;
-    autoBtn.disabled=false;
-  }else{
+stopYuzde.addEventListener("change",otomatikStop);
+fiyat.addEventListener("blur",otomatikStop);
+
+stopFiyat.addEventListener("input",()=>{
+  manuelDegisti=true;
+});
+
+stopFiyat.addEventListener("blur",()=>{
+  if(!manuelDegisti || !fiyat.value) return;
+
+  const giris=parseFloat(fiyat.value);
+  const yuzde=parseFloat(stopYuzde.value);
+  const idealStop=giris-(giris*yuzde/100);
+  const manuel=parseFloat(stopFiyat.value);
+
+  if(manuel<idealStop){
+    const asim=((idealStop-manuel)/giris*100).toFixed(2);
+    riskText.innerText=`+%${asim} Risk`;
     islemBtn.disabled=true;
-    autoBtn.disabled=true;
+
+    const onay=confirm(
+      "⚠️ Stop seçilen yüzdeyi aşıyor!\n\n" +
+      `Önerilen Stop: ${idealStop.toFixed(2)}\n`+
+      `Girdiğin Stop: ${manuel}\n\n`+
+      "Bu riski bilerek devam etmek istiyor musun?"
+    );
+
+    if(onay){
+      manuelOnay=true;
+      islemBtn.disabled=false;
+    }else{
+      stopFiyat.value=idealStop.toFixed(2);
+      riskText.innerText="";
+    }
+  }else{
+    riskText.innerText="";
+    islemBtn.disabled=false;
   }
-}
+});
 </script>
 
 </body>
