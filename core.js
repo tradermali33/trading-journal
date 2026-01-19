@@ -1,102 +1,99 @@
-/* =========================================================
-   CORE ENGINE – TRADING JOURNAL
-   Beyin burada. UI sadece tetikler.
-   ========================================================= */
+/* ================================
+   CORE MOTOR v1
+   Trading Journal Engine
+   ================================ */
 
-/* =========================
-   GLOBAL CORE
-   ========================= */
-window.Core = {
-  kasa: {
-    bakiye: 100000, // başlangıç kasa (TL)
-  },
+/* -------- GLOBAL STATE -------- */
+const Core = {
+  kasa: 0,
   aktifIslemler: [],
   ayarlar: {
-    stopOranVarsayilan: 1, // %
-    rrVarsayilan: 1,
+    fiyatKontrolSn: 15,
+    varsayilanStop: 1,
+    otomatikSonlandir: false,
   }
 };
 
-/* =========================
-   KASA FONKSİYONLARI
-   ========================= */
-function kasaGuncelle(tutar) {
-  Core.kasa.bakiye += tutar;
-  localStorage.setItem("kasa", Core.kasa.bakiye);
+/* -------- KASA -------- */
+function kasaAyarla(tutar){
+  Core.kasa = Number(tutar) || 0;
+  kasaGuncelle();
 }
 
-function kasaYukle() {
-  const k = localStorage.getItem("kasa");
-  if (k !== null) Core.kasa.bakiye = Number(k);
+function kasaGuncelle(){
+  const el = document.getElementById("kasa");
+  if(el) el.innerText = Core.kasa.toFixed(2) + " TL";
 }
 
-/* =========================
-   ISLEM OLUSTUR
-   ========================= */
-function islemOlustur(data) {
+/* -------- İŞLEM -------- */
+function islemBaslat(data){
   const islem = {
     id: Date.now(),
-    durum: "AKTIF",
-
     varlik: data.varlik,
-    tip: data.tip, // HISSE / COIN
-    trend: data.trend,
-    zamanDilimi: data.zamanDilimi,
-
-    girisFiyat: data.girisFiyat,
+    giris: data.giris,
     adet: data.adet,
-    tutar: data.tutar,
-
-    stopOran: data.stopOran,
-    stopFiyat: data.stopFiyat,
-
-    teknikAnaliz: data.teknikAnaliz || {},
-
-    tp: {
-      tp1: null,
-      tp2: null,
-      tp3: null
-    },
-
-    acilisZamani: new Date().toISOString()
+    stop: data.stop,
+    tp1: data.tp1,
+    tp2: data.tp2,
+    tp3: data.tp3,
+    trend: data.trend,
+    durum: "AKTIF",
+    karZarar: 0,
+    acilisZamani: new Date()
   };
 
   Core.aktifIslemler.push(islem);
-  localStorage.setItem("aktifIslemler", JSON.stringify(Core.aktifIslemler));
-
+  console.log("İŞLEM AÇILDI:", islem);
   return islem;
 }
 
-/* =========================
-   ISLEMLERI YUKLE
-   ========================= */
-function islemleriYukle() {
-  const d = localStorage.getItem("aktifIslemler");
-  if (d) Core.aktifIslemler = JSON.parse(d);
-}
-
-/* =========================
-   MANUEL ISLEM SONLANDIR
-   ========================= */
-function islemSonlandir(id, fiyat) {
-  const islem = Core.aktifIslemler.find(i => i.id === id);
-  if (!islem || islem.durum !== "AKTIF") return;
-
-  const sonuc = islem.adet * fiyat;
-  kasaGuncelle(sonuc);
+/* -------- İŞLEM SONLANDIR -------- */
+function islemSonlandir(id, sebep="MANUEL"){
+  const islem = Core.aktifIslemler.find(i=>i.id===id);
+  if(!islem) return;
 
   islem.durum = "KAPANDI";
-  islem.kapanisFiyat = fiyat;
-  islem.kapanisZamani = new Date().toISOString();
+  islem.kapanisSebep = sebep;
+  islem.kapanisZamani = new Date();
 
-  localStorage.setItem("aktifIslemler", JSON.stringify(Core.aktifIslemler));
+  console.log("İŞLEM KAPANDI:", islem);
 }
 
-/* =========================
-   INIT
-   ========================= */
-(function initCore() {
-  kasaYukle();
-  islemleriYukle();
-  console.log("CORE HAZIR", Core);
-})();
+/* -------- RR HESAP -------- */
+function rrHesapla(giris, stop, hedef){
+  return ((hedef - giris) / (giris - stop)).toFixed(2);
+}
+
+/* -------- FİYAT GÜNCELLEME (API HOOK) -------- */
+async function fiyatGetir(symbol){
+  /*
+   BURASI API NOKTASI
+   - Yahoo Finance
+   - Matrix
+   - TradingView (ileride)
+  */
+  console.log("Fiyat isteniyor:", symbol);
+  return null; // şimdilik boş
+}
+
+/* -------- ZAMANLAYICI -------- */
+let fiyatTimer = null;
+
+function fiyatTakibiBaslat(){
+  if(fiyatTimer) clearInterval(fiyatTimer);
+  fiyatTimer = setInterval(()=>{
+    Core.aktifIslemler.forEach(islem=>{
+      // burada TP / Stop kontrolü yapılacak
+    });
+  }, Core.ayarlar.fiyatKontrolSn * 1000);
+}
+
+/* -------- EXPORT -------- */
+window.Core = {
+  kasaAyarla,
+  islemBaslat,
+  islemSonlandir,
+  rrHesapla,
+  fiyatTakibiBaslat,
+  state: Core
+};
