@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yeni İşlem Aç</title>
 
 <style>
@@ -32,7 +32,10 @@ body{
   text-align:center;
 }
 
-input, select, textarea{
+.center{text-align:center;}
+.price{font-weight:bold;margin-top:6px;}
+
+input, textarea{
   width:100%;
   padding:12px;
   border-radius:12px;
@@ -45,7 +48,7 @@ input, select, textarea{
   gap:12px;
 }
 
-.row > div{ flex:1; }
+.row > div{flex:1;}
 
 .badge-group{
   display:flex;
@@ -67,18 +70,27 @@ input, select, textarea{
   color:white;
 }
 
-.trend{
-  display:flex;
-}
-
+/* TREND */
 .trend .badge{
   flex:1;
   text-align:center;
 }
+.trend{
+  display:flex;
+  gap:10px;
+}
 
-.center{text-align:center;}
-.price{font-weight:bold;}
+/* TIMEFRAME */
+.timeframe{
+  display:flex;
+  gap:10px;
+}
+.timeframe .badge{
+  flex:1;
+  text-align:center;
+}
 
+/* BUTTONS */
 .btn{
   width:100%;
   padding:16px;
@@ -86,11 +98,11 @@ input, select, textarea{
   border-radius:16px;
   font-size:16px;
   font-weight:bold;
+  cursor:pointer;
 }
-
-.btn-green{ background:#2ecc71; color:white; }
-.btn-red{ background:#e74c3c; color:white; }
-.btn-yellow{ background:#f1c40f; }
+.btn-green{background:#2ecc71;color:#fff;}
+.btn-red{background:#e74c3c;color:#fff;}
+.btn-yellow{background:#f1c40f;color:#000;}
 
 .footer-back{
   text-align:center;
@@ -103,35 +115,45 @@ input, select, textarea{
 
 <body>
 
+<!-- TARİH -->
+<div class="card center">
+  <h2>📅 Pazartesi – 12 Eylül 2026</h2>
+</div>
+
+<!-- VARLIK -->
 <div class="card">
-  <h2>Varlık</h2>
-  <input placeholder="ALKA / BTCUSDT"/>
+  <h2>💎 Varlık</h2>
+  <input placeholder="ALKA / BTCUSDT">
   <div class="center price">🔴 Canlı Fiyat: --</div>
 </div>
 
+<!-- TREND -->
 <div class="card">
-  <h2>Trend Yönü</h2>
-  <div class="badge-group trend">
-    <div class="badge active">Yükselen</div>
-    <div class="badge">Düşen</div>
-    <div class="badge">Yatay</div>
+  <h2>📈 Trend Yönü</h2>
+  <div class="badge-group trend" id="trendGroup">
+    <div class="badge" data-color="#2ecc71">Yükselen</div>
+    <div class="badge" data-color="#e74c3c">Düşen</div>
+    <div class="badge" data-color="#95a5a6">Yatay</div>
   </div>
 </div>
 
+<!-- ZAMAN -->
 <div class="card">
-  <h2>Zaman Dilimi</h2>
-  <select>
-    <option>5m</option>
-    <option selected>15m</option>
-    <option>1h</option>
-    <option>4h</option>
-    <option>1D</option>
-  </select>
+  <h2>⏱️ Zaman Dilimi</h2>
+  <div class="badge-group timeframe" id="timeframeGroup">
+    <div class="badge">5m</div>
+    <div class="badge active">15m</div>
+    <div class="badge">1h</div>
+    <div class="badge">4h</div>
+    <div class="badge">1D</div>
+  </div>
 </div>
 
+<!-- TEKNİK ANALİZ -->
 <div class="card">
   <h2>🎯 Teknik Analiz Paneli</h2>
 
+  <!-- SMC -->
   <h2>SMC</h2>
   <div class="badge-group">
     <div class="badge">BOS</div>
@@ -148,17 +170,31 @@ input, select, textarea{
     <div class="badge">Discount</div>
   </div>
 
-  <h2>EMA</h2>
-  <div class="badge-group">
-    <div class="badge">9</div>
-    <div class="badge">21</div>
-    <div class="badge">50</div>
-    <div class="badge">100</div>
-    <div class="badge">200</div>
+  <!-- FIBONACCI -->
+  <h2>Fibonacci</h2>
+  <div class="badge-group" id="fiboGroup">
+    <div class="badge">0.236</div>
+    <div class="badge">0.382</div>
+    <div class="badge">0.5</div>
+    <div class="badge">0.618</div>
+    <div class="badge">0.705</div>
+    <div class="badge">0.786</div>
   </div>
 
+  <!-- EMA -->
+  <h2>EMA</h2>
+  <div class="badge-group" id="emaGroup">
+    <div class="badge">3</div><div class="badge">5</div><div class="badge">7</div>
+    <div class="badge">9</div><div class="badge">11</div><div class="badge">13</div>
+    <div class="badge">17</div><div class="badge">19</div><div class="badge">20</div>
+    <div class="badge">21</div><div class="badge">34</div><div class="badge">48</div>
+    <div class="badge">50</div><div class="badge">100</div>
+    <div class="badge">144</div><div class="badge">200</div>
+  </div>
+
+  <!-- RSI -->
   <h2>RSI</h2>
-  <div class="badge-group">
+  <div class="badge-group" id="rsiGroup">
     <div class="badge">Uyumlu</div>
     <div class="badge">Aşırı Alım (70+)</div>
     <div class="badge">Aşırı Satım (30-)</div>
@@ -166,14 +202,18 @@ input, select, textarea{
     <div class="badge">Negatif Uyumsuzluk</div>
   </div>
 
+  <!-- MACD -->
   <h2>MACD</h2>
-  <div class="badge-group">
+  <div class="badge-group" id="macdGroup">
     <div class="badge">Bullish Kesişim</div>
     <div class="badge">Bearish Kesişim</div>
     <div class="badge">Histogram +</div>
     <div class="badge">Histogram -</div>
+    <div class="badge">Sıfır Üzeri</div>
+    <div class="badge">Sıfır Altı</div>
   </div>
 
+  <!-- HACİM -->
   <h2>Hacim</h2>
   <div class="badge-group">
     <div class="badge">Artış</div>
@@ -183,60 +223,59 @@ input, select, textarea{
   </div>
 </div>
 
-<div class="card">
-  <h2>Açıklama</h2>
-  <textarea rows="4" placeholder="Zorunlu açıklama"></textarea>
-</div>
-
+<!-- KASA -->
 <div class="card center">
-  <h2>Kasa</h2>
+  <h2>🏦 Kasa</h2>
   <div style="font-size:22px;font-weight:bold;">12.500 TL</div>
 </div>
 
+<!-- GİRİŞ -->
 <div class="card">
-  <h2>Giriş</h2>
-  <input id="fiyat" placeholder="Giriş Fiyatı"/>
+  <h2>🎯 Giriş</h2>
+  <input id="fiyat" placeholder="Giriş Fiyatı">
   <div class="row" style="margin-top:10px;">
-    <div><input id="adet" placeholder="Adet"/></div>
-    <div><input id="tutar" placeholder="Tutar (TL)"/></div>
+    <div><input id="adet" placeholder="Adet"></div>
+    <div><input id="tutar" placeholder="Tutar (TL)"></div>
   </div>
 </div>
 
-<div class="card">
-  <h2>Stop</h2>
-  <select>
-    <option>0.5%</option>
-    <option selected>1%</option>
-    <option>2%</option>
-  </select>
-  <input style="margin-top:10px;" placeholder="Stop Fiyatı"/>
-</div>
-
-<div class="card">
-  <h2>Hedef Fiyat</h2>
-  <div class="row">
-    <div><input placeholder="TP1"/></div>
-    <div><input placeholder="TP2"/></div>
-    <div><input placeholder="TP3"/></div>
-  </div>
-</div>
-
+<!-- BUTONLAR -->
 <div class="card">
   <button class="btn btn-yellow">🚨 Otomatik İşlem Sonlandır</button><br><br>
-  <button class="btn btn-red">‼️ Manuel İşlem Sonlandır</button><br><br>
+  <button class="btn btn-red">⚠️ Manuel İşlem Sonlandır</button><br><br>
   <button class="btn btn-green">⚡ İŞLEM BAŞLAT ⚡</button>
-</div>
-
-<div class="card center">
-  <h2>İşlem Sonrası Kasa</h2>
-  <div style="font-size:22px;font-weight:bold;">0 TL</div>
 </div>
 
 <div class="footer-back">↩️ Geri</div>
 
 <script>
-document.querySelectorAll('.badge').forEach(b=>{
-  b.onclick=()=>b.classList.toggle('active');
+function singleSelect(group){
+  group.querySelectorAll('.badge').forEach(b=>{
+    b.onclick=()=>{
+      group.querySelectorAll('.badge').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+    }
+  });
+}
+
+singleSelect(document.getElementById("fiboGroup"));
+singleSelect(document.getElementById("emaGroup"));
+singleSelect(document.getElementById("rsiGroup"));
+singleSelect(document.getElementById("macdGroup"));
+singleSelect(document.getElementById("timeframeGroup"));
+
+const trendGroup=document.getElementById("trendGroup");
+trendGroup.querySelectorAll('.badge').forEach(b=>{
+  b.onclick=()=>{
+    trendGroup.querySelectorAll('.badge').forEach(x=>{
+      x.classList.remove('active');
+      x.style.background="#eef1f4";
+      x.style.color="#000";
+    });
+    b.classList.add('active');
+    b.style.background=b.dataset.color;
+    b.style.color="#fff";
+  }
 });
 
 const fiyat=document.getElementById("fiyat");
