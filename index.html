@@ -1,99 +1,144 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ana Panel</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ana Panel</title>
 
-  <style>
-    body{
-      margin:0;
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-      background:#f3f4f6;
-    }
-    .container{
-      padding:16px;
-      max-width:480px;
-      margin:auto;
-    }
-    .card{
-      background:#fff;
-      border-radius:16px;
-      padding:16px;
-      margin-bottom:16px;
-      box-shadow:0 6px 16px rgba(0,0,0,.06);
-    }
-    .btn{
-      display:block;
-      width:100%;
-      padding:16px;
-      font-size:16px;
-      border-radius:14px;
-      border:none;
-      cursor:pointer;
-      margin-top:12px;
-    }
-    .btn-blue{background:#2563eb;color:#fff;}
-    .btn-gray{background:#e5e7eb;color:#111;}
-    .title{
-      font-size:22px;
-      font-weight:700;
-      display:flex;
-      align-items:center;
-      gap:8px;
-    }
-    .date{
-      color:#6b7280;
-      margin-top:4px;
-      font-size:14px;
-    }
-  </style>
+<style>
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;}
+body{margin:0;background:#f3f4f6;}
+.container{max-width:480px;margin:auto;padding:16px;}
+.card{
+  background:#fff;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 6px 16px rgba(0,0,0,.06);
+}
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.logo{
+  font-size:18px;
+  font-weight:700;
+}
+.top-actions{
+  display:flex;
+  gap:10px;
+}
+.top-actions span{
+  cursor:pointer;
+  font-size:18px;
+}
+.date{
+  margin-top:6px;
+  font-size:14px;
+  color:#6b7280;
+}
+.btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  font-size:16px;
+  font-weight:600;
+  margin-top:10px;
+  cursor:pointer;
+}
+.btn-main{background:#2563eb;color:#fff;}
+.btn-sub{background:#e5e7eb;color:#111;}
+.submenu{
+  margin-top:10px;
+  display:none;
+}
+.submenu .btn{font-size:15px;}
+</style>
 </head>
 
 <body>
-  <div class="container">
+<div class="container">
 
-    <!-- BAŞLIK -->
-    <div class="card">
-      <div class="title">🏦 Ana Panel</div>
-      <div class="date" id="today"></div>
+  <!-- ÜST PANEL -->
+  <div class="card">
+    <div class="header">
+      <div class="logo">MEHMET ALİ YILMAZ</div>
+      <div class="top-actions">
+        <span onclick="toggleTheme()">🌙</span>
+        <span>TR</span>
+      </div>
     </div>
-
-    <!-- İŞLEMLER -->
-    <div class="card">
-      <button class="btn btn-blue" onclick="goIslemler()">
-        📊 İşlemler
-      </button>
-
-      <button class="btn btn-gray" onclick="goKasa()">
-        💰 Kasa
-      </button>
-
-      <button class="btn btn-gray" onclick="goAyarlar()">
-        ⚙️ Ayarlar
-      </button>
-    </div>
-
+    <div class="date" id="today"></div>
   </div>
 
-  <script>
-    // Tarih
-    const d = new Date();
-    const gunler = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
-    document.getElementById("today").innerText =
-      d.toLocaleDateString("tr-TR") + " " + gunler[d.getDay()];
+  <!-- ANA MENÜ -->
+  <div class="card">
+    <button class="btn btn-main" onclick="toggleIslemler()">
+      📊 İşlemler
+    </button>
 
-    // YÖNLENDİRMELER
-    function goIslemler(){
-      window.location.href = "islemler_v2.html";
-    }
-    function goKasa(){
-      window.location.href = "kasa.html";
-    }
-    function goAyarlar(){
-      window.location.href = "ayarlar.html";
-    }
-  </script>
+    <!-- İŞLEMLER ALT MENÜ -->
+    <div class="submenu" id="islemlerMenu">
+      <button class="btn btn-sub" onclick="go('islem_ac.html')">
+        ➕ Yeni İşlem Aç
+      </button>
+      <button class="btn btn-sub">
+        ❌ İşlem Kapat
+      </button>
+      <button class="btn btn-sub">
+        📂 Açık Olan İşlemlerim
+      </button>
+      <button class="btn btn-sub">
+        🧾 Kapanan İşlemlerim
+      </button>
+      <button class="btn btn-sub">
+        📅 Günlük İşlem Özeti
+      </button>
+      <button class="btn btn-sub">
+        📜 Geçmiş İşlem Özeti
+      </button>
+    </div>
+
+    <button class="btn btn-sub" onclick="go('kasa.html')">
+      💰 Kasa
+    </button>
+
+    <button class="btn btn-sub">
+      📈 Analiz
+    </button>
+
+    <button class="btn btn-sub" onclick="go('ayarlar.html')">
+      ⚙️ Ayarlar
+    </button>
+  </div>
+
+</div>
+
+<script>
+/* TARİH */
+const d=new Date();
+const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+document.getElementById("today").innerText=
+  d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
+
+/* YÖNLENDİRME */
+function go(page){
+  window.location.href=page;
+}
+
+/* İŞLEMLER MENÜ */
+function toggleIslemler(){
+  const m=document.getElementById("islemlerMenu");
+  m.style.display = m.style.display==="block" ? "none" : "block";
+}
+
+/* TEMA (şimdilik görsel) */
+function toggleTheme(){
+  alert("Tema altyapısı hazır 👍");
+}
+</script>
 
 </body>
 </html>
