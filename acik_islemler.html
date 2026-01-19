@@ -6,7 +6,6 @@
 <title>Açık İşlemler</title>
 
 <style>
-/* ===== GENEL ===== */
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
@@ -14,26 +13,11 @@ body{
 }
 
 header{
-  display:flex;
-  align-items:center;
-  gap:12px;
   padding:14px 16px;
   background:#ffffff;
   box-shadow:0 4px 14px rgba(0,0,0,.08);
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-
-header a{
-  text-decoration:none;
-  font-size:20px;
-}
-
-header h1{
-  margin:0;
-  font-size:18px;
   font-weight:800;
+  font-size:18px;
 }
 
 .container{
@@ -62,12 +46,10 @@ header h1{
   margin-bottom:6px;
 }
 
-/* HEADER */
 .card-header{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:8px;
 }
 
 .asset{
@@ -75,18 +57,14 @@ header h1{
   font-weight:800;
 }
 
-.trend{
-  padding:6px 10px;
-  border-radius:999px;
+.source{
   font-size:12px;
   font-weight:700;
+  padding:4px 8px;
+  border-radius:999px;
+  background:#e5e7eb;
 }
 
-.trend.up{ background:#dcfce7;color:#16a34a }
-.trend.down{ background:#fee2e2;color:#dc2626 }
-.trend.flat{ background:#e5e7eb;color:#374151 }
-
-/* INFO */
 .line{
   display:flex;
   justify-content:space-between;
@@ -100,7 +78,7 @@ header h1{
   margin:10px 0;
 }
 
-/* RR BAR */
+/* RR */
 .rr-bar{
   width:100%;
   height:12px;
@@ -123,7 +101,6 @@ header h1{
   text-align:right;
 }
 
-/* STATUS */
 .status{
   margin-top:10px;
   padding:10px;
@@ -135,66 +112,70 @@ header h1{
 .status.yellow{ background:#fef9c3;color:#92400e }
 .status.green{ background:#dcfce7;color:#166534 }
 .status.red{ background:#fee2e2;color:#991b1b }
-
-/* ACTIONS */
-.actions{
-  display:flex;
-  gap:10px;
-  margin-top:14px;
-}
-
-button{
-  flex:1;
-  border:none;
-  border-radius:14px;
-  padding:12px;
-  font-size:14px;
-  font-weight:700;
-  cursor:pointer;
-}
-
-.btn-settings{ background:#e5e7eb }
-.btn-close{ background:#dc2626;color:#fff }
 </style>
 </head>
 
 <body>
 
-<header>
-  <a href="index.html">←</a>
-  <h1>Açık İşlemler</h1>
-</header>
-
+<header>📊 Açık İşlemler</header>
 <div class="container" id="list"></div>
 
 <script>
-/* ===== DEMO İŞLEMLER ===== */
+/* ================================
+   DEMO AÇIK İŞLEMLER
+================================ */
 const trades=[
 {
-  name:"ALKA İŞLEM KARTI",
-  asset:"ALKA",
-  trend:"up",
-  entry:32.40,
-  stop:31.80,
-  tp1:33.20,
+  name:"BTCUSDT İŞLEM KARTI",
+  symbol:"BTCUSDT",
+  type:"coin",
+  entry:66800,
+  stop:66100,
+  tp1:67500,
   rrTarget:1
 },
 {
-  name:"BTCUSDT İŞLEM KARTI",
-  asset:"BTCUSDT",
-  trend:"down",
-  entry:66800,
-  stop:67500,
-  tp1:66000,
+  name:"ALKA İŞLEM KARTI",
+  symbol:"THYAO.IS",
+  type:"stock",
+  entry:250,
+  stop:245,
+  tp1:258,
   rrTarget:1
 }
 ];
 
-/* ===== KART OLUŞTUR ===== */
+/* ================================
+   FİYAT KAYNAKLARI
+================================ */
+async function getPrice(symbol,type){
+  try{
+    if(type==="coin"){
+      const r=await fetch(
+        `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`
+      );
+      const j=await r.json();
+      return {price:parseFloat(j.price),source:"🟢 CANLI"};
+    }else{
+      const r=await fetch(
+        `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbol}`
+      );
+      const j=await r.json();
+      const p=j.quoteResponse.result[0]?.regularMarketPrice;
+      return {price:p,source:"🟡 GECİKMELİ"};
+    }
+  }catch(e){
+    return {price:null,source:"⚠️ VERİ YOK"};
+  }
+}
+
+/* ================================
+   KART OLUŞTUR
+================================ */
 function createCard(t){
   let price=t.entry;
-  let closed50=true;
-  let fullClosed=false;
+  let closed50=false;
+  let closed=false;
 
   const card=document.createElement("div");
   card.className="trade-card yellow";
@@ -203,13 +184,11 @@ function createCard(t){
     <div class="card-title">${t.name}</div>
 
     <div class="card-header">
-      <div class="asset">${t.asset}</div>
-      <div class="trend ${t.trend}">
-        ${t.trend==="up"?"YÜKSELEN":t.trend==="down"?"DÜŞEN":"YATAY"}
-      </div>
+      <div class="asset">${t.symbol}</div>
+      <div class="source">⏳</div>
     </div>
 
-    <div class="line"><span>Canlı Fiyat</span><b class="price"></b></div>
+    <div class="line"><span>Canlı Fiyat</span><b class="price">-</b></div>
     <div class="line"><span>Alış</span><b>${t.entry}</b></div>
     <div class="line"><span>Stop</span><b>${t.stop}</b></div>
 
@@ -221,52 +200,61 @@ function createCard(t){
     <div class="rr-bar"><div class="rr-fill"></div></div>
     <div class="rr-text">RR: 0.00R</div>
 
-    <div class="status yellow">🟡 %50 Kapatıldı – RR Takibi Aktif</div>
-
-    <div class="actions">
-      <button class="btn-settings">🔧 Ayarlar</button>
-      <button class="btn-close">❌ Manuel Kapat</button>
-    </div>
+    <div class="status yellow">🟡 Bekleniyor</div>
   `;
 
   const priceEl=card.querySelector(".price");
   const rrFill=card.querySelector(".rr-fill");
   const rrText=card.querySelector(".rr-text");
   const status=card.querySelector(".status");
+  const sourceEl=card.querySelector(".source");
 
-  function calcRR(p){
+  function rr(p){
     return Math.abs(p-t.entry)/Math.abs(t.entry-t.stop);
   }
 
-  setInterval(()=>{
-    if(fullClosed) return;
+  async function tick(){
+    if(closed) return;
 
-    price+=Math.random()*40-20;
-    priceEl.innerText=price.toFixed(0);
+    const data=await getPrice(t.symbol,t.type);
+    if(!data.price) return;
 
-    const rr=calcRR(price);
-    rrText.innerText=`RR: ${rr.toFixed(2)}R`;
-    rrFill.style.width=Math.min(rr/t.rrTarget*100,100)+"%";
+    price=data.price;
+    priceEl.innerText=price.toFixed(2);
+    sourceEl.innerText=data.source;
 
-    if(closed50 && rr>=t.rrTarget){
-      fullClosed=true;
+    const r=rr(price);
+    rrText.innerText=`RR: ${r.toFixed(2)}R`;
+    rrFill.style.width=Math.min(r/t.rrTarget*100,100)+"%";
+
+    if(!closed50 && price>=t.tp1){
+      closed50=true;
+      status.innerText="🟡 %50 Kapatıldı – RR Takibi Aktif";
+    }
+
+    if(closed50 && r>=t.rrTarget){
+      closed=true;
       card.className="trade-card green";
       status.className="status green";
       status.innerText="🟢 RR Hedefi Tamamlandı";
     }
 
-    if(closed50 && price<=t.tp1){
-      fullClosed=true;
-      card.className="trade-card green";
-      status.className="status green";
-      status.innerText="🟢 %50 Kâr Alındı – TP1 Geri Dönüş";
+    if(price<=t.stop){
+      closed=true;
+      card.className="trade-card red";
+      status.className="status red";
+      status.innerText="🔴 Stop Oldu";
     }
-  },1500);
+  }
 
+  setInterval(tick,15000);
+  tick();
   return card;
 }
 
-/* ===== LİSTE ===== */
+/* ================================
+   LİSTE
+================================ */
 const list=document.getElementById("list");
 trades.forEach(t=>list.appendChild(createCard(t)));
 </script>
