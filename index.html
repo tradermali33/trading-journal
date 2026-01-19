@@ -6,137 +6,172 @@
 <title>Ana Panel</title>
 
 <style>
-*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;}
-body{margin:0;background:#f3f4f6;}
-.container{max-width:480px;margin:auto;padding:16px;}
-.card{
-  background:#fff;
-  border-radius:16px;
-  padding:16px;
-  margin-bottom:16px;
-  box-shadow:0 6px 16px rgba(0,0,0,.06);
+:root{
+  --bg:#0b0f1a;
+  --card:#121826;
+  --text:#ffffff;
+  --sub:#9ca3af;
+  --accent:#2563eb;
 }
-.header{
+
+.light{
+  --bg:#f3f4f6;
+  --card:#ffffff;
+  --text:#111827;
+  --sub:#6b7280;
+  --accent:#2563eb;
+}
+
+*{
+  box-sizing:border-box;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+}
+
+.container{
+  max-width:420px;
+  margin:auto;
+  padding:24px 16px;
+}
+
+/* TOP BAR */
+.top{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  margin-bottom:24px;
 }
-.logo{
-  font-size:18px;
-  font-weight:700;
-}
-.top-actions{
-  display:flex;
-  gap:10px;
-}
-.top-actions span{
+
+.top .left span{
+  font-size:22px;
   cursor:pointer;
-  font-size:18px;
+  margin-right:10px;
 }
-.date{
-  margin-top:6px;
-  font-size:14px;
-  color:#6b7280;
-}
-.btn{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:14px;
-  font-size:16px;
+
+.top .right span{
+  margin-left:10px;
+  cursor:pointer;
   font-weight:600;
-  margin-top:10px;
+  color:var(--sub);
+}
+
+.top .right .active{
+  color:var(--accent);
+}
+
+/* LOGO */
+.logo{
+  text-align:center;
+  margin-bottom:24px;
+}
+
+.logo img{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  margin-bottom:12px;
+}
+
+.logo h1{
+  font-size:22px;
+  margin:0;
+}
+
+.logo p{
+  margin:4px 0 0;
+  font-size:14px;
+  color:var(--sub);
+}
+
+/* MENU */
+.menu{
+  margin-top:24px;
+}
+
+.menu-card{
+  background:var(--card);
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  font-size:18px;
   cursor:pointer;
+  transition:.2s;
 }
-.btn-main{background:#2563eb;color:#fff;}
-.btn-sub{background:#e5e7eb;color:#111;}
-.submenu{
-  margin-top:10px;
-  display:none;
+
+.menu-card:hover{
+  transform:scale(1.01);
 }
-.submenu .btn{font-size:15px;}
+
+.menu-card span{
+  font-size:20px;
+}
 </style>
 </head>
 
-<body>
+<body class="dark">
+
 <div class="container">
 
-  <!-- ÜST PANEL -->
-  <div class="card">
-    <div class="header">
-      <div class="logo">MEHMET ALİ YILMAZ</div>
-      <div class="top-actions">
-        <span onclick="toggleTheme()">🌙</span>
-        <span>TR</span>
-      </div>
+  <!-- TOP -->
+  <div class="top">
+    <div class="left">
+      <span onclick="toggleTheme()">🌙</span>
+      <span onclick="toggleTheme()">☀️</span>
     </div>
-    <div class="date" id="today"></div>
+    <div class="right">
+      <span class="active">TR</span>
+      <span>EN</span>
+    </div>
   </div>
 
-  <!-- ANA MENÜ -->
-  <div class="card">
-    <button class="btn btn-main" onclick="toggleIslemler()">
-      📊 İşlemler
-    </button>
+  <!-- LOGO -->
+  <div class="logo">
+    <!-- LOGO DOSYAN assets klasöründe olmalı -->
+    <img src="assets/logo.png" alt="logo">
+    <h1>MEHMET ALİ YILMAZ</h1>
+    <p>Kendi kendinin analisti</p>
+  </div>
 
-    <!-- İŞLEMLER ALT MENÜ -->
-    <div class="submenu" id="islemlerMenu">
-      <button class="btn btn-sub" onclick="go('islem_ac.html')">
-        ➕ Yeni İşlem Aç
-      </button>
-      <button class="btn btn-sub">
-        ❌ İşlem Kapat
-      </button>
-      <button class="btn btn-sub">
-        📂 Açık Olan İşlemlerim
-      </button>
-      <button class="btn btn-sub">
-        🧾 Kapanan İşlemlerim
-      </button>
-      <button class="btn btn-sub">
-        📅 Günlük İşlem Özeti
-      </button>
-      <button class="btn btn-sub">
-        📜 Geçmiş İşlem Özeti
-      </button>
+  <!-- MENU -->
+  <div class="menu">
+
+    <div class="menu-card" onclick="go('kasa.html')">
+      <span>🏦</span> Kasa
     </div>
 
-    <button class="btn btn-sub" onclick="go('kasa.html')">
-      💰 Kasa
-    </button>
+    <div class="menu-card" onclick="go('islemler_v2.html')">
+      <span>📈</span> İşlemler
+    </div>
 
-    <button class="btn btn-sub">
-      📈 Analiz
-    </button>
+    <div class="menu-card" onclick="go('analist.html')">
+      <span>🧠</span> Analist
+    </div>
 
-    <button class="btn btn-sub" onclick="go('ayarlar.html')">
-      ⚙️ Ayarlar
-    </button>
+    <div class="menu-card" onclick="go('ayarlar.html')">
+      <span>⚙️</span> Ayarlar
+    </div>
+
   </div>
 
 </div>
 
 <script>
-/* TARİH */
-const d=new Date();
-const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
-document.getElementById("today").innerText=
-  d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
-
-/* YÖNLENDİRME */
 function go(page){
-  window.location.href=page;
+  window.location.href = page;
 }
 
-/* İŞLEMLER MENÜ */
-function toggleIslemler(){
-  const m=document.getElementById("islemlerMenu");
-  m.style.display = m.style.display==="block" ? "none" : "block";
-}
-
-/* TEMA (şimdilik görsel) */
 function toggleTheme(){
-  alert("Tema altyapısı hazır 👍");
+  document.body.classList.toggle("light");
 }
 </script>
 
