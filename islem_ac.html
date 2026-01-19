@@ -6,30 +6,22 @@
 <title>Yeni İşlem Aç</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  font-family:"Times New Roman", serif;
-}
-
-body{
-  margin:0;
-  padding:16px;
-  background:#f2f4f6;
-}
+*{box-sizing:border-box;font-family:"Times New Roman",serif}
+body{margin:0;padding:16px;background:#f2f4f6}
 
 .card{
-  background:#ffffff;
+  background:#fff;
   border-radius:16px;
   padding:16px;
   margin-bottom:16px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.06);
+  box-shadow:0 4px 10px rgba(0,0,0,.06)
 }
 
 .card h2{
-  margin:0 0 12px 0;
+  margin:0 0 12px;
   font-size:18px;
   font-weight:bold;
-  text-align:center;
+  text-align:center
 }
 
 .sub-card{
@@ -37,39 +29,32 @@ body{
   border-radius:14px;
   padding:14px;
   margin-bottom:14px;
-  border:1px solid #e1e4e8;
+  border:1px solid #e1e4e8
 }
 
 .sub-card h3{
-  margin:0 0 10px 0;
+  margin:0 0 10px;
   font-size:16px;
   font-weight:bold;
-  text-align:center;
+  text-align:center
 }
 
-.center{text-align:center;}
-.price{font-weight:bold;margin-top:6px;}
-
-input, textarea{
+input,textarea{
   width:100%;
   padding:12px;
   border-radius:12px;
   border:1px solid #ddd;
-  font-size:15px;
+  font-size:15px
 }
 
-.row{
-  display:flex;
-  gap:12px;
-}
-
-.row > div{flex:1;}
+.row{display:flex;gap:12px}
+.row>div{flex:1}
 
 .badge-group{
   display:flex;
   flex-wrap:wrap;
   gap:10px;
-  justify-content:center;
+  justify-content:center
 }
 
 .badge{
@@ -77,35 +62,11 @@ input, textarea{
   background:#eef1f4;
   border-radius:20px;
   font-size:14px;
-  cursor:pointer;
+  cursor:pointer
 }
 
-.badge.active{
-  background:#2ecc71;
-  color:white;
-}
+.badge.active{background:#2ecc71;color:#fff}
 
-/* TREND */
-.trend{
-  display:flex;
-  gap:10px;
-}
-.trend .badge{
-  flex:1;
-  text-align:center;
-}
-
-/* TIMEFRAME */
-.timeframe{
-  display:flex;
-  gap:10px;
-}
-.timeframe .badge{
-  flex:1;
-  text-align:center;
-}
-
-/* BUTTONS */
 .btn{
   width:100%;
   padding:16px;
@@ -113,18 +74,15 @@ input, textarea{
   border-radius:16px;
   font-size:16px;
   font-weight:bold;
-  cursor:pointer;
+  cursor:pointer
 }
-.btn-green{background:#2ecc71;color:#fff;}
-.btn-red{background:#e74c3c;color:#fff;}
-.btn-yellow{background:#f1c40f;color:#000;}
 
-.footer-back{
-  text-align:center;
-  margin-top:20px;
-  font-size:18px;
-  cursor:pointer;
-}
+.btn-green{background:#2ecc71;color:#fff}
+.btn-red{background:#e74c3c;color:#fff}
+.btn-yellow{background:#f1c40f}
+
+.center{text-align:center}
+.footer-back{text-align:center;font-size:18px;cursor:pointer}
 </style>
 </head>
 
@@ -137,70 +95,33 @@ input, textarea{
 
 <!-- VARLIK -->
 <div class="card">
-  <h2>💎 Varlık</h2>
+  <h2>Varlık</h2>
   <input placeholder="ALKA / BTCUSDT">
-  <div class="center price">🔴 Canlı Fiyat: --</div>
-</div>
-
-<!-- TREND -->
-<div class="card">
-  <h2>📈 Trend Yönü</h2>
-  <div class="badge-group trend" id="trendGroup">
-    <div class="badge" data-color="#2ecc71">Yükselen</div>
-    <div class="badge" data-color="#e74c3c">Düşen</div>
-    <div class="badge" data-color="#95a5a6">Yatay</div>
-  </div>
-</div>
-
-<!-- ZAMAN -->
-<div class="card">
-  <h2>⏱️ Zaman Dilimi</h2>
-  <div class="badge-group timeframe" id="timeframeGroup">
-    <div class="badge">5m</div>
-    <div class="badge active">15m</div>
-    <div class="badge">1h</div>
-    <div class="badge">4h</div>
-    <div class="badge">1D</div>
-  </div>
+  <div class="center"><b>🔴 Canlı Fiyat: --</b></div>
 </div>
 
 <!-- TEKNİK ANALİZ -->
 <div class="card">
-  <h2>🎯 Teknik Analiz Paneli</h2>
+  <h2>Teknik Analiz Paneli</h2>
 
   <div class="sub-card">
     <h3>SMC</h3>
-    <div class="badge-group">
+    <div class="badge-group single" id="smc">
       <div class="badge">BOS</div>
       <div class="badge">CHoCH</div>
       <div class="badge">OB</div>
       <div class="badge">Demand</div>
       <div class="badge">Supply</div>
-      <div class="badge">Equal High</div>
-      <div class="badge">Equal Low</div>
-      <div class="badge">Likidite</div>
+      <div class="badge">EQH</div>
+      <div class="badge">EQL</div>
       <div class="badge">FVG</div>
       <div class="badge">Sweep</div>
-      <div class="badge">Premium</div>
-      <div class="badge">Discount</div>
-    </div>
-  </div>
-
-  <div class="sub-card">
-    <h3>Fibonacci</h3>
-    <div class="badge-group" id="fiboGroup">
-      <div class="badge">0.236</div>
-      <div class="badge">0.382</div>
-      <div class="badge">0.5</div>
-      <div class="badge">0.618</div>
-      <div class="badge">0.705</div>
-      <div class="badge">0.786</div>
     </div>
   </div>
 
   <div class="sub-card">
     <h3>EMA</h3>
-    <div class="badge-group" id="emaGroup">
+    <div class="badge-group single" id="ema">
       <div class="badge">3</div><div class="badge">5</div><div class="badge">7</div>
       <div class="badge">9</div><div class="badge">11</div><div class="badge">13</div>
       <div class="badge">17</div><div class="badge">19</div><div class="badge">20</div>
@@ -212,7 +133,7 @@ input, textarea{
 
   <div class="sub-card">
     <h3>RSI</h3>
-    <div class="badge-group" id="rsiGroup">
+    <div class="badge-group single" id="rsi">
       <div class="badge">Uyumlu</div>
       <div class="badge">Aşırı Alım (70+)</div>
       <div class="badge">Aşırı Satım (30-)</div>
@@ -223,58 +144,58 @@ input, textarea{
 
   <div class="sub-card">
     <h3>MACD</h3>
-    <div class="badge-group" id="macdGroup">
-      <div class="badge">Bullish Kesişim</div>
-      <div class="badge">Bearish Kesişim</div>
+    <div class="badge-group single" id="macd">
+      <div class="badge">Bullish</div>
+      <div class="badge">Bearish</div>
       <div class="badge">Histogram +</div>
       <div class="badge">Histogram -</div>
-      <div class="badge">Sıfır Üzeri</div>
-      <div class="badge">Sıfır Altı</div>
     </div>
   </div>
 
-  <div class="sub-card">
-    <h3>Hacim</h3>
-    <div class="badge-group">
-      <div class="badge">Artış</div>
-      <div class="badge">Düşüş</div>
-      <div class="badge">Ortalama Üstü</div>
-      <div class="badge">Spike</div>
-    </div>
+</div>
+
+<!-- KASA -->
+<div class="card center">
+  <h2>Kasa</h2>
+  <div style="font-size:22px;font-weight:bold">12.500 TL</div>
+</div>
+
+<!-- GİRİŞ -->
+<div class="card">
+  <h2>Giriş</h2>
+  <input id="fiyat" placeholder="Giriş Fiyatı">
+  <div class="row" style="margin-top:10px">
+    <div><input id="adet" placeholder="Adet"></div>
+    <div><input id="tutar" placeholder="Tutar (TL)"></div>
   </div>
+</div>
+
+<!-- BUTON -->
+<div class="card">
+  <button class="btn btn-green">⚡ İŞLEM BAŞLAT ⚡</button>
 </div>
 
 <div class="footer-back">↩️ Geri</div>
 
 <script>
-function singleSelect(group){
-  group.querySelectorAll('.badge').forEach(b=>{
+function singleSelect(id){
+  const g=document.getElementById(id);
+  g.querySelectorAll(".badge").forEach(b=>{
     b.onclick=()=>{
-      group.querySelectorAll('.badge').forEach(x=>x.classList.remove('active'));
-      b.classList.add('active');
+      g.querySelectorAll(".badge").forEach(x=>x.classList.remove("active"));
+      b.classList.add("active");
     }
-  });
+  })
 }
 
-singleSelect(document.getElementById("fiboGroup"));
-singleSelect(document.getElementById("emaGroup"));
-singleSelect(document.getElementById("rsiGroup"));
-singleSelect(document.getElementById("macdGroup"));
-singleSelect(document.getElementById("timeframeGroup"));
+["smc","ema","rsi","macd"].forEach(singleSelect);
 
-const trendGroup=document.getElementById("trendGroup");
-trendGroup.querySelectorAll('.badge').forEach(b=>{
-  b.onclick=()=>{
-    trendGroup.querySelectorAll('.badge').forEach(x=>{
-      x.classList.remove('active');
-      x.style.background="#eef1f4";
-      x.style.color="#000";
-    });
-    b.classList.add('active');
-    b.style.background=b.dataset.color;
-    b.style.color="#fff";
-  }
-});
+const fiyat=document.getElementById("fiyat");
+const adet=document.getElementById("adet");
+const tutar=document.getElementById("tutar");
+
+adet.oninput=()=>{if(fiyat.value)tutar.value=(adet.value*fiyat.value).toFixed(2)}
+tutar.oninput=()=>{if(fiyat.value)adet.value=(tutar.value/fiyat.value).toFixed(2)}
 </script>
 
 </body>
