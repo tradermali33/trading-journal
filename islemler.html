@@ -6,103 +6,76 @@
 <title>İşlem Aç</title>
 
 <style>
-:root{
-  --bg:#f3f6f9;
-  --card:#ffffff;
-  --blue:#2563eb;
-  --green:#16a34a;
-  --red:#dc2626;
-  --gray:#9ca3af;
-  --dark:#0f172a;
+body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+    background:#f3f5f7;
 }
-
-*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto}
-body{margin:0;background:var(--bg);color:var(--dark)}
-.container{max-width:430px;margin:auto;padding:16px 14px 120px}
-
+.container{padding:16px; max-width:900px; margin:auto;}
 .card{
-  background:var(--card);
-  border-radius:18px;
-  padding:16px;
-  margin-bottom:14px;
-  box-shadow:0 10px 25px rgba(0,0,0,.05);
+    background:#fff;
+    border-radius:16px;
+    padding:16px;
+    margin-bottom:14px;
+    box-shadow:0 8px 24px rgba(0,0,0,.06);
 }
-
 h1{margin:0;font-size:22px}
-h2{margin:0 0 6px;font-size:16px}
-small{color:#64748b}
-
-input,select{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:none;
-  background:#eef2f5;
-  font-size:15px;
+.sub{color:#777;font-size:13px;margin-top:4px}
+label{font-weight:600;display:block;margin-bottom:6px}
+input,select,textarea{
+    width:100%;
+    padding:14px;
+    border-radius:12px;
+    border:none;
+    background:#eef2f3;
+    font-size:16px;
 }
-
-.row{display:flex;gap:10px}
+textarea{resize:none}
+.row{display:flex;gap:10px;flex-wrap:wrap}
 .btn{
-  flex:1;
-  padding:14px;
-  border:none;
-  border-radius:14px;
-  font-weight:700;
-  font-size:15px;
+    border:none;
+    border-radius:14px;
+    padding:14px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
 }
-.long{background:#dcfce7;color:var(--green)}
-.short{background:#fee2e2;color:var(--red)}
-.range{background:#e5e7eb;color:#374151}
-
-.active.long{background:var(--green);color:#fff}
-.active.short{background:var(--red);color:#fff}
-.active.range{background:#6b7280;color:#fff}
-
-.primary{background:var(--blue);color:#fff}
-.danger{background:var(--red);color:#fff}
-
+.full{width:100%}
+.green{background:#22c55e;color:#fff}
+.red{background:#ef4444;color:#fff}
+.gray{background:#9ca3af;color:#fff}
+.blue{background:#2563eb;color:#fff}
+.warn{background:#f97316;color:#fff}
 .badge{
-  display:inline-block;
-  padding:8px 12px;
-  border-radius:999px;
-  background:#e0e7ff;
-  color:#1e40af;
-  font-weight:600;
+    flex:1;
+    text-align:center;
+    padding:14px;
+    border-radius:14px;
+    font-weight:700;
+    cursor:pointer;
+    background:#e5e7eb;
 }
+.badge.active.green{background:#22c55e;color:#fff}
+.badge.active.red{background:#ef4444;color:#fff}
+.badge.active.gray{background:#9ca3af;color:#fff}
 
-.kasa{
-  display:flex;
-  justify-content:space-between;
-  font-weight:700;
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(80px,1fr));
+    gap:8px;
 }
-
-.risk{color:var(--red);font-weight:700}
-
-.toggle{
-  display:flex;
-  align-items:center;
-  gap:10px;
+.pill{
+    padding:10px;
+    text-align:center;
+    border-radius:12px;
+    background:#eef2f3;
+    font-weight:600;
+    cursor:pointer;
 }
-
-.checkbox-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-
-.option{
-  padding:10px;
-  background:#eef2f5;
-  border-radius:10px;
-  text-align:center;
-  font-weight:600;
-  cursor:pointer;
-}
-
-.option.active{
-  background:var(--blue);
-  color:#fff;
-}
+.pill.active{background:#2563eb;color:#fff}
+.live{color:#22c55e;font-weight:700}
+.small{font-size:13px;color:#666}
+.center{text-align:center}
 </style>
 </head>
 
@@ -111,143 +84,126 @@ input,select{
 
 <!-- BAŞLIK -->
 <div class="card">
-  <h1>📈 İşlem Aç</h1>
-  <small>Yeni işlem girişi</small>
+    <h1>📈 İşlem Aç</h1>
+    <div class="sub">Yeni işlem girişi</div>
 </div>
 
-<!-- ÜST BUTONLAR -->
+<!-- NAV -->
 <div class="card row">
-  <button class="btn range" onclick="location.href='index.html'">← Ana Panel</button>
-  <button class="btn primary">⚙️ Otomatik İşlem</button>
+    <button class="btn gray full" onclick="location.href='index.html'">← Ana Panel</button>
 </div>
 
 <!-- VARLIK -->
 <div class="card">
-  <h2>Varlık</h2>
-  <input id="asset" placeholder="Coin / Hisse yaz (BTC, ETH, ALKA…)">
-  <div id="suggestions"></div>
+<label>Varlık</label>
+<input id="symbol" placeholder="BTCUSDT, ALKA, THYAO…" oninput="searchSymbol()">
+<div id="suggestions" class="small"></div>
+<div class="small">🔴 Canlı Fiyat: <span id="price" class="live">—</span></div>
 </div>
 
 <!-- TREND -->
 <div class="card">
-  <h2>Trend Yönü</h2>
-  <div class="row">
-    <button class="btn long" onclick="setTrend(this,'YÜKSELEN')">YÜKSELEN</button>
-    <button class="btn short" onclick="setTrend(this,'DÜŞEN')">DÜŞEN</button>
-    <button class="btn range" onclick="setTrend(this,'YATAY')">YATAY</button>
-  </div>
+<label>Trend Yönü</label>
+<div class="row">
+    <div class="badge green" onclick="setTrend('UP',this)">YÜKSELEN</div>
+    <div class="badge red" onclick="setTrend('DOWN',this)">DÜŞEN</div>
+    <div class="badge gray" onclick="setTrend('FLAT',this)">YATAY</div>
+</div>
 </div>
 
 <!-- ZAMAN -->
 <div class="card">
-  <h2>Zaman Dilimi</h2>
-  <select>
-    <option>1m</option><option>5m</option><option selected>15m</option>
-    <option>30m</option><option>1h</option><option>4h</option><option>1d</option>
-  </select>
+<label>Zaman Dilimi</label>
+<select>
+<option>1m</option><option>5m</option><option selected>15m</option>
+<option>30m</option><option>1h</option><option>4h</option><option>1d</option>
+</select>
 </div>
 
-<!-- FİYAT -->
+<!-- TEKNİK -->
 <div class="card">
-  <h2>Alış Fiyatı</h2>
-  <input id="entry" type="number" step="0.01">
+<h3>🎯 Teknik Analiz Paneli</h3>
+
+<b>SMC</b>
+<div class="grid">
+<div class="pill">BOS</div><div class="pill">CHoCH</div>
+<div class="pill">OB</div><div class="pill">Likidite</div>
 </div>
 
-<!-- KASA -->
-<div class="card kasa">
-  <div>💰 Kalan Kasa</div>
-  <div id="kasa">12.500 ₺</div>
+<b>EMA</b>
+<div class="grid">
+<div class="pill">9</div><div class="pill">21</div>
+<div class="pill">50</div><div class="pill">200</div>
+</div>
+
+<b>RSI / MACD / Hacim</b>
+<div class="grid">
+<div class="pill">RSI</div><div class="pill">MACD</div><div class="pill">Hacim</div>
+</div>
+
+<b>Diğer</b>
+<textarea placeholder="Açıklama (zorunlu)"></textarea>
 </div>
 
 <!-- STOP -->
 <div class="card">
-  <h2>Stop</h2>
-  <div class="toggle">
-    <input type="checkbox" id="manualStop">
-    <label>Manuel</label>
-  </div>
-  <input id="stop" type="number" step="0.01">
-  <div class="risk" id="riskText"></div>
-  <button class="btn danger" id="confirmStop" style="display:none">SON KARARIN MI?</button>
+<label>Stop (%1 otomatik)</label>
+<input id="stop" readonly>
+<div class="small" id="risk"></div>
+<button class="btn red full" onclick="confirmManual()">⚠️ MANUEL STOP – ONAYLA</button>
 </div>
 
-<!-- HEDEF -->
+<!-- TP -->
 <div class="card">
-  <h2>Hedef (Opsiyonel)</h2>
-  <input id="target" type="number" step="0.01">
-  <small id="rr"></small>
+<label>TP1</label>
+<input id="tp1">
+<label>TP2</label>
+<input>
+<label>TP3</label>
+<input>
 </div>
 
-<!-- TEKNİK ANALİZ -->
+<!-- AUTO -->
 <div class="card">
-  <h2>Teknik Analiz Veri Girişi</h2>
-
-  <h3>SMC</h3>
-  <div class="checkbox-grid">
-    <div class="option">BOS</div>
-    <div class="option">CHoCH</div>
-    <div class="option">OB</div>
-    <div class="option">Likidite</div>
-  </div>
-
-  <h3>EMA</h3>
-  <div class="checkbox-grid">
-    <div class="option">9</div><div class="option">21</div>
-    <div class="option">50</div><div class="option">200</div>
-  </div>
-
-  <h3>RSI / MACD / Hacim</h3>
-  <div class="checkbox-grid">
-    <div class="option">RSI</div>
-    <div class="option">MACD</div>
-    <div class="option">Hacim</div>
-  </div>
-
-  <h3>Diğer</h3>
-  <input placeholder="Açıklama (zorunlu)">
+<button id="autoBtn" class="btn warn full" disabled>⚠️ Otomatik İşlem Sonlandır</button>
 </div>
 
-<!-- AÇ -->
+<!-- START -->
 <div class="card">
-  <button class="btn primary">+ İŞLEM AÇ</button>
+<button class="btn red full">⚡️ İŞLEM BAŞLAT ⚡️</button>
 </div>
 
 </div>
 
 <script>
 let trend=null;
-
-function setTrend(btn,val){
-  document.querySelectorAll('.btn.long,.btn.short,.btn.range')
-    .forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  trend=val;
+function setTrend(t,el){
+    trend=t;
+    document.querySelectorAll('.badge').forEach(b=>b.classList.remove('active'));
+    el.classList.add('active',t==='UP'?'green':t==='DOWN'?'red':'gray');
 }
 
-const entry=document.getElementById('entry');
-const stop=document.getElementById('stop');
-const target=document.getElementById('target');
-const riskText=document.getElementById('riskText');
-const rr=document.getElementById('rr');
-const manual=document.getElementById('manualStop');
-const confirm=document.getElementById('confirmStop');
-
-function calc(){
-  if(!entry.value||!stop.value)return;
-  const risk=((entry.value-stop.value)/entry.value*100).toFixed(2);
-  riskText.innerText=`Risk: %${risk}`;
-  if(target.value){
-    const reward=((target.value-entry.value)/ (entry.value-stop.value)).toFixed(2);
-    rr.innerText=`RR: 1 : ${reward}`;
-  }
+async function fetchPrice(sym){
+    const url=`https://corsproxy.io/?https://query1.finance.yahoo.com/v7/finance/quote?symbols=${sym}`;
+    const r=await fetch(url);const j=await r.json();
+    return j.quoteResponse.result[0]?.regularMarketPrice;
 }
-entry.oninput=calc;
-stop.oninput=calc;
-target.oninput=calc;
 
-manual.onchange=()=>{
-  confirm.style.display=manual.checked?'block':'none';
-};
+async function searchSymbol(){
+    const s=symbol.value.toUpperCase();
+    if(s.length<2)return;
+    const p=await fetchPrice(s);
+    if(p){
+        price.innerText=p;
+        stop.value=(p*0.99).toFixed(2);
+        risk.innerText="Risk: %1";
+        autoBtn.disabled=false;
+    }
+}
+
+function confirmManual(){
+    alert("Manuel stop onaylandı");
+}
 </script>
 
 </body>
