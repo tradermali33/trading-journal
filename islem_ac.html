@@ -22,13 +22,20 @@ input,select{width:100%;padding:12px;border-radius:12px;border:1px solid #ddd;fo
 .btn-red{background:#e74c3c;color:#fff;}
 .btn-yellow{background:#f1c40f;}
 .btn[disabled]{opacity:.5;}
-.status{margin-top:10px;text-align:center;font-weight:bold;}
+.risk-text{margin-top:8px;text-align:right;font-weight:bold;color:#e74c3c;}
 </style>
 </head>
 
 <body>
 
-<!-- GİRİŞ -->
+<!-- 💎 VARLIK -->
+<div class="card">
+  <h2>💎 Varlık</h2>
+  <input placeholder="ALKA / BTCUSDT">
+  <div class="center" style="margin-top:8px;font-weight:bold;">🔴 Canlı Fiyat: --</div>
+</div>
+
+<!-- 📌 GİRİŞ -->
 <div class="card">
   <h2>📌 Giriş</h2>
   <input id="fiyat" placeholder="Giriş Fiyatı">
@@ -38,7 +45,7 @@ input,select{width:100%;padding:12px;border-radius:12px;border:1px solid #ddd;fo
   </div>
 </div>
 
-<!-- STOP -->
+<!-- 🛑 STOP -->
 <div class="card">
   <h2>🛑 Stop</h2>
   <select id="stopYuzde">
@@ -47,11 +54,13 @@ input,select{width:100%;padding:12px;border-radius:12px;border:1px solid #ddd;fo
     <option value="2">2%</option>
   </select>
   <input id="stopFiyat" style="margin-top:10px;" placeholder="Stop Fiyatı">
+  <div id="riskText" class="risk-text"></div>
 </div>
 
-<!-- RR / HEDEF -->
+<!-- 🚀 HEDEF (RR) -->
 <div class="card">
   <h2>🚀 Hedef (RR)</h2>
+
   <div class="badge-group" id="rrGroup">
     <div class="badge" data-rr="1">1R</div>
     <div class="badge" data-rr="1.5">1.5R</div>
@@ -59,18 +68,13 @@ input,select{width:100%;padding:12px;border-radius:12px;border:1px solid #ddd;fo
     <div class="badge" data-rr="2.5">2.5R</div>
     <div class="badge" data-rr="3">3R</div>
   </div>
-  <input id="tp1" style="margin-top:12px;" placeholder="TP1 (Otomatik)">
-</div>
 
-<!-- DURUM -->
-<div class="card center">
-  <h2>📊 İşlem Durumu</h2>
-  <div id="statusText" class="status">Henüz işlem yok</div>
+  <input id="tp1" style="margin-top:12px;" placeholder="TP1 (Otomatik / Manuel)">
 </div>
 
 <!-- BUTONLAR -->
 <div class="card">
-  <button id="autoBtn" class="btn btn-yellow" disabled>🚨 Otomatik İşlem Sonlandır</button><br><br>
+  <button class="btn btn-yellow" disabled id="autoBtn">🚨 Otomatik İşlem Sonlandır</button><br><br>
   <button class="btn btn-red">⚠️ Manuel İşlem Sonlandır</button><br><br>
   <button id="islemBtn" class="btn btn-green" disabled>⚡ İŞLEM BAŞLAT ⚡</button>
 </div>
@@ -85,11 +89,9 @@ const rrBadges=document.querySelectorAll("#rrGroup .badge");
 const tp1=document.getElementById("tp1");
 const islemBtn=document.getElementById("islemBtn");
 const autoBtn=document.getElementById("autoBtn");
-const statusText=document.getElementById("statusText");
 
-let rr=null;
-let tp1Hit=false;
-let kalanOran=1;
+let rrSecili=null;
+let tpManuel=false;
 
 adet.oninput=()=>{ if(fiyat.value) tutar.value=(adet.value*fiyat.value).toFixed(2); };
 tutar.oninput=()=>{ if(fiyat.value) adet.value=(tutar.value/fiyat.value).toFixed(2); };
@@ -107,35 +109,38 @@ rrBadges.forEach(b=>{
   b.onclick=()=>{
     rrBadges.forEach(x=>x.classList.remove("active"));
     b.classList.add("active");
-    rr=parseFloat(b.dataset.rr);
+    rrSecili=parseFloat(b.dataset.rr);
+    tpManuel=false;
     hesaplaTP();
   };
 });
 
+tp1.oninput=()=>{
+  tpManuel=true;
+  rrBadges.forEach(x=>x.classList.remove("active"));
+  rrSecili=null;
+  kontrol();
+};
+
 function hesaplaTP(){
-  if(!fiyat.value || !stopFiyat.value || !rr) return;
+  if(!fiyat.value || !stopFiyat.value || !rrSecili) return;
   const g=parseFloat(fiyat.value);
   const s=parseFloat(stopFiyat.value);
-  const tp=g+((g-s)*rr);
+  const risk=g-s;
+  const tp=g+(risk*rrSecili);
   tp1.value=tp.toFixed(2);
-  islemBtn.disabled=false;
-  autoBtn.disabled=false;
+  kontrol();
 }
 
-islemBtn.onclick=()=>{
-  statusText.innerText="🟡 İşlem Açıldı – TP1 Bekleniyor";
-};
-
-autoBtn.onclick=()=>{
-  if(!tp1Hit){
-    tp1Hit=true;
-    kalanOran=0.5;
-    statusText.innerText="🟢 %50 Kapatıldı – RR Takibi Aktif";
+function kontrol(){
+  if(tp1.value){
+    islemBtn.disabled=false;
+    autoBtn.disabled=false;
   }else{
-    kalanOran=0;
-    statusText.innerText="🟢 TP1 Geri Dönüş – İşlem Tamamlandı";
+    islemBtn.disabled=true;
+    autoBtn.disabled=true;
   }
-};
+}
 </script>
 
 </body>
