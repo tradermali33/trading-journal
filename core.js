@@ -1,117 +1,102 @@
+/* =========================================================
+   CORE ENGINE – TRADING JOURNAL
+   Beyin burada. UI sadece tetikler.
+   ========================================================= */
+
 /* =========================
-   CORE STATE (GLOBAL BEYİN)
+   GLOBAL CORE
    ========================= */
-
-const Core = {
+window.Core = {
   kasa: {
-    bakiye: 0,
-    baslangic: 0
+    bakiye: 100000, // başlangıç kasa (TL)
   },
-
-  ayarlar: {
-    fiyatKontrolSuresi: 15, // saniye
-    stopOraniVarsayilan: 1, // %
-    tpKademeleri: [1], // 1R varsayılan
-    otomatikSonlandirma: false
-  },
-
   aktifIslemler: [],
-
-  islemler: [],
-
-  fiyatKaynak: {
-    tip: "NONE", // YAHOO | TRADINGVIEW | MATRIX | NONE
-    bagli: false
+  ayarlar: {
+    stopOranVarsayilan: 1, // %
+    rrVarsayilan: 1,
   }
 };
 
 /* =========================
-   KASA
+   KASA FONKSİYONLARI
    ========================= */
-
-function kasaBaslat(tutar) {
-  Core.kasa.bakiye = Number(tutar);
-  Core.kasa.baslangic = Number(tutar);
+function kasaGuncelle(tutar) {
+  Core.kasa.bakiye += tutar;
+  localStorage.setItem("kasa", Core.kasa.bakiye);
 }
 
-function kasaGuncelle(tutar) {
-  Core.kasa.bakiye += Number(tutar);
+function kasaYukle() {
+  const k = localStorage.getItem("kasa");
+  if (k !== null) Core.kasa.bakiye = Number(k);
 }
 
 /* =========================
-   İŞLEM OLUŞTUR
+   ISLEM OLUSTUR
    ========================= */
-
 function islemOlustur(data) {
   const islem = {
     id: Date.now(),
+    durum: "AKTIF",
+
     varlik: data.varlik,
-    tip: data.tip, // COIN | HISSE
-    trend: data.trend, // YUKSELEN | DUSEN | YATAY
+    tip: data.tip, // HISSE / COIN
+    trend: data.trend,
     zamanDilimi: data.zamanDilimi,
 
     girisFiyat: data.girisFiyat,
     adet: data.adet,
     tutar: data.tutar,
 
-    stop: {
-      oran: data.stopOran,
-      fiyat: data.stopFiyat,
-      manuel: data.stopManuel || false
-    },
-
-    hedefler: {
-      tp1: data.tp1 || null,
-      tp2: data.tp2 || null,
-      tp3: data.tp3 || null
-    },
+    stopOran: data.stopOran,
+    stopFiyat: data.stopFiyat,
 
     teknikAnaliz: data.teknikAnaliz || {},
 
-    durum: "AKTIF", // AKTIF | YARI_KAPANDI | KAPANDI
-    acilisZamani: new Date().toISOString(),
-    kapanisZamani: null,
+    tp: {
+      tp1: null,
+      tp2: null,
+      tp3: null
+    },
 
-    pnl: 0
+    acilisZamani: new Date().toISOString()
   };
 
   Core.aktifIslemler.push(islem);
+  localStorage.setItem("aktifIslemler", JSON.stringify(Core.aktifIslemler));
+
   return islem;
 }
 
 /* =========================
-   İŞLEM KAPAT
+   ISLEMLERI YUKLE
    ========================= */
+function islemleriYukle() {
+  const d = localStorage.getItem("aktifIslemler");
+  if (d) Core.aktifIslemler = JSON.parse(d);
+}
 
-function islemKapat(islemId, sebep) {
-  const index = Core.aktifIslemler.findIndex(i => i.id === islemId);
-  if (index === -1) return;
+/* =========================
+   MANUEL ISLEM SONLANDIR
+   ========================= */
+function islemSonlandir(id, fiyat) {
+  const islem = Core.aktifIslemler.find(i => i.id === id);
+  if (!islem || islem.durum !== "AKTIF") return;
 
-  const islem = Core.aktifIslemler[index];
+  const sonuc = islem.adet * fiyat;
+  kasaGuncelle(sonuc);
+
   islem.durum = "KAPANDI";
+  islem.kapanisFiyat = fiyat;
   islem.kapanisZamani = new Date().toISOString();
-  islem.kapanisSebebi = sebep;
 
-  Core.islemler.push(islem);
-  Core.aktifIslemler.splice(index, 1);
+  localStorage.setItem("aktifIslemler", JSON.stringify(Core.aktifIslemler));
 }
 
 /* =========================
-   FİYAT KAYNAK (ALTYAPI)
+   INIT
    ========================= */
-
-function fiyatKaynagiAyarla(tip) {
-  Core.fiyatKaynak.tip = tip;
-  Core.fiyatKaynak.bagli = true;
-}
-
-/* =========================
-   DIŞARI AÇ (GLOBAL)
-   ========================= */
-
-window.Core = Core;
-window.kasaBaslat = kasaBaslat;
-window.kasaGuncelle = kasaGuncelle;
-window.islemOlustur = islemOlustur;
-window.islemKapat = islemKapat;
-window.fiyatKaynagiAyarla = fiyatKaynagiAyarla;
+(function initCore() {
+  kasaYukle();
+  islemleriYukle();
+  console.log("CORE HAZIR", Core);
+})();
