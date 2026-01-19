@@ -14,10 +14,13 @@ body{
 
 header{
   padding:14px 16px;
-  background:#ffffff;
+  background:#fff;
   box-shadow:0 4px 14px rgba(0,0,0,.08);
   font-weight:800;
   font-size:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
 .container{
@@ -27,7 +30,7 @@ header{
   gap:18px;
 }
 
-/* ===== KART ===== */
+/* KART */
 .trade-card{
   background:#fff;
   border-radius:18px;
@@ -36,34 +39,12 @@ header{
   border-top:6px solid #9ca3af;
 }
 
-.trade-card.green{ border-color:#16a34a }
-.trade-card.yellow{ border-color:#facc15 }
-.trade-card.red{ border-color:#dc2626 }
+.trade-card.green{border-color:#16a34a}
+.trade-card.yellow{border-color:#facc15}
+.trade-card.red{border-color:#dc2626}
 
-.card-title{
-  font-size:16px;
-  font-weight:800;
-  margin-bottom:6px;
-}
-
-.card-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.asset{
-  font-size:18px;
-  font-weight:800;
-}
-
-.source{
-  font-size:12px;
-  font-weight:700;
-  padding:4px 8px;
-  border-radius:999px;
-  background:#e5e7eb;
-}
+.card-title{font-weight:800;margin-bottom:6px}
+.asset{font-size:18px;font-weight:800}
 
 .line{
   display:flex;
@@ -72,134 +53,116 @@ header{
   margin:4px 0;
 }
 
-.hr{
-  height:1px;
-  background:#e5e7eb;
-  margin:10px 0;
-}
+.hr{height:1px;background:#e5e7eb;margin:10px 0}
 
-/* RR */
 .rr-bar{
-  width:100%;
-  height:12px;
-  background:#e5e7eb;
-  border-radius:999px;
-  overflow:hidden;
+  width:100%;height:12px;background:#e5e7eb;
+  border-radius:999px;overflow:hidden
 }
-
 .rr-fill{
-  height:100%;
-  width:0%;
+  height:100%;width:0%;
   background:linear-gradient(90deg,#facc15,#16a34a);
-  transition:.4s;
+  transition:.4s
 }
-
-.rr-text{
-  font-size:13px;
-  font-weight:700;
-  margin-top:4px;
-  text-align:right;
-}
+.rr-text{text-align:right;font-size:13px;font-weight:700}
 
 .status{
-  margin-top:10px;
-  padding:10px;
-  border-radius:12px;
-  font-weight:700;
-  font-size:14px;
+  margin-top:10px;padding:10px;border-radius:12px;
+  font-weight:700;font-size:14px
 }
+.status.yellow{background:#fef9c3;color:#92400e}
+.status.green{background:#dcfce7;color:#166534}
+.status.red{background:#fee2e2;color:#991b1b}
 
-.status.yellow{ background:#fef9c3;color:#92400e }
-.status.green{ background:#dcfce7;color:#166534 }
-.status.red{ background:#fee2e2;color:#991b1b }
+/* AYARLAR */
+.settings{
+  background:#fff;
+  padding:16px;
+  border-radius:18px;
+  box-shadow:0 12px 30px rgba(0,0,0,.08);
+}
+.settings h3{margin:0 0 10px}
+.settings label{display:block;margin:6px 0;font-size:14px}
+select{width:100%;padding:8px;border-radius:8px}
 </style>
 </head>
 
 <body>
 
-<header>📊 Açık İşlemler</header>
-<div class="container" id="list"></div>
+<header>
+  📊 Açık İşlemler
+  <button onclick="toggleSettings()">⚙️</button>
+</header>
+
+<div class="container">
+
+<div id="settings" class="settings" style="display:none">
+  <h3>⚙️ Ayarlar</h3>
+
+  <label>Coin Kontrol Süresi</label>
+  <select id="coinInterval">
+    <option value="1000">1 sn</option>
+    <option value="2000" selected>2 sn</option>
+    <option value="3000">3 sn</option>
+    <option value="5000">5 sn</option>
+    <option value="10000">10 sn</option>
+    <option value="15000">15 sn</option>
+  </select>
+
+  <label>Hisse Kontrol Süresi (Matrix YOK)</label>
+  <select id="stockInterval">
+    <option value="15000" selected>15 sn</option>
+    <option value="30000">30 sn</option>
+    <option value="45000">45 sn</option>
+    <option value="60000">60 sn</option>
+  </select>
+</div>
+
+<div id="list"></div>
+</div>
 
 <script>
-/* ================================
-   DEMO AÇIK İŞLEMLER
-================================ */
-const trades=[
-{
-  name:"BTCUSDT İŞLEM KARTI",
-  symbol:"BTCUSDT",
-  type:"coin",
-  entry:66800,
-  stop:66100,
-  tp1:67500,
-  rrTarget:1
-},
-{
-  name:"ALKA İŞLEM KARTI",
-  symbol:"THYAO.IS",
-  type:"stock",
-  entry:250,
-  stop:245,
-  tp1:258,
-  rrTarget:1
+let settingsOpen=false;
+function toggleSettings(){
+  settingsOpen=!settingsOpen;
+  document.getElementById("settings").style.display=settingsOpen?"block":"none";
 }
+
+/* DEMO İŞLEMLER */
+const trades=[
+ {name:"BTCUSDT İŞLEM KARTI",symbol:"BTCUSDT",type:"coin",entry:66800,stop:66100,tp1:67500,rr:1},
+ {name:"ALKA İŞLEM KARTI",symbol:"THYAO.IS",type:"stock",entry:250,stop:245,tp1:258,rr:1}
 ];
 
-/* ================================
-   FİYAT KAYNAKLARI
-================================ */
 async function getPrice(symbol,type){
   try{
     if(type==="coin"){
-      const r=await fetch(
-        `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`
-      );
+      const r=await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`);
       const j=await r.json();
-      return {price:parseFloat(j.price),source:"🟢 CANLI"};
+      return {price:+j.price,source:"🟢 CANLI"};
     }else{
-      const r=await fetch(
-        `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbol}`
-      );
+      const r=await fetch(`https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbol}`);
       const j=await r.json();
-      const p=j.quoteResponse.result[0]?.regularMarketPrice;
-      return {price:p,source:"🟡 GECİKMELİ"};
+      return {price:j.quoteResponse.result[0].regularMarketPrice,source:"🟡 GECİKMELİ"};
     }
-  }catch(e){
-    return {price:null,source:"⚠️ VERİ YOK"};
-  }
+  }catch{ return {price:null,source:"⚠️ VERİ YOK"} }
 }
 
-/* ================================
-   KART OLUŞTUR
-================================ */
 function createCard(t){
-  let price=t.entry;
-  let closed50=false;
-  let closed=false;
-
+  let closed=false,closed50=false;
   const card=document.createElement("div");
   card.className="trade-card yellow";
 
   card.innerHTML=`
     <div class="card-title">${t.name}</div>
-
-    <div class="card-header">
-      <div class="asset">${t.symbol}</div>
-      <div class="source">⏳</div>
-    </div>
-
-    <div class="line"><span>Canlı Fiyat</span><b class="price">-</b></div>
+    <div class="asset">${t.symbol}</div>
+    <div class="line"><span>Fiyat</span><b class="price">-</b></div>
     <div class="line"><span>Alış</span><b>${t.entry}</b></div>
     <div class="line"><span>Stop</span><b>${t.stop}</b></div>
-
     <div class="hr"></div>
-
     <div class="line"><span>TP1</span><b>${t.tp1}</b></div>
-    <div class="line"><span>RR Hedef</span><b>${t.rrTarget}R</b></div>
-
     <div class="rr-bar"><div class="rr-fill"></div></div>
     <div class="rr-text">RR: 0.00R</div>
-
     <div class="status yellow">🟡 Bekleniyor</div>
   `;
 
@@ -207,39 +170,32 @@ function createCard(t){
   const rrFill=card.querySelector(".rr-fill");
   const rrText=card.querySelector(".rr-text");
   const status=card.querySelector(".status");
-  const sourceEl=card.querySelector(".source");
 
-  function rr(p){
+  function calcRR(p){
     return Math.abs(p-t.entry)/Math.abs(t.entry-t.stop);
   }
 
   async function tick(){
     if(closed) return;
-
     const data=await getPrice(t.symbol,t.type);
     if(!data.price) return;
 
-    price=data.price;
-    priceEl.innerText=price.toFixed(2);
-    sourceEl.innerText=data.source;
-
-    const r=rr(price);
+    priceEl.innerText=data.price.toFixed(2);
+    const r=calcRR(data.price);
     rrText.innerText=`RR: ${r.toFixed(2)}R`;
-    rrFill.style.width=Math.min(r/t.rrTarget*100,100)+"%";
+    rrFill.style.width=Math.min(r/t.rr*100,100)+"%";
 
-    if(!closed50 && price>=t.tp1){
+    if(!closed50 && data.price>=t.tp1){
       closed50=true;
       status.innerText="🟡 %50 Kapatıldı – RR Takibi Aktif";
     }
-
-    if(closed50 && r>=t.rrTarget){
+    if(closed50 && r>=t.rr){
       closed=true;
       card.className="trade-card green";
       status.className="status green";
       status.innerText="🟢 RR Hedefi Tamamlandı";
     }
-
-    if(price<=t.stop){
+    if(data.price<=t.stop){
       closed=true;
       card.className="trade-card red";
       status.className="status red";
@@ -247,14 +203,17 @@ function createCard(t){
     }
   }
 
-  setInterval(tick,15000);
+  const interval=()=>{
+    return t.type==="coin"
+      ? +document.getElementById("coinInterval").value
+      : +document.getElementById("stockInterval").value;
+  };
+
+  setInterval(tick,interval());
   tick();
   return card;
 }
 
-/* ================================
-   LİSTE
-================================ */
 const list=document.getElementById("list");
 trades.forEach(t=>list.appendChild(createCard(t)));
 </script>
