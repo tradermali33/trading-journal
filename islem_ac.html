@@ -1,210 +1,262 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>İşlem Aç</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Yeni İşlem Aç</title>
 
 <style>
-:root{
-  --bg:#f4f6f8;
-  --card:#ffffff;
-  --soft:#eef2f5;
-  --text:#111;
-  --green:#2ecc71;
-  --red:#e74c3c;
-  --yellow:#f1c40f;
-  --gray:#bdc3c7;
+*{
+  box-sizing:border-box;
+  font-family:"Times New Roman", serif;
 }
 
-*{box-sizing:border-box}
 body{
   margin:0;
-  background:var(--bg);
-  font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto;
-  color:var(--text);
+  padding:16px;
+  background:#f2f4f6;
 }
-
-.container{padding:16px;max-width:520px;margin:auto}
 
 .card{
-  background:var(--card);
-  border-radius:18px;
+  background:#ffffff;
+  border-radius:16px;
   padding:16px;
-  margin-bottom:14px;
+  margin-bottom:16px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.06);
 }
 
-h1,h2{
-  margin:0 0 10px;
-  font-size:20px;
-  font-weight:700;
-}
-
-.label{
+.card h2{
+  margin:0 0 12px 0;
+  font-size:18px;
+  font-weight:bold;
   text-align:center;
-  font-weight:700;
-  margin:10px 0 8px;
 }
 
-input,select,textarea{
+label{
+  font-weight:normal;
+  display:block;
+  margin-bottom:6px;
+}
+
+input, select, textarea{
   width:100%;
   padding:12px;
   border-radius:12px;
   border:1px solid #ddd;
-  background:#fff;
-  font-size:16px;
+  font-size:15px;
 }
 
-textarea{resize:none;height:70px}
+.row{
+  display:flex;
+  gap:12px;
+}
 
-.row{display:flex;gap:10px}
-.row > *{flex:1}
+.row > div{
+  flex:1;
+}
 
-.badges{display:flex;flex-wrap:wrap;gap:8px}
+.badge-group{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+}
+
 .badge{
-  padding:10px 14px;
-  border-radius:14px;
-  background:var(--soft);
-  font-weight:600;
-  cursor:pointer;
+  padding:10px 16px;
+  background:#eef1f4;
+  border-radius:20px;
+  font-size:14px;
 }
-.badge.active{background:var(--green);color:#fff}
+
+.badge.active{
+  background:#2ecc71;
+  color:white;
+}
+
+.center{
+  text-align:center;
+}
+
+.price{
+  margin-top:8px;
+  font-weight:bold;
+}
 
 .btn{
   width:100%;
   padding:16px;
   border:none;
   border-radius:16px;
-  font-size:18px;
-  font-weight:700;
-  cursor:pointer;
+  font-size:16px;
+  font-weight:bold;
 }
 
-.green{background:var(--green);color:#fff}
-.red{background:var(--red);color:#fff}
-.yellow{background:var(--yellow)}
-.gray{background:var(--gray)}
+.btn-green{ background:#2ecc71; color:white; }
+.btn-red{ background:#e74c3c; color:white; }
+.btn-yellow{ background:#f1c40f; }
 
-.center{text-align:center;font-weight:600}
-.small{font-size:14px;color:#666}
+.footer-back{
+  text-align:center;
+  margin-top:20px;
+  font-size:18px;
+}
 </style>
 </head>
 
 <body>
-<div class="container">
 
-  <div class="card">
-    <h1>İŞLEMLER</h1>
-    <div class="small">Yeni İşlem</div>
-  </div>
-
-  <div class="card">
-    <div class="label">Varlık</div>
-    <input id="asset" placeholder="ALKA / BTCUSDT">
-    <div class="center" style="margin-top:8px">🔴 Canlı Fiyat: --</div>
-  </div>
-
-  <div class="card">
-    <div class="label">Trend Yönü</div>
-    <div class="badges">
-      <div class="badge" onclick="setTrend(this)">Yükselen</div>
-      <div class="badge" onclick="setTrend(this)">Düşen</div>
-      <div class="badge" onclick="setTrend(this)">Yatay</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="label">Zaman Dilimi</div>
-    <select>
-      <option>5m</option>
-      <option selected>15m</option>
-      <option>1h</option>
-    </select>
-  </div>
-
-  <div class="card">
-    <h2>🎯 Teknik Analiz Paneli</h2>
-
-    <div class="label">SMC</div>
-    <div class="badges">
-      <div class="badge">BOS</div>
-      <div class="badge">CHoCH</div>
-      <div class="badge">OB</div>
-      <div class="badge">Likidite</div>
-      <div class="badge">FVG</div>
-      <div class="badge">Sweep</div>
-    </div>
-
-    <div class="label">EMA</div>
-    <div class="badges">
-      <div class="badge">9</div>
-      <div class="badge">21</div>
-      <div class="badge">50</div>
-      <div class="badge">200</div>
-    </div>
-
-    <div class="label">RSI</div>
-    <div class="badges"><div class="badge">RSI Uyumlu</div></div>
-
-    <div class="label">MACD</div>
-    <div class="badges"><div class="badge">MACD Kesişim</div></div>
-
-    <div class="label">Hacim</div>
-    <div class="badges"><div class="badge">Hacim Artışı</div></div>
-
-    <textarea placeholder="Diğer açıklamalar (zorunlu)"></textarea>
-  </div>
-
-  <div class="card">
-    <div class="label">Kasa</div>
-    <div class="center">12.500 TL</div>
-
-    <div class="label">Giriş Fiyatı</div>
-    <input id="price" type="number">
-
-    <div class="row">
-      <input id="qty" placeholder="Adet">
-      <input id="total" placeholder="Tutar (TL)">
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="label">Stop</div>
-    <select>
-      <option>0.5%</option>
-      <option selected>1%</option>
-      <option>2%</option>
-    </select>
-    <input placeholder="Stop Fiyatı">
-  </div>
-
-  <div class="card">
-    <div class="label">Hedef Fiyat</div>
-    <div class="row">
-      <input placeholder="TP1">
-      <input placeholder="TP2">
-      <input placeholder="TP3">
-    </div>
-  </div>
-
-  <button class="btn yellow">🚨 Otomatik İşlem Sonlandır</button>
-  <br><br>
-  <button class="btn red">⛔ Manuel İşlem Sonlandır</button>
-  <br><br>
-  <button class="btn green">⚡ İŞLEM BAŞLAT ⚡</button>
-
-  <div class="card center">
-    🏦 İşlem Sonrası Kasa<br>
-    <strong>0 TL</strong>
-  </div>
-
+<!-- VARLIK -->
+<div class="card">
+  <h2>Varlık</h2>
+  <input placeholder="ALKA / BTCUSDT"/>
+  <div class="center price">🔴 Canlı Fiyat: --</div>
 </div>
 
+<!-- TREND -->
+<div class="card">
+  <h2>Trend Yönü</h2>
+  <div class="badge-group">
+    <div class="badge active">Yükselen</div>
+    <div class="badge">Düşen</div>
+    <div class="badge">Yatay</div>
+  </div>
+</div>
+
+<!-- ZAMAN -->
+<div class="card">
+  <h2>Zaman Dilimi</h2>
+  <select>
+    <option>5m</option>
+    <option selected>15m</option>
+    <option>1h</option>
+    <option>4h</option>
+    <option>1D</option>
+  </select>
+</div>
+
+<!-- SMC -->
+<div class="card">
+  <h2>SMC</h2>
+  <div class="badge-group">
+    <div class="badge">BOS</div>
+    <div class="badge">CHoCH</div>
+    <div class="badge">OB</div>
+    <div class="badge">Likidite</div>
+    <div class="badge">FVG</div>
+    <div class="badge">Sweep</div>
+  </div>
+</div>
+
+<!-- EMA -->
+<div class="card">
+  <h2>EMA</h2>
+  <div class="badge-group">
+    <div class="badge">9</div>
+    <div class="badge">21</div>
+    <div class="badge">50</div>
+    <div class="badge">200</div>
+  </div>
+</div>
+
+<!-- RSI -->
+<div class="card">
+  <h2>RSI</h2>
+  <div class="badge-group">
+    <div class="badge">Uyumlu</div>
+    <div class="badge">Aşırı Alım</div>
+    <div class="badge">Aşırı Satım</div>
+  </div>
+</div>
+
+<!-- MACD -->
+<div class="card">
+  <h2>MACD</h2>
+  <div class="badge-group">
+    <div class="badge">Kesişim</div>
+    <div class="badge">Pozitif</div>
+    <div class="badge">Negatif</div>
+  </div>
+</div>
+
+<!-- HACİM -->
+<div class="card">
+  <h2>Hacim</h2>
+  <div class="badge-group">
+    <div class="badge">Artış</div>
+    <div class="badge">Düşüş</div>
+  </div>
+</div>
+
+<!-- AÇIKLAMA -->
+<div class="card">
+  <h2>Açıklama</h2>
+  <textarea rows="4" placeholder="Zorunlu açıklama"></textarea>
+</div>
+
+<!-- KASA -->
+<div class="card center">
+  <h2>Kasa</h2>
+  <div style="font-size:22px;font-weight:bold;">12.500 TL</div>
+</div>
+
+<!-- GİRİŞ -->
+<div class="card">
+  <h2>Giriş</h2>
+  <input id="fiyat" placeholder="Giriş Fiyatı"/>
+  <div class="row" style="margin-top:10px;">
+    <div><input id="adet" placeholder="Adet"/></div>
+    <div><input id="tutar" placeholder="Tutar (TL)"/></div>
+  </div>
+</div>
+
+<!-- STOP -->
+<div class="card">
+  <h2>Stop</h2>
+  <select>
+    <option>0.5%</option>
+    <option selected>1%</option>
+    <option>2%</option>
+  </select>
+  <input style="margin-top:10px;" placeholder="Stop Fiyatı"/>
+</div>
+
+<!-- TP -->
+<div class="card">
+  <h2>Hedef Fiyat</h2>
+  <div class="row">
+    <div><input placeholder="TP1"/></div>
+    <div><input placeholder="TP2"/></div>
+    <div><input placeholder="TP3"/></div>
+  </div>
+</div>
+
+<!-- BUTONLAR -->
+<div class="card">
+  <button class="btn btn-yellow">⛔ Otomatik İşlem Sonlandır</button><br><br>
+  <button class="btn btn-red">⛔ Manuel İşlem Sonlandır</button><br><br>
+  <button class="btn btn-green">⚡ İŞLEM BAŞLAT ⚡</button>
+</div>
+
+<!-- SON KASA -->
+<div class="card center">
+  <h2>İşlem Sonrası Kasa</h2>
+  <div style="font-size:22px;font-weight:bold;">0 TL</div>
+</div>
+
+<div class="footer-back">↩️ Geri</div>
+
 <script>
-function setTrend(el){
-  document.querySelectorAll('.badge').forEach(b=>b.classList.remove('active'))
-  el.classList.add('active')
-}
+const fiyat=document.getElementById("fiyat");
+const adet=document.getElementById("adet");
+const tutar=document.getElementById("tutar");
+
+adet.addEventListener("input",()=>{
+  if(fiyat.value) tutar.value=(adet.value*fiyat.value).toFixed(2);
+});
+tutar.addEventListener("input",()=>{
+  if(fiyat.value) adet.value=(tutar.value/fiyat.value).toFixed(2);
+});
 </script>
 
 </body>
