@@ -1,263 +1,257 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Yeni İşlem Aç</title>
+<meta charset="UTF-8">
+<title>Yeni İşlem</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-*{
-  box-sizing:border-box;
-  font-family:"Times New Roman", serif;
-}
-
+/* ================== GENEL ================== */
 body{
   margin:0;
   padding:16px;
-  background:#f2f4f6;
+  background:#f4f6f8;
+  font-family:"Times New Roman", serif;
 }
-
+h1,h2,h3{
+  margin:0;
+  font-weight:bold;
+}
 .card{
-  background:#ffffff;
+  background:#fff;
   border-radius:16px;
   padding:16px;
   margin-bottom:16px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.06);
+  box-shadow:0 6px 16px rgba(0,0,0,.08);
 }
-
-.card h2{
-  margin:0 0 12px 0;
-  font-size:18px;
-  font-weight:bold;
+.card-title{
+  text-align:center;
+  font-size:20px;
+  margin-bottom:12px;
+}
+.sub{
+  font-weight:normal;
+  font-size:15px;
   text-align:center;
 }
 
-label{
-  font-weight:normal;
-  display:block;
-  margin-bottom:6px;
-}
-
-input, select, textarea{
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  border:1px solid #ddd;
-  font-size:15px;
-}
-
-.row{
+/* ================== BUTONLAR ================== */
+.btn-row{
   display:flex;
   gap:12px;
 }
-
-.row > div{
+.btn{
   flex:1;
+  padding:14px;
+  border-radius:14px;
+  text-align:center;
+  font-weight:bold;
+  cursor:pointer;
+}
+.green{background:#2ecc71;color:#fff;}
+.red{background:#e74c3c;color:#fff;}
+.yellow{background:#f1c40f;color:#000;}
+.gray{background:#ecf0f1;}
+
+/* ================== TREND ================== */
+.trend{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.trend div{
+  padding:12px;
+  text-align:center;
+  border-radius:12px;
+  background:#ecf0f1;
+  font-weight:bold;
+}
+.trend .active{
+  background:#2ecc71;
+  color:#fff;
 }
 
-.badge-group{
+/* ================== CHIP ================== */
+.chips{
   display:flex;
   flex-wrap:wrap;
   gap:10px;
   justify-content:center;
 }
-
-.badge{
-  padding:10px 16px;
-  background:#eef1f4;
+.chip{
+  padding:10px 14px;
   border-radius:20px;
-  font-size:14px;
+  background:#ecf0f1;
+  font-size:15px;
 }
 
-.badge.active{
-  background:#2ecc71;
-  color:white;
-}
-
-.center{
-  text-align:center;
-}
-
-.price{
-  margin-top:8px;
-  font-weight:bold;
-}
-
-.btn{
+/* ================== INPUT ================== */
+input,select,textarea{
   width:100%;
-  padding:16px;
-  border:none;
-  border-radius:16px;
-  font-size:16px;
-  font-weight:bold;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  font-family:"Times New Roman", serif;
+}
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
 }
 
-.btn-green{ background:#2ecc71; color:white; }
-.btn-red{ background:#e74c3c; color:white; }
-.btn-yellow{ background:#f1c40f; }
-
-.footer-back{
+/* ================== ALT ================== */
+.footer-btn{
+  margin-top:24px;
+}
+.back{
   text-align:center;
-  margin-top:20px;
   font-size:18px;
+  margin-top:20px;
+  cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<!-- VARLIK -->
+<!-- ================== BAŞLIK ================== -->
 <div class="card">
-  <h2>Varlık</h2>
-  <input placeholder="ALKA / BTCUSDT"/>
-  <div class="center price">🔴 Canlı Fiyat: --</div>
+  <h1>🧾 İşlemler</h1>
+  <div class="sub">Yeni İşlem</div>
 </div>
 
-<!-- TREND -->
+<!-- ================== VARLIK ================== -->
 <div class="card">
-  <h2>Trend Yönü</h2>
-  <div class="badge-group">
-    <div class="badge active">Yükselen</div>
-    <div class="badge">Düşen</div>
-    <div class="badge">Yatay</div>
+  <div class="card-title">💎 Varlık</div>
+  <input placeholder="ALKA / BTCUSDT">
+  <div class="sub" style="margin-top:8px;">🔴 Canlı Fiyat: --</div>
+</div>
+
+<!-- ================== TREND ================== -->
+<div class="card">
+  <div class="card-title">📈 Trend Yönü</div>
+  <div class="trend">
+    <div class="active">Yükselen</div>
+    <div>Düşen</div>
+    <div>Yatay</div>
   </div>
 </div>
 
-<!-- ZAMAN -->
+<!-- ================== ZAMAN ================== -->
 <div class="card">
-  <h2>Zaman Dilimi</h2>
+  <div class="card-title">⏱️ Zaman Dilimi</div>
   <select>
     <option>5m</option>
     <option selected>15m</option>
     <option>1h</option>
-    <option>4h</option>
-    <option>1D</option>
   </select>
 </div>
 
-<!-- SMC -->
+<!-- ================== TEKNİK ANALİZ ================== -->
 <div class="card">
-  <h2>SMC</h2>
-  <div class="badge-group">
-    <div class="badge">BOS</div>
-    <div class="badge">CHoCH</div>
-    <div class="badge">OB</div>
-    <div class="badge">Likidite</div>
-    <div class="badge">FVG</div>
-    <div class="badge">Sweep</div>
+  <div class="card-title">🎯 Teknik Analiz Paneli</div>
+
+  <h3 style="text-align:center;">🧠 SMC</h3>
+  <div class="chips">
+    <div class="chip">BOS</div>
+    <div class="chip">CHoCH</div>
+    <div class="chip">OB</div>
+    <div class="chip">Likidite</div>
+    <div class="chip">FVG</div>
+    <div class="chip">Sweep</div>
+  </div>
+
+  <h3 style="text-align:center;margin-top:16px;">📊 EMA</h3>
+  <div class="chips">
+    <div class="chip">9</div>
+    <div class="chip">21</div>
+    <div class="chip">50</div>
+    <div class="chip">200</div>
+  </div>
+
+  <h3 style="text-align:center;margin-top:16px;">📉 RSI</h3>
+  <div class="chips">
+    <div class="chip">Uyumlu</div>
+    <div class="chip">Aşırı Alım (70)</div>
+    <div class="chip">Aşırı Satım (30)</div>
+  </div>
+
+  <h3 style="text-align:center;margin-top:16px;">🔀 MACD</h3>
+  <div class="chips">
+    <div class="chip">Kesişim</div>
+    <div class="chip">Pozitif</div>
+    <div class="chip">Negatif</div>
+  </div>
+
+  <h3 style="text-align:center;margin-top:16px;">🧱 Hacim</h3>
+  <div class="chips">
+    <div class="chip">Artış</div>
+    <div class="chip">Düşüş</div>
   </div>
 </div>
 
-<!-- EMA -->
+<!-- ================== AÇIKLAMA ================== -->
 <div class="card">
-  <h2>EMA</h2>
-  <div class="badge-group">
-    <div class="badge">9</div>
-    <div class="badge">21</div>
-    <div class="badge">50</div>
-    <div class="badge">200</div>
-  </div>
-</div>
-
-<!-- RSI -->
-<div class="card">
-  <h2>RSI</h2>
-  <div class="badge-group">
-    <div class="badge">Uyumlu</div>
-    <div class="badge">Aşırı Alım</div>
-    <div class="badge">Aşırı Satım</div>
-  </div>
-</div>
-
-<!-- MACD -->
-<div class="card">
-  <h2>MACD</h2>
-  <div class="badge-group">
-    <div class="badge">Kesişim</div>
-    <div class="badge">Pozitif</div>
-    <div class="badge">Negatif</div>
-  </div>
-</div>
-
-<!-- HACİM -->
-<div class="card">
-  <h2>Hacim</h2>
-  <div class="badge-group">
-    <div class="badge">Artış</div>
-    <div class="badge">Düşüş</div>
-  </div>
-</div>
-
-<!-- AÇIKLAMA -->
-<div class="card">
-  <h2>Açıklama</h2>
+  <div class="card-title">📝 Açıklama</div>
   <textarea rows="4" placeholder="Zorunlu açıklama"></textarea>
 </div>
 
-<!-- KASA -->
-<div class="card center">
-  <h2>Kasa</h2>
-  <div style="font-size:22px;font-weight:bold;">12.500 TL</div>
+<!-- ================== KASA ================== -->
+<div class="card">
+  <div class="card-title">🏦 Kasa</div>
+  <h2 style="text-align:center;">12.500 TL</h2>
 </div>
 
-<!-- GİRİŞ -->
+<!-- ================== GİRİŞ ================== -->
 <div class="card">
-  <h2>Giriş</h2>
-  <input id="fiyat" placeholder="Giriş Fiyatı"/>
-  <div class="row" style="margin-top:10px;">
-    <div><input id="adet" placeholder="Adet"/></div>
-    <div><input id="tutar" placeholder="Tutar (TL)"/></div>
+  <div class="card-title">🎯 Giriş</div>
+  <input placeholder="Giriş Fiyatı">
+  <div class="grid2" style="margin-top:12px;">
+    <input placeholder="Adet">
+    <input placeholder="Tutar (TL)">
   </div>
 </div>
 
-<!-- STOP -->
+<!-- ================== STOP ================== -->
 <div class="card">
-  <h2>Stop</h2>
+  <div class="card-title">🛑 Stop</div>
   <select>
     <option>0.5%</option>
     <option selected>1%</option>
     <option>2%</option>
   </select>
-  <input style="margin-top:10px;" placeholder="Stop Fiyatı"/>
+  <input style="margin-top:10px;" placeholder="Stop Fiyatı">
 </div>
 
-<!-- TP -->
+<!-- ================== TP ================== -->
 <div class="card">
-  <h2>Hedef Fiyat</h2>
-  <div class="row">
-    <div><input placeholder="TP1"/></div>
-    <div><input placeholder="TP2"/></div>
-    <div><input placeholder="TP3"/></div>
+  <div class="card-title">🎯🎯 Hedef Fiyat</div>
+  <div class="grid3">
+    <input placeholder="TP1">
+    <input placeholder="TP2">
+    <input placeholder="TP3">
   </div>
 </div>
 
-<!-- BUTONLAR -->
+<!-- ================== BUTONLAR ================== -->
 <div class="card">
-  <button class="btn btn-yellow">⛔ Otomatik İşlem Sonlandır</button><br><br>
-  <button class="btn btn-red">⛔ Manuel İşlem Sonlandır</button><br><br>
-  <button class="btn btn-green">⚡ İŞLEM BAŞLAT ⚡</button>
+  <div class="btn yellow">🚨 Otomatik İşlem Sonlandır</div>
+  <div class="btn red" style="margin-top:10px;">‼️ Manuel İşlem Sonlandır</div>
+  <div class="btn green" style="margin-top:10px;font-size:18px;">⚡ İŞLEM BAŞLAT ⚡</div>
 </div>
 
-<!-- SON KASA -->
-<div class="card center">
-  <h2>İşlem Sonrası Kasa</h2>
-  <div style="font-size:22px;font-weight:bold;">0 TL</div>
+<!-- ================== SON ================== -->
+<div class="card">
+  <div class="card-title">🏦 İşlem Sonrası Kasa</div>
+  <h2 style="text-align:center;">0 TL</h2>
 </div>
 
-<div class="footer-back">↩️ Geri</div>
-
-<script>
-const fiyat=document.getElementById("fiyat");
-const adet=document.getElementById("adet");
-const tutar=document.getElementById("tutar");
-
-adet.addEventListener("input",()=>{
-  if(fiyat.value) tutar.value=(adet.value*fiyat.value).toFixed(2);
-});
-tutar.addEventListener("input",()=>{
-  if(fiyat.value) adet.value=(tutar.value/fiyat.value).toFixed(2);
-});
-</script>
+<div class="back">↩️ Geri</div>
 
 </body>
 </html>
