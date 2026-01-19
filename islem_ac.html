@@ -17,6 +17,7 @@ input{width:100%;padding:12px;border-radius:12px;border:1px solid #ddd;font-size
 .badge-group{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
 .badge{padding:10px 18px;background:#eef1f4;border-radius:20px;font-size:14px;cursor:pointer;}
 .badge.active{background:#2ecc71;color:#fff;}
+.trend-row .badge{flex:1;text-align:center;}
 .btn{width:100%;padding:16px;border:none;border-radius:16px;font-size:16px;font-weight:bold;cursor:pointer;}
 .btn-green{background:#2ecc71;color:#fff;}
 .btn-red{background:#e74c3c;color:#fff;}
@@ -39,12 +40,6 @@ input{width:100%;padding:12px;border-radius:12px;border:1px solid #ddd;font-size
   <h2>💎 Varlık</h2>
   <input placeholder="ALKA / BTCUSDT">
   <div class="center" style="margin-top:8px;font-weight:bold;">🔴 Canlı Fiyat: --</div>
-</div>
-
-<!-- KASA -->
-<div class="card center">
-  <h2>🏦 Kasa</h2>
-  <div style="font-size:22px;font-weight:bold;">12.500 TL</div>
 </div>
 
 <!-- GİRİŞ -->
@@ -72,37 +67,9 @@ input{width:100%;padding:12px;border-radius:12px;border:1px solid #ddd;font-size
   </button>
 </div>
 
-<!-- RR / HEDEF -->
+<!-- BUTON -->
 <div class="card">
-  <h2>🚀 Hedef (RR)</h2>
-  <div class="badge-group" id="rrGroup">
-    <div class="badge" data-rr="1">1R</div>
-    <div class="badge" data-rr="1.5">1.5R</div>
-    <div class="badge" data-rr="2">2R</div>
-    <div class="badge" data-rr="2.5">2.5R</div>
-    <div class="badge" data-rr="3">3R</div>
-  </div>
-  <input id="tp1" style="margin-top:12px;" placeholder="TP1 (Otomatik)">
-  <div class="center" style="margin-top:6px;font-size:14px;">TP1 = %50 kapama</div>
-</div>
-
-<!-- İŞLEM DURUMU -->
-<div class="card center">
-  <h2>📊 İşlem Durumu</h2>
-  <div id="durum">Henüz işlem yok</div>
-</div>
-
-<!-- BUTONLAR -->
-<div class="card">
-  <button id="autoClose" class="btn btn-yellow" disabled>🚨 Otomatik İşlem Sonlandır</button><br><br>
-  <button class="btn btn-red">⚠️ Manuel İşlem Sonlandır</button><br><br>
   <button id="islemBtn" class="btn btn-green" disabled>⚡ İŞLEM BAŞLAT ⚡</button>
-</div>
-
-<!-- SON KASA -->
-<div class="card center">
-  <h2>İşlem Sonrası Kasa</h2>
-  <div style="font-size:22px;font-weight:bold;">0 TL</div>
 </div>
 
 <div class="footer-back">↩️ Geri</div>
@@ -113,24 +80,18 @@ const adet=document.getElementById("adet");
 const tutar=document.getElementById("tutar");
 const stopFiyat=document.getElementById("stopFiyat");
 const stopBadges=document.querySelectorAll("#stopGroup .badge");
-const rrBadges=document.querySelectorAll("#rrGroup .badge");
 const warning=document.getElementById("stopWarning");
 const onayBtn=document.getElementById("stopOnayBtn");
 const islemBtn=document.getElementById("islemBtn");
-const autoClose=document.getElementById("autoClose");
-const tp1=document.getElementById("tp1");
-const durum=document.getElementById("durum");
 
 let secilenStop=null;
 let stopOnayli=false;
-let rr=null;
-let tp1Kapandi=false;
 
 // adet / tutar
 adet.oninput=()=>{ if(fiyat.value) tutar.value=(adet.value*fiyat.value).toFixed(2); };
 tutar.oninput=()=>{ if(fiyat.value) adet.value=(tutar.value/fiyat.value).toFixed(2); };
 
-// STOP seçimi
+// stop seçimi (zorunlu)
 stopBadges.forEach(b=>{
   b.onclick=()=>{
     stopBadges.forEach(x=>x.classList.remove("active"));
@@ -142,19 +103,25 @@ stopBadges.forEach(b=>{
 });
 
 function hesaplaStop(){
-  if(!fiyat.value||!secilenStop) return;
-  stopFiyat.value=(fiyat.value-(fiyat.value*secilenStop/100)).toFixed(2);
-  kontrolStop();
+  if(!fiyat.value || !secilenStop) return;
+  const g=parseFloat(fiyat.value);
+  stopFiyat.value=(g-(g*secilenStop/100)).toFixed(2);
+  kontrol();
 }
 
-stopFiyat.oninput=kontrolStop;
+stopFiyat.oninput=kontrol;
 
-function kontrolStop(){
-  if(!fiyat.value||!secilenStop||!stopFiyat.value) return;
+function kontrol(){
+  if(!fiyat.value || !secilenStop || !stopFiyat.value){
+    islemBtn.disabled=true;
+    return;
+  }
+
   const g=parseFloat(fiyat.value);
   const s=parseFloat(stopFiyat.value);
   const yuzde=((g-s)/g)*100;
-  if(yuzde>secilenStop&&!stopOnayli){
+
+  if(yuzde>secilenStop && !stopOnayli){
     warning.style.display="block";
     warning.innerText=`⚠️ Stop %${yuzde.toFixed(2)} oldu (Seçilen %${secilenStop} aşıldı)`;
     onayBtn.style.display="block";
@@ -162,47 +129,13 @@ function kontrolStop(){
   }else{
     warning.style.display="none";
     onayBtn.style.display="none";
-    kontrolHazir();
+    islemBtn.disabled=false;
   }
 }
 
-onayBtn.onclick=()=>{ stopOnayli=true; kontrolStop(); };
-
-// RR
-rrBadges.forEach(b=>{
-  b.onclick=()=>{
-    rrBadges.forEach(x=>x.classList.remove("active"));
-    b.classList.add("active");
-    rr=parseFloat(b.dataset.rr);
-    hesaplaTP();
-  };
-});
-
-function hesaplaTP(){
-  if(!fiyat.value||!stopFiyat.value||!rr) return;
-  const g=parseFloat(fiyat.value);
-  const s=parseFloat(stopFiyat.value);
-  tp1.value=(g+((g-s)*rr)).toFixed(2);
-  kontrolHazir();
-}
-
-function kontrolHazir(){
-  if(fiyat.value&&stopFiyat.value&&rr) islemBtn.disabled=false;
-}
-
-// İŞLEM
-islemBtn.onclick=()=>{
-  durum.innerText="🟡 İşlem Açıldı – TP1 Bekleniyor";
-  autoClose.disabled=false;
-};
-
-autoClose.onclick=()=>{
-  if(!tp1Kapandi){
-    tp1Kapandi=true;
-    durum.innerText="🟢 TP1 %50 kapandı – RR takibi aktif";
-  }else{
-    durum.innerText="🟢 RR tamamlandı – İşlem kapandı";
-  }
+onayBtn.onclick=()=>{
+  stopOnayli=true;
+  kontrol();
 };
 </script>
 
