@@ -1,142 +1,266 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<title>İşlem Aç</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Yeni İşlem Aç</title>
 
 <style>
+:root{
+  --bg:#f4f6fa;
+  --card:#ffffff;
+  --text:#111;
+  --muted:#777;
+  --green:#2ecc71;
+  --red:#e74c3c;
+  --yellow:#f1c40f;
+}
+
+*{box-sizing:border-box}
 body{
-  font-family: Arial, sans-serif;
-  background:#0b0e1a;
-  color:#fff;
-  padding:20px;
+  margin:0;
+  background:var(--bg);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+  padding:16px;
+  color:var(--text);
 }
-h1{margin-bottom:20px}
-.box{
-  background:#131722;
-  padding:15px;
-  border-radius:10px;
-  margin-bottom:15px;
+
+.card{
+  background:var(--card);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.06);
 }
-input,select,button{
+
+h1{
+  margin:0 0 10px;
+  font-size:26px;
+}
+
+label{
+  font-weight:600;
+  display:block;
+  margin-bottom:6px;
+}
+
+input,select,textarea{
   width:100%;
-  padding:10px;
-  margin-top:8px;
-  border-radius:6px;
-  border:none;
-}
-button{
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #ddd;
   font-size:16px;
-  font-weight:bold;
+}
+
+textarea{min-height:90px}
+
+.row{
+  display:flex;
+  gap:10px;
+}
+
+.badges{
+  display:flex;
+  gap:10px;
+}
+
+.badge{
+  flex:1;
+  padding:14px;
+  text-align:center;
+  border-radius:14px;
+  font-weight:700;
+  cursor:pointer;
+  background:#eaeaea;
+}
+
+.badge.green.active{background:var(--green);color:#fff}
+.badge.red.active{background:var(--red);color:#fff}
+.badge.gray.active{background:#95a5a6;color:#fff}
+
+.tagbox{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.tag{
+  padding:10px 14px;
+  border-radius:14px;
+  background:#eef1f5;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.tag.active{
+  background:#2563eb;
+  color:#fff;
+}
+
+.btn{
+  width:100%;
+  padding:18px;
+  border-radius:16px;
+  border:none;
+  font-size:18px;
+  font-weight:800;
   cursor:pointer;
 }
-.green{background:#16a34a;color:#fff}
-.red{background:#dc2626;color:#fff}
-.info{opacity:.8;font-size:14px}
+
+.btn-green{background:var(--green);color:#fff}
+.btn-yellow{background:var(--yellow)}
+.btn-red{background:var(--red);color:#fff}
+
+.kasa{
+  text-align:center;
+  font-size:22px;
+  font-weight:800;
+}
 </style>
 </head>
 
 <body>
 
-<h1>⚡ Yeni İşlem Aç</h1>
+<div class="card">
+  <h1>⚡ Yeni İşlem Aç</h1>
+</div>
 
-<div class="box">
+<div class="card">
   <label>Varlık</label>
-  <input id="varlik" placeholder="BTCUSDT / ALKA">
+  <input id="varlik" placeholder="ALKA / BTCUSDT"/>
 </div>
 
-<div class="box">
+<div class="card">
+  <label>Trend Yönü</label>
+  <div class="badges">
+    <div class="badge green" onclick="setTrend(this,'YUKSELEN')">Yükselen</div>
+    <div class="badge red" onclick="setTrend(this,'DUSEN')">Düşen</div>
+    <div class="badge gray" onclick="setTrend(this,'YATAY')">Yatay</div>
+  </div>
+</div>
+
+<div class="card">
+  <label>Zaman Dilimi</label>
+  <select id="tf">
+    <option>1m</option><option>5m</option><option selected>15m</option>
+    <option>1h</option><option>4h</option><option>1d</option>
+  </select>
+</div>
+
+<div class="card">
   <label>Giriş Fiyatı</label>
-  <input id="girisFiyat" type="number" step="0.01">
+  <input id="giris" type="number" step="any"/>
 </div>
 
-<div class="box">
-  <label>Adet</label>
-  <input id="adet" type="number" step="0.01">
+<div class="card">
+  <div class="row">
+    <div>
+      <label>Adet</label>
+      <input id="adet" type="number" step="any"/>
+    </div>
+    <div>
+      <label>Stop %</label>
+      <select id="stopOran">
+        <option value="1">1%</option>
+        <option value="2">2%</option>
+        <option value="3">3%</option>
+      </select>
+    </div>
+  </div>
 </div>
 
-<div class="box">
-  <label>Stop Oranı (%)</label>
-  <input id="stopOran" type="number" value="1">
+<div class="card">
+  <label>🎯 Teknik Analiz Paneli</label>
+
+  <b>SMC</b>
+  <div class="tagbox">
+    <div class="tag">BOS</div>
+    <div class="tag">CHoCH</div>
+    <div class="tag">OB</div>
+    <div class="tag">Likidite</div>
+    <div class="tag">FVG</div>
+    <div class="tag">Sweep</div>
+  </div>
+
+  <br><b>EMA</b>
+  <div class="tagbox">
+    <div class="tag">9</div><div class="tag">21</div>
+    <div class="tag">50</div><div class="tag">200</div>
+  </div>
+
+  <br><b>RSI / MACD / Hacim</b>
+  <div class="tagbox">
+    <div class="tag">RSI</div>
+    <div class="tag">MACD</div>
+    <div class="tag">Hacim</div>
+  </div>
+
+  <br><b>Diğer (zorunlu)</b>
+  <textarea id="aciklama"></textarea>
 </div>
 
-<div class="box">
-  <button class="green" onclick="islemBaslat()">⚡ İŞLEM BAŞLAT ⚡</button>
+<div class="card">
+  <label>TP Seviyeleri</label>
+  <input id="tp1" placeholder="TP1"/>
+  <input id="tp2" placeholder="TP2" style="margin-top:8px"/>
+  <input id="tp3" placeholder="TP3" style="margin-top:8px"/>
 </div>
 
-<div class="box info" id="kasaInfo"></div>
+<div class="card">
+  <button id="btnAuto" class="btn btn-yellow">🚨 Otomatik İşlem Sonlandır</button>
+</div>
+
+<div class="card">
+  <button id="btnManual" class="btn btn-red">⛔ Manuel İşlem Sonlandır</button>
+</div>
+
+<div class="card">
+  <button id="btnIslemBaslat" class="btn btn-green">⚡ İŞLEM BAŞLAT ⚡</button>
+</div>
+
+<div class="card kasa">
+  🏦 İşlem Sonrası Kasa<br>
+  <span id="kasa">0 TL</span>
+</div>
+
+<script src="core.js"></script>
 
 <script>
-/* ===============================
-   CORE ENGINE (INLINE)
-   =============================== */
+let trend=null;
 
-const Core = {
-  kasa:{ bakiye:100000 },
-  aktifIslemler:[]
-};
-
-function kasaYukle(){
-  const k=localStorage.getItem("kasa");
-  if(k) Core.kasa.bakiye=Number(k);
+function setTrend(el,val){
+  document.querySelectorAll(".badge").forEach(b=>b.classList.remove("active"));
+  el.classList.add("active");
+  trend=val;
 }
 
-function kasaKaydet(){
-  localStorage.setItem("kasa",Core.kasa.bakiye);
-}
+document.querySelectorAll(".tag").forEach(t=>{
+  t.onclick=()=>t.classList.toggle("active");
+});
 
-function islemKaydet(){
-  localStorage.setItem("aktifIslemler",JSON.stringify(Core.aktifIslemler));
-}
-
-function islemBaslat(){
-  const varlik=document.getElementById("varlik").value.trim();
-  const girisFiyat=Number(document.getElementById("girisFiyat").value);
-  const adet=Number(document.getElementById("adet").value);
-  const stopOran=Number(document.getElementById("stopOran").value);
-
-  if(!varlik||!girisFiyat||!adet){
-    alert("Eksik alan var");
-    return;
-  }
-
-  const tutar=girisFiyat*adet;
-  if(tutar>Core.kasa.bakiye){
-    alert("Kasa yetersiz");
-    return;
-  }
-
-  const islem={
-    id:Date.now(),
-    varlik,
-    girisFiyat,
-    adet,
-    tutar,
-    stopFiyat:girisFiyat*(1-stopOran/100),
-    durum:"AKTIF",
-    zaman:new Date().toISOString()
+document.getElementById("btnIslemBaslat").onclick=()=>{
+  const data={
+    varlik:varlik.value,
+    giris:+giris.value,
+    adet:+adet.value,
+    stopOran:+stopOran.value,
+    stop:+giris.value*(1-stopOran.value/100),
+    tp1:+tp1.value||0,
+    tp2:+tp2.value||0,
+    tp3:+tp3.value||0,
+    trend,
+    tf:tf.value,
+    aciklama:aciklama.value
   };
 
-  Core.aktifIslemler.push(islem);
-  Core.kasa.bakiye-=tutar;
+  if(!data.varlik||!data.giris||!data.adet||!data.aciklama){
+    alert("Zorunlu alanlar boş");
+    return;
+  }
 
-  kasaKaydet();
-  islemKaydet();
-  guncelle();
-
+  Core.islemBaslat(data);
   alert("İşlem açıldı");
-}
-
-function guncelle(){
-  document.getElementById("kasaInfo").innerText=
-    "Güncel Kasa: "+Core.kasa.bakiye.toFixed(2)+" TL";
-}
-
-(function init(){
-  kasaYukle();
-  guncelle();
-})();
+};
 </script>
 
 </body>
