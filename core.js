@@ -1,148 +1,117 @@
-/* =========================================================
-   CORE.JS – TRADING JOURNAL ÇEKİRDEK MOTOR
-   ========================================================= */
+/* =========================
+   CORE STATE (GLOBAL BEYİN)
+   ========================= */
 
-/* ===== GLOBAL STATE ===== */
 const Core = {
-  settings: {
-    priceInterval: 15000, // varsayılan 15 sn
-    soundEnabled: true,
-    dataSource: "tradingview" // altyapı hazır
+  kasa: {
+    bakiye: 0,
+    baslangic: 0
   },
 
-  prices: {},       // anlık fiyatlar
-  trades: [],       // açık işlemler
-  listeners: [],    // UI güncelleyiciler
-  timer: null
+  ayarlar: {
+    fiyatKontrolSuresi: 15, // saniye
+    stopOraniVarsayilan: 1, // %
+    tpKademeleri: [1], // 1R varsayılan
+    otomatikSonlandirma: false
+  },
+
+  aktifIslemler: [],
+
+  islemler: [],
+
+  fiyatKaynak: {
+    tip: "NONE", // YAHOO | TRADINGVIEW | MATRIX | NONE
+    bagli: false
+  }
 };
 
-/* ===== UTIL ===== */
-function now() {
-  return Date.now();
+/* =========================
+   KASA
+   ========================= */
+
+function kasaBaslat(tutar) {
+  Core.kasa.bakiye = Number(tutar);
+  Core.kasa.baslangic = Number(tutar);
 }
 
-/* ===== PRICE PROVIDER (15 dk gecikmeli altyapı) ===== */
-async function fetchPrice(symbol) {
-  try {
-    // DEMO / TradingView benzeri gecikmeli yapı
-    const res = await fetch(
-      `https://api.allorigins.win/raw?url=https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbol}`
-    );
-    const data = await res.json();
-    return data.quoteResponse.result[0]?.regularMarketPrice || null;
-  } catch (e) {
-    return null;
-  }
+function kasaGuncelle(tutar) {
+  Core.kasa.bakiye += Number(tutar);
 }
 
-/* ===== PRICE WATCHER ===== */
-async function updatePrices() {
-  for (let trade of Core.trades) {
-    const price = await fetchPrice(trade.symbol);
-    if (price) {
-      Core.prices[trade.symbol] = price;
-      evaluateTrade(trade, price);
-    }
-  }
-  notifyUI();
-}
+/* =========================
+   İŞLEM OLUŞTUR
+   ========================= */
 
-/* ===== START / STOP WATCHER ===== */
-function startWatcher() {
-  stopWatcher();
-  updatePrices();
-  Core.timer = setInterval(updatePrices, Core.settings.priceInterval);
-}
+function islemOlustur(data) {
+  const islem = {
+    id: Date.now(),
+    varlik: data.varlik,
+    tip: data.tip, // COIN | HISSE
+    trend: data.trend, // YUKSELEN | DUSEN | YATAY
+    zamanDilimi: data.zamanDilimi,
 
-function stopWatcher() {
-  if (Core.timer) clearInterval(Core.timer);
-}
+    girisFiyat: data.girisFiyat,
+    adet: data.adet,
+    tutar: data.tutar,
 
-/* ===== TRADE EVALUATION ===== */
-function evaluateTrade(trade, price) {
-  trade.lastPrice = price;
-  trade.pnl =
-    trade.direction === "LONG"
-      ? ((price - trade.entry) / trade.entry) * 100
-      : ((trade.entry - price) / trade.entry) * 100;
+    stop: {
+      oran: data.stopOran,
+      fiyat: data.stopFiyat,
+      manuel: data.stopManuel || false
+    },
 
-  trade.distanceToStop = Math.abs(
-    ((price - trade.stop) / trade.entry) * 100
-  );
+    hedefler: {
+      tp1: data.tp1 || null,
+      tp2: data.tp2 || null,
+      tp3: data.tp3 || null
+    },
 
-  if (
-    (trade.direction === "LONG" && price <= trade.stop) ||
-    (trade.direction === "SHORT" && price >= trade.stop)
-  ) {
-    trade.status = "STOP";
-    if (trade.autoClose) trade.closed = true;
-    playSound("stop");
-  } else if (
-    (trade.direction === "LONG" && price >= trade.target) ||
-    (trade.direction === "SHORT" && price <= trade.target)
-  ) {
-    trade.status = "TARGET";
-    if (trade.autoClose) trade.closed = true;
-    playSound("target");
-  } else if (trade.distanceToStop < 0.3) {
-    trade.status = "RISK";
-    playSound("warning");
-  } else {
-    trade.status = "ACTIVE";
-  }
-}
+    teknikAnaliz: data.teknikAnaliz || {},
 
-/* ===== SOUND ===== */
-function playSound(type) {
-  if (!Core.settings.soundEnabled) return;
+    durum: "AKTIF", // AKTIF | YARI_KAPANDI | KAPANDI
+    acilisZamani: new Date().toISOString(),
+    kapanisZamani: null,
 
-  const sounds = {
-    stop: new Audio("https://assets.mixkit.co/sfx/preview/mixkit-alarm-tone-996.mp3"),
-    target: new Audio("https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"),
-    warning: new Audio("https://assets.mixkit.co/sfx/preview/mixkit-interface-hint-notification-911.mp3")
+    pnl: 0
   };
 
-  sounds[type]?.play().catch(() => {});
+  Core.aktifIslemler.push(islem);
+  return islem;
 }
 
-/* ===== TRADE MANAGEMENT ===== */
-function addTrade(trade) {
-  Core.trades.push({
-    ...trade,
-    createdAt: now(),
-    status: "ACTIVE",
-    lastPrice: null,
-    pnl: 0
-  });
+/* =========================
+   İŞLEM KAPAT
+   ========================= */
+
+function islemKapat(islemId, sebep) {
+  const index = Core.aktifIslemler.findIndex(i => i.id === islemId);
+  if (index === -1) return;
+
+  const islem = Core.aktifIslemler[index];
+  islem.durum = "KAPANDI";
+  islem.kapanisZamani = new Date().toISOString();
+  islem.kapanisSebebi = sebep;
+
+  Core.islemler.push(islem);
+  Core.aktifIslemler.splice(index, 1);
 }
 
-function getTrades() {
-  return Core.trades.filter(t => !t.closed);
+/* =========================
+   FİYAT KAYNAK (ALTYAPI)
+   ========================= */
+
+function fiyatKaynagiAyarla(tip) {
+  Core.fiyatKaynak.tip = tip;
+  Core.fiyatKaynak.bagli = true;
 }
 
-/* ===== UI HOOK ===== */
-function subscribe(fn) {
-  Core.listeners.push(fn);
-}
+/* =========================
+   DIŞARI AÇ (GLOBAL)
+   ========================= */
 
-function notifyUI() {
-  Core.listeners.forEach(fn => fn(Core));
-}
-
-/* ===== SETTINGS ===== */
-function setIntervalSeconds(sec) {
-  Core.settings.priceInterval = sec * 1000;
-  startWatcher();
-}
-
-/* ===== AUTO START ===== */
-startWatcher();
-
-/* ===== EXPORT (GLOBAL) ===== */
-window.Core = {
-  addTrade,
-  getTrades,
-  subscribe,
-  setIntervalSeconds,
-  state: Core
-};
+window.Core = Core;
+window.kasaBaslat = kasaBaslat;
+window.kasaGuncelle = kasaGuncelle;
+window.islemOlustur = islemOlustur;
+window.islemKapat = islemKapat;
+window.fiyatKaynagiAyarla = fiyatKaynagiAyarla;
