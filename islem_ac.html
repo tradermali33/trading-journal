@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>İşlem Aç</title>
+
+<style>
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+  background:#f3f6f7;
+}
+header{
+  padding:14px 16px;
+  background:#fff;
+  box-shadow:0 4px 14px rgba(0,0,0,.08);
+  font-weight:800;
+  font-size:18px;
+}
+.container{
+  padding:16px;
+  max-width:520px;
+  margin:auto;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.card{
+  background:#fff;
+  border-radius:18px;
+  padding:16px;
+  box-shadow:0 12px 30px rgba(0,0,0,.08);
+}
+h3{
+  margin:0 0 10px;
+}
+input,select,textarea{
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #e5e7eb;
+  font-size:14px;
+}
+textarea{resize:none}
+.row{
+  display:flex;
+  gap:10px;
+}
+.btn{
+  padding:12px;
+  border:none;
+  border-radius:14px;
+  font-weight:800;
+  cursor:pointer;
+}
+.btn.green{background:#16a34a;color:#fff}
+.btn.red{background:#dc2626;color:#fff}
+.btn.gray{background:#e5e7eb}
+.badge{
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+.badge.active{background:#2563eb;color:#fff}
+.badge.green{background:#dcfce7;color:#16a34a}
+.badge.red{background:#fee2e2;color:#dc2626}
+.badge.gray{background:#e5e7eb}
+.warn{color:#dc2626;font-size:13px;font-weight:700}
+.hidden{display:none}
+</style>
+</head>
+
+<body>
+
+<header>⚡️ Yeni İşlem Aç ⚡️</header>
+
+<div class="container">
+
+<!-- VARLIK -->
+<div class="card">
+  <h3>Varlık</h3>
+  <input id="symbol" placeholder="BTCUSDT / THYAO">
+</div>
+
+<!-- TREND -->
+<div class="card">
+  <h3>Trend Yönü</h3>
+  <div class="row">
+    <div class="badge green" onclick="setTrend('up',this)">Yükselen</div>
+    <div class="badge red" onclick="setTrend('down',this)">Düşen</div>
+    <div class="badge gray" onclick="setTrend('flat',this)">Yatay</div>
+  </div>
+</div>
+
+<!-- ZAMAN -->
+<div class="card">
+  <h3>Zaman Dilimi</h3>
+  <select id="tf">
+    <option>1m</option><option>5m</option><option>15m</option>
+    <option>30m</option><option>1h</option><option>4h</option><option>1d</option>
+  </select>
+</div>
+
+<!-- TEKNİK -->
+<div class="card">
+  <h3>🎯 Teknik Analiz Paneli</h3>
+
+  <b>SMC</b>
+  <div class="row">
+    <div class="badge gray">BOS</div>
+    <div class="badge gray">CHoCH</div>
+    <div class="badge gray">Order Block</div>
+    <div class="badge gray">Liquidity Sweep</div>
+  </div>
+
+  <br><b>EMA (tek seçim)</b>
+  <select id="ema">
+    <option>3</option><option>5</option><option>7</option><option>9</option>
+    <option>11</option><option>13</option><option>14</option><option>19</option>
+    <option>20</option><option>21</option><option>48</option><option>50</option>
+    <option>100</option><option>144</option><option>200</option>
+  </select>
+
+  <br><br><b>RSI / MACD / Hacim</b>
+  <div class="row">
+    <div class="badge gray">RSI</div>
+    <div class="badge gray">MACD</div>
+    <div class="badge gray">Hacim</div>
+  </div>
+
+  <br><b>Diğer (zorunlu)</b>
+  <textarea id="note" rows="3" placeholder="Giriş sebebini yaz..."></textarea>
+</div>
+
+<!-- FİYAT -->
+<div class="card">
+  <h3>Fiyatlar</h3>
+  <input id="entry" placeholder="Alış Fiyatı">
+
+  <br><br><b>Stop</b>
+  <input id="stop" readonly>
+  <label>
+    <input type="checkbox" onchange="manualStop(this)"> Manuel
+  </label>
+  <div id="stopWarn" class="warn hidden">⚠️ Son kararın mı?</div>
+
+  <br><br><b>Hedefler</b>
+  <input id="tp1" placeholder="TP1">
+  <input placeholder="TP2 (opsiyonel)">
+  <input placeholder="TP3 (opsiyonel)">
+</div>
+
+<!-- OTOMATİK -->
+<div class="card">
+  <button id="autoBtn" class="btn gray" disabled>⚠️ Otomatik İşlem Sonlandır</button>
+</div>
+
+<!-- BAŞLAT -->
+<div class="card">
+  <button class="btn red" style="width:100%">⚡️ İŞLEM BAŞLAT ⚡️</button>
+</div>
+
+</div>
+
+<script>
+let trend=null;
+function setTrend(t,el){
+  trend=t;
+  document.querySelectorAll(".badge").forEach(b=>b.classList.remove("active"));
+  el.classList.add("active");
+}
+
+document.getElementById("entry").addEventListener("input",()=>{
+  const e=parseFloat(entry.value);
+  if(!isNaN(e)){
+    stop.value=(e*0.99).toFixed(2);
+  }
+});
+
+function manualStop(cb){
+  stop.readOnly=!cb.checked;
+  document.getElementById("stopWarn").classList.toggle("hidden",!cb.checked);
+}
+
+document.getElementById("tp1").addEventListener("input",()=>{
+  document.getElementById("autoBtn").disabled=!tp1.value;
+  document.getElementById("autoBtn").className=
+    tp1.value?"btn red":"btn gray";
+});
+</script>
+
+</body>
+</html>
