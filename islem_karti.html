@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>İşlem Kartı</title>
+
+<style>
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+  background:#f3f6f7;
+}
+
+.container{
+  max-width:420px;
+  margin:auto;
+  padding:16px;
+}
+
+/* ===== KART ===== */
+.trade-card{
+  background:#fff;
+  border-radius:18px;
+  padding:16px;
+  box-shadow:0 12px 30px rgba(0,0,0,.08);
+  border-top:6px solid #e5e7eb;
+}
+
+.trade-card.green{ border-color:#16a34a }
+.trade-card.yellow{ border-color:#facc15 }
+.trade-card.red{ border-color:#dc2626 }
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.asset{
+  font-size:18px;
+  font-weight:800;
+}
+
+.trend{
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.trend.up{ background:#dcfce7;color:#16a34a }
+.trend.down{ background:#fee2e2;color:#dc2626 }
+.trend.flat{ background:#e5e7eb;color:#374151 }
+
+.line{
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
+  margin:4px 0;
+}
+
+.hr{ height:1px;background:#e5e7eb;margin:10px 0 }
+
+/* ===== RR BAR ===== */
+.rr-wrap{
+  margin:12px 0;
+}
+
+.rr-bar{
+  width:100%;
+  height:12px;
+  background:#e5e7eb;
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.rr-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#facc15,#16a34a);
+  transition:.4s;
+}
+
+.rr-text{
+  font-size:13px;
+  text-align:right;
+  margin-top:4px;
+  font-weight:700;
+}
+
+/* ===== DURUM ===== */
+.status{
+  margin-top:10px;
+  padding:10px;
+  border-radius:12px;
+  font-weight:700;
+  font-size:14px;
+}
+
+.status.yellow{ background:#fef9c3;color:#92400e }
+.status.green{ background:#dcfce7;color:#166534 }
+.status.red{ background:#fee2e2;color:#991b1b }
+
+/* ===== BUTONLAR ===== */
+.actions{
+  display:flex;
+  gap:10px;
+  margin-top:14px;
+}
+
+button{
+  flex:1;
+  border:none;
+  border-radius:14px;
+  padding:12px;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.btn-settings{ background:#e5e7eb }
+.btn-close{ background:#dc2626;color:#fff }
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<div id="card" class="trade-card yellow">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="asset">BTCUSDT</div>
+    <div class="trend up">YÜKSELEN</div>
+  </div>
+
+  <!-- PRICES -->
+  <div class="line"><span>Canlı Fiyat</span><b id="price">67.420</b></div>
+  <div class="line"><span>Alış</span><b id="entry">66.800</b></div>
+  <div class="line"><span>Stop</span><b id="stop">66.100</b></div>
+
+  <div class="hr"></div>
+
+  <!-- TP / RR -->
+  <div class="line"><span>TP1</span><b id="tp1">67.500</b></div>
+  <div class="line"><span>RR Hedef</span><b id="rrTarget">1R</b></div>
+
+  <!-- RR BAR -->
+  <div class="rr-wrap">
+    <div class="rr-bar">
+      <div id="rrFill" class="rr-fill"></div>
+    </div>
+    <div id="rrText" class="rr-text">RR: 0.00R</div>
+  </div>
+
+  <!-- STATUS -->
+  <div id="status" class="status yellow">
+    🟡 %50 Kapatıldı – RR Takibi Aktif
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="actions">
+    <button class="btn-settings" onclick="openSettings()">🔧 Ayarlar</button>
+    <button class="btn-close" onclick="manualClose()">❌ Manuel Kapat</button>
+  </div>
+
+</div>
+
+</div>
+
+<script>
+/* ===== DEMO DATA ===== */
+let entry=66800;
+let stop=66100;
+let tp1=67500;
+let rrTarget=1; // 1R
+let closed50=true;
+let fullClosed=false;
+
+/* ===== RR HESAP ===== */
+function calcRR(price){
+  const risk=Math.abs(entry-stop);
+  const reward=Math.abs(price-entry);
+  return reward/risk;
+}
+
+/* ===== DEMO FİYAT AKIŞI ===== */
+let price=67420;
+setInterval(()=>{
+  if(fullClosed) return;
+
+  price+=Math.random()*40-20;
+  document.getElementById("price").innerText=price.toFixed(0);
+
+  const rr=calcRR(price);
+  document.getElementById("rrText").innerText=`RR: ${rr.toFixed(2)}R`;
+  document.getElementById("rrFill").style.width=
+    Math.min(rr/rrTarget*100,100)+"%";
+
+  // RR hedef
+  if(closed50 && rr>=rrTarget){
+    finishTrade("RR Hedefi Tamamlandı");
+  }
+
+  // TP1 geri dönüş
+  if(closed50 && price<=tp1){
+    finishTrade("%50 Kâr Alındı – TP1 Geri Dönüş");
+  }
+
+},1500);
+
+/* ===== KAPAT ===== */
+function finishTrade(text){
+  fullClosed=true;
+  const card=document.getElementById("card");
+  const status=document.getElementById("status");
+
+  card.classList.remove("yellow");
+  card.classList.add("green");
+
+  status.classList.remove("yellow");
+  status.classList.add("green");
+  status.innerText="🟢 "+text;
+}
+
+/* ===== AKSİYONLAR ===== */
+function manualClose(){
+  const reason=prompt("Bu işlemi neden kapatıyorsun?");
+  if(!reason) return;
+  alert("İşlem manuel kapatıldı");
+}
+
+function openSettings(){
+  alert("RR / TP1 davranışı ayarları (modal gelecek)");
+}
+</script>
+
+</body>
+</html>
