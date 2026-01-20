@@ -3,173 +3,134 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ana Panel</title>
+<title>Trading Journal</title>
 
 <style>
-/* =====================
-   TEMA DEĞİŞKENLERİ
-===================== */
 :root{
-  --dark-bg:#060b16;
-  --dark-card:#0b1220;
-  --dark-text:#ffffff;
-
+  --dark-bg:#0b1220;
+  --dark-card:#111827;
   --light-bg:#f3f4f6;
   --light-card:#ffffff;
-  --light-text:#0b1220;
-
   --accent:#2563eb;
-}
-
-/* =====================
-   GENEL
-===================== */
-*{
-  box-sizing:border-box;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
 }
 
 body{
   margin:0;
-  padding:16px;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+  background:var(--dark-bg);
+  color:#e5e7eb;
   transition:.3s;
 }
 
-/* =====================
-   TEMA
-===================== */
-body.dark{
-  background:var(--dark-bg);
-  color:var(--dark-text);
-}
 body.light{
   background:var(--light-bg);
-  color:var(--light-text);
+  color:#111827;
 }
 
-/* =====================
-   CONTAINER
-===================== */
 .container{
   max-width:480px;
   margin:auto;
-}
-
-/* =====================
-   KART
-===================== */
-.card{
-  border-radius:20px;
   padding:16px;
-  margin-bottom:16px;
-  box-shadow:0 8px 20px rgba(0,0,0,.15);
 }
 
-body.dark .card{
-  background:var(--dark-card);
-}
-body.light .card{
-  background:var(--light-card);
-}
-
-/* =====================
-   PROFİL
-===================== */
-.profile{
-  text-align:center;
-}
-
-.profile img{
-  width:140px;
-  height:140px;
-  border-radius:50%;
-  margin-bottom:12px;
-}
-
-.name{
-  font-size:22px;
-  font-weight:700;
-}
-
-.sub{
-  opacity:.7;
-  margin-top:4px;
-}
-
-/* =====================
-   ÜST BAR
-===================== */
-.topbar{
+/* TOP BAR */
+.top{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:12px;
+  margin-bottom:16px;
 }
 
-.topbar .left span{
+.top .icons span{
   font-size:20px;
   cursor:pointer;
   margin-right:8px;
 }
 
-.topbar .right span{
+.lang span{
   margin-left:8px;
   cursor:pointer;
   font-weight:600;
+  opacity:.6;
+}
+.lang span.active{opacity:1;color:var(--accent);}
+
+/* PROFILE */
+.profile{
+  background:linear-gradient(180deg,#0f172a,#020617);
+  border-radius:20px;
+  padding:24px 16px;
+  text-align:center;
 }
 
-/* =====================
-   MENÜ
-===================== */
+body.light .profile{
+  background:var(--light-card);
+}
+
+.profile img{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  object-fit:cover;
+  margin-bottom:12px;
+}
+
+.profile h1{
+  margin:0;
+  font-size:22px;
+}
+
+.profile p{
+  margin-top:6px;
+  opacity:.7;
+}
+
+/* MENU */
+.menu{
+  margin-top:24px;
+}
+
 .menu-btn{
   width:100%;
   padding:16px;
   border-radius:16px;
   border:none;
-  font-size:18px;
-  font-weight:600;
-  cursor:pointer;
+  background:#020617;
+  color:#e5e7eb;
+  font-size:16px;
   margin-bottom:12px;
+  cursor:pointer;
   display:flex;
   justify-content:center;
   align-items:center;
   gap:10px;
 }
 
-body.dark .menu-btn{
-  background:#111827;
-  color:#fff;
-}
 body.light .menu-btn{
   background:#e5e7eb;
-  color:#111;
+  color:#111827;
 }
 
-.menu-btn.primary{
-  background:var(--accent)!important;
-  color:#fff!important;
+.menu-btn.active{
+  background:var(--accent);
+  color:#fff;
 }
 
-/* =====================
-   ALT MENÜ
-===================== */
+/* SUB MENU */
 .submenu{
   display:none;
-  margin-top:8px;
+  margin-bottom:12px;
 }
 
-.submenu button{
-  font-size:15px;
-  padding:12px;
+.submenu .menu-btn{
+  opacity:.85;
 }
 
-/* =====================
-   FOOTER
-===================== */
+/* FOOTER */
 .footer{
   text-align:center;
-  opacity:.6;
-  margin-top:20px;
+  margin-top:40px;
+  opacity:.5;
 }
 </style>
 </head>
@@ -177,40 +138,53 @@ body.light .menu-btn{
 <body>
 <div class="container">
 
-  <!-- ÜST BAR -->
-  <div class="topbar">
-    <div class="left">
-      <span onclick="setTheme('dark')">🌙</span>
-      <span onclick="setTheme('light')">☀️</span>
+  <!-- TOP -->
+  <div class="top">
+    <div class="icons">
+      <span onclick="toggleTheme()">🌙</span>
+      <span onclick="toggleTheme()">☀️</span>
     </div>
-    <div class="right">
-      <span onclick="setLang('tr')" id="trBtn">TR</span>
-      <span onclick="setLang('en')" id="enBtn">EN</span>
+    <div class="lang">
+      <span id="tr" class="active" onclick="setLang('tr')">TR</span>
+      <span id="en" onclick="setLang('en')">EN</span>
     </div>
   </div>
 
-  <!-- PROFİL -->
-  <div class="card profile">
-    <img src="https://i.imgur.com/4Z7m1XU.png" alt="logo">
-    <div class="name">MEHMET ALİ YILMAZ</div>
-    <div class="sub">Kendi kendinin analisti</div>
+  <!-- PROFILE -->
+  <div class="profile">
+    <!-- LOGO: img/logo.png dosyası koy -->
+    <img src="img/logo.png" alt="logo">
+    <h1 id="name">MEHMET ALİ YILMAZ</h1>
+    <p id="desc">Kendi kendinin analisti</p>
   </div>
 
-  <!-- MENÜ -->
-  <div class="card">
-    <button class="menu-btn" onclick="go('kasa.html')">🏦 Kasa</button>
+  <!-- MENU -->
+  <div class="menu">
 
-    <button class="menu-btn primary" onclick="toggleSub()">📊 İşlemler</button>
+    <button class="menu-btn" onclick="go('kasa.html')">
+      🏦 <span id="kasaTxt">Kasa</span>
+    </button>
+
+    <button class="menu-btn" id="islemBtn" onclick="toggleSub()">
+      📊 <span id="islemTxt">İşlemler</span>
+    </button>
 
     <div class="submenu" id="subMenu">
       <button class="menu-btn" onclick="go('islem_ac.html')">➕ İşlem Aç</button>
-      <button class="menu-btn">⛔ İşlem Kapat</button>
-      <button class="menu-btn">📅 Günlük İşlem Özeti</button>
-      <button class="menu-btn">📜 Geçmiş İşlem Özeti</button>
+      <button class="menu-btn" onclick="go('islem_kapat.html')">⛔ İşlem Kapat</button>
+      <button class="menu-btn" onclick="go('kapatilan_islemler.html')">📁 Kapatılan İşlemler</button>
+      <button class="menu-btn" onclick="go('gunluk_ozet.html')">📅 Günlük İşlem Özeti</button>
+      <button class="menu-btn" onclick="go('gecmis_ozet.html')">🕘 Geçmiş İşlem Özeti</button>
     </div>
 
-    <button class="menu-btn">🧠 Analist</button>
-    <button class="menu-btn" onclick="go('ayarlar.html')">⚙️ Ayarlar</button>
+    <button class="menu-btn" onclick="go('analist.html')">
+      🧠 <span id="analistTxt">Analist</span>
+    </button>
+
+    <button class="menu-btn" onclick="go('ayarlar.html')">
+      ⚙️ <span id="ayarTxt">Ayarlar</span>
+    </button>
+
   </div>
 
   <div class="footer">Trading Journal</div>
@@ -218,48 +192,51 @@ body.light .menu-btn{
 </div>
 
 <script>
-/* =====================
-   TEMA MOTORU
-===================== */
-function applyTheme(){
-  const t = localStorage.getItem("theme") || "dark";
-  document.body.classList.remove("dark","light");
-  document.body.classList.add(t);
-}
-function setTheme(t){
-  localStorage.setItem("theme",t);
-  applyTheme();
+/* THEME */
+function toggleTheme(){
+  document.body.classList.toggle("light");
 }
 
-/* =====================
-   DİL MOTORU
-===================== */
-function setLang(l){
-  localStorage.setItem("lang",l);
-  document.getElementById("trBtn").style.opacity = l==="tr" ? "1" : ".5";
-  document.getElementById("enBtn").style.opacity = l==="en" ? "1" : ".5";
-}
-
-/* =====================
-   MENÜ
-===================== */
+/* SUB MENU */
 function toggleSub(){
   const s=document.getElementById("subMenu");
-  s.style.display = s.style.display==="block" ? "none" : "block";
+  const b=document.getElementById("islemBtn");
+  if(s.style.display==="block"){
+    s.style.display="none";
+    b.classList.remove("active");
+  }else{
+    s.style.display="block";
+    b.classList.add("active");
+  }
 }
 
-/* =====================
-   NAV
-===================== */
+/* NAV */
 function go(p){
   window.location.href=p;
 }
 
-/* =====================
-   INIT
-===================== */
-applyTheme();
-setLang(localStorage.getItem("lang") || "tr");
+/* LANG */
+function setLang(l){
+  tr.classList.remove("active");
+  en.classList.remove("active");
+  document.getElementById(l).classList.add("active");
+
+  if(l==="en"){
+    name.innerText="MEHMET ALI YILMAZ";
+    desc.innerText="Self trader analyst";
+    kasaTxt.innerText="Wallet";
+    islemTxt.innerText="Trades";
+    analistTxt.innerText="Analyst";
+    ayarTxt.innerText="Settings";
+  }else{
+    name.innerText="MEHMET ALİ YILMAZ";
+    desc.innerText="Kendi kendinin analisti";
+    kasaTxt.innerText="Kasa";
+    islemTxt.innerText="İşlemler";
+    analistTxt.innerText="Analist";
+    ayarTxt.innerText="Ayarlar";
+  }
+}
 </script>
 
 </body>
