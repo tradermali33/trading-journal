@@ -30,6 +30,12 @@
       box-shadow:0 4px 10px rgba(0,0,0,0.06);
     }
 
+    /* 🔹 BAŞLIK KARTI */
+    .title-card{
+      background:#e0f2fe; /* tema farkı */
+      border:2px solid #0284c7;
+    }
+
     .card h2{
       margin:0 0 14px 0;
       font-size:18px;
@@ -67,26 +73,26 @@
 
 <div class="container">
 
-  <!-- 🔒 KİLİTLİ ÜST BÖLÜM (DOKUNULMAZ) -->
+  <!-- 🔒 TARİH (KİLİTLİ) -->
   <div class="card center">
     <div style="font-size:18px;font-weight:bold;">
       💰 12.12.2012 Pazartesi 💰
     </div>
   </div>
 
-  <div class="card">
+  <!-- 🔒 BAŞLIK KARTI (VURGULU) -->
+  <div class="card title-card">
     <h2>Yeni İşlem Aç</h2>
   </div>
-  <!-- 🔒 KİLİTLİ ÜST BÖLÜM BİTTİ -->
 
-  <!-- ✅ ADIM 2: 💎 VARLIK KARTI (YENİ EKLENDİ) -->
+  <!-- 💎 VARLIK -->
   <div class="card">
     <h2>💎 Varlık</h2>
     <input id="symbolInput" placeholder="ALKA / BTCUSDT" />
     <div id="priceText" class="center price">🔴 Canlı Fiyat: --</div>
   </div>
 
-  <!-- 🔒 ALT SABİT -->
+  <!-- 🔒 GERİ -->
   <div class="footer-back" onclick="goBack()">↩️ Geri</div>
 
 </div>
@@ -96,7 +102,6 @@
     window.location.href = "index.html";
   }
 
-  // ŞİMDİLİK SADE FİYAT GÖSTERİMİ (API SONRA)
   const input = document.getElementById("symbolInput");
   const priceText = document.getElementById("priceText");
 
