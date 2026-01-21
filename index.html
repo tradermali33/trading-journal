@@ -17,9 +17,6 @@
   --card:#ffffff;
   --text:#111;
   --shadow:rgba(0,0,0,.15);
-  --menu:#ffffff;
-  --metal1:rgba(255,255,255,.65);
-  --metal2:rgba(255,255,255,.15);
 }
 
 body.dark{
@@ -27,9 +24,6 @@ body.dark{
   --card:#161e2e;
   --text:#f9fafb;
   --shadow:rgba(0,0,0,.65);
-  --menu:#161e2e;
-  --metal1:rgba(255,255,255,.35);
-  --metal2:rgba(255,255,255,.08);
 }
 
 body{
@@ -47,7 +41,7 @@ body{
 /* ================= CARD ================= */
 .card{
   background:var(--card);
-  border-radius:18px;
+  border-radius:20px;
   padding:16px;
   margin-bottom:16px;
   box-shadow:0 10px 24px var(--shadow);
@@ -88,65 +82,55 @@ body{
 /* ================= LOGO ================= */
 .logo-card{
   text-align:center;
-  overflow:hidden;
 }
 
 .logo-wrap{
   position:relative;
   display:inline-block;
-  border-radius:50%;
 }
 
 .logo{
   width:220px;
   display:block;
-  border-radius:50%;
   filter:drop-shadow(0 14px 26px rgba(0,0,0,.35));
 }
 
-/* ===== C SEÇENEĞİ – MADALYON METAL IŞIK ===== */
+/* ===== ALT METAL DOKU ===== */
 .logo-wrap::before{
   content:"";
   position:absolute;
   inset:0;
   border-radius:50%;
   background:
-    radial-gradient(
-      circle at 30% 30%,
-      var(--metal1),
-      transparent 45%
-    ),
-    radial-gradient(
-      circle at 70% 70%,
-      var(--metal2),
-      transparent 55%
-    );
-  animation:metalFlow 6s ease-in-out infinite;
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 45%),
+    radial-gradient(circle at 70% 70%, rgba(255,255,255,.12), transparent 55%);
   pointer-events:none;
-  mix-blend-mode:screen;
 }
 
-@keyframes metalFlow{
-  0%{
-    background-position:30% 30%,70% 70%;
-  }
-  50%{
-    background-position:70% 30%,30% 70%;
-  }
-  100%{
-    background-position:30% 30%,70% 70%;
-  }
+/* ===== ASIL PARLAMA (NET) ===== */
+.logo-wrap::after{
+  content:"";
+  position:absolute;
+  top:-40%;
+  left:-80%;
+  width:60%;
+  height:180%;
+  background:linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,.9) 45%,
+    rgba(255,255,255,.9) 55%,
+    transparent 100%
+  );
+  transform:rotate(12deg);
+  animation:logoShine 3.8s ease-in-out infinite;
+  pointer-events:none;
 }
 
-.title{
-  font-size:22px;
-  font-weight:bold;
-  margin-top:10px;
-}
-
-.subtitle{
-  font-size:14px;
-  margin-top:6px;
+@keyframes logoShine{
+  0%{left:-80%}
+  40%{left:140%}
+  100%{left:140%}
 }
 
 /* ================= MENU ================= */
@@ -156,7 +140,7 @@ body{
 }
 
 .menu-btn{
-  background:var(--menu);
+  background:var(--card);
   border-radius:16px;
   padding:18px;
   text-align:center;
@@ -168,7 +152,6 @@ body{
   overflow:hidden;
 }
 
-/* TIKLANAN MENÜDE METAL DOKUNUŞ */
 .menu-btn::after{
   content:"";
   position:absolute;
@@ -212,8 +195,10 @@ body{
     <div class="logo-wrap">
       <img src="assets/logo.png" class="logo">
     </div>
-    <div class="title">MEHMET ALİ YILMAZ</div>
-    <div class="subtitle">
+    <div style="font-size:22px;font-weight:bold;margin-top:10px;">
+      MEHMET ALİ YILMAZ
+    </div>
+    <div style="font-size:14px;margin-top:6px;">
       ⚡️ Disiplin 🧠 Analiz 🩸 Motivasyon 🚀 Başarı
     </div>
   </div>
@@ -221,10 +206,10 @@ body{
   <!-- MENU -->
   <div class="card">
     <div class="menu">
-      <div class="menu-btn" data-page="kasa.html">🏦 Kasa</div>
-      <div class="menu-btn" data-page="islemler.html">📊 İşlemler</div>
-      <div class="menu-btn" data-page="analiz.html">🧠 Analiz</div>
-      <div class="menu-btn" data-page="ayarlar.html">⚙️ Ayarlar</div>
+      <div class="menu-btn">🏦 Kasa</div>
+      <div class="menu-btn">📊 İşlemler</div>
+      <div class="menu-btn">🧠 Analiz</div>
+      <div class="menu-btn">⚙️ Ayarlar</div>
     </div>
   </div>
 
@@ -259,7 +244,6 @@ document.querySelectorAll(".menu-btn").forEach(btn=>{
     btn.style.setProperty("--x",(e.clientX-r.left)+"px");
     btn.style.setProperty("--y",(e.clientY-r.top)+"px");
   });
-  btn.onclick=()=>setTimeout(()=>location.href=btn.dataset.page,120);
 });
 </script>
 
