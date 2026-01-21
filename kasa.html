@@ -8,19 +8,10 @@
 <style>
 :root{
   --dark-bg:#0b1220;
-  --dark-card:#121b2f;
-  --dark-menu:#18243c;
-
+  --dark-card:#121a2a;
   --light-bg:#f2f4f7;
   --light-card:#ffffff;
-  --light-menu:#e7ecf3;
-
-  --text-dark:#0b1220;
-  --text-light:#ffffff;
-
-  --green:#1db954;
-  --red:#e53935;
-  --blue:#3b82f6;
+  --accent:#4f8cff;
 }
 
 *{
@@ -33,201 +24,129 @@ body{
   padding:16px;
   background:var(--bg);
   color:var(--text);
-  transition:.3s;
 }
 
 .container{
-  max-width:480px;
+  max-width:420px;
   margin:auto;
 }
 
 .card{
-  background:var(--card);
   border-radius:18px;
   padding:16px;
-  margin-bottom:14px;
-  box-shadow:0 8px 20px rgba(0,0,0,.25);
+  margin-bottom:16px;
+  background:var(--card);
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
 }
+
+.center{ text-align:center; }
+.big{ font-size:20px; font-weight:bold; }
+.mid{ font-size:17px; }
+.small{ font-size:14px; opacity:.85 }
 
 .header-row{
   display:flex;
   gap:12px;
 }
 
-.header-btn{
+.toggle{
   flex:1;
   padding:12px;
-  border-radius:14px;
+  border-radius:16px;
   text-align:center;
   cursor:pointer;
-  background:var(--menu);
-  font-weight:bold;
+  background:rgba(255,255,255,.08);
   border:2px solid transparent;
-  transition:.15s;
 }
 
-.header-btn.active{
-  border-color:var(--blue);
-}
-
-.header-btn:active{
-  transform:scale(.96);
-  box-shadow:inset 0 0 18px rgba(255,255,255,.15);
-}
-
-.title-card{
-  text-align:center;
-  font-size:20px;
-  font-weight:bold;
+.toggle.active{
+  border-color:var(--accent);
 }
 
 .kasa-title{
-  background:var(--menu);
-  text-align:center;
-  font-size:22px;
-  font-weight:bold;
-}
-
-.value-card{
-  text-align:center;
+  background:var(--opposite-card);
+  color:var(--opposite-text);
   font-size:20px;
   font-weight:bold;
 }
 
-.kar{
-  color:var(--green);
-  font-weight:bold;
-}
-.zarar{
-  color:var(--red);
-  font-weight:bold;
-}
-
-input{
-  width:100%;
-  padding:14px;
-  border-radius:14px;
-  border:none;
-  background:var(--menu);
-  color:var(--text);
-  font-size:16px;
-  margin-bottom:12px;
-}
-
-.row{
-  display:flex;
-  gap:12px;
-}
-
 .btn{
-  flex:1;
+  width:100%;
   padding:16px;
+  border:none;
   border-radius:16px;
-  text-align:center;
   font-size:18px;
-  font-weight:bold;
   cursor:pointer;
-  transition:.15s;
+  background:rgba(255,255,255,.1);
+  color:inherit;
 }
 
-.btn:active{
-  transform:scale(.95);
-  box-shadow:inset 0 0 20px rgba(255,255,255,.2);
-}
-
-.btn-green{ background:var(--green); color:#fff; }
-.btn-red{ background:var(--red); color:#fff; }
-
-.back-btn{
-  background:var(--menu);
-  padding:18px;
-  text-align:center;
-  border-radius:18px;
-  font-size:18px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.back-btn:active{
-  transform:scale(.96);
-  box-shadow:inset 0 0 18px rgba(255,255,255,.15);
-}
 </style>
 </head>
 
 <body>
 <div class="container">
 
-  <!-- TEMA & DİL -->
-  <div class="card header-row">
-    <div id="themeBtn" class="header-btn">☀️ Tema</div>
-    <div id="langBtn" class="header-btn active">🌐 TR</div>
+<!-- TEMA & DİL (INDEX İLE AYNI) -->
+<div class="card">
+  <div class="header-row">
+    <div id="themeBtn" class="toggle">🌙 Tema</div>
+    <div id="langBtn" class="toggle active">🌐 TR</div>
   </div>
+</div>
 
-  <!-- TARİH -->
-  <div class="card title-card" id="dateText"></div>
+<!-- TARİH -->
+<div class="card center mid" id="dateText"></div>
 
-  <!-- KASA BAŞLIK -->
-  <div class="card kasa-title">🏦 Kasa</div>
+<!-- KASA BAŞLIK -->
+<div class="card kasa-title center">
+  🏦 Kasa
+</div>
 
-  <!-- TL / $ -->
-  <div class="card value-card">125.000 TL = 3.850 $</div>
+<!-- KASA DEĞER -->
+<div class="card center big">
+  125.000 TL &nbsp; = &nbsp; 3.850 $
+</div>
 
-  <!-- GÜNLÜK KAR / ZARAR -->
-  <div class="card">
-    <h3>Günlük Kar / Zarar Durumu</h3>
-    <p>Kar : <span class="kar">+1.250 TL</span></p>
-    <p>Zarar : <span class="zarar">-320 TL</span></p>
-    <p>Günlük Oran : <span class="kar">% +3.4 ▲</span></p>
-  </div>
-
-  <!-- NAKİT GİRİŞ / ÇIKIŞ -->
-  <div class="card">
-    <h3>Toplam Nakit Giriş / Çıkış Bilgisi</h3>
-    <input placeholder="Tutar (TL)">
-    <div class="row">
-      <div class="btn btn-green">+ Yatır</div>
-      <div class="btn btn-red">- Çek</div>
-    </div>
-  </div>
-
-  <!-- GERİ -->
-  <div class="back-btn" onclick="history.back()">↩️ Geri</div>
+<!-- GERİ -->
+<div class="card">
+  <button class="btn" onclick="history.back()">↩️ Geri</button>
+</div>
 
 </div>
 
 <script>
-const body = document.body;
-const themeBtn = document.getElementById("themeBtn");
+/* === TEMA === */
+let theme = localStorage.getItem("theme") || "dark";
+applyTheme();
 
-function setTheme(t){
-  if(t==="dark"){
-    body.style.setProperty("--bg","var(--dark-bg)");
-    body.style.setProperty("--card","var(--dark-card)");
-    body.style.setProperty("--menu","var(--dark-menu)");
-    body.style.setProperty("--text","var(--text-light)");
-    themeBtn.innerText="🌙 Tema";
-  }else{
-    body.style.setProperty("--bg","var(--light-bg)");
-    body.style.setProperty("--card","var(--light-card)");
-    body.style.setProperty("--menu","var(--light-menu)");
-    body.style.setProperty("--text","var(--text-dark)");
-    themeBtn.innerText="☀️ Tema";
-  }
-  localStorage.setItem("theme",t);
-}
-
-themeBtn.onclick=()=>{
-  const t = localStorage.getItem("theme")==="dark" ? "light":"dark";
-  setTheme(t);
+document.getElementById("themeBtn").onclick = () => {
+  theme = theme === "dark" ? "light" : "dark";
+  localStorage.setItem("theme", theme);
+  applyTheme();
 };
 
-setTheme(localStorage.getItem("theme") || "dark");
+function applyTheme(){
+  if(theme==="dark"){
+    document.documentElement.style.setProperty("--bg","var(--dark-bg)");
+    document.documentElement.style.setProperty("--card","var(--dark-card)");
+    document.documentElement.style.setProperty("--text","#fff");
+    document.documentElement.style.setProperty("--opposite-card","var(--light-card)");
+    document.documentElement.style.setProperty("--opposite-text","#000");
+  }else{
+    document.documentElement.style.setProperty("--bg","var(--light-bg)");
+    document.documentElement.style.setProperty("--card","var(--light-card)");
+    document.documentElement.style.setProperty("--text","#000");
+    document.documentElement.style.setProperty("--opposite-card","var(--dark-card)");
+    document.documentElement.style.setProperty("--opposite-text","#fff");
+  }
+}
 
+/* === TARİH === */
 const d=new Date();
-const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
-document.getElementById("dateText").innerText =
-  d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
+const days=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+document.getElementById("dateText").innerText=
+`${d.toLocaleDateString("tr-TR")} ${days[d.getDay()]}`;
 </script>
 
 </body>
