@@ -1,231 +1,261 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Trading Journal</title>
 
 <style>
-/* ================== FONT ================== */
+/* ===================== RESET ===================== */
 *{
-  font-family:"Times New Roman", serif;
   box-sizing:border-box;
-  margin:0;
-  padding:0;
+  font-family:"Times New Roman", serif;
+  -webkit-tap-highlight-color: transparent;
 }
-
-/* ================== THEME VARIABLES ================== */
-:root{
-  --bg-dark:#0b1020;
-  --bg-light:#f2f4f6;
-
-  --card-dark:#11182b;
-  --card-light:#ffffff;
-
-  --text-dark:#e5e7eb;
-  --text-light:#0f172a;
-
-  --menu-dark:#141c30;
-  --menu-light:#ffffff;
-
-  --accent:#2563eb;
-}
-
-/* ================== BODY ================== */
 body{
+  margin:0;
   min-height:100vh;
-  background:var(--bg-dark);
-  color:var(--text-dark);
-  transition:.3s;
+  transition:background 0.6s ease;
+  overflow-x:hidden;
 }
 
+/* ===================== TEMA ===================== */
+body.dark{
+  background:radial-gradient(1200px 600px at top, #0c1220, #05070d);
+  color:#f5f5f5;
+}
 body.light{
-  background:var(--bg-light);
-  color:var(--text-light);
+  background:radial-gradient(1200px 600px at top, #ffffff, #e6ebf0);
+  color:#0b0b0b;
 }
 
-/* ================== TOP BAR ================== */
-.top-bar{
+/* ===================== HEADER ===================== */
+.header{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:14px 16px;
+  padding:14px 18px;
 }
-
-.theme-toggle span{
-  font-size:22px;
+.toggle-group span{
   cursor:pointer;
-  margin-right:6px;
+  font-size:20px;
+  margin-right:10px;
 }
-
 .lang{
   font-weight:bold;
-}
-.lang span{
-  margin-left:8px;
-  opacity:.5;
-}
-.lang .active{
-  opacity:1;
-  color:#22c55e;
-}
-
-/* ================== CONTAINER ================== */
-.container{
-  max-width:420px;
-  margin:auto;
-  padding:12px;
-}
-
-/* ================== CARDS ================== */
-.card{
-  background:var(--card-dark);
-  border-radius:22px;
-  padding:20px;
-  margin-bottom:18px;
-  box-shadow:0 18px 40px rgba(0,0,0,.45);
-  transition:.3s;
-}
-
-body.light .card{
-  background:var(--card-light);
-  box-shadow:0 18px 40px rgba(0,0,0,.15);
-}
-
-/* ================== LOGO CARD ================== */
-.logo-card{
-  text-align:center;
-}
-
-.logo{
-  width:190px;
-  height:auto;
-  margin-bottom:14px;
-  transition:.4s;
-}
-
-/* ---- Hover Glow ---- */
-body.dark .logo:hover{
-  filter:drop-shadow(0 0 18px rgba(120,180,255,.7))
-         drop-shadow(0 0 40px rgba(200,220,255,.4));
-}
-
-body.light .logo:hover{
-  filter:drop-shadow(0 0 18px rgba(255,200,120,.8))
-         drop-shadow(0 0 36px rgba(180,140,60,.5));
-}
-
-/* ================== TEXT ================== */
-.name{
-  font-size:22px;
-  font-weight:bold;
-  letter-spacing:1px;
-  margin-bottom:6px;
-}
-
-.motto{
-  font-size:14px;
-  opacity:.85;
-  margin-bottom:10px;
-}
-
-/* ================== MENU BUTTONS ================== */
-.menu-btn{
-  background:var(--menu-dark);
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:14px;
-  text-align:center;
-  font-size:18px;
-  font-weight:bold;
   cursor:pointer;
-  transition:.25s;
+}
+.lang span{ margin-left:8px; opacity:.5 }
+.lang .active{ opacity:1 }
+
+/* ===================== LOGO KART ===================== */
+.logo-card{
+  margin:20px;
+  border-radius:26px;
+  padding:28px 20px 26px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.15));
+  backdrop-filter: blur(10px);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.25),
+    0 30px 80px rgba(0,0,0,.45);
 }
 
-body.light .menu-btn{
-  background:var(--menu-light);
+/* LOGO */
+.logo-wrap{
+  width:220px;
+  height:220px;
+  margin:0 auto 18px;
+  position:relative;
+}
+.logo-wrap img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  border-radius:50%;
+  filter:
+    drop-shadow(0 20px 35px rgba(0,0,0,.55));
+  animation: idleMetal 6s ease-in-out infinite;
+  transition:filter .4s ease, transform .4s ease;
 }
 
+/* METAL IDLE PARILTI */
+@keyframes idleMetal{
+  0%{ filter:brightness(1) contrast(1); }
+  50%{ filter:brightness(1.12) contrast(1.1); }
+  100%{ filter:brightness(1) contrast(1); }
+}
+
+/* SCROLL IŞIK KATMANI */
+.logo-shine{
+  position:absolute;
+  inset:-30%;
+  background:
+    radial-gradient(circle at var(--x,50%) var(--y,30%),
+      rgba(255,255,255,.45),
+      rgba(255,255,255,.05),
+      transparent 60%);
+  mix-blend-mode:overlay;
+  pointer-events:none;
+  transition:background .15s linear;
+}
+
+/* HOVER / TOUCH PREMIUM */
+.logo-wrap:hover img{
+  transform:scale(1.04);
+  filter:
+    drop-shadow(0 0 25px rgba(255,255,255,.35))
+    drop-shadow(0 30px 60px rgba(0,0,0,.7));
+}
+
+/* ===================== YAZILAR ===================== */
+.name{
+  font-size:26px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+.motto{
+  font-size:15px;
+  opacity:.9;
+}
+
+/* ===================== MENÜ ===================== */
+.menu{
+  margin:26px 20px;
+}
+.menu-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  padding:18px;
+  margin-bottom:16px;
+  border-radius:18px;
+  font-size:18px;
+  cursor:pointer;
+  position:relative;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.2));
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.25),
+    0 18px 45px rgba(0,0,0,.55);
+  transition:transform .25s ease, box-shadow .25s ease;
+  overflow:hidden;
+}
+.menu-btn::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at var(--mx,50%) var(--my,0%),
+      rgba(255,255,255,.35),
+      transparent 55%);
+  opacity:0;
+  transition:opacity .25s ease;
+}
 .menu-btn:hover{
   transform:translateY(-2px);
-  box-shadow:0 10px 30px rgba(0,0,0,.35);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.35),
+    0 25px 60px rgba(0,0,0,.75);
 }
+.menu-btn:hover::after{ opacity:1 }
 
-/* ================== FOOTER ================== */
+/* ===================== FOOTER ===================== */
 .footer{
   text-align:center;
-  opacity:.5;
-  font-size:13px;
-  margin-top:20px;
+  opacity:.4;
+  margin:30px 0 20px;
 }
 
-/* ================== FIX CLASSES ================== */
-body.dark{ }
-body.light{ }
-
+/* ===================== AÇIK TEMA AYARI ===================== */
+body.light .logo-card,
+body.light .menu-btn{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.95), rgba(220,225,230,.9));
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.8),
+    0 25px 60px rgba(0,0,0,.18);
+}
+body.light .logo-wrap img{
+  filter:
+    drop-shadow(0 20px 30px rgba(0,0,0,.25));
+}
 </style>
 </head>
 
-<body class="dark">
+<body>
 
-<!-- ================== TOP BAR ================== -->
-<div class="top-bar">
-  <div class="theme-toggle">
-    <span id="toggleTheme">🌙</span>
+<!-- HEADER -->
+<div class="header">
+  <div class="toggle-group">
+    <span id="themeToggle">🌙</span>
   </div>
   <div class="lang">
-    <span class="active">TR</span>
-    <span>EN</span>
+    <span class="active">TR</span><span>EN</span>
   </div>
 </div>
 
-<!-- ================== CONTENT ================== -->
-<div class="container">
-
-  <!-- LOGO -->
-  <div class="card logo-card">
-    <img src="assets/logo.png" class="logo" alt="Logo">
-    <div class="name">MEHMET ALİ YILMAZ</div>
-    <div class="motto">⚡ Disiplin 🧠 Analiz 🩸 Motivasyon 🚀 Başarı</div>
+<!-- LOGO -->
+<div class="logo-card">
+  <div class="logo-wrap" id="logoWrap">
+    <img src="assets/logo.png" alt="Logo">
+    <div class="logo-shine" id="shine"></div>
   </div>
-
-  <!-- MENU -->
-  <div class="menu-btn" onclick="go('kasa.html')">🏦 Kasa</div>
-  <div class="menu-btn" onclick="go('islemler_v2.html')">📊 İşlemler</div>
-  <div class="menu-btn" onclick="go('analist.html')">🧠 Analist</div>
-  <div class="menu-btn" onclick="go('ayarlar.html')">⚙️ Ayarlar</div>
-
-  <div class="footer">Trading Journal</div>
+  <div class="name">MEHMET ALİ YILMAZ</div>
+  <div class="motto">⚡ Disiplin 🧠 Analiz 🩸 Motivasyon 🚀 Başarı</div>
 </div>
 
-<!-- ================== SCRIPT ================== -->
+<!-- MENU -->
+<div class="menu">
+  <div class="menu-btn">🏦 Kasa</div>
+  <div class="menu-btn">📊 İşlemler</div>
+  <div class="menu-btn">🧠 Analist</div>
+  <div class="menu-btn">⚙️ Ayarlar</div>
+</div>
+
+<div class="footer">Trading Journal</div>
+
 <script>
+/* ===================== TEMA ===================== */
 const body=document.body;
-const toggle=document.getElementById("toggleTheme");
+const themeBtn=document.getElementById("themeToggle");
+const savedTheme=localStorage.getItem("theme")||"dark";
+body.classList.add(savedTheme);
+themeBtn.textContent=savedTheme==="dark"?"🌙":"☀️";
 
-/* LOAD THEME */
-const savedTheme=localStorage.getItem("theme");
-if(savedTheme){
-  body.className=savedTheme;
-  toggle.innerText=savedTheme==="dark"?"🌙":"☀️";
-}
-
-/* TOGGLE */
-toggle.onclick=()=>{
-  if(body.classList.contains("dark")){
-    body.className="light";
-    toggle.innerText="☀️";
-    localStorage.setItem("theme","light");
-  }else{
-    body.className="dark";
-    toggle.innerText="🌙";
-    localStorage.setItem("theme","dark");
-  }
+themeBtn.onclick=()=>{
+  body.classList.toggle("dark");
+  body.classList.toggle("light");
+  const t=body.classList.contains("dark")?"dark":"light";
+  localStorage.setItem("theme",t);
+  themeBtn.textContent=t==="dark"?"🌙":"☀️";
+  haptic();
 };
 
-/* NAV */
-function go(p){
-  window.location.href=p;
+/* ===================== SCROLL IŞIK ===================== */
+const shine=document.getElementById("shine");
+window.addEventListener("scroll",()=>{
+  const y=Math.min(80,window.scrollY/4);
+  shine.style.setProperty("--y",y+"%");
+});
+
+/* ===================== MOUSE / TOUCH IŞIK ===================== */
+document.querySelectorAll(".menu-btn,.logo-wrap").forEach(el=>{
+  el.addEventListener("mousemove",e=>{
+    const r=el.getBoundingClientRect();
+    el.style.setProperty("--mx",((e.clientX-r.left)/r.width)*100+"%");
+    el.style.setProperty("--my",((e.clientY-r.top)/r.height)*100+"%");
+  });
+  el.addEventListener("click",haptic);
+});
+
+/* ===================== HAPTIC ===================== */
+function haptic(){
+  if(navigator.vibrate) navigator.vibrate(18);
 }
 </script>
 
