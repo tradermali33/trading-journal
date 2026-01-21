@@ -18,6 +18,7 @@
   --text:#111;
   --shadow:rgba(0,0,0,.15);
   --menu:#ffffff;
+  --shine:rgba(255,255,255,.55);
 }
 
 body.dark{
@@ -26,6 +27,7 @@ body.dark{
   --text:#f9fafb;
   --shadow:rgba(0,0,0,.65);
   --menu:#161e2e;
+  --shine:rgba(255,255,255,.25);
 }
 
 body{
@@ -81,46 +83,44 @@ body{
   font-weight:bold;
 }
 
-/* ================= LOGO CARD ================= */
+/* ================= LOGO ================= */
 .logo-card{
   text-align:center;
+  overflow:hidden;
+}
+
+.logo-wrap{
   position:relative;
-  overflow:hidden; /* KRİTİK */
+  display:inline-block;
 }
 
-/* 🔥 A SEÇENEĞİ TARZI – SAĞ ÜST → SAĞ ALT YANSIMA */
-.logo-card::after{
-  content:"";
-  position:absolute;
-  top:-50%;
-  right:12%;
-  width:22%;
-  height:200%;
-  background:linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(255,255,255,.55) 45%,
-    transparent 70%
-  );
-  animation:shineVertical 2.4s linear infinite;
-  pointer-events:none;
-}
-
-@keyframes shineVertical{
-  from{
-    transform:translateY(-100%);
-  }
-  to{
-    transform:translateY(100%);
-  }
-}
-
-/* ================= LOGO ================= */
 .logo{
   width:220px;
   display:block;
-  margin:auto;
   filter:drop-shadow(0 16px 28px rgba(0,0,0,.45));
+}
+
+/* sürekli metalik parlama */
+.logo-wrap::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-60%;
+  width:40%;
+  height:100%;
+  background:linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,.35),
+    transparent
+  );
+  animation:shine 4s infinite;
+}
+
+@keyframes shine{
+  0%{left:-60%;}
+  50%{left:120%;}
+  100%{left:120%;}
 }
 
 .title{
@@ -153,13 +153,14 @@ body{
   overflow:hidden;
 }
 
+/* SADECE TIKLANAN BUTONDA PARLAMA */
 .menu-btn::after{
   content:"";
   position:absolute;
   inset:0;
   background:radial-gradient(
     circle at var(--x,50%) var(--y,50%),
-    rgba(255,255,255,.35),
+    var(--shine),
     transparent 55%
   );
   opacity:0;
@@ -193,7 +194,9 @@ body{
 
   <!-- LOGO -->
   <div class="card logo-card">
-    <img src="assets/logo.png" class="logo">
+    <div class="logo-wrap">
+      <img src="assets/logo.png" class="logo">
+    </div>
     <div class="title">MEHMET ALİ YILMAZ</div>
     <div class="subtitle">
       ⚡️ Disiplin 🧠 Analiz 🩸 Motivasyon 🚀 Başarı
@@ -234,7 +237,7 @@ const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumar
 document.getElementById("today").innerText=
   d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
 
-/* MENU TOUCH */
+/* MENU CLICK EFFECT */
 document.querySelectorAll(".menu-btn").forEach(btn=>{
   btn.addEventListener("pointerdown",e=>{
     const r=btn.getBoundingClientRect();
