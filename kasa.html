@@ -12,10 +12,10 @@ body{
   margin:0;
   padding:16px;
   background:#f3f4f6;
+  color:#111;
   transition:.3s;
 }
 
-/* ===== TEMALAR ===== */
 body.dark{
   background:#0f172a;
   color:#e5e7eb;
@@ -43,16 +43,11 @@ body.dark .card{
 }
 
 .center{text-align:center;}
-
-.row{
-  display:flex;
-  gap:12px;
-}
-
+.row{display:flex;gap:12px;}
 .row>div{flex:1;}
 
-/* ===== ÜST BUTONLAR (TEMA / DİL) ===== */
-.top-btn{
+/* ===== TEMA & DİL (ANA MENÜ İLE AYNI) ===== */
+.selector{
   padding:12px;
   border-radius:14px;
   font-weight:bold;
@@ -61,19 +56,19 @@ body.dark .card{
   background:#e5e7eb;
 }
 
-.top-btn.active{
+.selector.active{
   outline:2px solid #2563eb;
 }
 
-body.dark .top-btn{
+body.dark .selector{
   background:#1e293b;
   color:#e5e7eb;
 }
 
-/* ===== KASA BAŞLIK (ZIT TEMA) ===== */
+/* ===== KASA BAŞLIK (ZIT TEMA MENÜ RENGİ) ===== */
 .kasa-header{
-  background:#020617;
-  color:#fff;
+  background:#1e293b;
+  color:#e5e7eb;
 }
 
 body.dark .kasa-header{
@@ -96,7 +91,7 @@ body.dark input{
   border-color:#334155;
 }
 
-/* ===== BUTONLAR ===== */
+/* ===== BUTON ===== */
 .btn{
   width:100%;
   padding:16px;
@@ -115,25 +110,20 @@ body.dark .btn-gray{
   background:#334155;
   color:#e5e7eb;
 }
-
-/* ===== GERİ ===== */
-.back-btn{
-  margin-top:24px;
-}
 </style>
 </head>
 
 <body>
 
-<!-- 🌙☀️ TEMA / 🌐 DİL -->
+<!-- 🌙☀️ TEMA & 🌐 DİL -->
 <div class="card">
   <div class="row">
-    <div id="themeBtn" class="top-btn">🌙 Tema</div>
-    <div class="top-btn active">🌐 TR</div>
+    <div id="themeBtn" class="selector">🌙 Tema</div>
+    <div class="selector active">🌐 TR</div>
   </div>
 </div>
 
-<!-- 📅 TARİH -->
+<!-- 📅 TARİH (İKON YOK) -->
 <div class="card center">
   <strong id="today"></strong>
 </div>
@@ -161,7 +151,7 @@ body.dark .btn-gray{
   </div>
 </div>
 
-<!-- 💰 NAKİT GİRİŞ / ÇIKIŞ -->
+<!-- 💰 NAKİT GİRİŞ / ÇIKIŞ (GERİ GELDİ) -->
 <div class="card">
   <div class="card-title">Toplam Nakit Giriş / Çıkış Bilgisi</div>
 
@@ -174,7 +164,7 @@ body.dark .btn-gray{
 </div>
 
 <!-- ↩️ GERİ -->
-<div class="back-btn">
+<div class="card">
   <button class="btn btn-gray" onclick="history.back()">↩️ Geri</button>
 </div>
 
@@ -185,20 +175,21 @@ const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumar
 document.getElementById("today").innerText=
   d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
 
-// === TEMA ===
+// === TEMA (ANA MENÜ İLE AYNI MANTIK) ===
 const body=document.body;
 const themeBtn=document.getElementById("themeBtn");
 
-if(localStorage.getItem("theme")==="dark"){
-  body.classList.add("dark");
-  themeBtn.innerText="☀️ Tema";
+function applyTheme(){
+  const t=localStorage.getItem("theme")||"light";
+  body.classList.toggle("dark",t==="dark");
+  themeBtn.innerText=t==="dark"?"☀️ Tema":"🌙 Tema";
 }
+applyTheme();
 
 themeBtn.onclick=()=>{
-  body.classList.toggle("dark");
-  const dark=body.classList.contains("dark");
-  localStorage.setItem("theme",dark?"dark":"light");
-  themeBtn.innerText=dark?"☀️ Tema":"🌙 Tema";
+  const next=body.classList.contains("dark")?"light":"dark";
+  localStorage.setItem("theme",next);
+  applyTheme();
 };
 </script>
 
