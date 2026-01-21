@@ -6,7 +6,7 @@
 <title>Ana Panel</title>
 
 <style>
-/* ================= TEMEL ================= */
+/* ========== GLOBAL ========== */
 *{
   box-sizing:border-box;
   font-family:"Times New Roman", serif;
@@ -16,20 +16,20 @@
   --bg:#f3f4f6;
   --card:#ffffff;
   --text:#111;
-  --menu:#e5e7eb;
-  --accent:#16a34a;
-  --press:rgba(22,163,74,.25);
-  --shadow:rgba(0,0,0,.15);
+  --menu:#1f2937;
+  --menuText:#fff;
+  --shadow:rgba(0,0,0,.18);
+  --shine:rgba(255,255,255,.35);
 }
 
 body.dark{
   --bg:#0f172a;
   --card:#111827;
   --text:#f9fafb;
-  --menu:#1f2937;
-  --accent:#22c55e;
-  --press:rgba(34,197,94,.25);
-  --shadow:rgba(0,0,0,.6);
+  --menu:#e5e7eb;
+  --menuText:#111;
+  --shadow:rgba(0,0,0,.65);
+  --shine:rgba(255,255,255,.18);
 }
 
 body{
@@ -44,7 +44,7 @@ body{
   padding:16px;
 }
 
-/* ================= KART ================= */
+/* ========== CARD ========== */
 .card{
   background:var(--card);
   border-radius:18px;
@@ -55,7 +55,7 @@ body{
   overflow:hidden;
 }
 
-/* metalik parlama katmanı */
+/* metalik yansıma */
 .card::after{
   content:"";
   position:absolute;
@@ -63,70 +63,75 @@ body{
   background:linear-gradient(
     120deg,
     transparent 30%,
-    rgba(255,255,255,.18),
+    var(--shine),
     transparent 70%
   );
   opacity:0;
-  transition:.25s;
+  transition:.3s;
 }
 
-.card:active::after{
-  opacity:1;
-}
+.card:active::after{ opacity:1; }
 
-/* ================= ÜST KONTROLLER ================= */
+/* ========== TOP CONTROLS ========== */
 .top-row{
   display:flex;
   justify-content:space-between;
-  gap:12px;
+  gap:10px;
   margin-bottom:12px;
 }
 
 .btn-group{
   display:flex;
-  gap:8px;
+  gap:6px;
 }
 
 .toggle-btn{
-  padding:10px 14px;
-  border-radius:12px;
+  padding:8px 12px;
+  border-radius:10px;
   background:var(--menu);
+  color:var(--menuText);
   font-weight:bold;
+  font-size:13px;
   cursor:pointer;
   box-shadow:0 6px 14px var(--shadow);
   transition:.15s;
 }
 
 .toggle-btn.active{
-  background:var(--accent);
-  color:#fff;
+  outline:2px solid var(--menuText);
 }
 
 .toggle-btn:active{
   transform:scale(.96);
-  box-shadow:0 0 0 4px var(--press);
 }
 
-/* ================= TARİH ================= */
+/* ========== DATE ========== */
 .date{
   text-align:center;
   font-size:16px;
   font-weight:bold;
 }
 
-/* ================= LOGO ================= */
+/* ========== LOGO ========== */
 .logo-card{
   text-align:center;
   background:var(--menu);
+  color:var(--menuText);
 }
 
 .logo{
-  width:200px;
+  width:210px;
   height:auto;
-  object-fit:contain;
   display:block;
-  margin:10px auto 14px;
-  filter:drop-shadow(0 14px 26px rgba(0,0,0,.35));
+  margin:8px auto 12px;
+  filter:drop-shadow(0 16px 30px rgba(0,0,0,.45));
+  animation:idleGlow 4s ease-in-out infinite;
+}
+
+@keyframes idleGlow{
+  0%{filter:drop-shadow(0 12px 22px rgba(0,0,0,.35));}
+  50%{filter:drop-shadow(0 20px 38px rgba(0,0,0,.55));}
+  100%{filter:drop-shadow(0 12px 22px rgba(0,0,0,.35));}
 }
 
 .title{
@@ -137,10 +142,9 @@ body{
 .subtitle{
   margin-top:6px;
   font-size:14px;
-  opacity:.85;
 }
 
-/* ================= MENÜ ================= */
+/* ========== MENU ========== */
 .menu{
   display:grid;
   gap:14px;
@@ -148,6 +152,7 @@ body{
 
 .menu-btn{
   background:var(--menu);
+  color:var(--menuText);
   border-radius:16px;
   padding:18px;
   text-align:center;
@@ -160,28 +165,21 @@ body{
   transition:.15s;
 }
 
-/* metalik basılma */
 .menu-btn::after{
   content:"";
   position:absolute;
   inset:0;
   background:radial-gradient(
     circle at var(--x,50%) var(--y,50%),
-    rgba(255,255,255,.35),
+    var(--shine),
     transparent 60%
   );
   opacity:0;
   transition:.15s;
 }
 
-.menu-btn:active::after{
-  opacity:1;
-}
-
-.menu-btn:active{
-  transform:scale(.97);
-  box-shadow:0 0 0 4px var(--press);
-}
+.menu-btn:active::after{ opacity:1; }
+.menu-btn:active{ transform:scale(.97); }
 </style>
 </head>
 
@@ -189,7 +187,7 @@ body{
 
 <div class="container">
 
-  <!-- ÜST SATIR -->
+  <!-- TOP -->
   <div class="top-row">
     <!-- TEMA -->
     <div class="btn-group">
@@ -204,7 +202,7 @@ body{
     </div>
   </div>
 
-  <!-- TARİH -->
+  <!-- DATE -->
   <div class="card date" id="today"></div>
 
   <!-- LOGO -->
@@ -214,12 +212,12 @@ body{
     <div class="subtitle">⚡️ Disiplin 🧠 Analiz 🩸 Motivasyon 🚀 Başarı</div>
   </div>
 
-  <!-- MENÜ -->
+  <!-- MENU -->
   <div class="card">
     <div class="menu">
-      <div class="menu-btn" data-page="islemler.html">📊 İşlemler</div>
       <div class="menu-btn" data-page="kasa.html">🏦 Kasa</div>
-      <div class="menu-btn" data-page="analist.html">🧠 Analist</div>
+      <div class="menu-btn" data-page="islemler.html">📊 İşlemler</div>
+      <div class="menu-btn" data-page="analiz.html">🧠 Analiz</div>
       <div class="menu-btn" data-page="ayarlar.html">⚙️ Ayarlar</div>
     </div>
   </div>
@@ -227,7 +225,7 @@ body{
 </div>
 
 <script>
-/* ================= TEMA ================= */
+/* THEME */
 const body=document.body;
 const lightBtn=document.getElementById("lightBtn");
 const darkBtn=document.getElementById("darkBtn");
@@ -238,25 +236,22 @@ function setTheme(t){
   lightBtn.classList.toggle("active",t==="light");
   darkBtn.classList.toggle("active",t==="dark");
 }
-
 setTheme(localStorage.getItem("theme")||"light");
-
 lightBtn.onclick=()=>setTheme("light");
 darkBtn.onclick=()=>setTheme("dark");
 
-/* ================= TARİH ================= */
+/* DATE */
 const d=new Date();
 const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
 document.getElementById("today").innerText=
   d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
 
-/* ================= MENÜ YÖNLENDİRME ================= */
+/* MENU EFFECT */
 document.querySelectorAll(".menu-btn").forEach(btn=>{
   btn.addEventListener("click",e=>{
     btn.style.setProperty("--x",e.offsetX+"px");
     btn.style.setProperty("--y",e.offsetY+"px");
-    const p=btn.dataset.page;
-    if(p) setTimeout(()=>location.href=p,120);
+    setTimeout(()=>location.href=btn.dataset.page,120);
   });
 });
 </script>
