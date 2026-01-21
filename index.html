@@ -18,7 +18,7 @@
   --text:#111;
   --shadow:rgba(0,0,0,.15);
   --menu:#ffffff;
-  --shine:rgba(255,255,255,.45);
+  --shine:rgba(255,255,255,.55);
 }
 
 body.dark{
@@ -27,7 +27,7 @@ body.dark{
   --text:#f9fafb;
   --shadow:rgba(0,0,0,.65);
   --menu:#161e2e;
-  --shine:rgba(255,255,255,.25);
+  --shine:rgba(255,255,255,.35);
 }
 
 body{
@@ -91,28 +91,31 @@ body{
   overflow:hidden;
 }
 
-/* DIAGONAL METAL SHINE */
+/* GÜÇLÜ + AKIŞKAN METAL PARLAMA */
 .logo-card::after{
   content:"";
   position:absolute;
-  top:-60%;
-  left:-60%;
-  width:200%;
-  height:200%;
+  top:-80%;
+  left:-80%;
+  width:260%;
+  height:260%;
   background:linear-gradient(
     135deg,
-    transparent 40%,
-    var(--shine) 50%,
-    transparent 60%
+    transparent 35%,
+    rgba(255,255,255,.65) 50%,
+    transparent 65%
   );
-  animation:cardShine 5s infinite;
+  animation:cardShine 3.2s linear infinite;
   pointer-events:none;
 }
 
 @keyframes cardShine{
-  0%{transform:translate(-30%,-30%);}
-  50%{transform:translate(30%,30%);}
-  100%{transform:translate(30%,30%);}
+  from{
+    transform:translate3d(-35%,-35%,0);
+  }
+  to{
+    transform:translate3d(35%,35%,0);
+  }
 }
 
 /* ================= LOGO ================= */
@@ -153,7 +156,6 @@ body{
   overflow:hidden;
 }
 
-/* TIKLAMA PARLAMASI */
 .menu-btn::after{
   content:"";
   position:absolute;
