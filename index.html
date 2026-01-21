@@ -11,19 +11,21 @@
   font-family:"Times New Roman", serif;
 }
 
-/* ================= THEME ================= */
+/* ===== THEME ===== */
 :root{
-  --bg:#eef1f4;
+  --bg:#f3f4f6;
   --card:#ffffff;
   --text:#111;
   --shadow:rgba(0,0,0,.15);
+  --press:rgba(0,0,0,.18);
 }
 
 body.dark{
-  --bg:#0b1220;
-  --card:#161e2e;
-  --text:#f9fafb;
-  --shadow:rgba(0,0,0,.65);
+  --bg:#0f172a;
+  --card:#1e293b;
+  --text:#f8fafc;
+  --shadow:rgba(0,0,0,.6);
+  --press:rgba(255,255,255,.15);
 }
 
 body{
@@ -38,16 +40,16 @@ body{
   padding:16px;
 }
 
-/* ================= CARD ================= */
+/* ===== CARD ===== */
 .card{
   background:var(--card);
-  border-radius:20px;
+  border-radius:18px;
   padding:16px;
   margin-bottom:16px;
-  box-shadow:0 10px 24px var(--shadow);
+  box-shadow:0 8px 20px var(--shadow);
 }
 
-/* ================= TOP ================= */
+/* ===== TOP BAR ===== */
 .top-row{
   display:flex;
   justify-content:space-between;
@@ -56,13 +58,13 @@ body{
 
 .toggle-group{
   display:flex;
-  gap:6px;
+  gap:8px;
 }
 
 .toggle{
-  padding:6px 10px;
+  padding:6px 12px;
   font-size:13px;
-  border-radius:10px;
+  border-radius:12px;
   background:var(--card);
   box-shadow:0 4px 10px var(--shadow);
   cursor:pointer;
@@ -72,68 +74,34 @@ body{
   outline:2px solid currentColor;
 }
 
-/* ================= DATE ================= */
+/* ===== DATE ===== */
 .date{
   text-align:center;
   font-size:16px;
   font-weight:bold;
 }
 
-/* ================= LOGO ================= */
+/* ===== LOGO ===== */
 .logo-card{
   text-align:center;
 }
 
-.logo-wrap{
-  position:relative;
-  display:inline-block;
-}
-
 .logo{
   width:220px;
-  display:block;
-  filter:drop-shadow(0 14px 26px rgba(0,0,0,.35));
 }
 
-/* ===== ALT METAL DOKU ===== */
-.logo-wrap::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:50%;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 45%),
-    radial-gradient(circle at 70% 70%, rgba(255,255,255,.12), transparent 55%);
-  pointer-events:none;
+.title{
+  font-size:22px;
+  font-weight:bold;
+  margin-top:10px;
 }
 
-/* ===== ASIL PARLAMA (NET) ===== */
-.logo-wrap::after{
-  content:"";
-  position:absolute;
-  top:-40%;
-  left:-80%;
-  width:60%;
-  height:180%;
-  background:linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,.9) 45%,
-    rgba(255,255,255,.9) 55%,
-    transparent 100%
-  );
-  transform:rotate(12deg);
-  animation:logoShine 3.8s ease-in-out infinite;
-  pointer-events:none;
+.subtitle{
+  font-size:14px;
+  margin-top:6px;
 }
 
-@keyframes logoShine{
-  0%{left:-80%}
-  40%{left:140%}
-  100%{left:140%}
-}
-
-/* ================= MENU ================= */
+/* ===== MENU ===== */
 .menu{
   display:grid;
   gap:14px;
@@ -147,19 +115,20 @@ body{
   font-size:18px;
   font-weight:bold;
   cursor:pointer;
-  box-shadow:0 8px 18px var(--shadow);
+  box-shadow:0 6px 16px var(--shadow);
   position:relative;
   overflow:hidden;
 }
 
+/* sadece dokunulan kartta basılma hissi */
 .menu-btn::after{
   content:"";
   position:absolute;
   inset:0;
   background:radial-gradient(
     circle at var(--x,50%) var(--y,50%),
-    rgba(255,255,255,.35),
-    transparent 60%
+    var(--press),
+    transparent 55%
   );
   opacity:0;
   transition:.2s;
@@ -174,49 +143,44 @@ body{
 
 <div class="container">
 
-  <!-- TOP -->
+  <!-- TEMA & DİL (SABİT) -->
   <div class="top-row">
     <div class="toggle-group">
       <div class="toggle" id="lightBtn">☀️</div>
       <div class="toggle" id="darkBtn">🌙</div>
     </div>
-
     <div class="toggle-group">
       <div class="toggle active">TR</div>
       <div class="toggle">EN</div>
     </div>
   </div>
 
-  <!-- DATE -->
+  <!-- TARİH (SABİT) -->
   <div class="card date" id="today"></div>
 
   <!-- LOGO -->
   <div class="card logo-card">
-    <div class="logo-wrap">
-      <img src="assets/logo.png" class="logo">
-    </div>
-    <div style="font-size:22px;font-weight:bold;margin-top:10px;">
-      MEHMET ALİ YILMAZ
-    </div>
-    <div style="font-size:14px;margin-top:6px;">
+    <img src="assets/logo.png" class="logo">
+    <div class="title">MEHMET ALİ YILMAZ</div>
+    <div class="subtitle">
       ⚡️ Disiplin 🧠 Analiz 🩸 Motivasyon 🚀 Başarı
     </div>
   </div>
 
-  <!-- MENU -->
+  <!-- MENÜ -->
   <div class="card">
     <div class="menu">
-      <div class="menu-btn">🏦 Kasa</div>
-      <div class="menu-btn">📊 İşlemler</div>
-      <div class="menu-btn">🧠 Analiz</div>
-      <div class="menu-btn">⚙️ Ayarlar</div>
+      <div class="menu-btn" data-page="kasa.html">🏦 Kasa</div>
+      <div class="menu-btn" data-page="islemler.html">📊 İşlemler</div>
+      <div class="menu-btn" data-page="analiz.html">🧠 Analiz</div>
+      <div class="menu-btn" data-page="ayarlar.html">⚙️ Ayarlar</div>
     </div>
   </div>
 
 </div>
 
 <script>
-/* THEME */
+/* ===== THEME ===== */
 const body=document.body;
 const light=document.getElementById("lightBtn");
 const dark=document.getElementById("darkBtn");
@@ -231,19 +195,20 @@ setTheme(localStorage.getItem("theme")||"light");
 light.onclick=()=>setTheme("light");
 dark.onclick=()=>setTheme("dark");
 
-/* DATE */
+/* ===== DATE ===== */
 const d=new Date();
 const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
 document.getElementById("today").innerText=
   d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
 
-/* MENU TOUCH */
+/* ===== MENU TOUCH ===== */
 document.querySelectorAll(".menu-btn").forEach(btn=>{
   btn.addEventListener("pointerdown",e=>{
     const r=btn.getBoundingClientRect();
     btn.style.setProperty("--x",(e.clientX-r.left)+"px");
     btn.style.setProperty("--y",(e.clientY-r.top)+"px");
   });
+  btn.onclick=()=>setTimeout(()=>location.href=btn.dataset.page,120);
 });
 </script>
 
