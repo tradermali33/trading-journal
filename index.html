@@ -18,7 +18,8 @@
   --text:#111;
   --shadow:rgba(0,0,0,.15);
   --menu:#ffffff;
-  --shine:rgba(255,255,255,.75);
+  --metal1:rgba(255,255,255,.65);
+  --metal2:rgba(255,255,255,.15);
 }
 
 body.dark{
@@ -27,7 +28,8 @@ body.dark{
   --text:#f9fafb;
   --shadow:rgba(0,0,0,.65);
   --menu:#161e2e;
-  --shine:rgba(255,255,255,.35);
+  --metal1:rgba(255,255,255,.35);
+  --metal2:rgba(255,255,255,.08);
 }
 
 body{
@@ -92,35 +94,48 @@ body{
 .logo-wrap{
   position:relative;
   display:inline-block;
+  border-radius:50%;
 }
 
 .logo{
   width:220px;
   display:block;
-  filter:drop-shadow(0 18px 30px rgba(0,0,0,.45));
+  border-radius:50%;
+  filter:drop-shadow(0 14px 26px rgba(0,0,0,.35));
 }
 
-/* ===== B SEÇENEĞİ – GÜÇLÜ METAL PARLAMA ===== */
-.logo-wrap::after{
+/* ===== C SEÇENEĞİ – MADALYON METAL IŞIK ===== */
+.logo-wrap::before{
   content:"";
   position:absolute;
-  inset:-120%;
-  background:linear-gradient(
-    115deg,
-    transparent 30%,
-    var(--shine) 50%,
-    transparent 70%
-  );
-  transform:translateX(-150%) rotate(14deg);
-  animation:logoSweep 4s infinite;
-  mix-blend-mode:screen;
+  inset:0;
+  border-radius:50%;
+  background:
+    radial-gradient(
+      circle at 30% 30%,
+      var(--metal1),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 70% 70%,
+      var(--metal2),
+      transparent 55%
+    );
+  animation:metalFlow 6s ease-in-out infinite;
   pointer-events:none;
+  mix-blend-mode:screen;
 }
 
-@keyframes logoSweep{
-  0%{transform:translateX(-150%) rotate(14deg);}
-  45%{transform:translateX(150%) rotate(14deg);}
-  100%{transform:translateX(150%) rotate(14deg);}
+@keyframes metalFlow{
+  0%{
+    background-position:30% 30%,70% 70%;
+  }
+  50%{
+    background-position:70% 30%,30% 70%;
+  }
+  100%{
+    background-position:30% 30%,70% 70%;
+  }
 }
 
 .title{
@@ -153,15 +168,15 @@ body{
   overflow:hidden;
 }
 
-/* SADECE TIKLANAN BUTONDA PARLAMA */
+/* TIKLANAN MENÜDE METAL DOKUNUŞ */
 .menu-btn::after{
   content:"";
   position:absolute;
   inset:0;
   background:radial-gradient(
     circle at var(--x,50%) var(--y,50%),
-    var(--shine),
-    transparent 55%
+    rgba(255,255,255,.35),
+    transparent 60%
   );
   opacity:0;
   transition:.2s;
@@ -237,7 +252,7 @@ const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumar
 document.getElementById("today").innerText=
   d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
 
-/* MENU CLICK EFFECT */
+/* MENU TOUCH */
 document.querySelectorAll(".menu-btn").forEach(btn=>{
   btn.addEventListener("pointerdown",e=>{
     const r=btn.getBoundingClientRect();
