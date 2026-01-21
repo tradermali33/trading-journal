@@ -88,30 +88,30 @@ body{
   overflow:hidden; /* KRİTİK */
 }
 
-/* ✅ iPHONE METAL YANSIMASI */
+/* 🔥 A SEÇENEĞİ TARZI – SAĞ ÜST → SAĞ ALT YANSIMA */
 .logo-card::after{
   content:"";
   position:absolute;
-  top:-40%;
-  left:-60%;
-  width:60%;
-  height:180%;
+  top:-50%;
+  right:12%;
+  width:22%;
+  height:200%;
   background:linear-gradient(
-    45deg,
-    transparent 35%,
-    rgba(255,255,255,.45) 50%,
-    transparent 65%
+    to bottom,
+    transparent 0%,
+    rgba(255,255,255,.55) 45%,
+    transparent 70%
   );
-  animation:iphoneShine 2.2s linear infinite;
+  animation:shineVertical 2.4s linear infinite;
   pointer-events:none;
 }
 
-@keyframes iphoneShine{
+@keyframes shineVertical{
   from{
-    transform:translateX(0);
+    transform:translateY(-100%);
   }
   to{
-    transform:translateX(260%);
+    transform:translateY(100%);
   }
 }
 
@@ -120,7 +120,7 @@ body{
   width:220px;
   display:block;
   margin:auto;
-  filter:drop-shadow(0 14px 26px rgba(0,0,0,.45));
+  filter:drop-shadow(0 16px 28px rgba(0,0,0,.45));
 }
 
 .title{
@@ -203,10 +203,10 @@ body{
   <!-- MENU -->
   <div class="card">
     <div class="menu">
-      <div class="menu-btn">🏦 Kasa</div>
-      <div class="menu-btn">📊 İşlemler</div>
-      <div class="menu-btn">🧠 Analiz</div>
-      <div class="menu-btn">⚙️ Ayarlar</div>
+      <div class="menu-btn" data-page="kasa.html">🏦 Kasa</div>
+      <div class="menu-btn" data-page="islemler.html">📊 İşlemler</div>
+      <div class="menu-btn" data-page="analiz.html">🧠 Analiz</div>
+      <div class="menu-btn" data-page="ayarlar.html">⚙️ Ayarlar</div>
     </div>
   </div>
 
@@ -241,6 +241,7 @@ document.querySelectorAll(".menu-btn").forEach(btn=>{
     btn.style.setProperty("--x",(e.clientX-r.left)+"px");
     btn.style.setProperty("--y",(e.clientY-r.top)+"px");
   });
+  btn.onclick=()=>setTimeout(()=>location.href=btn.dataset.page,120);
 });
 </script>
 
