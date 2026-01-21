@@ -2,230 +2,230 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, user-scalable=no">
 <title>Trading Journal</title>
 
 <style>
-/* =======================
-   GLOBAL
-======================= */
+/* ================== FONT ================== */
 *{
-  box-sizing:border-box;
   font-family:"Times New Roman", serif;
-}
-
-body{
+  box-sizing:border-box;
   margin:0;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-  background:var(--bg);
-  color:var(--text);
-  transition:background .3s,color .3s;
+  padding:0;
 }
 
-/* =======================
-   THEME VARIABLES
-======================= */
-body.light{
-  --bg:#f2f4f6;
-  --card:#ffffff;
-  --text:#0f172a;
-  --sub:#475569;
+/* ================== THEME VARIABLES ================== */
+:root{
+  --bg-dark:#0b1020;
+  --bg-light:#f2f4f6;
+
+  --card-dark:#11182b;
+  --card-light:#ffffff;
+
+  --text-dark:#e5e7eb;
+  --text-light:#0f172a;
+
+  --menu-dark:#141c30;
+  --menu-light:#ffffff;
+
   --accent:#2563eb;
-  --shadow:0 12px 30px rgba(0,0,0,.18);
-  --glow:0 0 22px rgba(37,99,235,.55);
 }
 
-body.dark{
-  --bg:#020617;
-  --card:#0b1220;
-  --text:#e5e7eb;
-  --sub:#9ca3af;
-  --accent:#22c55e;
-  --shadow:0 18px 40px rgba(0,0,0,.85);
-  --glow:0 0 28px rgba(34,197,94,.7);
+/* ================== BODY ================== */
+body{
+  min-height:100vh;
+  background:var(--bg-dark);
+  color:var(--text-dark);
+  transition:.3s;
 }
 
-/* =======================
-   CONTAINER
-======================= */
-.container{
-  width:100%;
-  max-width:420px;
-  padding:20px;
+body.light{
+  background:var(--bg-light);
+  color:var(--text-light);
 }
 
-/* =======================
-   HEADER / LOGO CARD
-======================= */
-.logo-card{
-  background:radial-gradient(
-    circle at top,
-    rgba(255,255,255,.08),
-    transparent 70%
-  ),
-  var(--card);
-
-  border-radius:24px;
-  padding:28px 20px 30px;
-  text-align:center;
-  box-shadow:var(--shadow);
-  margin-bottom:28px;
-}
-
-/* LOGO */
-.logo{
-  width:210px;
-  height:auto;
-  display:block;
-  margin:0 auto 18px;
-  object-fit:contain;
-  border-radius:0;
-  filter:drop-shadow(var(--shadow));
-  transition:
-    filter .35s ease,
-    transform .35s ease;
-}
-
-/* HOVER GLOW + METAL PARILTI */
-.logo:hover{
-  transform:scale(1.04);
-  filter:
-    drop-shadow(var(--shadow))
-    drop-shadow(var(--glow))
-    brightness(1.05)
-    contrast(1.08);
-}
-
-/* =======================
-   TEXT
-======================= */
-.name{
-  font-size:26px;
-  font-weight:700;
-  letter-spacing:.6px;
-}
-
-.motto{
-  margin-top:10px;
-  font-size:15px;
-  font-weight:400;
-  color:var(--sub);
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-/* =======================
-   MENU
-======================= */
-.menu{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
-
-.menu-btn{
-  background:linear-gradient(
-    180deg,
-    rgba(255,255,255,.06),
-    transparent
-  ),
-  var(--card);
-
-  border-radius:18px;
-  padding:18px;
-  font-size:18px;
-  font-weight:600;
-  text-align:center;
-  cursor:pointer;
-  box-shadow:var(--shadow);
-  transition:all .25s ease;
-}
-
-.menu-btn:hover{
-  background:var(--accent);
-  color:#fff;
-  transform:translateY(-2px);
-}
-
-/* =======================
-   TOP BAR
-======================= */
-.topbar{
+/* ================== TOP BAR ================== */
+.top-bar{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:14px;
+  padding:14px 16px;
 }
 
-.theme-toggle{
+.theme-toggle span{
+  font-size:22px;
   cursor:pointer;
-  font-size:20px;
+  margin-right:6px;
 }
 
 .lang{
-  font-size:15px;
-  font-weight:700;
+  font-weight:bold;
 }
-
 .lang span{
+  margin-left:8px;
   opacity:.5;
-  cursor:pointer;
-  margin-left:6px;
+}
+.lang .active{
+  opacity:1;
+  color:#22c55e;
 }
 
-.lang span.active{
-  opacity:1;
-  color:var(--accent);
+/* ================== CONTAINER ================== */
+.container{
+  max-width:420px;
+  margin:auto;
+  padding:12px;
 }
+
+/* ================== CARDS ================== */
+.card{
+  background:var(--card-dark);
+  border-radius:22px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 18px 40px rgba(0,0,0,.45);
+  transition:.3s;
+}
+
+body.light .card{
+  background:var(--card-light);
+  box-shadow:0 18px 40px rgba(0,0,0,.15);
+}
+
+/* ================== LOGO CARD ================== */
+.logo-card{
+  text-align:center;
+}
+
+.logo{
+  width:190px;
+  height:auto;
+  margin-bottom:14px;
+  transition:.4s;
+}
+
+/* ---- Hover Glow ---- */
+body.dark .logo:hover{
+  filter:drop-shadow(0 0 18px rgba(120,180,255,.7))
+         drop-shadow(0 0 40px rgba(200,220,255,.4));
+}
+
+body.light .logo:hover{
+  filter:drop-shadow(0 0 18px rgba(255,200,120,.8))
+         drop-shadow(0 0 36px rgba(180,140,60,.5));
+}
+
+/* ================== TEXT ================== */
+.name{
+  font-size:22px;
+  font-weight:bold;
+  letter-spacing:1px;
+  margin-bottom:6px;
+}
+
+.motto{
+  font-size:14px;
+  opacity:.85;
+  margin-bottom:10px;
+}
+
+/* ================== MENU BUTTONS ================== */
+.menu-btn{
+  background:var(--menu-dark);
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:14px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.25s;
+}
+
+body.light .menu-btn{
+  background:var(--menu-light);
+}
+
+.menu-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+/* ================== FOOTER ================== */
+.footer{
+  text-align:center;
+  opacity:.5;
+  font-size:13px;
+  margin-top:20px;
+}
+
+/* ================== FIX CLASSES ================== */
+body.dark{ }
+body.light{ }
+
 </style>
 </head>
 
 <body class="dark">
 
+<!-- ================== TOP BAR ================== -->
+<div class="top-bar">
+  <div class="theme-toggle">
+    <span id="toggleTheme">🌙</span>
+  </div>
+  <div class="lang">
+    <span class="active">TR</span>
+    <span>EN</span>
+  </div>
+</div>
+
+<!-- ================== CONTENT ================== -->
 <div class="container">
 
-  <!-- TOP BAR -->
-  <div class="topbar">
-    <div class="theme-toggle" onclick="toggleTheme()">🌙 ☀️</div>
-    <div class="lang">
-      <span class="active">TR</span>
-      <span>EN</span>
-    </div>
-  </div>
-
-  <!-- LOGO / HEADER -->
-  <div class="logo-card">
-    <img src="assets/logo.png" alt="Logo" class="logo">
-
+  <!-- LOGO -->
+  <div class="card logo-card">
+    <img src="assets/logo.png" class="logo" alt="Logo">
     <div class="name">MEHMET ALİ YILMAZ</div>
-
-    <div class="motto">
-      ⚡ Disiplin
-      🧠 Analiz
-      🩸 Motivasyon
-      🚀 Başarı
-    </div>
+    <div class="motto">⚡ Disiplin 🧠 Analiz 🩸 Motivasyon 🚀 Başarı</div>
   </div>
 
   <!-- MENU -->
-  <div class="menu">
-    <div class="menu-btn">🏦 Kasa</div>
-    <div class="menu-btn">📊 İşlemler</div>
-    <div class="menu-btn">🧠 Analist</div>
-    <div class="menu-btn">⚙️ Ayarlar</div>
-  </div>
+  <div class="menu-btn" onclick="go('kasa.html')">🏦 Kasa</div>
+  <div class="menu-btn" onclick="go('islemler_v2.html')">📊 İşlemler</div>
+  <div class="menu-btn" onclick="go('analist.html')">🧠 Analist</div>
+  <div class="menu-btn" onclick="go('ayarlar.html')">⚙️ Ayarlar</div>
 
+  <div class="footer">Trading Journal</div>
 </div>
 
+<!-- ================== SCRIPT ================== -->
 <script>
-function toggleTheme(){
-  document.body.classList.toggle("dark");
-  document.body.classList.toggle("light");
+const body=document.body;
+const toggle=document.getElementById("toggleTheme");
+
+/* LOAD THEME */
+const savedTheme=localStorage.getItem("theme");
+if(savedTheme){
+  body.className=savedTheme;
+  toggle.innerText=savedTheme==="dark"?"🌙":"☀️";
+}
+
+/* TOGGLE */
+toggle.onclick=()=>{
+  if(body.classList.contains("dark")){
+    body.className="light";
+    toggle.innerText="☀️";
+    localStorage.setItem("theme","light");
+  }else{
+    body.className="dark";
+    toggle.innerText="🌙";
+    localStorage.setItem("theme","dark");
+  }
+};
+
+/* NAV */
+function go(p){
+  window.location.href=p;
 }
 </script>
 
