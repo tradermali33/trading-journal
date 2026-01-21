@@ -6,181 +6,228 @@
 <title>Kasa</title>
 
 <style>
-*{box-sizing:border-box;font-family:"Times New Roman",serif;}
+:root{
+  --dark-bg:#0b1220;
+  --dark-card:#121b2f;
+  --dark-menu:#18243c;
+
+  --light-bg:#f2f4f7;
+  --light-card:#ffffff;
+  --light-menu:#e7ecf3;
+
+  --text-dark:#0b1220;
+  --text-light:#ffffff;
+
+  --green:#1db954;
+  --red:#e53935;
+  --blue:#3b82f6;
+}
+
+*{
+  box-sizing:border-box;
+  font-family:"Times New Roman", serif;
+}
 
 body{
   margin:0;
   padding:16px;
-  background:#f3f4f6;
-  color:#111;
+  background:var(--bg);
+  color:var(--text);
   transition:.3s;
 }
-body.dark{
-  background:#0f172a;
-  color:#e5e7eb;
+
+.container{
+  max-width:480px;
+  margin:auto;
 }
 
-/* ===== GENEL KART ===== */
 .card{
-  background:#ffffff;
+  background:var(--card);
   border-radius:18px;
   padding:16px;
-  margin-bottom:16px;
-  box-shadow:0 6px 16px rgba(0,0,0,.08);
-}
-body.dark .card{
-  background:#020617;
-  box-shadow:0 6px 16px rgba(0,0,0,.6);
+  margin-bottom:14px;
+  box-shadow:0 8px 20px rgba(0,0,0,.25);
 }
 
-.card-title{
-  font-size:18px;
-  font-weight:bold;
-  text-align:center;
-  margin-bottom:10px;
+.header-row{
+  display:flex;
+  gap:12px;
 }
 
-.row{display:flex;gap:12px;}
-.row>div{flex:1;}
-.center{text-align:center;}
-
-/* ===== INDEX İLE AYNI TEMA & DİL ===== */
-.top-toggle{
-  padding:14px;
+.header-btn{
+  flex:1;
+  padding:12px;
   border-radius:14px;
   text-align:center;
-  font-weight:bold;
   cursor:pointer;
-  background:#e5e7eb;
-}
-.top-toggle.active{
-  outline:2px solid #2563eb;
-}
-body.dark .top-toggle{
-  background:#1e293b;
-  color:#e5e7eb;
+  background:var(--menu);
+  font-weight:bold;
+  border:2px solid transparent;
+  transition:.15s;
 }
 
-/* ===== KASA BAŞLIK (ZIT TEMA) ===== */
-.kasa-header{
-  background:#1e293b;
-  color:#e5e7eb;
-}
-body.dark .kasa-header{
-  background:#f9fafb;
-  color:#020617;
+.header-btn.active{
+  border-color:var(--blue);
 }
 
-/* ===== INPUT ===== */
+.header-btn:active{
+  transform:scale(.96);
+  box-shadow:inset 0 0 18px rgba(255,255,255,.15);
+}
+
+.title-card{
+  text-align:center;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.kasa-title{
+  background:var(--menu);
+  text-align:center;
+  font-size:22px;
+  font-weight:bold;
+}
+
+.value-card{
+  text-align:center;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.kar{
+  color:var(--green);
+  font-weight:bold;
+}
+.zarar{
+  color:var(--red);
+  font-weight:bold;
+}
+
 input{
   width:100%;
   padding:14px;
   border-radius:14px;
-  border:1px solid #d1d5db;
-  font-size:15px;
-}
-body.dark input{
-  background:#020617;
-  color:#e5e7eb;
-  border-color:#334155;
+  border:none;
+  background:var(--menu);
+  color:var(--text);
+  font-size:16px;
+  margin-bottom:12px;
 }
 
-/* ===== BUTON ===== */
+.row{
+  display:flex;
+  gap:12px;
+}
+
 .btn{
-  width:100%;
+  flex:1;
   padding:16px;
-  border:none;
   border-radius:16px;
-  font-size:16px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.btn:active{
+  transform:scale(.95);
+  box-shadow:inset 0 0 20px rgba(255,255,255,.2);
+}
+
+.btn-green{ background:var(--green); color:#fff; }
+.btn-red{ background:var(--red); color:#fff; }
+
+.back-btn{
+  background:var(--menu);
+  padding:18px;
+  text-align:center;
+  border-radius:18px;
+  font-size:18px;
   font-weight:bold;
   cursor:pointer;
 }
-.btn-green{background:#16a34a;color:#fff;}
-.btn-red{background:#dc2626;color:#fff;}
-.btn-gray{background:#e5e7eb;color:#111;}
-body.dark .btn-gray{
-  background:#334155;
-  color:#e5e7eb;
+
+.back-btn:active{
+  transform:scale(.96);
+  box-shadow:inset 0 0 18px rgba(255,255,255,.15);
 }
 </style>
 </head>
 
 <body>
+<div class="container">
 
-<!-- 🌙☀️ TEMA & 🌐 DİL (INDEX İLE AYNI) -->
-<div class="card">
-  <div class="row">
-    <div id="themeBtn" class="top-toggle">🌙 Tema</div>
-    <div class="top-toggle active">🌐 TR</div>
+  <!-- TEMA & DİL -->
+  <div class="card header-row">
+    <div id="themeBtn" class="header-btn">☀️ Tema</div>
+    <div id="langBtn" class="header-btn active">🌐 TR</div>
   </div>
-</div>
 
-<!-- 📅 TARİH -->
-<div class="card center">
-  <strong id="today"></strong>
-</div>
+  <!-- TARİH -->
+  <div class="card title-card" id="dateText"></div>
 
-<!-- 🏦 KASA BAŞLIK -->
-<div class="card kasa-header">
-  <div class="card-title">🏦 Kasa</div>
-</div>
+  <!-- KASA BAŞLIK -->
+  <div class="card kasa-title">🏦 Kasa</div>
 
-<!-- 💱 KASA DEĞER -->
-<div class="card center">
-  <strong style="font-size:20px;">125.000 TL = 3.850 $</strong>
-</div>
+  <!-- TL / $ -->
+  <div class="card value-card">125.000 TL = 3.850 $</div>
 
-<!-- 📊 GÜNLÜK KAR / ZARAR -->
-<div class="card">
-  <div class="card-title">Günlük Kar / Zarar Durumu</div>
-  <div>Kar : <strong style="color:#16a34a;">+1.250 TL</strong></div>
-  <div>Zarar : <strong style="color:#dc2626;">-320 TL</strong></div>
-  <div style="margin-top:8px;">
-    Günlük Kar/Zarar Oranı :
-    <strong style="color:#16a34a;">% +3.4 ▲</strong>
+  <!-- GÜNLÜK KAR / ZARAR -->
+  <div class="card">
+    <h3>Günlük Kar / Zarar Durumu</h3>
+    <p>Kar : <span class="kar">+1.250 TL</span></p>
+    <p>Zarar : <span class="zarar">-320 TL</span></p>
+    <p>Günlük Oran : <span class="kar">% +3.4 ▲</span></p>
   </div>
-</div>
 
-<!-- 💰 NAKİT GİRİŞ / ÇIKIŞ (EN ALTTA – GERİ GELDİ) -->
-<div class="card">
-  <div class="card-title">Toplam Nakit Giriş / Çıkış Bilgisi</div>
-
-  <input placeholder="Tutar (TL)">
-
-  <div class="row" style="margin-top:12px;">
-    <div><button class="btn btn-green">➕ Yatır</button></div>
-    <div><button class="btn btn-red">➖ Çek</button></div>
+  <!-- NAKİT GİRİŞ / ÇIKIŞ -->
+  <div class="card">
+    <h3>Toplam Nakit Giriş / Çıkış Bilgisi</h3>
+    <input placeholder="Tutar (TL)">
+    <div class="row">
+      <div class="btn btn-green">+ Yatır</div>
+      <div class="btn btn-red">- Çek</div>
+    </div>
   </div>
-</div>
 
-<!-- ↩️ GERİ -->
-<div class="card">
-  <button class="btn btn-gray" onclick="history.back()">↩️ Geri</button>
+  <!-- GERİ -->
+  <div class="back-btn" onclick="history.back()">↩️ Geri</div>
+
 </div>
 
 <script>
-// === TARİH ===
-const d=new Date();
-const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
-document.getElementById("today").innerText=
-  d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
+const body = document.body;
+const themeBtn = document.getElementById("themeBtn");
 
-// === TEMA (INDEX İLE AYNI) ===
-const body=document.body;
-const themeBtn=document.getElementById("themeBtn");
-
-function applyTheme(){
-  const t=localStorage.getItem("theme")||"light";
-  body.classList.toggle("dark",t==="dark");
-  themeBtn.innerText=t==="dark"?"☀️ Tema":"🌙 Tema";
+function setTheme(t){
+  if(t==="dark"){
+    body.style.setProperty("--bg","var(--dark-bg)");
+    body.style.setProperty("--card","var(--dark-card)");
+    body.style.setProperty("--menu","var(--dark-menu)");
+    body.style.setProperty("--text","var(--text-light)");
+    themeBtn.innerText="🌙 Tema";
+  }else{
+    body.style.setProperty("--bg","var(--light-bg)");
+    body.style.setProperty("--card","var(--light-card)");
+    body.style.setProperty("--menu","var(--light-menu)");
+    body.style.setProperty("--text","var(--text-dark)");
+    themeBtn.innerText="☀️ Tema";
+  }
+  localStorage.setItem("theme",t);
 }
-applyTheme();
 
 themeBtn.onclick=()=>{
-  const next=body.classList.contains("dark")?"light":"dark";
-  localStorage.setItem("theme",next);
-  applyTheme();
+  const t = localStorage.getItem("theme")==="dark" ? "light":"dark";
+  setTheme(t);
 };
+
+setTheme(localStorage.getItem("theme") || "dark");
+
+const d=new Date();
+const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+document.getElementById("dateText").innerText =
+  d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
 </script>
 
 </body>
