@@ -6,223 +6,140 @@
 <title>Kasa</title>
 
 <style>
-*{box-sizing:border-box;font-family:"Times New Roman",serif}
-
-/* ===== THEME ===== */
-:root{
-  --bg:#f3f4f6;
-  --card:#ffffff;
-  --text:#111;
-  --shadow:rgba(0,0,0,.15);
-  --opposite:#0f172a;
-}
-
-body.dark{
-  --bg:#0f172a;
-  --card:#1e293b;
-  --text:#f8fafc;
-  --shadow:rgba(0,0,0,.6);
-  --opposite:#ffffff;
-}
+*{box-sizing:border-box;font-family:"Times New Roman",serif;}
 
 body{
   margin:0;
-  background:var(--bg);
-  color:var(--text);
-}
-
-.container{
-  max-width:480px;
-  margin:auto;
   padding:16px;
+  background:#f2f4f6;
 }
 
-/* ===== COMMON CARDS ===== */
 .card{
-  background:var(--card);
+  background:#ffffff;
   border-radius:18px;
   padding:16px;
   margin-bottom:16px;
-  box-shadow:0 8px 20px var(--shadow);
+  box-shadow:0 6px 16px rgba(0,0,0,.06);
 }
 
-.card h2{
-  margin:0 0 12px;
-  text-align:center;
+.card-title{
   font-size:18px;
   font-weight:bold;
-  color:var(--opposite);
-}
-
-/* ===== TOP BAR ===== */
-.top-row{
-  display:flex;
-  justify-content:space-between;
+  text-align:center;
   margin-bottom:10px;
 }
 
-.toggle-group{
-  display:flex;
-  gap:8px;
-}
+.center{text-align:center;}
 
-.toggle{
-  padding:6px 12px;
-  font-size:13px;
-  border-radius:12px;
-  background:var(--card);
-  box-shadow:0 4px 10px var(--shadow);
-  cursor:pointer;
-}
-
-.toggle.active{
-  outline:2px solid currentColor;
-}
-
-/* ===== DATE ===== */
-.date{
-  text-align:center;
-  font-size:16px;
-  font-weight:bold;
-}
-
-/* ===== MENU CARD ===== */
-.menu-card h2{
-  color:var(--opposite);
-}
-
-/* ===== DATA TEXT ===== */
 .row{
   display:flex;
-  justify-content:space-between;
-  margin:6px 0;
-  font-size:16px;
+  gap:12px;
 }
 
-.up{color:#16a34a;font-weight:bold}
-.down{color:#dc2626;font-weight:bold}
+.row>div{flex:1;}
 
-/* ===== INPUTS ===== */
 input{
   width:100%;
-  padding:12px;
-  border-radius:12px;
-  border:1px solid #ccc;
-  margin-top:8px;
+  padding:14px;
+  border-radius:14px;
+  border:1px solid #ddd;
   font-size:15px;
 }
 
 .btn{
   width:100%;
   padding:14px;
-  margin-top:10px;
   border:none;
   border-radius:14px;
-  font-size:16px;
+  font-size:15px;
   font-weight:bold;
   cursor:pointer;
 }
 
-.btn-green{background:#16a34a;color:#fff}
-.btn-red{background:#dc2626;color:#fff}
+.btn-green{background:#16a34a;color:#fff;}
+.btn-red{background:#dc2626;color:#fff;}
+
+.back{
+  text-align:center;
+  margin-top:24px;
+  font-size:18px;
+  cursor:pointer;
+}
+
+/* Tema simülasyonu (ana panelden gelen) */
+body.light .invert{background:#111827;color:#fff;}
+body.dark .invert{background:#f9fafb;color:#111;}
+
+/* Varsayılan tema */
+body.light{}
 </style>
 </head>
 
-<body>
+<body class="light">
 
-<div class="container">
-
-  <!-- ===== TEMA & DİL (STANDART) ===== -->
-  <div class="top-row">
-    <div class="toggle-group">
-      <div class="toggle" id="lightBtn">☀️</div>
-      <div class="toggle" id="darkBtn">🌙</div>
-    </div>
-    <div class="toggle-group">
-      <div class="toggle active">TR</div>
-      <div class="toggle">EN</div>
-    </div>
+<!-- 🌐 TEMA & DİL (SABİT) -->
+<div class="card">
+  <div class="row">
+    <div class="center"><strong>🌙 / ☀️ Tema</strong></div>
+    <div class="center"><strong>TR | EN</strong></div>
   </div>
-
-  <!-- ===== TARİH ===== -->
-  <div class="card date" id="today"></div>
-
-  <!-- ===== MENÜ BAŞLIK KARTI ===== -->
-  <div class="card menu-card">
-    <h2>🏦 Kasa Menüsü</h2>
-  </div>
-
-  <!-- ===== GÜNLÜK KAR / ZARAR ===== -->
-  <div class="card">
-    <h2>📊 Günlük Kar / Zarar Durumu</h2>
-
-    <div class="row">
-      <span>Kar :</span>
-      <span>+1.250 TL</span>
-    </div>
-
-    <div class="row">
-      <span>Zarar :</span>
-      <span>-350 TL</span>
-    </div>
-
-    <div class="row">
-      <span>Günlük Kar Zarar Oranı :</span>
-      <span class="up">% +0.85 ▲</span>
-      <!-- düşüş olursa: class="down" ve ▼ -->
-    </div>
-  </div>
-
-  <!-- ===== NAKİT GİRİŞ / ÇIKIŞ ===== -->
-  <div class="card">
-    <h2>💸 Nakit Giriş / Çıkış</h2>
-
-    <input placeholder="Yatırılan Tutar (TL)">
-    <button class="btn btn-green">Yatır</button>
-
-    <input placeholder="Çekilen Tutar (TL)">
-    <button class="btn btn-red">Çek</button>
-  </div>
-
-  <!-- ===== TOPLAM NAKİT ===== -->
-  <div class="card">
-    <h2>📌 Toplam Nakit Giriş / Çıkış Bilgisi</h2>
-
-    <div class="row">
-      <span>Toplam Yatırılan :</span>
-      <span>25.000 TL</span>
-    </div>
-
-    <div class="row">
-      <span>Toplam Çekilen :</span>
-      <span>8.500 TL</span>
-    </div>
-  </div>
-
 </div>
 
-<script>
-/* ===== THEME (GLOBAL) ===== */
-const body=document.body;
-const light=document.getElementById("lightBtn");
-const dark=document.getElementById("darkBtn");
+<!-- 📅 TARİH -->
+<div class="card center">
+  <strong>💰 12.12.2012 Pazartesi 💰</strong>
+</div>
 
-function setTheme(t){
-  body.classList.toggle("dark",t==="dark");
-  localStorage.setItem("theme",t);
-  light.classList.toggle("active",t==="light");
-  dark.classList.toggle("active",t==="dark");
-}
-setTheme(localStorage.getItem("theme")||"light");
-light.onclick=()=>setTheme("light");
-dark.onclick=()=>setTheme("dark");
+<!-- 🏦 KASA BAŞLIK -->
+<div class="card invert">
+  <div class="card-title">🏦 Kasa</div>
+</div>
 
-/* ===== DATE ===== */
-const d=new Date();
-const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
-document.getElementById("today").innerText=
-  d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
-</script>
+<!-- 💹 GÜNLÜK KAR / ZARAR -->
+<div class="card">
+  <div class="card-title">Günlük Kar / Zarar Durumu</div>
+
+  <div>Kar : <strong style="color:#16a34a;">+1.250 TL</strong></div>
+  <div>Zarar : <strong style="color:#dc2626;">-320 TL</strong></div>
+
+  <div style="margin-top:8px;">
+    Günlük Kar/Zarar Oranı :
+    <strong style="color:#16a34a;">% +3.4 ▲</strong>
+  </div>
+</div>
+
+<!-- 💰 TOPLAM NAKİT GİRİŞ / ÇIKIŞ -->
+<div class="card">
+  <div class="card-title">Toplam Nakit Giriş / Çıkış Bilgisi</div>
+
+  <div>Yatırılan : <strong>15.000 TL</strong></div>
+  <div>Çekilen : <strong>5.000 TL</strong></div>
+</div>
+
+<!-- 💱 TL / USD DEĞER -->
+<div class="card center">
+  <div class="card-title">Kasa Değeri</div>
+  <strong>125.000 TL = 3.850 $</strong>
+</div>
+
+<!-- ➕➖ NAKİT İŞLEM -->
+<div class="card">
+  <div class="card-title">Nakit Giriş / Çıkış</div>
+
+  <input placeholder="Tutar (TL)">
+
+  <div class="row" style="margin-top:12px;">
+    <div>
+      <button class="btn btn-green">➕ Yatır</button>
+    </div>
+    <div>
+      <button class="btn btn-red">➖ Çek</button>
+    </div>
+  </div>
+</div>
+
+<!-- ↩️ GERİ -->
+<div class="back" onclick="history.back()">↩️ Geri</div>
 
 </body>
 </html>
