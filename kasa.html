@@ -11,16 +11,28 @@
 body{
   margin:0;
   padding:16px;
-  background:#f2f4f6;
+  background:#f3f4f6;
+  transition:.3s;
 }
 
-/* === GENEL KART === */
+/* ===== TEMALAR ===== */
+body.dark{
+  background:#0f172a;
+  color:#e5e7eb;
+}
+
+/* ===== GENEL KART ===== */
 .card{
   background:#ffffff;
   border-radius:18px;
   padding:16px;
   margin-bottom:16px;
-  box-shadow:0 6px 16px rgba(0,0,0,.06);
+  box-shadow:0 6px 16px rgba(0,0,0,.08);
+}
+
+body.dark .card{
+  background:#020617;
+  box-shadow:0 6px 16px rgba(0,0,0,.6);
 }
 
 .card-title{
@@ -39,15 +51,52 @@ body{
 
 .row>div{flex:1;}
 
+/* ===== ÜST BUTONLAR (TEMA / DİL) ===== */
+.top-btn{
+  padding:12px;
+  border-radius:14px;
+  font-weight:bold;
+  text-align:center;
+  cursor:pointer;
+  background:#e5e7eb;
+}
+
+.top-btn.active{
+  outline:2px solid #2563eb;
+}
+
+body.dark .top-btn{
+  background:#1e293b;
+  color:#e5e7eb;
+}
+
+/* ===== KASA BAŞLIK (ZIT TEMA) ===== */
+.kasa-header{
+  background:#020617;
+  color:#fff;
+}
+
+body.dark .kasa-header{
+  background:#f9fafb;
+  color:#020617;
+}
+
+/* ===== INPUT ===== */
 input{
   width:100%;
   padding:14px;
   border-radius:14px;
-  border:1px solid #ddd;
+  border:1px solid #d1d5db;
   font-size:15px;
 }
 
-/* === BUTONLAR === */
+body.dark input{
+  background:#020617;
+  color:#e5e7eb;
+  border-color:#334155;
+}
+
+/* ===== BUTONLAR ===== */
 .btn{
   width:100%;
   padding:16px;
@@ -62,56 +111,39 @@ input{
 .btn-red{background:#dc2626;color:#fff;}
 .btn-gray{background:#e5e7eb;color:#111;}
 
-/* === TEMA SİMÜLASYONU === */
-body.light{}
-body.dark{background:#0f172a;}
-
-body.light .theme-invert{
-  background:#111827;
-  color:#fff;
-}
-body.dark .theme-invert{
-  background:#f9fafb;
-  color:#111;
+body.dark .btn-gray{
+  background:#334155;
+  color:#e5e7eb;
 }
 
-/* === GERİ BUTONU === */
+/* ===== GERİ ===== */
 .back-btn{
   margin-top:24px;
-}
-
-/* === ÜST MENÜ BUTONLARI === */
-.top-btn{
-  padding:12px;
-  border-radius:14px;
-  font-weight:bold;
-  text-align:center;
-  background:#e5e7eb;
 }
 </style>
 </head>
 
-<body class="light">
+<body>
 
-<!-- 🌙☀️ TEMA & 🌐 DİL (MENÜ GİBİ) -->
+<!-- 🌙☀️ TEMA / 🌐 DİL -->
 <div class="card">
   <div class="row">
-    <div class="top-btn">🌙 Tema</div>
-    <div class="top-btn">🌐 Dil</div>
+    <div id="themeBtn" class="top-btn">🌙 Tema</div>
+    <div class="top-btn active">🌐 TR</div>
   </div>
 </div>
 
 <!-- 📅 TARİH -->
 <div class="card center">
-  <strong>💰 12.12.2012 Pazartesi 💰</strong>
+  <strong id="today"></strong>
 </div>
 
-<!-- 🏦 KASA BAŞLIK (ZIT TEMA) -->
-<div class="card theme-invert">
+<!-- 🏦 KASA BAŞLIK -->
+<div class="card kasa-header">
   <div class="card-title">🏦 Kasa</div>
 </div>
 
-<!-- 💱 KASA PARASAL DEĞER -->
+<!-- 💱 KASA DEĞER -->
 <div class="card center">
   <strong style="font-size:20px;">125.000 TL = 3.850 $</strong>
 </div>
@@ -129,19 +161,15 @@ body.dark .theme-invert{
   </div>
 </div>
 
-<!-- 💰 NAKİT GİRİŞ / ÇIKIŞ (EN ALT) -->
+<!-- 💰 NAKİT GİRİŞ / ÇIKIŞ -->
 <div class="card">
   <div class="card-title">Toplam Nakit Giriş / Çıkış Bilgisi</div>
 
   <input placeholder="Tutar (TL)">
 
   <div class="row" style="margin-top:12px;">
-    <div>
-      <button class="btn btn-green">➕ Yatır</button>
-    </div>
-    <div>
-      <button class="btn btn-red">➖ Çek</button>
-    </div>
+    <div><button class="btn btn-green">➕ Yatır</button></div>
+    <div><button class="btn btn-red">➖ Çek</button></div>
   </div>
 </div>
 
@@ -149,6 +177,30 @@ body.dark .theme-invert{
 <div class="back-btn">
   <button class="btn btn-gray" onclick="history.back()">↩️ Geri</button>
 </div>
+
+<script>
+// === TARİH ===
+const d=new Date();
+const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+document.getElementById("today").innerText=
+  d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
+
+// === TEMA ===
+const body=document.body;
+const themeBtn=document.getElementById("themeBtn");
+
+if(localStorage.getItem("theme")==="dark"){
+  body.classList.add("dark");
+  themeBtn.innerText="☀️ Tema";
+}
+
+themeBtn.onclick=()=>{
+  body.classList.toggle("dark");
+  const dark=body.classList.contains("dark");
+  localStorage.setItem("theme",dark?"dark":"light");
+  themeBtn.innerText=dark?"☀️ Tema":"🌙 Tema";
+};
+</script>
 
 </body>
 </html>
