@@ -6,200 +6,223 @@
 <title>Kasa</title>
 
 <style>
+*{box-sizing:border-box;font-family:"Times New Roman",serif}
+
+/* ===== THEME ===== */
 :root{
-  --bg:#f3f6f7;
+  --bg:#f3f4f6;
   --card:#ffffff;
-  --text:#0f172a;
-  --muted:#64748b;
-  --blue:#2563eb;
-  --dark:#1f2937;
+  --text:#111;
+  --shadow:rgba(0,0,0,.15);
+  --opposite:#0f172a;
+}
+
+body.dark{
+  --bg:#0f172a;
+  --card:#1e293b;
+  --text:#f8fafc;
+  --shadow:rgba(0,0,0,.6);
+  --opposite:#ffffff;
 }
 
 body{
   margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
   background:var(--bg);
   color:var(--text);
 }
 
-.wrapper{
-  max-width:420px;
+.container{
+  max-width:480px;
   margin:auto;
   padding:16px;
 }
 
+/* ===== COMMON CARDS ===== */
 .card{
   background:var(--card);
   border-radius:18px;
-  padding:18px;
-  margin-bottom:14px;
-  box-shadow:0 10px 25px rgba(0,0,0,.06);
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 8px 20px var(--shadow);
 }
 
-.top{
+.card h2{
+  margin:0 0 12px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  color:var(--opposite);
+}
+
+/* ===== TOP BAR ===== */
+.top-row{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  margin-bottom:12px;
+  margin-bottom:10px;
 }
 
+.toggle-group{
+  display:flex;
+  gap:8px;
+}
+
+.toggle{
+  padding:6px 12px;
+  font-size:13px;
+  border-radius:12px;
+  background:var(--card);
+  box-shadow:0 4px 10px var(--shadow);
+  cursor:pointer;
+}
+
+.toggle.active{
+  outline:2px solid currentColor;
+}
+
+/* ===== DATE ===== */
 .date{
-  background:var(--blue);
-  color:#fff;
-  padding:10px 16px;
-  border-radius:16px;
-  font-weight:600;
-}
-
-.theme{
-  background:#fff;
-  padding:6px 10px;
-  border-radius:14px;
-  cursor:pointer;
-}
-
-.btn-panel{
-  cursor:pointer;
-  font-weight:600;
-}
-
-.title{
   text-align:center;
-  font-size:28px;
-  font-weight:700;
-}
-
-.sub{
-  text-align:center;
-  color:var(--muted);
-  margin-top:6px;
-}
-
-.balance{
-  text-align:center;
-  font-size:40px;
-  font-weight:800;
-  margin:10px 0;
-}
-
-input{
-  width:100%;
-  padding:14px;
-  border-radius:14px;
-  border:none;
-  background:#eef2f4;
   font-size:16px;
-  box-sizing:border-box;
+  font-weight:bold;
 }
 
-button{
-  width:100%;
-  padding:16px;
-  border:none;
-  border-radius:14px;
-  font-size:18px;
-  font-weight:600;
-  cursor:pointer;
-  margin-top:10px;
+/* ===== MENU CARD ===== */
+.menu-card h2{
+  color:var(--opposite);
 }
 
-.plus{background:var(--blue);color:#fff;}
-.minus{background:#334155;color:#fff;}
-
+/* ===== DATA TEXT ===== */
 .row{
   display:flex;
   justify-content:space-between;
-  font-weight:600;
+  margin:6px 0;
+  font-size:16px;
 }
 
-/* DARK */
-.dark{
-  --bg:#0b1220;
-  --card:#111827;
-  --text:#e5e7eb;
-  --muted:#9ca3af;
+.up{color:#16a34a;font-weight:bold}
+.down{color:#dc2626;font-weight:bold}
+
+/* ===== INPUTS ===== */
+input{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #ccc;
+  margin-top:8px;
+  font-size:15px;
 }
+
+.btn{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  border:none;
+  border-radius:14px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.btn-green{background:#16a34a;color:#fff}
+.btn-red{background:#dc2626;color:#fff}
 </style>
 </head>
 
 <body>
-<div class="wrapper">
 
-  <!-- ÜST -->
-  <div class="top">
-    <div class="date" id="date"></div>
-    <div class="theme" id="themeBtn">🌙 ☀️</div>
+<div class="container">
+
+  <!-- ===== TEMA & DİL (STANDART) ===== -->
+  <div class="top-row">
+    <div class="toggle-group">
+      <div class="toggle" id="lightBtn">☀️</div>
+      <div class="toggle" id="darkBtn">🌙</div>
+    </div>
+    <div class="toggle-group">
+      <div class="toggle active">TR</div>
+      <div class="toggle">EN</div>
+    </div>
   </div>
 
-  <!-- ANA PANEL BUTONU -->
-  <div class="card btn-panel" id="goHome">✨ Ana Panel</div>
+  <!-- ===== TARİH ===== -->
+  <div class="card date" id="today"></div>
 
-  <!-- KASA BAŞLIK -->
-  <div class="card">
-    <div class="title">🏦 Kasa</div>
-    <div class="sub">Para Giriş / Çıkış ve Kasa Takibi</div>
+  <!-- ===== MENÜ BAŞLIK KARTI ===== -->
+  <div class="card menu-card">
+    <h2>🏦 Kasa Menüsü</h2>
   </div>
 
-  <!-- KASA -->
+  <!-- ===== GÜNLÜK KAR / ZARAR ===== -->
   <div class="card">
-    <div class="balance" id="balance">0 ₺</div>
-    <input type="number" id="amount" placeholder="Tutar gir">
-    <button class="plus" onclick="deposit()">+ Yatır</button>
-    <button class="minus" onclick="withdraw()">− Çek</button>
+    <h2>📊 Günlük Kar / Zarar Durumu</h2>
+
+    <div class="row">
+      <span>Kar :</span>
+      <span>+1.250 TL</span>
+    </div>
+
+    <div class="row">
+      <span>Zarar :</span>
+      <span>-350 TL</span>
+    </div>
+
+    <div class="row">
+      <span>Günlük Kar Zarar Oranı :</span>
+      <span class="up">% +0.85 ▲</span>
+      <!-- düşüş olursa: class="down" ve ▼ -->
+    </div>
   </div>
 
-  <!-- ÖZET -->
+  <!-- ===== NAKİT GİRİŞ / ÇIKIŞ ===== -->
   <div class="card">
-    <div class="row"><span>+ Yatırılan</span><span id="in">0 ₺</span></div>
+    <h2>💸 Nakit Giriş / Çıkış</h2>
+
+    <input placeholder="Yatırılan Tutar (TL)">
+    <button class="btn btn-green">Yatır</button>
+
+    <input placeholder="Çekilen Tutar (TL)">
+    <button class="btn btn-red">Çek</button>
   </div>
 
+  <!-- ===== TOPLAM NAKİT ===== -->
   <div class="card">
-    <div class="row"><span>− Çekilen</span><span id="out">0 ₺</span></div>
+    <h2>📌 Toplam Nakit Giriş / Çıkış Bilgisi</h2>
+
+    <div class="row">
+      <span>Toplam Yatırılan :</span>
+      <span>25.000 TL</span>
+    </div>
+
+    <div class="row">
+      <span>Toplam Çekilen :</span>
+      <span>8.500 TL</span>
+    </div>
   </div>
 
 </div>
 
 <script>
-/* TARİH */
+/* ===== THEME (GLOBAL) ===== */
+const body=document.body;
+const light=document.getElementById("lightBtn");
+const dark=document.getElementById("darkBtn");
+
+function setTheme(t){
+  body.classList.toggle("dark",t==="dark");
+  localStorage.setItem("theme",t);
+  light.classList.toggle("active",t==="light");
+  dark.classList.toggle("active",t==="dark");
+}
+setTheme(localStorage.getItem("theme")||"light");
+light.onclick=()=>setTheme("light");
+dark.onclick=()=>setTheme("dark");
+
+/* ===== DATE ===== */
 const d=new Date();
-const days=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
-document.getElementById("date").innerText=
-`${String(d.getDate()).padStart(2,"0")}.${String(d.getMonth()+1).padStart(2,"0")}.${d.getFullYear()} ${days[d.getDay()]}`;
-
-/* ANA PANEL YÖNLENDİRME */
-document.getElementById("goHome").onclick=()=>{
-  window.location.href="index.html"; // ana panel dosya adı
-};
-
-/* KASA */
-let balance=0,inp=0,out=0;
-
-function deposit(){
-  const v=Number(amount.value);
-  if(!v)return;
-  balance+=v;inp+=v;
-  update();
-}
-function withdraw(){
-  const v=Number(amount.value);
-  if(!v)return;
-  balance-=v;out+=v;
-  update();
-}
-function update(){
-  balanceEl.innerText=balance+" ₺";
-  inEl.innerText=inp+" ₺";
-  outEl.innerText=out+" ₺";
-  amount.value="";
-}
-const balanceEl=document.getElementById("balance");
-const inEl=document.getElementById("in");
-const outEl=document.getElementById("out");
-
-/* TEMA */
-document.getElementById("themeBtn").onclick=()=>{
-  document.body.classList.toggle("dark");
-};
+const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+document.getElementById("today").innerText=
+  d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
 </script>
+
 </body>
 </html>
