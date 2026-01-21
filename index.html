@@ -6,185 +6,142 @@
 <title>Trading Journal</title>
 
 <style>
-:root{
-  --dark-bg:#0b1220;
-  --dark-card:#111827;
-  --light-bg:#f3f4f6;
-  --light-card:#ffffff;
-  --accent:#2563eb;
+*{
+  box-sizing:border-box;
+  font-family:"Times New Roman", serif;
 }
 
 body{
   margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-  background:var(--dark-bg);
-  color:#e5e7eb;
-  transition:.3s;
-}
-
-body.light{
-  background:var(--light-bg);
-  color:#111827;
+  min-height:100vh;
+  background:radial-gradient(circle at top,#0f172a,#020617);
+  color:#fff;
 }
 
 .container{
-  max-width:480px;
-  margin:auto;
-  padding:16px;
+  max-width:420px;
+  margin:0 auto;
+  padding:24px 16px 40px;
 }
 
-/* TOP BAR */
-.top{
+/* ÜST BAR */
+.topbar{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:16px;
+  margin-bottom:24px;
 }
 
-.top .icons span{
-  font-size:20px;
-  cursor:pointer;
-  margin-right:8px;
+.topbar .icons{
+  font-size:22px;
+  display:flex;
+  gap:12px;
 }
 
+.lang{
+  font-weight:bold;
+  font-size:15px;
+}
 .lang span{
-  margin-left:8px;
-  cursor:pointer;
-  font-weight:600;
+  margin-left:10px;
   opacity:.6;
 }
-.lang span.active{opacity:1;color:var(--accent);}
-
-/* PROFILE */
-.profile{
-  background:linear-gradient(180deg,#0f172a,#020617);
-  border-radius:20px;
-  padding:24px 16px;
-  text-align:center;
+.lang .active{
+  opacity:1;
+  color:#38bdf8;
 }
 
-body.light .profile{
-  background:var(--light-card);
+/* PROFİL */
+.profile{
+  background:linear-gradient(180deg,#020617,#020617cc);
+  border-radius:24px;
+  padding:28px 20px 24px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,.6);
+  margin-bottom:26px;
 }
 
 .profile img{
-  width:120px;
-  height:120px;
+  width:160px;              /* LOGO BÜYÜTÜLDÜ */
+  height:160px;
   border-radius:50%;
-  object-fit:cover;
-  margin-bottom:12px;
+  margin-bottom:18px;
 }
 
 .profile h1{
   margin:0;
-  font-size:22px;
+  font-size:24px;
+  font-weight:bold;
+  letter-spacing:.5px;
 }
 
 .profile p{
-  margin-top:6px;
-  opacity:.7;
+  margin-top:10px;
+  font-size:15px;
+  opacity:.9;
 }
 
-/* MENU */
+/* MENÜ */
 .menu{
-  margin-top:24px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
 }
 
 .menu-btn{
-  width:100%;
-  padding:16px;
-  border-radius:16px;
-  border:none;
-  background:#020617;
-  color:#e5e7eb;
-  font-size:16px;
-  margin-bottom:12px;
-  cursor:pointer;
+  background:linear-gradient(180deg,#020617,#020617cc);
+  border-radius:18px;
+  padding:18px;
+  font-size:18px;
   display:flex;
-  justify-content:center;
   align-items:center;
-  gap:10px;
+  justify-content:center;   /* ORTALI */
+  gap:12px;
+  cursor:pointer;
+  box-shadow:0 12px 30px rgba(0,0,0,.6);
+  transition:.25s;
 }
 
-body.light .menu-btn{
-  background:#e5e7eb;
-  color:#111827;
-}
-
-.menu-btn.active{
-  background:var(--accent);
-  color:#fff;
-}
-
-/* SUB MENU */
-.submenu{
-  display:none;
-  margin-bottom:12px;
-}
-
-.submenu .menu-btn{
-  opacity:.85;
+.menu-btn:hover{
+  transform:translateY(-2px);
 }
 
 /* FOOTER */
 .footer{
+  margin-top:34px;
   text-align:center;
-  margin-top:40px;
-  opacity:.5;
+  font-size:14px;
+  opacity:.35;
 }
 </style>
 </head>
 
 <body>
+
 <div class="container">
 
-  <!-- TOP -->
-  <div class="top">
-    <div class="icons">
-      <span onclick="toggleTheme()">🌙</span>
-      <span onclick="toggleTheme()">☀️</span>
-    </div>
+  <!-- ÜST -->
+  <div class="topbar">
+    <div class="icons">🌙 ☀️</div>
     <div class="lang">
-      <span id="tr" class="active" onclick="setLang('tr')">TR</span>
-      <span id="en" onclick="setLang('en')">EN</span>
+      <span class="active">TR</span>
+      <span>EN</span>
     </div>
   </div>
 
-  <!-- PROFILE -->
+  <!-- PROFİL -->
   <div class="profile">
-    <!-- LOGO: img/logo.png dosyası koy -->
-   <img src="assets/logo.png" class="logo" />
-    <h1 id="name">MEHMET ALİ YILMAZ</h1>
-    <p id="desc">Kendi kendinin analisti</p>
+    <img src="assets/logo.png" alt="Logo">
+    <h1>MEHMET ALİ YILMAZ</h1>
+    <p>⚡️ Disiplin 🧠 Analiz 🩸 Motivasyon 🚀 Başarı</p>
   </div>
 
-  <!-- MENU -->
+  <!-- MENÜ -->
   <div class="menu">
-
-    <button class="menu-btn" onclick="go('kasa.html')">
-      🏦 <span id="kasaTxt">Kasa</span>
-    </button>
-
-    <button class="menu-btn" id="islemBtn" onclick="toggleSub()">
-      📊 <span id="islemTxt">İşlemler</span>
-    </button>
-
-    <div class="submenu" id="subMenu">
-      <button class="menu-btn" onclick="go('islem_ac.html')">➕ İşlem Aç</button>
-      <button class="menu-btn" onclick="go('islem_kapat.html')">⛔ İşlem Kapat</button>
-      <button class="menu-btn" onclick="go('kapatilan_islemler.html')">📁 Kapatılan İşlemler</button>
-      <button class="menu-btn" onclick="go('gunluk_ozet.html')">📅 Günlük İşlem Özeti</button>
-      <button class="menu-btn" onclick="go('gecmis_ozet.html')">🕘 Geçmiş İşlem Özeti</button>
-    </div>
-
-    <button class="menu-btn" onclick="go('analist.html')">
-      🧠 <span id="analistTxt">Analist</span>
-    </button>
-
-    <button class="menu-btn" onclick="go('ayarlar.html')">
-      ⚙️ <span id="ayarTxt">Ayarlar</span>
-    </button>
-
+    <div class="menu-btn" onclick="go('kasa.html')">🏦 Kasa</div>
+    <div class="menu-btn" onclick="go('islemler_v2.html')">📊 İşlemler</div>
+    <div class="menu-btn" onclick="go('analist.html')">🧠 Analist</div>
+    <div class="menu-btn" onclick="go('ayarlar.html')">⚙️ Ayarlar</div>
   </div>
 
   <div class="footer">Trading Journal</div>
@@ -192,50 +149,8 @@ body.light .menu-btn{
 </div>
 
 <script>
-/* THEME */
-function toggleTheme(){
-  document.body.classList.toggle("light");
-}
-
-/* SUB MENU */
-function toggleSub(){
-  const s=document.getElementById("subMenu");
-  const b=document.getElementById("islemBtn");
-  if(s.style.display==="block"){
-    s.style.display="none";
-    b.classList.remove("active");
-  }else{
-    s.style.display="block";
-    b.classList.add("active");
-  }
-}
-
-/* NAV */
 function go(p){
   window.location.href=p;
-}
-
-/* LANG */
-function setLang(l){
-  tr.classList.remove("active");
-  en.classList.remove("active");
-  document.getElementById(l).classList.add("active");
-
-  if(l==="en"){
-    name.innerText="MEHMET ALI YILMAZ";
-    desc.innerText="Self trader analyst";
-    kasaTxt.innerText="Wallet";
-    islemTxt.innerText="Trades";
-    analistTxt.innerText="Analyst";
-    ayarTxt.innerText="Settings";
-  }else{
-    name.innerText="MEHMET ALİ YILMAZ";
-    desc.innerText="Kendi kendinin analisti";
-    kasaTxt.innerText="Kasa";
-    islemTxt.innerText="İşlemler";
-    analistTxt.innerText="Analist";
-    ayarTxt.innerText="Ayarlar";
-  }
 }
 </script>
 
