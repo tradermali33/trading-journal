@@ -11,21 +11,23 @@
   font-family:"Times New Roman", serif;
 }
 
-/* ===== THEME ===== */
+/* ================= THEME ================= */
 :root{
-  --bg:#f3f4f6;
+  --bg:#eef1f4;
   --card:#ffffff;
   --text:#111;
   --shadow:rgba(0,0,0,.15);
-  --press:rgba(0,0,0,.18);
+  --menu:#ffffff;
+  --shine:rgba(255,255,255,.55);
 }
 
 body.dark{
-  --bg:#0f172a;
-  --card:#1e293b;
-  --text:#f8fafc;
-  --shadow:rgba(0,0,0,.6);
-  --press:rgba(255,255,255,.15);
+  --bg:#0b1220;
+  --card:#161e2e;
+  --text:#f9fafb;
+  --shadow:rgba(0,0,0,.65);
+  --menu:#161e2e;
+  --shine:rgba(255,255,255,.25);
 }
 
 body{
@@ -40,16 +42,16 @@ body{
   padding:16px;
 }
 
-/* ===== CARD ===== */
+/* ================= CARD ================= */
 .card{
   background:var(--card);
   border-radius:18px;
   padding:16px;
   margin-bottom:16px;
-  box-shadow:0 8px 20px var(--shadow);
+  box-shadow:0 10px 24px var(--shadow);
 }
 
-/* ===== TOP BAR ===== */
+/* ================= TOP ================= */
 .top-row{
   display:flex;
   justify-content:space-between;
@@ -58,36 +60,68 @@ body{
 
 .toggle-group{
   display:flex;
-  gap:8px;
+  gap:6px;
 }
 
 .toggle{
-  padding:6px 12px;
+  padding:6px 10px;
   font-size:13px;
-  border-radius:12px;
+  border-radius:10px;
   background:var(--card);
   box-shadow:0 4px 10px var(--shadow);
   cursor:pointer;
+  user-select:none;
 }
 
 .toggle.active{
   outline:2px solid currentColor;
 }
 
-/* ===== DATE ===== */
+/* ================= DATE ================= */
 .date{
   text-align:center;
   font-size:16px;
   font-weight:bold;
 }
 
-/* ===== LOGO ===== */
+/* ================= LOGO ================= */
 .logo-card{
   text-align:center;
+  overflow:hidden;
+}
+
+.logo-wrap{
+  position:relative;
+  display:inline-block;
 }
 
 .logo{
   width:220px;
+  display:block;
+  filter:drop-shadow(0 16px 28px rgba(0,0,0,.45));
+}
+
+/* metalik parlama */
+.logo-wrap::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-60%;
+  width:40%;
+  height:100%;
+  background:linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,.35),
+    transparent
+  );
+  animation:shine 4s infinite;
+}
+
+@keyframes shine{
+  0%{left:-60%;}
+  50%{left:120%;}
+  100%{left:120%;}
 }
 
 .title{
@@ -101,33 +135,33 @@ body{
   margin-top:6px;
 }
 
-/* ===== MENU ===== */
+/* ================= MENU ================= */
 .menu{
   display:grid;
   gap:14px;
 }
 
 .menu-btn{
-  background:var(--card);
+  background:var(--menu);
   border-radius:16px;
   padding:18px;
   text-align:center;
   font-size:18px;
   font-weight:bold;
   cursor:pointer;
-  box-shadow:0 6px 16px var(--shadow);
+  box-shadow:0 8px 18px var(--shadow);
   position:relative;
   overflow:hidden;
 }
 
-/* sadece dokunulan kartta basılma hissi */
+/* SADECE TIKLANAN BUTONDA */
 .menu-btn::after{
   content:"";
   position:absolute;
   inset:0;
   background:radial-gradient(
     circle at var(--x,50%) var(--y,50%),
-    var(--press),
+    var(--shine),
     transparent 55%
   );
   opacity:0;
@@ -143,31 +177,34 @@ body{
 
 <div class="container">
 
-  <!-- TEMA & DİL (SABİT) -->
+  <!-- TOP -->
   <div class="top-row">
     <div class="toggle-group">
       <div class="toggle" id="lightBtn">☀️</div>
       <div class="toggle" id="darkBtn">🌙</div>
     </div>
+
     <div class="toggle-group">
-      <div class="toggle active">TR</div>
-      <div class="toggle">EN</div>
+      <div class="toggle" id="trBtn">TR</div>
+      <div class="toggle" id="enBtn">EN</div>
     </div>
   </div>
 
-  <!-- TARİH (SABİT) -->
+  <!-- DATE -->
   <div class="card date" id="today"></div>
 
   <!-- LOGO -->
   <div class="card logo-card">
-    <img src="assets/logo.png" class="logo">
+    <div class="logo-wrap">
+      <img src="assets/logo.png" class="logo">
+    </div>
     <div class="title">MEHMET ALİ YILMAZ</div>
     <div class="subtitle">
       ⚡️ Disiplin 🧠 Analiz 🩸 Motivasyon 🚀 Başarı
     </div>
   </div>
 
-  <!-- MENÜ -->
+  <!-- MENU -->
   <div class="card">
     <div class="menu">
       <div class="menu-btn" data-page="kasa.html">🏦 Kasa</div>
@@ -194,6 +231,19 @@ function setTheme(t){
 setTheme(localStorage.getItem("theme")||"light");
 light.onclick=()=>setTheme("light");
 dark.onclick=()=>setTheme("dark");
+
+/* ===== LANGUAGE (B SEÇENEĞİ) ===== */
+const tr=document.getElementById("trBtn");
+const en=document.getElementById("enBtn");
+
+function setLang(l){
+  localStorage.setItem("lang",l);
+  tr.classList.toggle("active",l==="tr");
+  en.classList.toggle("active",l==="en");
+}
+setLang(localStorage.getItem("lang")||"tr");
+tr.onclick=()=>setLang("tr");
+en.onclick=()=>setLang("en");
 
 /* ===== DATE ===== */
 const d=new Date();
