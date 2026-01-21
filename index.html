@@ -3,226 +3,194 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trading Journal</title>
+<title>Ana Panel</title>
 
 <style>
-/* ===== GLOBAL ===== */
+/* ================= GENEL ================= */
 *{
   box-sizing:border-box;
   font-family:"Times New Roman", serif;
-  -webkit-tap-highlight-color: transparent;
 }
+
+:root{
+  --bg:#f3f4f6;
+  --card:#ffffff;
+  --text:#111;
+  --menu:#e5e7eb;
+  --accent:#16a34a;
+  --shadow:rgba(0,0,0,.12);
+}
+
+body.dark{
+  --bg:#0f172a;
+  --card:#111827;
+  --text:#f9fafb;
+  --menu:#1f2937;
+  --accent:#22c55e;
+  --shadow:rgba(0,0,0,.6);
+}
+
 body{
   margin:0;
-  min-height:100vh;
   background:var(--bg);
   color:var(--text);
-  transition:background .4s,color .4s;
 }
 
-/* ===== THEME ===== */
-:root{
-  --bg:#f2f4f6;
-  --card:#ffffff;
-  --text:#0f172a;
-  --sub:#475569;
-  --menu:#ffffff;
-  --shadow:0 18px 40px rgba(0,0,0,.12);
-}
-body.dark{
-  --bg:#070b16;
-  --card:#0c1324;
-  --text:#f8fafc;
-  --sub:#cbd5e1;
-  --menu:#0e162b;
-  --shadow:0 30px 80px rgba(0,0,0,.7);
-}
-
-/* ===== TOP BAR ===== */
-.top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px 18px;
-}
-.top button{
-  background:none;
-  border:none;
-  font-size:22px;
-  cursor:pointer;
-  color:var(--text);
-}
-.lang{
-  font-weight:bold;
-}
-
-/* ===== CONTAINER ===== */
 .container{
-  max-width:420px;
+  max-width:480px;
   margin:auto;
-  padding:8px 16px 40px;
+  padding:16px;
 }
 
-/* ===== LOGO CARD ===== */
-.logo-card{
-  background:radial-gradient(120% 120% at 50% 0%,rgba(255,255,255,.15),transparent 60%),var(--card);
-  border-radius:26px;
-  padding:28px 20px 24px;
-  box-shadow:var(--shadow);
-  text-align:center;
-  position:relative;
-  overflow:hidden;
+/* ================= KART ================= */
+.card{
+  background:var(--card);
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 8px 20px var(--shadow);
 }
 
-/* ===== LOGO WRAPPER ===== */
+/* ================= LOGO ================= */
 .logo-wrap{
-  position:relative;
-  width:260px;
-  margin:0 auto 14px;
+  text-align:center;
+  background:var(--menu);
+  border-radius:18px;
+  padding:18px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);
 }
 
-/* PNG (DOKUNULMAZ) */
-.logo-wrap img{
-  width:100%;
+.logo{
+  width:200px;
+  height:auto;
+  object-fit:contain;
   display:block;
-  position:relative;
-  z-index:1;
+  margin:auto;
+  filter:drop-shadow(0 10px 18px rgba(0,0,0,.35));
 }
 
-/* SPECULAR HIGHLIGHT (GERÇEK HİS) */
-.logo-wrap::after{
-  content:"";
-  position:absolute;
-  inset:-20%;
-  background:
-    radial-gradient(60% 35% at var(--lx,50%) var(--ly,0%),
-      rgba(255,255,255,.45),
-      rgba(255,255,255,.15) 40%,
-      transparent 70%);
-  mix-blend-mode:overlay;
-  pointer-events:none;
-  mask-image:radial-gradient(circle at 50% 50%,#000 58%,transparent 62%);
-  animation:idleLight 6s linear infinite;
-}
-
-/* ALT / YAN HALO KESİM */
-.logo-wrap::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:transparent;
-  box-shadow:0 0 0 999px var(--card);
-  mask-image:radial-gradient(circle at 50% 50%,transparent 60%,#000 62%);
-  pointer-events:none;
-}
-
-@keyframes idleLight{
-  0%{--lx:40%;--ly:0%}
-  50%{--lx:60%;--ly:10%}
-  100%{--lx:40%;--ly:0%}
-}
-
-/* ===== TEXT ===== */
-h1{
-  margin:12px 0 6px;
+/* ================= BAŞLIK ================= */
+.title{
   font-size:22px;
-  font-weight:700;
-}
-.motto{
-  font-size:15px;
-  color:var(--sub);
+  font-weight:bold;
+  text-align:center;
+  margin-top:12px;
 }
 
-/* ===== MENU ===== */
+.subtitle{
+  text-align:center;
+  margin-top:6px;
+  font-size:14px;
+  opacity:.8;
+}
+
+/* ================= TARİH ================= */
+.date{
+  text-align:center;
+  font-size:15px;
+  opacity:.8;
+  margin-top:10px;
+}
+
+/* ================= MENÜ ================= */
 .menu{
-  margin-top:18px;
-  display:flex;
-  flex-direction:column;
+  display:grid;
   gap:14px;
 }
+
 .menu-btn{
-  background:linear-gradient(180deg,rgba(255,255,255,.12),transparent),var(--menu);
-  border-radius:22px;
+  background:var(--menu);
+  border-radius:16px;
   padding:18px;
-  font-size:18px;
-  font-weight:600;
   text-align:center;
-  box-shadow:var(--shadow);
+  font-size:18px;
+  font-weight:bold;
   cursor:pointer;
-  position:relative;
-  overflow:hidden;
-  transition:transform .15s,box-shadow .15s;
-}
-.menu-btn::after{
-  content:"";
-  position:absolute;
-  inset:-40%;
-  background:radial-gradient(circle at center,rgba(255,255,255,.35),transparent 60%);
-  opacity:0;
-  transition:.25s;
-}
-.menu-btn:active{
-  transform:scale(.97);
-}
-.menu-btn:active::after{
-  opacity:1;
+  box-shadow:0 6px 16px var(--shadow);
+  transition:.15s;
 }
 
-/* ===== FOOTER ===== */
-.footer{
-  text-align:center;
-  margin-top:26px;
-  font-size:14px;
-  color:var(--sub);
+.menu-btn:active{
+  transform:scale(.97);
+  box-shadow:0 0 0 3px rgba(34,197,94,.25);
+}
+
+/* ================= TOGGLE ================= */
+.top-bar{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:12px;
+}
+
+.toggle{
+  cursor:pointer;
+  font-size:20px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="top">
-  <button id="themeBtn">🌙</button>
-  <div class="lang">TR&nbsp;&nbsp;EN</div>
-</div>
-
 <div class="container">
 
-  <div class="logo-card">
-    <div class="logo-wrap" id="logo">
-      <img src="assets/logo.png" alt="Logo">
+  <!-- ÜST BAR -->
+  <div class="top-bar">
+    <div class="toggle" id="themeToggle">🌙</div>
+    <div></div>
+  </div>
+
+  <!-- LOGO -->
+  <div class="card logo-wrap">
+    <img src="assets/logo.png" class="logo" alt="Logo">
+    <div class="title">MEHMET ALİ YILMAZ</div>
+    <div class="subtitle">⚡️ Disiplin 🧠 Analiz 🩸 Motivasyon 🚀 Başarı</div>
+  </div>
+
+  <!-- TARİH -->
+  <div class="card date" id="today"></div>
+
+  <!-- MENÜ -->
+  <div class="card">
+    <div class="menu">
+      <div class="menu-btn" data-page="islemler.html">📊 İşlemler</div>
+      <div class="menu-btn" data-page="kasa.html">🏦 Kasa</div>
+      <div class="menu-btn" data-page="analist.html">🧠 Analist</div>
+      <div class="menu-btn" data-page="ayarlar.html">⚙️ Ayarlar</div>
     </div>
-
-    <h1>MEHMET ALİ YILMAZ</h1>
-    <div class="motto">⚡ Disiplin 🧠 Analiz 🩸 Motivasyon 🚀 Başarı</div>
   </div>
-
-  <div class="menu">
-    <div class="menu-btn">🏦 Kasa</div>
-    <div class="menu-btn">📊 İşlemler</div>
-    <div class="menu-btn">🧠 Analist</div>
-    <div class="menu-btn">⚙️ Ayarlar</div>
-  </div>
-
-  <div class="footer">Trading Journal</div>
 
 </div>
 
 <script>
-/* ===== THEME PERSIST ===== */
+/* ================= TEMA ================= */
 const body=document.body;
-const btn=document.getElementById("themeBtn");
-const saved=localStorage.getItem("theme");
-if(saved==="dark") body.classList.add("dark");
+const toggle=document.getElementById("themeToggle");
 
-btn.onclick=()=>{
-  body.classList.toggle("dark");
-  localStorage.setItem("theme",body.classList.contains("dark")?"dark":"light");
+function setTheme(t){
+  body.classList.toggle("dark",t==="dark");
+  localStorage.setItem("theme",t);
+  toggle.innerText=t==="dark"?"☀️":"🌙";
+}
+
+const saved=localStorage.getItem("theme")||"light";
+setTheme(saved);
+
+toggle.onclick=()=>{
+  setTheme(body.classList.contains("dark")?"light":"dark");
 };
 
-/* ===== SCROLL LIGHT ANGLE ===== */
-window.addEventListener("scroll",()=>{
-  const y=Math.min(window.scrollY,300);
-  document.documentElement.style.setProperty("--ly",`${y/6}%`);
+/* ================= TARİH ================= */
+const d=new Date();
+const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+document.getElementById("today").innerText=
+  d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
+
+/* ================= MENÜ YÖNLENDİRME ================= */
+document.querySelectorAll(".menu-btn").forEach(btn=>{
+  btn.onclick=()=>{
+    const p=btn.dataset.page;
+    if(p) window.location.href=p;
+  };
 });
 </script>
 
