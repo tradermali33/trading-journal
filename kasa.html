@@ -14,7 +14,6 @@ body{
   background:#f2f4f6;
 }
 
-/* === GENEL KART === */
 .card{
   background:#ffffff;
   border-radius:18px;
@@ -47,57 +46,42 @@ input{
   font-size:15px;
 }
 
-/* === BUTONLAR === */
 .btn{
   width:100%;
-  padding:16px;
+  padding:14px;
   border:none;
-  border-radius:16px;
-  font-size:16px;
+  border-radius:14px;
+  font-size:15px;
   font-weight:bold;
   cursor:pointer;
 }
 
 .btn-green{background:#16a34a;color:#fff;}
 .btn-red{background:#dc2626;color:#fff;}
-.btn-gray{background:#e5e7eb;color:#111;}
 
-/* === TEMA SİMÜLASYONU === */
-body.light{}
-body.dark{background:#0f172a;}
-
-body.light .theme-invert{
-  background:#111827;
-  color:#fff;
-}
-body.dark .theme-invert{
-  background:#f9fafb;
-  color:#111;
-}
-
-/* === GERİ BUTONU === */
-.back-btn{
-  margin-top:24px;
-}
-
-/* === ÜST MENÜ BUTONLARI === */
-.top-btn{
-  padding:12px;
-  border-radius:14px;
-  font-weight:bold;
+.back{
   text-align:center;
-  background:#e5e7eb;
+  margin-top:24px;
+  font-size:18px;
+  cursor:pointer;
 }
+
+/* Tema simülasyonu (ana panelden gelen) */
+body.light .invert{background:#111827;color:#fff;}
+body.dark .invert{background:#f9fafb;color:#111;}
+
+/* Varsayılan tema */
+body.light{}
 </style>
 </head>
 
 <body class="light">
 
-<!-- 🌙☀️ TEMA & 🌐 DİL (MENÜ GİBİ) -->
+<!-- 🌐 TEMA & DİL (SABİT) -->
 <div class="card">
   <div class="row">
-    <div class="top-btn">🌙 Tema</div>
-    <div class="top-btn">🌐 Dil</div>
+    <div class="center"><strong>🌙 / ☀️ Tema</strong></div>
+    <div class="center"><strong>TR | EN</strong></div>
   </div>
 </div>
 
@@ -106,17 +90,12 @@ body.dark .theme-invert{
   <strong>💰 12.12.2012 Pazartesi 💰</strong>
 </div>
 
-<!-- 🏦 KASA BAŞLIK (ZIT TEMA) -->
-<div class="card theme-invert">
+<!-- 🏦 KASA BAŞLIK -->
+<div class="card invert">
   <div class="card-title">🏦 Kasa</div>
 </div>
 
-<!-- 💱 KASA PARASAL DEĞER -->
-<div class="card center">
-  <strong style="font-size:20px;">125.000 TL = 3.850 $</strong>
-</div>
-
-<!-- 📊 GÜNLÜK KAR / ZARAR -->
+<!-- 💹 GÜNLÜK KAR / ZARAR -->
 <div class="card">
   <div class="card-title">Günlük Kar / Zarar Durumu</div>
 
@@ -129,9 +108,23 @@ body.dark .theme-invert{
   </div>
 </div>
 
-<!-- 💰 NAKİT GİRİŞ / ÇIKIŞ (EN ALT) -->
+<!-- 💰 TOPLAM NAKİT GİRİŞ / ÇIKIŞ -->
 <div class="card">
   <div class="card-title">Toplam Nakit Giriş / Çıkış Bilgisi</div>
+
+  <div>Yatırılan : <strong>15.000 TL</strong></div>
+  <div>Çekilen : <strong>5.000 TL</strong></div>
+</div>
+
+<!-- 💱 TL / USD DEĞER -->
+<div class="card center">
+  <div class="card-title">Kasa Değeri</div>
+  <strong>125.000 TL = 3.850 $</strong>
+</div>
+
+<!-- ➕➖ NAKİT İŞLEM -->
+<div class="card">
+  <div class="card-title">Nakit Giriş / Çıkış</div>
 
   <input placeholder="Tutar (TL)">
 
@@ -146,9 +139,7 @@ body.dark .theme-invert{
 </div>
 
 <!-- ↩️ GERİ -->
-<div class="back-btn">
-  <button class="btn btn-gray" onclick="history.back()">↩️ Geri</button>
-</div>
+<div class="back" onclick="history.back()">↩️ Geri</div>
 
 </body>
 </html>
