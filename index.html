@@ -6,142 +6,247 @@
 <title>Ana Panel</title>
 
 <style>
-*{box-sizing:border-box;font-family:"Times New Roman",serif}
+*{
+  box-sizing:border-box;
+  font-family:"Times New Roman", serif;
+}
+
+/* ================= THEME ================= */
+:root{
+  --bg:#eef1f4;
+  --card:#ffffff;
+  --text:#111;
+  --shadow:rgba(0,0,0,.15);
+  --menu:#ffffff;
+  --shine:rgba(255,255,255,.75);
+}
+
+body.dark{
+  --bg:#0b1220;
+  --card:#161e2e;
+  --text:#f9fafb;
+  --shadow:rgba(0,0,0,.65);
+  --menu:#161e2e;
+  --shine:rgba(255,255,255,.35);
+}
+
 body{
   margin:0;
-  background:#f3f4f6;
-  color:#111;
+  background:var(--bg);
+  color:var(--text);
 }
+
 .container{
   max-width:480px;
   margin:auto;
   padding:16px;
 }
 
-/* ===== ÜST BUTONLAR ===== */
+/* ================= CARD ================= */
+.card{
+  background:var(--card);
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 10px 24px var(--shadow);
+}
+
+/* ================= TOP ================= */
 .top-row{
   display:flex;
   justify-content:space-between;
-  margin-bottom:12px;
+  margin-bottom:10px;
 }
-.switch-group{
+
+.toggle-group{
   display:flex;
-  gap:8px;
+  gap:6px;
 }
-.switch{
-  padding:6px 12px;
-  border-radius:12px;
-  background:#e5e7eb;
-  font-size:14px;
+
+.toggle{
+  padding:6px 10px;
+  font-size:13px;
+  border-radius:10px;
+  background:var(--card);
+  box-shadow:0 4px 10px var(--shadow);
   cursor:pointer;
 }
-.switch.active{
-  background:#111;
-  color:#fff;
+
+.toggle.active{
+  outline:2px solid currentColor;
 }
 
-/* ===== KART GENEL ===== */
-.card{
-  background:#ffffff;
-  border-radius:22px;
-  padding:16px;
-  margin-bottom:16px;
-  box-shadow:0 12px 30px rgba(0,0,0,.12);
-}
-
-/* ===== TARİH ===== */
+/* ================= DATE ================= */
 .date{
   text-align:center;
+  font-size:16px;
   font-weight:bold;
 }
 
-/* ===== LOGO ===== */
+/* ================= LOGO ================= */
 .logo-card{
-  display:flex;
-  justify-content:center;
-}
-.logo-wrap{
-  position:relative;
-}
-.logo-wrap img{
-  width:170px;
-  height:auto;
-  display:block;
+  text-align:center;
+  overflow:hidden;
 }
 
-/* SOFT METAL PARLAMA */
+.logo-wrap{
+  position:relative;
+  display:inline-block;
+}
+
+.logo{
+  width:220px;
+  display:block;
+  filter:drop-shadow(0 18px 30px rgba(0,0,0,.45));
+}
+
+/* ===== B SEÇENEĞİ – GÜÇLÜ METAL PARLAMA ===== */
 .logo-wrap::after{
   content:"";
   position:absolute;
-  inset:-70%;
+  inset:-120%;
   background:linear-gradient(
-    120deg,
-    transparent 40%,
-    rgba(255,255,255,.45) 50%,
-    transparent 60%
+    115deg,
+    transparent 30%,
+    var(--shine) 50%,
+    transparent 70%
   );
-  transform:translateX(-130%) rotate(12deg);
-  animation:logoSweep 5.5s infinite;
+  transform:translateX(-150%) rotate(14deg);
+  animation:logoSweep 4s infinite;
   mix-blend-mode:screen;
   pointer-events:none;
 }
+
 @keyframes logoSweep{
-  0%{transform:translateX(-130%) rotate(12deg)}
-  40%{transform:translateX(130%) rotate(12deg)}
-  100%{transform:translateX(130%) rotate(12deg)}
+  0%{transform:translateX(-150%) rotate(14deg);}
+  45%{transform:translateX(150%) rotate(14deg);}
+  100%{transform:translateX(150%) rotate(14deg);}
 }
 
-/* ===== MENU ===== */
-.menu-btn{
-  padding:18px;
-  border-radius:16px;
-  background:#f1f5f9;
-  text-align:center;
+.title{
+  font-size:22px;
   font-weight:bold;
-  margin-bottom:12px;
+  margin-top:10px;
+}
+
+.subtitle{
+  font-size:14px;
+  margin-top:6px;
+}
+
+/* ================= MENU ================= */
+.menu{
+  display:grid;
+  gap:14px;
+}
+
+.menu-btn{
+  background:var(--menu);
+  border-radius:16px;
+  padding:18px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
   cursor:pointer;
-  transition:transform .15s, box-shadow .15s;
+  box-shadow:0 8px 18px var(--shadow);
+  position:relative;
+  overflow:hidden;
 }
-.menu-btn:active{
-  transform:scale(.97);
-  box-shadow:inset 0 6px 12px rgba(0,0,0,.25);
+
+/* SADECE TIKLANAN BUTONDA PARLAMA */
+.menu-btn::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(
+    circle at var(--x,50%) var(--y,50%),
+    var(--shine),
+    transparent 55%
+  );
+  opacity:0;
+  transition:.2s;
 }
+
+.menu-btn:active::after{opacity:1;}
+.menu-btn:active{transform:scale(.97);}
 </style>
 </head>
 
 <body>
+
 <div class="container">
 
-  <!-- Tema / Dil -->
+  <!-- TOP -->
   <div class="top-row">
-    <div class="switch-group">
-      <div class="switch active">🌙</div>
-      <div class="switch">☀️</div>
+    <div class="toggle-group">
+      <div class="toggle" id="lightBtn">☀️</div>
+      <div class="toggle" id="darkBtn">🌙</div>
     </div>
-    <div class="switch-group">
-      <div class="switch active">TR</div>
-      <div class="switch">EN</div>
+
+    <div class="toggle-group">
+      <div class="toggle active">TR</div>
+      <div class="toggle">EN</div>
     </div>
   </div>
 
-  <!-- Tarih -->
-  <div class="card date">💰 12.12.2012 Pazartesi 💰</div>
+  <!-- DATE -->
+  <div class="card date" id="today"></div>
 
-  <!-- Logo -->
+  <!-- LOGO -->
   <div class="card logo-card">
     <div class="logo-wrap">
-      <img src="assets/logo.png">
+      <img src="assets/logo.png" class="logo">
+    </div>
+    <div class="title">MEHMET ALİ YILMAZ</div>
+    <div class="subtitle">
+      ⚡️ Disiplin 🧠 Analiz 🩸 Motivasyon 🚀 Başarı
     </div>
   </div>
 
-  <!-- Menü -->
+  <!-- MENU -->
   <div class="card">
-    <div class="menu-btn">🏦 Kasa</div>
-    <div class="menu-btn">📊 İşlemler</div>
-    <div class="menu-btn">🧠 Analiz</div>
-    <div class="menu-btn">⚙️ Ayarlar</div>
+    <div class="menu">
+      <div class="menu-btn" data-page="kasa.html">🏦 Kasa</div>
+      <div class="menu-btn" data-page="islemler.html">📊 İşlemler</div>
+      <div class="menu-btn" data-page="analiz.html">🧠 Analiz</div>
+      <div class="menu-btn" data-page="ayarlar.html">⚙️ Ayarlar</div>
+    </div>
   </div>
 
 </div>
+
+<script>
+/* THEME */
+const body=document.body;
+const light=document.getElementById("lightBtn");
+const dark=document.getElementById("darkBtn");
+
+function setTheme(t){
+  body.classList.toggle("dark",t==="dark");
+  localStorage.setItem("theme",t);
+  light.classList.toggle("active",t==="light");
+  dark.classList.toggle("active",t==="dark");
+}
+setTheme(localStorage.getItem("theme")||"light");
+light.onclick=()=>setTheme("light");
+dark.onclick=()=>setTheme("dark");
+
+/* DATE */
+const d=new Date();
+const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+document.getElementById("today").innerText=
+  d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
+
+/* MENU CLICK EFFECT */
+document.querySelectorAll(".menu-btn").forEach(btn=>{
+  btn.addEventListener("pointerdown",e=>{
+    const r=btn.getBoundingClientRect();
+    btn.style.setProperty("--x",(e.clientX-r.left)+"px");
+    btn.style.setProperty("--y",(e.clientY-r.top)+"px");
+  });
+  btn.onclick=()=>setTimeout(()=>location.href=btn.dataset.page,120);
+});
+</script>
+
 </body>
 </html>
