@@ -6,240 +6,223 @@
 <title>Trading Journal</title>
 
 <style>
-/* ================= ROOT ================= */
-:root{
-  --bg-dark:#070b16;
-  --bg-light:#f3f4f6;
-
-  --card-dark:rgba(255,255,255,0.07);
-  --card-light:#ffffff;
-
-  --text-dark:#f9fafb;
-  --text-light:#0f172a;
-
-  --rim-dark:rgba(255,255,255,.55);
-  --rim-light:rgba(0,0,0,.18);
-
-  --glow-dark:rgba(120,180,255,.35);
-  --glow-light:rgba(0,0,0,.15);
-}
-
+/* ===== GLOBAL ===== */
 *{
   box-sizing:border-box;
   font-family:"Times New Roman", serif;
-  -webkit-tap-highlight-color:transparent;
+  -webkit-tap-highlight-color: transparent;
 }
-
 body{
   margin:0;
-  background:var(--bg-dark);
-  color:var(--text-dark);
-  transition:.4s;
-}
-body.light{
-  background:var(--bg-light);
-  color:var(--text-light);
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  transition:background .4s,color .4s;
 }
 
-.container{
-  max-width:460px;
-  margin:auto;
-  padding:22px;
+/* ===== THEME ===== */
+:root{
+  --bg:#f2f4f6;
+  --card:#ffffff;
+  --text:#0f172a;
+  --sub:#475569;
+  --menu:#ffffff;
+  --shadow:0 18px 40px rgba(0,0,0,.12);
+}
+body.dark{
+  --bg:#070b16;
+  --card:#0c1324;
+  --text:#f8fafc;
+  --sub:#cbd5e1;
+  --menu:#0e162b;
+  --shadow:0 30px 80px rgba(0,0,0,.7);
 }
 
-/* ================= THEME TOGGLE ================= */
-.theme-toggle{
+/* ===== TOP BAR ===== */
+.top{
   display:flex;
   justify-content:space-between;
-  margin-bottom:14px;
-  font-size:18px;
+  align-items:center;
+  padding:14px 18px;
+}
+.top button{
+  background:none;
+  border:none;
+  font-size:22px;
+  cursor:pointer;
+  color:var(--text);
+}
+.lang{
+  font-weight:bold;
 }
 
-/* ================= LOGO CARD ================= */
-.logo-card{
-  background:var(--card-dark);
-  border-radius:30px;
-  padding:26px 20px 32px;
-  text-align:center;
-  margin-bottom:30px;
-  position:relative;
-}
-body.light .logo-card{
-  background:var(--card-light);
-}
-
-/* ================= LOGO SHELL ================= */
-.logo-shell{
-  width:230px;
-  aspect-ratio:1/1;
+/* ===== CONTAINER ===== */
+.container{
+  max-width:420px;
   margin:auto;
-  position:relative;
-  border-radius:50%;
-  overflow:hidden; /* 🔥 ALT/YAN GÖLGEYİ TAM KESER */
+  padding:8px 16px 40px;
 }
 
-/* METAL EDGE */
-.logo-shell::before{
+/* ===== LOGO CARD ===== */
+.logo-card{
+  background:radial-gradient(120% 120% at 50% 0%,rgba(255,255,255,.15),transparent 60%),var(--card);
+  border-radius:26px;
+  padding:28px 20px 24px;
+  box-shadow:var(--shadow);
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+/* ===== LOGO WRAPPER ===== */
+.logo-wrap{
+  position:relative;
+  width:260px;
+  margin:0 auto 14px;
+}
+
+/* PNG (DOKUNULMAZ) */
+.logo-wrap img{
+  width:100%;
+  display:block;
+  position:relative;
+  z-index:1;
+}
+
+/* SPECULAR HIGHLIGHT (GERÇEK HİS) */
+.logo-wrap::after{
+  content:"";
+  position:absolute;
+  inset:-20%;
+  background:
+    radial-gradient(60% 35% at var(--lx,50%) var(--ly,0%),
+      rgba(255,255,255,.45),
+      rgba(255,255,255,.15) 40%,
+      transparent 70%);
+  mix-blend-mode:overlay;
+  pointer-events:none;
+  mask-image:radial-gradient(circle at 50% 50%,#000 58%,transparent 62%);
+  animation:idleLight 6s linear infinite;
+}
+
+/* ALT / YAN HALO KESİM */
+.logo-wrap::before{
   content:"";
   position:absolute;
   inset:0;
-  border-radius:50%;
+  background:transparent;
+  box-shadow:0 0 0 999px var(--card);
+  mask-image:radial-gradient(circle at 50% 50%,transparent 60%,#000 62%);
   pointer-events:none;
-  box-shadow:
-    inset 0 0 0 2px var(--rim-dark),
-    inset 0 0 14px rgba(255,255,255,.35);
-  animation:idleShine 6s linear infinite;
-}
-body.light .logo-shell::before{
-  box-shadow:
-    inset 0 0 0 2px var(--rim-light),
-    inset 0 0 12px rgba(0,0,0,.12);
 }
 
-/* SPECULAR SWEEP */
-.logo-shell::after{
+@keyframes idleLight{
+  0%{--lx:40%;--ly:0%}
+  50%{--lx:60%;--ly:10%}
+  100%{--lx:40%;--ly:0%}
+}
+
+/* ===== TEXT ===== */
+h1{
+  margin:12px 0 6px;
+  font-size:22px;
+  font-weight:700;
+}
+.motto{
+  font-size:15px;
+  color:var(--sub);
+}
+
+/* ===== MENU ===== */
+.menu{
+  margin-top:18px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.menu-btn{
+  background:linear-gradient(180deg,rgba(255,255,255,.12),transparent),var(--menu);
+  border-radius:22px;
+  padding:18px;
+  font-size:18px;
+  font-weight:600;
+  text-align:center;
+  box-shadow:var(--shadow);
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  transition:transform .15s,box-shadow .15s;
+}
+.menu-btn::after{
   content:"";
   position:absolute;
   inset:-40%;
-  background:linear-gradient(
-    120deg,
-    transparent 35%,
-    rgba(255,255,255,.35) 50%,
-    transparent 65%
-  );
-  animation:sweep 7s infinite linear;
-  mix-blend-mode:overlay;
-  pointer-events:none;
-}
-
-/* LOGO IMG */
-.logo-shell img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-  filter:none; /* 🔥 PNG gölgesini iptal */
-}
-
-/* ================= TEXT ================= */
-h1{
-  margin:18px 0 6px;
-  font-size:26px;
-  font-weight:bold;
-}
-.tagline{
-  font-size:15px;
-  opacity:.9;
-}
-
-/* ================= MENU ================= */
-.menu .item{
-  background:var(--card-dark);
-  border-radius:24px;
-  padding:18px;
-  margin-bottom:18px;
-  text-align:center;
-  font-size:18px;
-  position:relative;
-  cursor:pointer;
+  background:radial-gradient(circle at center,rgba(255,255,255,.35),transparent 60%);
+  opacity:0;
   transition:.25s;
-  overflow:hidden;
 }
-body.light .menu .item{
-  background:var(--card-light);
-}
-
-/* PRESS FEEDBACK */
-.menu .item:active{
+.menu-btn:active{
   transform:scale(.97);
 }
-
-/* GLOW RIPPLE */
-.menu .item::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:radial-gradient(circle at center,
-    var(--glow-dark),
-    transparent 70%);
-  opacity:0;
-  transition:.3s;
-}
-body.light .menu .item::after{
-  background:radial-gradient(circle at center,
-    var(--glow-light),
-    transparent 70%);
-}
-.menu .item:active::after{
+.menu-btn:active::after{
   opacity:1;
 }
 
-/* ================= ANIMATIONS ================= */
-@keyframes sweep{
-  0%{transform:translateX(-100%) rotate(15deg);}
-  100%{transform:translateX(100%) rotate(15deg);}
-}
-@keyframes idleShine{
-  0%{filter:brightness(1);}
-  50%{filter:brightness(1.15);}
-  100%{filter:brightness(1);}
+/* ===== FOOTER ===== */
+.footer{
+  text-align:center;
+  margin-top:26px;
+  font-size:14px;
+  color:var(--sub);
 }
 </style>
 </head>
 
 <body>
 
+<div class="top">
+  <button id="themeBtn">🌙</button>
+  <div class="lang">TR&nbsp;&nbsp;EN</div>
+</div>
+
 <div class="container">
 
-  <!-- THEME -->
-  <div class="theme-toggle">
-    <span id="themeBtn">🌙 / ☀️</span>
-    <span>TR | EN</span>
-  </div>
-
-  <!-- LOGO -->
   <div class="logo-card">
-    <div class="logo-shell" id="logo">
+    <div class="logo-wrap" id="logo">
       <img src="assets/logo.png" alt="Logo">
     </div>
+
     <h1>MEHMET ALİ YILMAZ</h1>
-    <div class="tagline">⚡ Disiplin 🧠 Analiz 🩸 Motivasyon 🚀 Başarı</div>
+    <div class="motto">⚡ Disiplin 🧠 Analiz 🩸 Motivasyon 🚀 Başarı</div>
   </div>
 
-  <!-- MENU -->
   <div class="menu">
-    <div class="item">🏦 Kasa</div>
-    <div class="item">📊 İşlemler</div>
-    <div class="item">🧠 Analist</div>
-    <div class="item">⚙️ Ayarlar</div>
+    <div class="menu-btn">🏦 Kasa</div>
+    <div class="menu-btn">📊 İşlemler</div>
+    <div class="menu-btn">🧠 Analist</div>
+    <div class="menu-btn">⚙️ Ayarlar</div>
   </div>
+
+  <div class="footer">Trading Journal</div>
 
 </div>
 
 <script>
-/* ========== THEME PERSIST ========= */
+/* ===== THEME PERSIST ===== */
 const body=document.body;
-const savedTheme=localStorage.getItem("theme");
-if(savedTheme==="light") body.classList.add("light");
+const btn=document.getElementById("themeBtn");
+const saved=localStorage.getItem("theme");
+if(saved==="dark") body.classList.add("dark");
 
-document.getElementById("themeBtn").onclick=()=>{
-  body.classList.toggle("light");
-  localStorage.setItem("theme",
-    body.classList.contains("light")?"light":"dark"
-  );
+btn.onclick=()=>{
+  body.classList.toggle("dark");
+  localStorage.setItem("theme",body.classList.contains("dark")?"dark":"light");
 };
 
-/* ========== SCROLL LIGHT ANGLE ========= */
+/* ===== SCROLL LIGHT ANGLE ===== */
 window.addEventListener("scroll",()=>{
-  const y=window.scrollY;
-  document.querySelector(".logo-shell::after");
-});
-
-/* ========== iOS HAPTIC (SUPPORTED DEVICES) ========= */
-document.querySelectorAll(".item").forEach(i=>{
-  i.addEventListener("click",()=>{
-    if(navigator.vibrate) navigator.vibrate(10);
-  });
+  const y=Math.min(window.scrollY,300);
+  document.documentElement.style.setProperty("--ly",`${y/6}%`);
 });
 </script>
 
