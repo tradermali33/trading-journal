@@ -18,7 +18,7 @@
   --text:#111;
   --shadow:rgba(0,0,0,.15);
   --menu:#ffffff;
-  --shine:rgba(255,255,255,.55);
+  --shine:rgba(255,255,255,.45);
 }
 
 body.dark{
@@ -84,44 +84,43 @@ body{
   font-weight:bold;
 }
 
-/* ================= LOGO ================= */
+/* ================= LOGO CARD ================= */
 .logo-card{
   text-align:center;
+  position:relative;
   overflow:hidden;
 }
 
-.logo-wrap{
-  position:relative;
-  display:inline-block;
+/* DIAGONAL METAL SHINE */
+.logo-card::after{
+  content:"";
+  position:absolute;
+  top:-60%;
+  left:-60%;
+  width:200%;
+  height:200%;
+  background:linear-gradient(
+    135deg,
+    transparent 40%,
+    var(--shine) 50%,
+    transparent 60%
+  );
+  animation:cardShine 5s infinite;
+  pointer-events:none;
 }
 
+@keyframes cardShine{
+  0%{transform:translate(-30%,-30%);}
+  50%{transform:translate(30%,30%);}
+  100%{transform:translate(30%,30%);}
+}
+
+/* ================= LOGO ================= */
 .logo{
   width:220px;
   display:block;
+  margin:auto;
   filter:drop-shadow(0 16px 28px rgba(0,0,0,.45));
-}
-
-/* metalik parlama */
-.logo-wrap::after{
-  content:"";
-  position:absolute;
-  top:0;
-  left:-60%;
-  width:40%;
-  height:100%;
-  background:linear-gradient(
-    120deg,
-    transparent,
-    rgba(255,255,255,.35),
-    transparent
-  );
-  animation:shine 4s infinite;
-}
-
-@keyframes shine{
-  0%{left:-60%;}
-  50%{left:120%;}
-  100%{left:120%;}
 }
 
 .title{
@@ -154,7 +153,7 @@ body{
   overflow:hidden;
 }
 
-/* SADECE TIKLANAN BUTONDA */
+/* TIKLAMA PARLAMASI */
 .menu-btn::after{
   content:"";
   position:absolute;
@@ -195,9 +194,7 @@ body{
 
   <!-- LOGO -->
   <div class="card logo-card">
-    <div class="logo-wrap">
-      <img src="assets/logo.png" class="logo">
-    </div>
+    <img src="assets/logo.png" class="logo">
     <div class="title">MEHMET ALİ YILMAZ</div>
     <div class="subtitle">
       ⚡️ Disiplin 🧠 Analiz 🩸 Motivasyon 🚀 Başarı
@@ -217,7 +214,7 @@ body{
 </div>
 
 <script>
-/* ===== THEME ===== */
+/* THEME */
 const body=document.body;
 const light=document.getElementById("lightBtn");
 const dark=document.getElementById("darkBtn");
@@ -232,7 +229,7 @@ setTheme(localStorage.getItem("theme")||"light");
 light.onclick=()=>setTheme("light");
 dark.onclick=()=>setTheme("dark");
 
-/* ===== LANGUAGE (B SEÇENEĞİ) ===== */
+/* LANGUAGE */
 const tr=document.getElementById("trBtn");
 const en=document.getElementById("enBtn");
 
@@ -245,13 +242,13 @@ setLang(localStorage.getItem("lang")||"tr");
 tr.onclick=()=>setLang("tr");
 en.onclick=()=>setLang("en");
 
-/* ===== DATE ===== */
+/* DATE */
 const d=new Date();
 const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
 document.getElementById("today").innerText=
   d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
 
-/* ===== MENU TOUCH ===== */
+/* MENU TOUCH */
 document.querySelectorAll(".menu-btn").forEach(btn=>{
   btn.addEventListener("pointerdown",e=>{
     const r=btn.getBoundingClientRect();
