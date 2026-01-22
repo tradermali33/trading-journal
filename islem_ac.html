@@ -6,77 +6,62 @@
 <title>Yeni İşlem Aç</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  font-family:"Times New Roman", serif;
-}
+*{box-sizing:border-box;font-family:"Times New Roman",serif;}
 
 body{
   margin:0;
   padding:16px;
-  background:#f2f4f6;
+  background:#0b1220;
+  color:#fff;
 }
 
+/* === GENEL KART === */
 .card{
-  background:#fff;
-  border-radius:16px;
+  background:#111827;
+  border-radius:18px;
   padding:16px;
   margin-bottom:16px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.06);
+  box-shadow:0 8px 22px rgba(0,0,0,.35);
 }
 
-.card h2{
-  margin:0 0 14px 0;
+.center{text-align:center;}
+.card-title{
   font-size:18px;
   font-weight:bold;
+  margin-bottom:10px;
   text-align:center;
 }
 
-.center{ text-align:center; }
-
-input, textarea{
+/* === INPUT === */
+input{
   width:100%;
-  padding:12px;
-  border-radius:12px;
-  border:1px solid #ddd;
+  padding:14px;
+  border-radius:14px;
+  border:none;
   font-size:15px;
+  background:#1f2937;
+  color:#fff;
 }
 
-textarea{ resize:none; }
-
-.row{
-  display:flex;
-  gap:12px;
-}
-
-.row > div{ flex:1; }
-
+/* === BADGE === */
 .badge-group{
   display:flex;
   flex-wrap:wrap;
   gap:10px;
   justify-content:center;
 }
-
 .badge{
-  padding:10px 18px;
-  background:#eef1f4;
+  padding:10px 16px;
   border-radius:20px;
-  font-size:14px;
+  background:#1f2937;
   cursor:pointer;
-  user-select:none;
+  font-size:14px;
 }
-
 .badge.active{
-  background:#2ecc71;
-  color:#fff;
+  background:#2563eb;
 }
 
-.trend-row .badge{
-  flex:1;
-  text-align:center;
-}
-
+/* === BUTON === */
 .btn{
   width:100%;
   padding:16px;
@@ -86,49 +71,49 @@ textarea{ resize:none; }
   font-weight:bold;
   cursor:pointer;
 }
+.btn-green{background:#16a34a;color:#fff;}
+.btn-red{background:#dc2626;color:#fff;}
+.btn-gray{background:#1f2937;color:#fff;}
 
-.btn-green{ background:#2ecc71; color:#fff; }
-.btn-red{ background:#e74c3c; color:#fff; }
-.btn-yellow{ background:#f1c40f; }
-
-.footer-back{
-  text-align:center;
-  margin:20px 0;
-  font-size:18px;
-}
+/* === ROW === */
+.row{display:flex;gap:12px;}
+.row>div{flex:1;}
 </style>
 </head>
 
 <body>
 
-<!-- TARİH -->
+<!-- 📅 TARİH -->
 <div class="card center">
-  <div style="font-size:18px;font-weight:bold;">
-    💰 12.12.2012 Pazartesi 💰
-  </div>
+  <strong>12.12.2012 Pazartesi</strong>
+</div>
+
+<!-- 🧾 BAŞLIK -->
+<div class="card center">
+  <div class="card-title">➕ Yeni İşlem Aç</div>
 </div>
 
 <!-- 💎 VARLIK -->
 <div class="card">
-  <h2>💎 Varlık</h2>
+  <div class="card-title">💎 Varlık</div>
   <input placeholder="ALKA / BTCUSDT">
-  <div class="center" style="margin-top:8px;font-weight:bold;">🔴 Canlı Fiyat: --</div>
+  <div class="center" style="margin-top:10px;color:#f87171;">🔴 Canlı Fiyat: --</div>
 </div>
 
 <!-- 📈 TREND -->
 <div class="card">
-  <h2>📈 Trend Yönü</h2>
-  <div class="badge-group trend-row" data-group="trend">
+  <div class="card-title">📈 Trend Yönü</div>
+  <div class="badge-group">
     <div class="badge">Yükselen</div>
     <div class="badge">Düşen</div>
     <div class="badge">Yatay</div>
   </div>
 </div>
 
-<!-- ⏳ ZAMAN -->
+<!-- ⏱ ZAMAN -->
 <div class="card">
-  <h2>⏳ Zaman Dilimi</h2>
-  <div class="badge-group" data-group="time">
+  <div class="card-title">⏱ Zaman Dilimi</div>
+  <div class="badge-group">
     <div class="badge">5m</div>
     <div class="badge active">15m</div>
     <div class="badge">1h</div>
@@ -139,99 +124,66 @@ textarea{ resize:none; }
 
 <!-- 🎯 TEKNİK ANALİZ -->
 <div class="card">
-  <h2>🎯 Teknik Analiz Paneli</h2>
+  <div class="card-title">🎯 Teknik Analiz</div>
 
-  <!-- SMC -->
-  <div class="card">
-    <h2>SMC</h2>
-    <div class="badge-group" data-group="smc">
-      <div class="badge">BOS</div>
-      <div class="badge">CHoCH</div>
-      <div class="badge">OB</div>
-      <div class="badge">Demand</div>
-      <div class="badge">Supply</div>
-      <div class="badge">Equal High</div>
-      <div class="badge">Equal Low</div>
-      <div class="badge">Likidite</div>
-      <div class="badge">FVG</div>
-      <div class="badge">Sweep</div>
-      <div class="badge">Premium</div>
-      <div class="badge">Discount</div>
-    </div>
+  <strong>SMC</strong>
+  <div class="badge-group" style="margin-top:6px;">
+    <div class="badge">BOS</div>
+    <div class="badge">CHoCH</div>
+    <div class="badge">OB</div>
+    <div class="badge">Demand</div>
+    <div class="badge">Supply</div>
+    <div class="badge">FVG</div>
+    <div class="badge">Likidite</div>
+    <div class="badge">Sweep</div>
+    <div class="badge">Premium</div>
+    <div class="badge">Discount</div>
   </div>
 
-  <!-- EMA -->
-  <div class="card">
-    <h2>EMA</h2>
-    <div class="badge-group" data-group="ema">
-      <div class="badge">3</div><div class="badge">5</div><div class="badge">7</div>
-      <div class="badge">9</div><div class="badge">11</div><div class="badge">13</div>
-      <div class="badge">17</div><div class="badge">19</div><div class="badge">20</div>
-      <div class="badge">21</div><div class="badge">34</div><div class="badge">48</div>
-      <div class="badge">50</div><div class="badge">100</div>
-      <div class="badge">144</div><div class="badge">200</div>
-    </div>
+  <strong style="display:block;margin-top:14px;">EMA</strong>
+  <div class="badge-group">
+    <div class="badge">9</div>
+    <div class="badge">21</div>
+    <div class="badge">34</div>
+    <div class="badge">50</div>
+    <div class="badge">100</div>
+    <div class="badge">200</div>
   </div>
 
-  <!-- RSI -->
-  <div class="card">
-    <h2>RSI</h2>
-    <div class="badge-group" data-group="rsi">
-      <div class="badge">Uyumlu</div>
-      <div class="badge">Aşırı Alım (70+)</div>
-      <div class="badge">Aşırı Satım (30-)</div>
-      <div class="badge">Pozitif Uyumsuzluk</div>
-      <div class="badge">Negatif Uyumsuzluk</div>
-    </div>
+  <strong style="display:block;margin-top:14px;">RSI</strong>
+  <div class="badge-group">
+    <div class="badge">Uyumlu</div>
+    <div class="badge">Aşırı Alım</div>
+    <div class="badge">Aşırı Satım</div>
+    <div class="badge">Pozitif Uyumsuzluk</div>
+    <div class="badge">Negatif Uyumsuzluk</div>
   </div>
 
-  <!-- MACD -->
-  <div class="card">
-    <h2>MACD</h2>
-    <div class="badge-group" data-group="macd">
-      <div class="badge">Bullish Kesişim</div>
-      <div class="badge">Bearish Kesişim</div>
-      <div class="badge">Histogram +</div>
-      <div class="badge">Histogram -</div>
-      <div class="badge">Sıfır Üzeri</div>
-      <div class="badge">Sıfır Altı</div>
-    </div>
+  <strong style="display:block;margin-top:14px;">MACD</strong>
+  <div class="badge-group">
+    <div class="badge">Bullish</div>
+    <div class="badge">Bearish</div>
+    <div class="badge">Histogram +</div>
+    <div class="badge">Histogram -</div>
   </div>
-
-  <!-- HACİM -->
-  <div class="card">
-    <h2>Hacim</h2>
-    <div class="badge-group" data-group="volume">
-      <div class="badge">Artış</div>
-      <div class="badge">Düşüş</div>
-      <div class="badge">Ortalama Üstü</div>
-      <div class="badge">Spike</div>
-    </div>
-  </div>
-</div>
-
-<!-- 🏦 KASA -->
-<div class="card center">
-  <h2>🏦 Kasa</h2>
-  <div style="font-size:22px;font-weight:bold;">12.500 TL</div>
 </div>
 
 <!-- 📌 GİRİŞ -->
 <div class="card">
-  <h2>📌 Giriş</h2>
-  <input id="fiyat" placeholder="Giriş Fiyatı">
+  <div class="card-title">📌 Giriş</div>
+  <input placeholder="Giriş Fiyatı">
   <div class="row" style="margin-top:10px;">
-    <div><input id="adet" placeholder="Adet"></div>
-    <div><input id="tutar" placeholder="Tutar (TL)"></div>
+    <div><input placeholder="Adet"></div>
+    <div><input placeholder="Tutar (TL)"></div>
   </div>
 </div>
 
-<!-- STOP -->
+<!-- 🛑 STOP -->
 <div class="card">
-  <h2>Stop</h2>
-  <div class="badge-group" data-group="stop">
+  <div class="card-title">🛑 Stop</div>
+  <div class="badge-group">
     <div class="badge">0.5%</div>
-    <div class="badge active">1%</div>
+    <div class="badge">1%</div>
     <div class="badge">2%</div>
   </div>
   <input style="margin-top:10px;" placeholder="Stop Fiyatı">
@@ -239,50 +191,19 @@ textarea{ resize:none; }
 
 <!-- 🚀 HEDEF -->
 <div class="card">
-  <h2>🚀 Hedef</h2>
+  <div class="card-title">🚀 Hedef</div>
   <div class="row">
-    <div><input placeholder="TP1"></div>
+    <div><input placeholder="TP1 (%50)"></div>
     <div><input placeholder="TP2"></div>
     <div><input placeholder="TP3"></div>
   </div>
 </div>
 
-<!-- BUTONLAR -->
+<!-- ▶️ BUTONLAR -->
 <div class="card">
-  <button class="btn btn-yellow">🚨 Otomatik İşlem Sonlandır</button><br><br>
-  <button class="btn btn-red">⚠️ Manuel İşlem Sonlandır</button><br><br>
-  <button class="btn btn-green">⚡ İŞLEM BAŞLAT ⚡</button>
+  <button class="btn btn-green">⚡ İŞLEM BAŞLAT</button><br><br>
+  <button class="btn btn-gray" onclick="history.back()">↩️ Geri</button>
 </div>
-
-<!-- SON KASA -->
-<div class="card center">
-  <h2>İşlem Sonrası Kasa</h2>
-  <div style="font-size:22px;font-weight:bold;">0 TL</div>
-</div>
-
-<div class="footer-back">↩️ Geri</div>
-
-<script>
-document.querySelectorAll('[data-group]').forEach(group=>{
-  group.querySelectorAll('.badge').forEach(badge=>{
-    badge.addEventListener('click',()=>{
-      group.querySelectorAll('.badge').forEach(b=>b.classList.remove('active'));
-      badge.classList.add('active');
-    });
-  });
-});
-
-const fiyat=document.getElementById("fiyat");
-const adet=document.getElementById("adet");
-const tutar=document.getElementById("tutar");
-
-adet.addEventListener("input",()=>{
-  if(fiyat.value) tutar.value=(adet.value*fiyat.value).toFixed(2);
-});
-tutar.addEventListener("input",()=>{
-  if(fiyat.value) adet.value=(tutar.value/fiyat.value).toFixed(2);
-});
-</script>
 
 </body>
 </html>
