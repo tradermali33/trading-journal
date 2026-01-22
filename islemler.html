@@ -11,13 +11,20 @@
 body{
   margin:0;
   padding:16px;
-  background:#f2f4f6;
+  transition:.25s;
 }
 
-/* ==== TEMA ==== */
-body.dark{background:#0b1220;color:#fff;}
-body.light{background:#f2f4f6;color:#111;}
+/* ===== TEMA ===== */
+body.light{
+  background:#f2f4f6;
+  color:#111;
+}
+body.dark{
+  background:#0b1220;
+  color:#fff;
+}
 
+/* ===== KART ===== */
 .card{
   border-radius:18px;
   padding:16px;
@@ -25,14 +32,48 @@ body.light{background:#f2f4f6;color:#111;}
   box-shadow:0 6px 16px rgba(0,0,0,.08);
 }
 
-.light .card{background:#fff;}
-.dark .card{background:#111827;}
+body.light .card{background:#fff;}
+body.dark .card{background:#111827;}
 
 .center{text-align:center;}
 .row{display:flex;gap:12px;}
 .row>div{flex:1;}
 
-.btn{
+/* ===== INDEX İLE AYNI TEMA & DİL ===== */
+.toggle{
+  padding:14px;
+  border-radius:16px;
+  font-weight:bold;
+  cursor:pointer;
+  text-align:center;
+  transition:.2s;
+}
+
+body.light .toggle{
+  background:#e5e7eb;
+  color:#111;
+}
+body.dark .toggle{
+  background:#1f2937;
+  color:#fff;
+}
+
+.toggle.active{
+  outline:2px solid #3b82f6;
+}
+
+/* ===== BAŞLIK (ZIT TEMA) ===== */
+body.light .invert{
+  background:#111827;
+  color:#fff;
+}
+body.dark .invert{
+  background:#f9fafb;
+  color:#111;
+}
+
+/* ===== MENÜ ===== */
+.menu-btn{
   width:100%;
   padding:14px;
   border:none;
@@ -42,45 +83,28 @@ body.light{background:#f2f4f6;color:#111;}
   cursor:pointer;
 }
 
-/* ==== TEMA & DİL (INDEX İLE AYNI) ==== */
-.toggle-btn{
-  padding:12px;
-  border-radius:14px;
-  font-weight:bold;
-  cursor:pointer;
-  text-align:center;
-}
-.light .toggle-btn{background:#e5e7eb;color:#111;}
-.dark .toggle-btn{background:#1f2937;color:#fff;}
-
-.active{
-  outline:2px solid #3b82f6;
-}
-
-/* ==== BAŞLIK KARTI (ZIT TEMA) ==== */
-.light .invert{background:#111827;color:#fff;}
-.dark .invert{background:#f9fafb;color:#111;}
-
-.menu-btn{
+body.light .menu-btn{
   background:#e5e7eb;
   color:#111;
 }
-.dark .menu-btn{
+body.dark .menu-btn{
   background:#1f2937;
   color:#fff;
 }
 
-.menu-btn:hover{opacity:.9;}
+.menu-btn:active{
+  transform:scale(.97);
+}
 </style>
 </head>
 
 <body>
 
-<!-- 🌗 TEMA & 🌍 DİL -->
+<!-- 🌗 TEMA & 🌍 DİL (INDEX BİREBİR) -->
 <div class="card">
   <div class="row">
-    <div id="themeBtn" class="toggle-btn">🌙 / ☀️ Tema</div>
-    <div class="toggle-btn active">TR | EN</div>
+    <div id="themeBtn" class="toggle">🌙 / ☀️ Tema</div>
+    <div id="langBtn" class="toggle active">TR | EN</div>
   </div>
 </div>
 
@@ -96,28 +120,28 @@ body.light{background:#f2f4f6;color:#111;}
 
 <!-- 📋 ALT MENÜ -->
 <div class="card">
-  <button class="btn menu-btn">➕ Yeni İşlem Aç</button><br><br>
-  <button class="btn menu-btn">⛔ İşlem Kapat</button><br><br>
-  <button class="btn menu-btn">📈 Açık Olan İşlemlerim</button><br><br>
-  <button class="btn menu-btn">📉 Kapanan İşlemlerim</button><br><br>
-  <button class="btn menu-btn">🗓️ Günlük İşlem Özeti</button><br><br>
-  <button class="btn menu-btn">📚 Geçmiş İşlem Özeti</button>
+  <button class="menu-btn">➕ Yeni İşlem Aç</button><br><br>
+  <button class="menu-btn">⛔ İşlem Kapat</button><br><br>
+  <button class="menu-btn">📈 Açık Olan İşlemlerim</button><br><br>
+  <button class="menu-btn">📉 Kapanan İşlemlerim</button><br><br>
+  <button class="menu-btn">🗓️ Günlük İşlem Özeti</button><br><br>
+  <button class="menu-btn">📚 Geçmiş İşlem Özeti</button>
 </div>
 
 <!-- 🔙 GERİ & 🏠 ANA MENÜ -->
 <div class="card">
   <div class="row">
     <div>
-      <button class="btn menu-btn" onclick="history.back()">↩️ Geri</button>
+      <button class="menu-btn" onclick="history.back()">↩️ Geri</button>
     </div>
     <div>
-      <button class="btn menu-btn" onclick="location.href='index.html'">🏠 Ana Menü</button>
+      <button class="menu-btn" onclick="location.href='index.html'">🏠 Ana Menü</button>
     </div>
   </div>
 </div>
 
 <script>
-/* ==== TEMA KONTROL ==== */
+/* ===== INDEX İLE AYNI TEMA MANTIĞI ===== */
 const body=document.body;
 const savedTheme=localStorage.getItem("theme")||"light";
 body.classList.add(savedTheme);
@@ -125,7 +149,10 @@ body.classList.add(savedTheme);
 document.getElementById("themeBtn").onclick=()=>{
   body.classList.toggle("dark");
   body.classList.toggle("light");
-  localStorage.setItem("theme", body.classList.contains("dark")?"dark":"light");
+  localStorage.setItem(
+    "theme",
+    body.classList.contains("dark")?"dark":"light"
+  );
 };
 </script>
 
