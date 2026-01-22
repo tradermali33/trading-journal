@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kasa</title>
 
 <style>
@@ -11,188 +11,208 @@
 body{
   margin:0;
   padding:16px;
-  background:#f2f4f6;
-  color:#0f172a;
-}
-body.dark{
   background:#0b1220;
   color:#e5e7eb;
 }
+body.light{
+  background:#f2f4f6;
+  color:#0f172a;
+}
 
+/* ==== ORTAK KART ==== */
 .card{
-  background:#ffffff;
-  border-radius:18px;
+  border-radius:22px;
   padding:16px;
   margin-bottom:16px;
-  box-shadow:0 6px 16px rgba(0,0,0,.06);
+  background:#111827;
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
-body.dark .card{background:#111827;}
+body.light .card{
+  background:#ffffff;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
 
-.row{
+/* ==== ÜST SATIR (TEMA + DİL) ==== */
+.top-row{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:12px;
 }
 
-.btn-toggle{
-  flex:1;
-  padding:12px;
-  border-radius:14px;
-  font-weight:bold;
-  text-align:center;
+.toggle-group{
+  display:flex;
+  gap:10px;
+}
+
+.toggle-btn{
+  width:52px;
+  height:52px;
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
   cursor:pointer;
-  background:#e5e7eb;
+  background:#1f2937;
 }
-body.dark .btn-toggle{background:#0f172a;}
+body.light .toggle-btn{background:#e5e7eb;}
 
-.btn-toggle.active{
-  outline:3px solid #2563eb;
+.toggle-btn.active{
+  outline:3px solid #ffffff;
+}
+body.light .toggle-btn.active{
+  outline:3px solid #111827;
 }
 
-.center{text-align:center;font-weight:bold;}
-
-.invert{
+/* ==== TARİH ==== */
+.date-card{
   text-align:center;
-  font-size:18px;
+  font-size:24px;
   font-weight:bold;
 }
-body.light .invert{background:#111827;color:#fff;}
-body.dark .invert{background:#f9fafb;color:#111;}
+
+/* ==== KASA BAŞLIK ==== */
+.kasa-title{
+  text-align:center;
+  font-size:22px;
+  font-weight:bold;
+}
+
+/* ==== KASA DEĞER ==== */
+.kasa-value{
+  text-align:center;
+  font-size:22px;
+  font-weight:bold;
+  white-space:nowrap;
+}
+
+/* ==== METİNLER ==== */
+.pos{color:#16a34a;font-weight:bold;}
+.neg{color:#dc2626;font-weight:bold;}
 
 input{
   width:100%;
   padding:14px;
-  border-radius:14px;
+  border-radius:16px;
   border:1px solid #cbd5f5;
-  font-size:15px;
+  font-size:16px;
+}
+
+.row{
+  display:flex;
+  gap:12px;
+  margin-top:12px;
 }
 
 .btn{
-  width:100%;
-  padding:14px;
+  flex:1;
+  padding:16px;
   border:none;
-  border-radius:14px;
-  font-size:15px;
+  border-radius:18px;
+  font-size:18px;
   font-weight:bold;
   cursor:pointer;
 }
-.green{background:#16a34a;color:#fff;}
-.red{background:#dc2626;color:#fff;}
+.btn.green{background:#16a34a;color:#fff;}
+.btn.red{background:#dc2626;color:#fff;}
 
 .back{
-  margin-top:16px;
-  padding:16px;
-  border-radius:16px;
+  padding:18px;
   text-align:center;
+  border-radius:20px;
+  font-size:18px;
   font-weight:bold;
   cursor:pointer;
+  background:#1f2937;
 }
 body.light .back{background:#e5e7eb;}
-body.dark .back{background:#0f172a;}
-
-.pos{color:#16a34a;}
-.neg{color:#dc2626;}
 </style>
 </head>
 
-<body class="light">
+<body>
 
-<!-- 🌗 TEMA & 🌐 DİL (INDEX İLE AYNI) -->
+<!-- ===== ÜST: TEMA & DİL ===== -->
 <div class="card">
-  <div class="row">
-    <div id="themeBtn" class="btn-toggle active">🌙 Tema</div>
-    <div id="langTR" class="btn-toggle active">TR</div>
-    <div id="langEN" class="btn-toggle">EN</div>
+  <div class="top-row">
+    <div class="toggle-group">
+      <div id="sun" class="toggle-btn">☀️</div>
+      <div id="moon" class="toggle-btn active">🌙</div>
+    </div>
+
+    <div class="toggle-group">
+      <div id="tr" class="toggle-btn active">TR</div>
+      <div id="en" class="toggle-btn">EN</div>
+    </div>
   </div>
 </div>
 
-<!-- 📅 TARİH -->
-<div class="card center" id="date"></div>
+<!-- ===== TARİH ===== -->
+<div class="card date-card" id="date"></div>
 
-<!-- 🏦 KASA BAŞLIK -->
-<div class="card invert">🏦 Kasa</div>
+<!-- ===== KASA BAŞLIK ===== -->
+<div class="card kasa-title">🏦 Kasa</div>
 
-<!-- 💰 KASA DEĞERİ (TEK SATIR) -->
-<div class="card center" id="kasaDeger">
+<!-- ===== KASA DEĞER ===== -->
+<div class="card kasa-value" id="kasaValue">
   125.000 TL  =  3.850 $
 </div>
 
-<!-- 📊 GÜNLÜK KAR / ZARAR -->
+<!-- ===== GÜNLÜK KAR / ZARAR ===== -->
 <div class="card">
-  <div class="center" style="margin-bottom:8px;">Günlük Kar / Zarar Durumu</div>
-  <div>Kar : <span class="pos" id="kar">+1.250 TL</span></div>
-  <div>Zarar : <span class="neg" id="zarar">-320 TL</span></div>
-  <div style="margin-top:8px;">
-    Günlük Kar/Zarar Oranı :
-    <span class="pos" id="oran">% +3.4 ▲</span>
+  <div class="kasa-title">Günlük Kar / Zarar Durumu</div>
+  <div>Kar : <span class="pos">+1.250 TL</span></div>
+  <div>Zarar : <span class="neg">-320 TL</span></div>
+  <div>Günlük Kar/Zarar Oranı : <span class="pos">% +3.4 ▲</span></div>
+</div>
+
+<!-- ===== NAKİT GİRİŞ / ÇIKIŞ ===== -->
+<div class="card">
+  <div class="kasa-title">Toplam Nakit Giriş / Çıkış Bilgisi</div>
+  <input id="amount" placeholder="Tutar (TL)">
+  <div class="row">
+    <button class="btn green" onclick="deposit()">+ Yatır</button>
+    <button class="btn red" onclick="withdraw()">- Çek</button>
   </div>
 </div>
 
-<!-- 💱 NAKİT GİRİŞ / ÇIKIŞ -->
-<div class="card">
-  <div class="center" style="margin-bottom:8px;">Nakit Giriş / Çıkış</div>
-  <input id="amount" placeholder="Tutar (TL)" type="number">
-  <div class="row" style="margin-top:12px;">
-    <button class="btn green" onclick="deposit()">➕ Yatır</button>
-    <button class="btn red" onclick="withdraw()">➖ Çek</button>
-  </div>
-</div>
-
-<!-- ↩️ GERİ -->
+<!-- ===== GERİ ===== -->
 <div class="back" onclick="history.back()">↩️ Geri</div>
 
 <script>
-/* === STATE === */
-const S={
-  theme:localStorage.getItem("theme")||"light",
-  lang:localStorage.getItem("lang")||"tr",
-  total:125000,
-  usd:3850
-};
-document.body.className=S.theme;
-
-/* === TEMA === */
-themeBtn.onclick=()=>{
-  S.theme=S.theme==="light"?"dark":"light";
-  document.body.className=S.theme;
-  localStorage.setItem("theme",S.theme);
-};
-
-/* === DİL === */
-langTR.onclick=()=>{
-  S.lang="tr";
-  localStorage.setItem("lang","tr");
-  langTR.classList.add("active");
-  langEN.classList.remove("active");
-};
-langEN.onclick=()=>{
-  S.lang="en";
-  localStorage.setItem("lang","en");
-  langEN.classList.add("active");
-  langTR.classList.remove("active");
-};
-
 /* === TARİH === */
 const d=new Date();
 const days=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
-date.innerText=
-`${d.getDate().toString().padStart(2,"0")}.${(d.getMonth()+1)
-.toString().padStart(2,"0")}.${d.getFullYear()} ${days[d.getDay()]}`;
+document.getElementById("date").innerText=
+`${String(d.getDate()).padStart(2,"0")}.${String(d.getMonth()+1).padStart(2,"0")}.${d.getFullYear()} ${days[d.getDay()]}`;
 
-/* === BUTONLAR === */
+/* === TEMA === */
+const sun=document.getElementById("sun");
+const moon=document.getElementById("moon");
+
+sun.onclick=()=>{
+  document.body.classList.add("light");
+  sun.classList.add("active");
+  moon.classList.remove("active");
+};
+moon.onclick=()=>{
+  document.body.classList.remove("light");
+  moon.classList.add("active");
+  sun.classList.remove("active");
+};
+
+/* === SAHTE KASA HAREKET === */
+let total=125000, usd=3850;
+function update(){
+  document.getElementById("kasaValue").innerText=
+    `${total.toLocaleString("tr-TR")} TL  =  ${usd.toLocaleString("en-US")} $`;
+}
 function deposit(){
-  const v=Number(amount.value||0); if(!v)return;
-  S.total+=v; update();
+  const v=Number(amount.value); if(!v)return;
+  total+=v; update(); amount.value="";
 }
 function withdraw(){
-  const v=Number(amount.value||0); if(!v)return;
-  S.total-=v; update();
-}
-function update(){
-  document.getElementById("kasaDeger").innerText=
-    `${S.total.toLocaleString("tr-TR")} TL  =  ${S.usd.toLocaleString("en-US")} $`;
-  amount.value="";
+  const v=Number(amount.value); if(!v)return;
+  total-=v; update(); amount.value="";
 }
 </script>
 
