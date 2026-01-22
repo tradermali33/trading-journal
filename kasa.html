@@ -6,290 +6,157 @@
 <title>Kasa</title>
 
 <style>
-:root{
-  --light-bg:#f3f4f6;
-  --light-card:#ffffff;
-  --light-menu:#0f172a;
-
-  --dark-bg:#0b1220;
-  --dark-card:#111827;
-  --dark-menu:#f9fafb;
-
-  --green:#22c55e;
-  --red:#ef4444;
-}
-
 *{
   box-sizing:border-box;
-  font-family:"Times New Roman",serif;
+  font-family:"Times New Roman", serif;
 }
 
 body{
   margin:0;
   padding:16px;
-  background:var(--dark-bg);
-  color:#fff;
-  transition:.3s;
-}
-
-body.light{
-  background:var(--light-bg);
-  color:#111;
-}
-
-/* === SABİT ÜST KONTROLLER === */
-.top-controls{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:8px 10px;
-  border-radius:18px;
-  background:rgba(255,255,255,.06);
-  margin-bottom:14px;
-}
-
-body.light .top-controls{
-  background:rgba(0,0,0,.06);
-}
-
-.control-group{
-  display:flex;
-  gap:6px;
-}
-
-.control-btn{
-  width:36px;
-  height:36px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:10px;
-  background:rgba(255,255,255,.1);
-  cursor:pointer;
-  transition:.2s;
-}
-
-.control-btn.active{
-  outline:2px solid currentColor;
+  background:#f2f4f6;
 }
 
 /* === KART === */
 .card{
-  background:var(--dark-card);
-  border-radius:22px;
-  padding:16px;
-  margin-bottom:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,.45);
-  transition:.25s;
+  background:#ffffff;
+  border-radius:16px;
+  padding:14px;
+  margin-bottom:14px;
+  box-shadow:0 6px 14px rgba(0,0,0,.06);
 }
 
-body.light .card{
-  background:var(--light-card);
-}
-
-.card.press:active{
-  transform:scale(.97);
-  box-shadow:0 0 22px rgba(255,255,255,.25);
-}
-
-.title{
-  font-size:22px;
-  font-weight:bold;
-  text-align:center;
-}
-
-.sub{
+.card-title{
   font-size:18px;
   font-weight:bold;
   text-align:center;
-  white-space:nowrap;
+  margin-bottom:10px;
 }
 
-.center{text-align:center}
+.center{ text-align:center; }
+
+.row{
+  display:flex;
+  gap:10px;
+}
+
+.row>div{ flex:1; }
 
 /* === INPUT & BUTTON === */
 input{
   width:100%;
-  padding:16px;
-  border-radius:16px;
-  border:none;
-  font-size:18px;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #d1d5db;
+  font-size:15px;
 }
 
 .btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.btn-green{ background:#16a34a; color:#fff; }
+.btn-red{ background:#dc2626; color:#fff; }
+
+/* === GERİ === */
+.back-btn{
+  margin-top:20px;
   padding:16px;
-  border-radius:18px;
+  border-radius:16px;
+  background:#e5e7eb;
+  text-align:center;
   font-size:18px;
   font-weight:bold;
-  border:none;
   cursor:pointer;
-  transition:.15s;
 }
 
-.btn:active{
-  transform:scale(.96);
-  box-shadow:0 0 18px rgba(255,255,255,.4);
-}
-
-.btn-green{background:var(--green);color:#fff}
-.btn-red{background:var(--red);color:#fff}
-.btn-gray{background:#334155;color:#fff}
-
-.row{
+/* === TEMA / DİL (INDEX İLE AYNI BOYUT & YAPI) === */
+.theme-row{
   display:flex;
-  gap:12px;
-}
-
-.row.equal button{flex:1}
-
-.green{color:var(--green)}
-.red{color:var(--red)}
-
-/* === LOGO PARLAMA === */
-.logo{
-  font-size:48px;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
-}
-
-.logo::after{
-  content:"";
-  position:absolute;
-  top:-50%;
-  left:-50%;
-  width:200%;
-  height:200%;
-  background:linear-gradient(120deg,transparent 40%,rgba(255,255,255,.6),transparent 60%);
-  animation:shine 4s linear infinite;
-}
-
-@keyframes shine{
-  from{transform:translateX(-100%)}
-  to{transform:translateX(100%)}
+  justify-content:space-between;
+  align-items:center;
+  font-size:14px;
+  font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🌗 TEMA & 🌐 DİL -->
-<div class="top-controls">
-  <div class="control-group">
-    <div class="control-btn" id="lightBtn">☀️</div>
-    <div class="control-btn" id="darkBtn">🌙</div>
-  </div>
-  <div class="control-group">
-    <div class="control-btn" id="trBtn">TR</div>
-    <div class="control-btn" id="enBtn">EN</div>
+<!-- 🌙 / ☀️ TEMA & 🌐 DİL -->
+<div class="card">
+  <div class="theme-row">
+    <div>🌙 / ☀️ Tema</div>
+    <div>TR | EN</div>
   </div>
 </div>
 
-<!-- 📅 TARİH -->
+<!-- 📅 TARİH (İKONSUZ) -->
 <div class="card center">
-  <strong id="dateText"></strong>
+  <strong>12.12.2012 Pazartesi</strong>
 </div>
 
-<!-- 🐂 LOGO -->
+<!-- KASA BAŞLIK (SADECE YAZI – İKON YOK) -->
+<div class="card">
+  <div class="card-title">Kasa</div>
+</div>
+
+<!-- 💰 KASA DEĞERİ (TEK SATIR) -->
 <div class="card center">
-  <div class="logo">🐂</div>
+  <strong style="font-size:18px;">
+    125.000 TL = 3.850 $
+  </strong>
 </div>
 
-<!-- 🏦 KASA -->
-<div class="card press">
-  <div class="title">🏦 Kasa</div>
-</div>
-
-<!-- 💰 KASA DEĞERİ -->
+<!-- 📊 GÜNLÜK KAR / ZARAR -->
 <div class="card">
-  <div class="sub" id="kasaDeger">0 TL = 0 $</div>
-</div>
+  <div class="card-title">Günlük Kar / Zarar Durumu</div>
 
-<!-- 📈 GÜNLÜK -->
-<div class="card">
-  <div class="title">Günlük Kar / Zarar</div>
-  <p>Kar : <span class="green" id="kar">0 TL</span></p>
-  <p>Zarar : <span class="red" id="zarar">0 TL</span></p>
-  <p>Oran : <strong id="oran"></strong></p>
-</div>
+  <div>Kar : <strong style="color:#16a34a;">+1.250 TL</strong></div>
+  <div>Zarar : <strong style="color:#dc2626;">-320 TL</strong></div>
 
-<!-- 💱 NAKİT -->
-<div class="card">
-  <div class="title">Nakit Giriş / Çıkış</div>
-  <input id="tutar" placeholder="Tutar (TL)">
-  <div class="row equal" style="margin-top:12px">
-    <button class="btn btn-green" onclick="yatir()">+ Yatır</button>
-    <button class="btn btn-red" onclick="cek()">- Çek</button>
+  <div style="margin-top:8px;">
+    Günlük Kar / Zarar Oranı :
+    <strong style="color:#16a34a;">% +3.4 ▲</strong>
   </div>
 </div>
 
-<!-- 📊 TOPLAM -->
+<!-- 💱 TOPLAM NAKİT GİRİŞ / ÇIKIŞ -->
 <div class="card">
-  <div class="title">Kasa Toplam Nakit</div>
-  <p>Toplam Giren : <strong class="green" id="toplamGiris">0 TL</strong></p>
-  <p>Toplam Çıkan : <strong class="red" id="toplamCikis">0 TL</strong></p>
+  <div class="card-title">Toplam Nakit Giriş / Çıkış Bilgisi</div>
+  <div>Yatırılan : <strong>15.000 TL</strong></div>
+  <div>Çekilen : <strong>5.000 TL</strong></div>
+</div>
+
+<!-- 💼 KASA TOPLAM NAKİT -->
+<div class="card">
+  <div class="card-title">Kasa Toplam Nakit / Giriş Bilgisi</div>
+  <div>Toplam Giriş : <strong>20.000 TL</strong></div>
+  <div>Toplam Çıkış : <strong>7.500 TL</strong></div>
+</div>
+
+<!-- ➕➖ NAKİT İŞLEM -->
+<div class="card">
+  <div class="card-title">Nakit Giriş / Çıkış</div>
+
+  <input placeholder="Tutar (TL)">
+
+  <div class="row" style="margin-top:12px;">
+    <div><button class="btn btn-green">➕ Yatır</button></div>
+    <div><button class="btn btn-red">➖ Çek</button></div>
+  </div>
 </div>
 
 <!-- ↩️ GERİ -->
-<div class="card center">
-  <button class="btn btn-gray" onclick="history.back()">↩️ Geri</button>
+<div class="back-btn" onclick="history.back()">
+  ↩️ Geri
 </div>
-
-<script>
-/* === TARİH === */
-const d=new Date();
-const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
-document.getElementById("dateText").innerText=
-  d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
-
-/* === TEMA & DİL === */
-const body=document.body;
-const lightBtn=document.getElementById("lightBtn");
-const darkBtn=document.getElementById("darkBtn");
-const trBtn=document.getElementById("trBtn");
-const enBtn=document.getElementById("enBtn");
-
-function setTheme(t){
-  body.classList.toggle("light",t==="light");
-  localStorage.setItem("theme",t);
-  lightBtn.classList.toggle("active",t==="light");
-  darkBtn.classList.toggle("active",t==="dark");
-}
-function setLang(l){
-  localStorage.setItem("lang",l);
-  trBtn.classList.toggle("active",l==="tr");
-  enBtn.classList.toggle("active",l==="en");
-}
-setTheme(localStorage.getItem("theme")||"dark");
-setLang(localStorage.getItem("lang")||"tr");
-
-/* === KASA HESAPLAMA === */
-let kasa=0, giren=0, cikan=0;
-const dolarKur=32;
-
-function guncelle(){
-  document.getElementById("kasaDeger").innerText=
-    kasa.toLocaleString()+" TL = "+(kasa/dolarKur).toFixed(2)+" $";
-  document.getElementById("toplamGiris").innerText=giren+" TL";
-  document.getElementById("toplamCikis").innerText=cikan+" TL";
-}
-
-function yatir(){
-  const v=+tutar.value;
-  if(!v) return;
-  kasa+=v; giren+=v;
-  guncelle();
-  tutar.value="";
-}
-
-function cek(){
-  const v=+tutar.value;
-  if(!v) return;
-  kasa-=v; cikan+=v;
-  guncelle();
-  tutar.value="";
-}
-</script>
 
 </body>
 </html>
