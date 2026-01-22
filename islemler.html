@@ -6,87 +6,62 @@
 <title>İşlemler</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  font-family:"Times New Roman", serif;
-}
-
-/* ================= THEME ================= */
-:root{
-  --bg:#eef1f4;
-  --card:#ffffff;
-  --text:#111;
-  --shadow:rgba(0,0,0,.15);
-  --menu:#ffffff;
-}
-
-body.dark{
-  --bg:#0b1220;
-  --card:#161e2e;
-  --text:#f9fafb;
-  --shadow:rgba(0,0,0,.65);
-  --menu:#161e2e;
-}
+*{box-sizing:border-box;font-family:"Times New Roman",serif;}
 
 body{
   margin:0;
-  background:var(--bg);
-  color:var(--text);
-}
-
-.container{
-  max-width:480px;
-  margin:auto;
   padding:16px;
+  transition:.25s;
 }
 
-/* ================= CARD ================= */
+/* ===== TEMA ===== */
+body.light{
+  background:#f2f4f6;
+  color:#111;
+}
+body.dark{
+  background:#0b1220;
+  color:#fff;
+}
+
+/* ===== KART ===== */
 .card{
-  background:var(--card);
   border-radius:18px;
   padding:16px;
-  margin-bottom:16px;
-  box-shadow:0 10px 24px var(--shadow);
+  margin-bottom:14px;
+  box-shadow:0 6px 16px rgba(0,0,0,.08);
 }
 
-/* ================= TOP ================= */
-.top-row{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:10px;
-}
+body.light .card{background:#fff;}
+body.dark .card{background:#111827;}
 
-.toggle-group{
-  display:flex;
-  gap:6px;
-}
+.center{text-align:center;}
+.row{display:flex;gap:12px;}
+.row>div{flex:1;}
 
+/* ===== INDEX İLE AYNI TEMA & DİL ===== */
 .toggle{
-  padding:6px 10px;
-  font-size:13px;
-  border-radius:10px;
-  background:var(--card);
-  box-shadow:0 4px 10px var(--shadow);
+  padding:14px;
+  border-radius:16px;
+  font-weight:bold;
   cursor:pointer;
+  text-align:center;
+  transition:.2s;
+}
+
+body.light .toggle{
+  background:#e5e7eb;
+  color:#111;
+}
+body.dark .toggle{
+  background:#1f2937;
+  color:#fff;
 }
 
 .toggle.active{
-  outline:2px solid currentColor;
+  outline:2px solid #3b82f6;
 }
 
-/* ================= DATE ================= */
-.date{
-  text-align:center;
-  font-size:16px;
-  font-weight:bold;
-}
-
-/* ================= LOGO CARD ================= */
-.logo-card{
-  text-align:center;
-  position:relative;
-  overflow:hidden; /* taşma yok */
-}
 /* ===== BAŞLIK (ZIT TEMA) ===== */
 body.light .invert{
   background:#111827;
