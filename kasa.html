@@ -18,10 +18,7 @@ body{
   color:#fff;
 }
 
-/* ===================== */
-/* TEMA & DİL (INDEX BOYUTU) */
-/* ===================== */
-
+/* === TEMA & DİL === */
 .top-controls{
   display:flex;
   justify-content:space-between;
@@ -47,17 +44,13 @@ body{
   background:#1e293b;
   font-size:16px;
   cursor:pointer;
-  user-select:none;
 }
 
 .control-btn.active{
   border:2px solid #ffffff;
 }
 
-/* ===================== */
-/* KARTLAR */
-/* ===================== */
-
+/* === KARTLAR === */
 .card{
   background:#111827;
   border-radius:22px;
@@ -84,8 +77,14 @@ body{
 .green{color:#22c55e}
 .red{color:#ef4444}
 
-.row{display:flex;gap:12px}
-.row>div{flex:1}
+.row{
+  display:flex;
+  gap:12px;
+}
+
+.row.equal > button{
+  flex:1;
+}
 
 input{
   width:100%;
@@ -107,7 +106,6 @@ input{
 .btn-green{background:#16a34a;color:#fff}
 .btn-red{background:#dc2626;color:#fff}
 .btn-gray{background:#334155;color:#fff}
-
 </style>
 </head>
 
@@ -131,12 +129,12 @@ input{
   <strong>22.01.2026 Perşembe</strong>
 </div>
 
-<!-- 🏦 KASA BAŞLIK -->
+<!-- 🏦 KASA -->
 <div class="card">
   <div class="title">🏦 Kasa</div>
 </div>
 
-<!-- 💰 KASA DEĞERİ (DAHA KÜÇÜK) -->
+<!-- 💰 KASA DEĞERİ -->
 <div class="card">
   <div class="sub-value">125.000 TL = 3.850 $</div>
 </div>
@@ -153,50 +151,50 @@ input{
 <div class="card">
   <div class="title">Toplam Nakit Giriş / Çıkış Bilgisi</div>
   <input placeholder="Tutar (TL)">
-  <div class="row" style="margin-top:14px">
+
+  <!-- 🔥 DÜZELTİLEN KISIM -->
+  <div class="row equal" style="margin-top:14px">
     <button class="btn btn-green">+ Yatır</button>
     <button class="btn btn-red">- Çek</button>
   </div>
 </div>
 
-<!-- 📊 YENİ EKLENEN KART -->
+<!-- 📊 TOPLAM -->
 <div class="card">
   <div class="title">Kasa Toplam Nakit / Giriş Bilgisi</div>
   <p>Toplam Giren : <strong class="green">150.000 TL</strong></p>
   <p>Toplam Çıkan : <strong class="red">25.000 TL</strong></p>
 </div>
 
-<!-- ↩️ GERİ -->
-<div class="card">
+<!-- ↩️ GERİ (ORTALI & TEK SATIR) -->
+<div class="card center">
   <button class="btn btn-gray" onclick="history.back()">↩️ Geri</button>
 </div>
 
 <script>
-/* === INDEX İLE AYNI MANTIK === */
-const lightBtn = document.getElementById("lightBtn");
-const darkBtn  = document.getElementById("darkBtn");
-const trBtn    = document.getElementById("trBtn");
-const enBtn    = document.getElementById("enBtn");
+const lightBtn=document.getElementById("lightBtn");
+const darkBtn=document.getElementById("darkBtn");
+const trBtn=document.getElementById("trBtn");
+const enBtn=document.getElementById("enBtn");
 
-function setTheme(theme){
-  localStorage.setItem("theme", theme);
-  lightBtn.classList.toggle("active", theme==="light");
-  darkBtn.classList.toggle("active", theme==="dark");
+function setTheme(t){
+  localStorage.setItem("theme",t);
+  lightBtn.classList.toggle("active",t==="light");
+  darkBtn.classList.toggle("active",t==="dark");
+}
+function setLang(l){
+  localStorage.setItem("lang",l);
+  trBtn.classList.toggle("active",l==="tr");
+  enBtn.classList.toggle("active",l==="en");
 }
 
-function setLang(lang){
-  localStorage.setItem("lang", lang);
-  trBtn.classList.toggle("active", lang==="tr");
-  enBtn.classList.toggle("active", lang==="en");
-}
+lightBtn.onclick=()=>setTheme("light");
+darkBtn.onclick=()=>setTheme("dark");
+trBtn.onclick=()=>setLang("tr");
+enBtn.onclick=()=>setLang("en");
 
-lightBtn.onclick = ()=>setTheme("light");
-darkBtn.onclick  = ()=>setTheme("dark");
-trBtn.onclick    = ()=>setLang("tr");
-enBtn.onclick    = ()=>setLang("en");
-
-setTheme(localStorage.getItem("theme") || "dark");
-setLang(localStorage.getItem("lang") || "tr");
+setTheme(localStorage.getItem("theme")||"dark");
+setLang(localStorage.getItem("lang")||"tr");
 </script>
 
 </body>
