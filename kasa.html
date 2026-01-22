@@ -6,140 +6,189 @@
 <title>Kasa</title>
 
 <style>
-*{box-sizing:border-box;font-family:"Times New Roman",serif;}
+*{
+  box-sizing:border-box;
+  font-family:"Times New Roman", serif;
+}
 
 body{
   margin:0;
   padding:16px;
-  background:#f2f4f6;
+  background:#0b1220;
+  color:#fff;
 }
+
+/* ===================== */
+/* INDEX.HTML İLE AYNI TEMA & DİL */
+/* ===================== */
+
+.top-controls{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 12px;
+  border-radius:20px;
+  background:#0f172a;
+  margin-bottom:14px;
+}
+
+.control-group{
+  display:flex;
+  gap:8px;
+}
+
+.control-btn{
+  width:42px;
+  height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:#1e293b;
+  font-size:18px;
+  cursor:pointer;
+  user-select:none;
+}
+
+.control-btn.active{
+  border:3px solid #ffffff;
+}
+
+/* ===================== */
+/* DİĞER KARTLAR (DEĞİŞMEDİ) */
+/* ===================== */
 
 .card{
-  background:#ffffff;
-  border-radius:18px;
+  background:#111827;
+  border-radius:22px;
   padding:16px;
   margin-bottom:16px;
-  box-shadow:0 6px 16px rgba(0,0,0,.06);
+  box-shadow:0 10px 30px rgba(0,0,0,.45);
 }
 
-.card-title{
-  font-size:18px;
+.center{text-align:center}
+
+.title{
+  font-size:20px;
   font-weight:bold;
   text-align:center;
-  margin-bottom:10px;
 }
 
-.center{text-align:center;}
-
-.row{
-  display:flex;
-  gap:12px;
+.value{
+  font-size:24px;
+  font-weight:bold;
+  text-align:center;
+  white-space:nowrap;
 }
 
-.row>div{flex:1;}
+.green{color:#22c55e}
+.red{color:#ef4444}
+
+.row{display:flex;gap:12px}
+.row>div{flex:1}
 
 input{
   width:100%;
-  padding:14px;
-  border-radius:14px;
-  border:1px solid #ddd;
-  font-size:15px;
+  padding:16px;
+  border-radius:16px;
+  border:none;
+  font-size:18px;
 }
 
 .btn{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:14px;
-  font-size:15px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.btn-green{background:#16a34a;color:#fff;}
-.btn-red{background:#dc2626;color:#fff;}
-
-.back{
-  text-align:center;
-  margin-top:24px;
+  padding:16px;
+  border-radius:18px;
   font-size:18px;
+  font-weight:bold;
+  border:none;
   cursor:pointer;
 }
 
-/* Tema simülasyonu (ana panelden gelen) */
-body.light .invert{background:#111827;color:#fff;}
-body.dark .invert{background:#f9fafb;color:#111;}
+.btn-green{background:#16a34a;color:#fff}
+.btn-red{background:#dc2626;color:#fff}
+.btn-gray{background:#334155;color:#fff}
 
-/* Varsayılan tema */
-body.light{}
 </style>
 </head>
 
-<body class="light">
+<body>
 
-<!-- 🌐 TEMA & DİL (SABİT) -->
-<div class="card">
-  <div class="row">
-    <div class="center"><strong>🌙 / ☀️ Tema</strong></div>
-    <div class="center"><strong>TR | EN</strong></div>
+<!-- === INDEX İLE BİREBİR TEMA & DİL === -->
+<div class="top-controls">
+  <div class="control-group">
+    <div class="control-btn" id="lightBtn">☀️</div>
+    <div class="control-btn" id="darkBtn">🌙</div>
+  </div>
+
+  <div class="control-group">
+    <div class="control-btn" id="trBtn">TR</div>
+    <div class="control-btn" id="enBtn">EN</div>
   </div>
 </div>
 
-<!-- 📅 TARİH -->
+<!-- 📅 TARİH (İKONSUZ) -->
 <div class="card center">
-  <strong>💰 12.12.2012 Pazartesi 💰</strong>
+  <strong>22.01.2026 Perşembe</strong>
 </div>
 
-<!-- 🏦 KASA BAŞLIK -->
-<div class="card invert">
-  <div class="card-title">🏦 Kasa</div>
-</div>
-
-<!-- 💹 GÜNLÜK KAR / ZARAR -->
+<!-- 🏦 KASA -->
 <div class="card">
-  <div class="card-title">Günlük Kar / Zarar Durumu</div>
-
-  <div>Kar : <strong style="color:#16a34a;">+1.250 TL</strong></div>
-  <div>Zarar : <strong style="color:#dc2626;">-320 TL</strong></div>
-
-  <div style="margin-top:8px;">
-    Günlük Kar/Zarar Oranı :
-    <strong style="color:#16a34a;">% +3.4 ▲</strong>
-  </div>
+  <div class="title">🏦 Kasa</div>
 </div>
 
-<!-- 💰 TOPLAM NAKİT GİRİŞ / ÇIKIŞ -->
 <div class="card">
-  <div class="card-title">Toplam Nakit Giriş / Çıkış Bilgisi</div>
-
-  <div>Yatırılan : <strong>15.000 TL</strong></div>
-  <div>Çekilen : <strong>5.000 TL</strong></div>
+  <div class="value">125.000 TL = 3.850 $</div>
 </div>
 
-<!-- 💱 TL / USD DEĞER -->
-<div class="card center">
-  <div class="card-title">Kasa Değeri</div>
-  <strong>125.000 TL = 3.850 $</strong>
-</div>
-
-<!-- ➕➖ NAKİT İŞLEM -->
 <div class="card">
-  <div class="card-title">Nakit Giriş / Çıkış</div>
+  <div class="title">Günlük Kar / Zarar Durumu</div>
+  <p>Kar : <span class="green">+1.250 TL</span></p>
+  <p>Zarar : <span class="red">-320 TL</span></p>
+  <p>Günlük Kar/Zarar Oranı : <span class="green">% +3.4 ▲</span></p>
+</div>
 
+<div class="card">
+  <div class="title">Toplam Nakit Giriş / Çıkış Bilgisi</div>
   <input placeholder="Tutar (TL)">
-
-  <div class="row" style="margin-top:12px;">
-    <div>
-      <button class="btn btn-green">➕ Yatır</button>
-    </div>
-    <div>
-      <button class="btn btn-red">➖ Çek</button>
-    </div>
+  <div class="row" style="margin-top:14px">
+    <button class="btn btn-green">+ Yatır</button>
+    <button class="btn btn-red">- Çek</button>
   </div>
 </div>
 
-<!-- ↩️ GERİ -->
-<div class="back" onclick="history.back()">↩️ Geri</div>
+<div class="card">
+  <button class="btn btn-gray" onclick="history.back()">↩️ Geri</button>
+</div>
+
+<script>
+/* === INDEX.HTML İLE AYNI DAVRANIŞ === */
+const lightBtn = document.getElementById("lightBtn");
+const darkBtn  = document.getElementById("darkBtn");
+const trBtn    = document.getElementById("trBtn");
+const enBtn    = document.getElementById("enBtn");
+
+function setTheme(theme){
+  localStorage.setItem("theme", theme);
+  lightBtn.classList.toggle("active", theme==="light");
+  darkBtn.classList.toggle("active", theme==="dark");
+}
+
+function setLang(lang){
+  localStorage.setItem("lang", lang);
+  trBtn.classList.toggle("active", lang==="tr");
+  enBtn.classList.toggle("active", lang==="en");
+}
+
+/* Click */
+lightBtn.onclick = ()=>setTheme("light");
+darkBtn.onclick  = ()=>setTheme("dark");
+trBtn.onclick    = ()=>setLang("tr");
+enBtn.onclick    = ()=>setLang("en");
+
+/* Load */
+setTheme(localStorage.getItem("theme") || "dark");
+setLang(localStorage.getItem("lang") || "tr");
+</script>
 
 </body>
 </html>
