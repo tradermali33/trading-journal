@@ -53,25 +53,30 @@ input{
 
 .btn{
   width:100%;
-  padding:16px;
+  padding:14px;
   border:none;
   border-radius:14px;
-  font-size:16px;
+  font-size:15px;
   font-weight:bold;
   cursor:pointer;
-  transition:transform .08s ease, box-shadow .08s ease;
-}
-
-.btn:active{
-  transform:scale(0.97);
-  box-shadow:0 3px 8px rgba(0,0,0,.2) inset;
 }
 
 .btn-green{ background:#16a34a; color:#fff; }
 .btn-red{ background:#dc2626; color:#fff; }
-.btn-gray{ background:#e5e7eb; color:#111; }
 
-/* === TEMA / DİL (INDEX İLE AYNI) === */
+/* === GERİ === */
+.back-btn{
+  margin-top:20px;
+  padding:16px;
+  border-radius:16px;
+  background:#e5e7eb;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* === TEMA / DİL (INDEX İLE AYNI BOYUT & YAPI) === */
 .theme-row{
   display:flex;
   justify-content:space-between;
@@ -92,17 +97,17 @@ input{
   </div>
 </div>
 
-<!-- 📅 TARİH -->
+<!-- 📅 TARİH (İKONSUZ) -->
 <div class="card center">
   <strong>12.12.2012 Pazartesi</strong>
 </div>
 
-<!-- KASA BAŞLIK -->
+<!-- KASA BAŞLIK (SADECE YAZI – İKON YOK) -->
 <div class="card">
   <div class="card-title">Kasa</div>
 </div>
 
-<!-- 💰 KASA DEĞERİ -->
+<!-- 💰 KASA DEĞERİ (TEK SATIR) -->
 <div class="card center">
   <strong style="font-size:18px;">
     125.000 TL = 3.850 $
@@ -122,14 +127,14 @@ input{
   </div>
 </div>
 
-<!-- 💱 TOPLAM NAKİT -->
+<!-- 💱 TOPLAM NAKİT GİRİŞ / ÇIKIŞ -->
 <div class="card">
   <div class="card-title">Toplam Nakit Giriş / Çıkış Bilgisi</div>
   <div>Yatırılan : <strong>15.000 TL</strong></div>
   <div>Çekilen : <strong>5.000 TL</strong></div>
 </div>
 
-<!-- 💼 KASA TOPLAM -->
+<!-- 💼 KASA TOPLAM NAKİT -->
 <div class="card">
   <div class="card-title">Kasa Toplam Nakit / Giriş Bilgisi</div>
   <div>Toplam Giriş : <strong>20.000 TL</strong></div>
@@ -148,10 +153,10 @@ input{
   </div>
 </div>
 
-<!-- ↩️ GERİ (ANA MENÜ BUTONU GİBİ) -->
-<button class="btn btn-gray" onclick="history.back()">
+<!-- ↩️ GERİ -->
+<div class="back-btn" onclick="history.back()">
   ↩️ Geri
-</button>
+</div>
 
 </body>
 </html>
