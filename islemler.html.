@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>İşlemler</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  font-family:"Times New Roman", serif;
+}
+
+body{
+  margin:0;
+  padding:16px;
+  background:#f2f4f6;
+}
+
+/* === KART === */
+.card{
+  background:#ffffff;
+  border-radius:16px;
+  padding:14px;
+  margin-bottom:14px;
+  box-shadow:0 6px 14px rgba(0,0,0,.06);
+}
+
+.card-title{
+  font-size:18px;
+  font-weight:bold;
+  text-align:center;
+  margin-bottom:10px;
+}
+
+.center{text-align:center;}
+
+/* === TEMA & DİL (INDEX İLE AYNI) === */
+.theme-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:14px;
+  font-weight:bold;
+}
+
+/* === MENÜ BUTONLARI === */
+.menu-btn{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:14px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  background:#e5e7eb;
+  color:#111;
+  margin-bottom:10px;
+  transition:transform .08s ease, box-shadow .08s ease;
+}
+
+.menu-btn:active{
+  transform:scale(0.97);
+  box-shadow:0 3px 8px rgba(0,0,0,.2) inset;
+}
+
+/* === GERİ === */
+.back-btn{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:14px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  background:#e5e7eb;
+  color:#111;
+  transition:transform .08s ease, box-shadow .08s ease;
+}
+
+.back-btn:active{
+  transform:scale(0.97);
+  box-shadow:0 3px 8px rgba(0,0,0,.2) inset;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🌙 / ☀️ TEMA & 🌐 DİL -->
+<div class="card">
+  <div class="theme-row">
+    <div>🌙 / ☀️ Tema</div>
+    <div>TR | EN</div>
+  </div>
+</div>
+
+<!-- 📅 TARİH -->
+<div class="card center">
+  <strong>12.12.2012 Pazartesi</strong>
+</div>
+
+<!-- 📊 İŞLEMLER BAŞLIK -->
+<div class="card">
+  <div class="card-title">İşlemler</div>
+</div>
+
+<!-- 🔽 ALT MENÜ -->
+<div class="card">
+  <button class="menu-btn" onclick="go('islem_ac.html')">Yeni İşlem Aç</button>
+  <button class="menu-btn">İşlem Kapat</button>
+  <button class="menu-btn">Açık Olan İşlemlerim</button>
+  <button class="menu-btn">Kapanan İşlemlerim</button>
+  <button class="menu-btn">Günlük İşlem Özeti</button>
+  <button class="menu-btn">Geçmiş İşlem Özeti</button>
+</div>
+
+<!-- ↩️ GERİ -->
+<button class="back-btn" onclick="history.back()">↩️ Geri</button>
+
+<script>
+function go(page){
+  window.location.href = page;
+}
+</script>
+
+</body>
+</html>
