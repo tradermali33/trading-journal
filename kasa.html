@@ -6,27 +6,50 @@
 <title>Kasa</title>
 
 <style>
+:root{
+  --light-bg:#f3f4f6;
+  --light-card:#ffffff;
+  --light-menu:#0f172a;
+
+  --dark-bg:#0b1220;
+  --dark-card:#111827;
+  --dark-menu:#f9fafb;
+
+  --green:#22c55e;
+  --red:#ef4444;
+}
+
 *{
   box-sizing:border-box;
-  font-family:"Times New Roman", serif;
+  font-family:"Times New Roman",serif;
 }
 
 body{
   margin:0;
   padding:16px;
-  background:#0b1220;
+  background:var(--dark-bg);
   color:#fff;
+  transition:.3s;
 }
 
-/* === TEMA & DİL === */
+body.light{
+  background:var(--light-bg);
+  color:#111;
+}
+
+/* === SABİT ÜST KONTROLLER === */
 .top-controls{
   display:flex;
   justify-content:space-between;
   align-items:center;
   padding:8px 10px;
   border-radius:18px;
-  background:#0f172a;
+  background:rgba(255,255,255,.06);
   margin-bottom:14px;
+}
+
+body.light .top-controls{
+  background:rgba(0,0,0,.06);
 }
 
 .control-group{
@@ -35,31 +58,39 @@ body{
 }
 
 .control-btn{
-  width:38px;
-  height:38px;
+  width:36px;
+  height:36px;
   display:flex;
   align-items:center;
   justify-content:center;
   border-radius:10px;
-  background:#1e293b;
-  font-size:16px;
+  background:rgba(255,255,255,.1);
   cursor:pointer;
+  transition:.2s;
 }
 
 .control-btn.active{
-  border:2px solid #ffffff;
+  outline:2px solid currentColor;
 }
 
-/* === KARTLAR === */
+/* === KART === */
 .card{
-  background:#111827;
+  background:var(--dark-card);
   border-radius:22px;
   padding:16px;
   margin-bottom:16px;
   box-shadow:0 10px 30px rgba(0,0,0,.45);
+  transition:.25s;
 }
 
-.center{text-align:center}
+body.light .card{
+  background:var(--light-card);
+}
+
+.card.press:active{
+  transform:scale(.97);
+  box-shadow:0 0 22px rgba(255,255,255,.25);
+}
 
 .title{
   font-size:22px;
@@ -67,25 +98,16 @@ body{
   text-align:center;
 }
 
-.sub-value{
+.sub{
   font-size:18px;
   font-weight:bold;
   text-align:center;
   white-space:nowrap;
 }
 
-.green{color:#22c55e}
-.red{color:#ef4444}
+.center{text-align:center}
 
-.row{
-  display:flex;
-  gap:12px;
-}
-
-.row.equal > button{
-  flex:1;
-}
-
+/* === INPUT & BUTTON === */
 input{
   width:100%;
   padding:16px;
@@ -101,11 +123,51 @@ input{
   font-weight:bold;
   border:none;
   cursor:pointer;
+  transition:.15s;
 }
 
-.btn-green{background:#16a34a;color:#fff}
-.btn-red{background:#dc2626;color:#fff}
+.btn:active{
+  transform:scale(.96);
+  box-shadow:0 0 18px rgba(255,255,255,.4);
+}
+
+.btn-green{background:var(--green);color:#fff}
+.btn-red{background:var(--red);color:#fff}
 .btn-gray{background:#334155;color:#fff}
+
+.row{
+  display:flex;
+  gap:12px;
+}
+
+.row.equal button{flex:1}
+
+.green{color:var(--green)}
+.red{color:var(--red)}
+
+/* === LOGO PARLAMA === */
+.logo{
+  font-size:48px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.logo::after{
+  content:"";
+  position:absolute;
+  top:-50%;
+  left:-50%;
+  width:200%;
+  height:200%;
+  background:linear-gradient(120deg,transparent 40%,rgba(255,255,255,.6),transparent 60%);
+  animation:shine 4s linear infinite;
+}
+
+@keyframes shine{
+  from{transform:translateX(-100%)}
+  to{transform:translateX(100%)}
+}
 </style>
 </head>
 
@@ -117,7 +179,6 @@ input{
     <div class="control-btn" id="lightBtn">☀️</div>
     <div class="control-btn" id="darkBtn">🌙</div>
   </div>
-
   <div class="control-group">
     <div class="control-btn" id="trBtn">TR</div>
     <div class="control-btn" id="enBtn">EN</div>
@@ -126,58 +187,70 @@ input{
 
 <!-- 📅 TARİH -->
 <div class="card center">
-  <strong>22.01.2026 Perşembe</strong>
+  <strong id="dateText"></strong>
+</div>
+
+<!-- 🐂 LOGO -->
+<div class="card center">
+  <div class="logo">🐂</div>
 </div>
 
 <!-- 🏦 KASA -->
-<div class="card">
+<div class="card press">
   <div class="title">🏦 Kasa</div>
 </div>
 
 <!-- 💰 KASA DEĞERİ -->
 <div class="card">
-  <div class="sub-value">125.000 TL = 3.850 $</div>
+  <div class="sub" id="kasaDeger">0 TL = 0 $</div>
 </div>
 
-<!-- 📈 GÜNLÜK KAR / ZARAR -->
+<!-- 📈 GÜNLÜK -->
 <div class="card">
-  <div class="title">Günlük Kar / Zarar Durumu</div>
-  <p>Kar : <span class="green">+1.250 TL</span></p>
-  <p>Zarar : <span class="red">-320 TL</span></p>
-  <p>Günlük Kar/Zarar Oranı : <span class="green">% +3.4 ▲</span></p>
+  <div class="title">Günlük Kar / Zarar</div>
+  <p>Kar : <span class="green" id="kar">0 TL</span></p>
+  <p>Zarar : <span class="red" id="zarar">0 TL</span></p>
+  <p>Oran : <strong id="oran"></strong></p>
 </div>
 
-<!-- 💱 NAKİT GİRİŞ / ÇIKIŞ -->
+<!-- 💱 NAKİT -->
 <div class="card">
-  <div class="title">Toplam Nakit Giriş / Çıkış Bilgisi</div>
-  <input placeholder="Tutar (TL)">
-
-  <!-- 🔥 DÜZELTİLEN KISIM -->
-  <div class="row equal" style="margin-top:14px">
-    <button class="btn btn-green">+ Yatır</button>
-    <button class="btn btn-red">- Çek</button>
+  <div class="title">Nakit Giriş / Çıkış</div>
+  <input id="tutar" placeholder="Tutar (TL)">
+  <div class="row equal" style="margin-top:12px">
+    <button class="btn btn-green" onclick="yatir()">+ Yatır</button>
+    <button class="btn btn-red" onclick="cek()">- Çek</button>
   </div>
 </div>
 
 <!-- 📊 TOPLAM -->
 <div class="card">
-  <div class="title">Kasa Toplam Nakit / Giriş Bilgisi</div>
-  <p>Toplam Giren : <strong class="green">150.000 TL</strong></p>
-  <p>Toplam Çıkan : <strong class="red">25.000 TL</strong></p>
+  <div class="title">Kasa Toplam Nakit</div>
+  <p>Toplam Giren : <strong class="green" id="toplamGiris">0 TL</strong></p>
+  <p>Toplam Çıkan : <strong class="red" id="toplamCikis">0 TL</strong></p>
 </div>
 
-<!-- ↩️ GERİ (ORTALI & TEK SATIR) -->
+<!-- ↩️ GERİ -->
 <div class="card center">
   <button class="btn btn-gray" onclick="history.back()">↩️ Geri</button>
 </div>
 
 <script>
+/* === TARİH === */
+const d=new Date();
+const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+document.getElementById("dateText").innerText=
+  d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
+
+/* === TEMA & DİL === */
+const body=document.body;
 const lightBtn=document.getElementById("lightBtn");
 const darkBtn=document.getElementById("darkBtn");
 const trBtn=document.getElementById("trBtn");
 const enBtn=document.getElementById("enBtn");
 
 function setTheme(t){
+  body.classList.toggle("light",t==="light");
   localStorage.setItem("theme",t);
   lightBtn.classList.toggle("active",t==="light");
   darkBtn.classList.toggle("active",t==="dark");
@@ -187,14 +260,35 @@ function setLang(l){
   trBtn.classList.toggle("active",l==="tr");
   enBtn.classList.toggle("active",l==="en");
 }
-
-lightBtn.onclick=()=>setTheme("light");
-darkBtn.onclick=()=>setTheme("dark");
-trBtn.onclick=()=>setLang("tr");
-enBtn.onclick=()=>setLang("en");
-
 setTheme(localStorage.getItem("theme")||"dark");
 setLang(localStorage.getItem("lang")||"tr");
+
+/* === KASA HESAPLAMA === */
+let kasa=0, giren=0, cikan=0;
+const dolarKur=32;
+
+function guncelle(){
+  document.getElementById("kasaDeger").innerText=
+    kasa.toLocaleString()+" TL = "+(kasa/dolarKur).toFixed(2)+" $";
+  document.getElementById("toplamGiris").innerText=giren+" TL";
+  document.getElementById("toplamCikis").innerText=cikan+" TL";
+}
+
+function yatir(){
+  const v=+tutar.value;
+  if(!v) return;
+  kasa+=v; giren+=v;
+  guncelle();
+  tutar.value="";
+}
+
+function cek(){
+  const v=+tutar.value;
+  if(!v) return;
+  kasa-=v; cikan+=v;
+  guncelle();
+  tutar.value="";
+}
 </script>
 
 </body>
