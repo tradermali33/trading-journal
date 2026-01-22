@@ -10,7 +10,7 @@
 
 body{
   margin:0;
-  padding:16px;
+  padding:14px;
   background:#0b1220;
   color:#e5e7eb;
 }
@@ -19,20 +19,20 @@ body.light{
   color:#0f172a;
 }
 
-/* ==== ORTAK KART ==== */
+/* === ORTAK KART === */
 .card{
-  border-radius:22px;
-  padding:16px;
-  margin-bottom:16px;
+  border-radius:20px;
+  padding:14px;
+  margin-bottom:14px;
   background:#111827;
-  box-shadow:0 10px 30px rgba(0,0,0,.35);
+  box-shadow:0 8px 22px rgba(0,0,0,.32);
 }
 body.light .card{
   background:#ffffff;
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
-/* ==== ÜST SATIR (TEMA + DİL) ==== */
+/* === ÜST SATIR (INDEX.HTML EBATI) === */
 .top-row{
   display:flex;
   justify-content:space-between;
@@ -41,86 +41,88 @@ body.light .card{
 
 .toggle-group{
   display:flex;
-  gap:10px;
+  gap:8px;
 }
 
 .toggle-btn{
-  width:52px;
-  height:52px;
-  border-radius:16px;
+  width:44px;          /* ⬅️ KÜÇÜLTÜLDÜ */
+  height:44px;         /* ⬅️ KÜÇÜLTÜLDÜ */
+  border-radius:14px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:22px;
+  font-size:20px;      /* ⬅️ KÜÇÜLTÜLDÜ */
   cursor:pointer;
   background:#1f2937;
 }
 body.light .toggle-btn{background:#e5e7eb;}
 
 .toggle-btn.active{
-  outline:3px solid #ffffff;
+  outline:2px solid #ffffff;
 }
 body.light .toggle-btn.active{
-  outline:3px solid #111827;
+  outline:2px solid #111827;
 }
 
-/* ==== TARİH ==== */
+/* === TARİH (INDEX EBATI) === */
 .date-card{
   text-align:center;
-  font-size:24px;
+  font-size:20px;      /* ⬅️ KÜÇÜLTÜLDÜ */
   font-weight:bold;
+  padding:16px 12px;   /* ⬅️ KÜÇÜLTÜLDÜ */
 }
 
-/* ==== KASA BAŞLIK ==== */
+/* === KASA BAŞLIK === */
 .kasa-title{
   text-align:center;
-  font-size:22px;
+  font-size:20px;
   font-weight:bold;
 }
 
-/* ==== KASA DEĞER ==== */
+/* === KASA DEĞER (TEK SATIR GARANTİ) === */
 .kasa-value{
   text-align:center;
-  font-size:22px;
+  font-size:20px;
   font-weight:bold;
   white-space:nowrap;
 }
 
-/* ==== METİNLER ==== */
+/* === METİN RENKLER === */
 .pos{color:#16a34a;font-weight:bold;}
 .neg{color:#dc2626;font-weight:bold;}
 
 input{
   width:100%;
-  padding:14px;
-  border-radius:16px;
+  padding:12px;
+  border-radius:14px;
   border:1px solid #cbd5f5;
-  font-size:16px;
+  font-size:15px;
 }
 
 .row{
   display:flex;
-  gap:12px;
+  gap:10px;
   margin-top:12px;
 }
 
 .btn{
   flex:1;
-  padding:16px;
+  padding:14px;
   border:none;
-  border-radius:18px;
-  font-size:18px;
+  border-radius:16px;
+  font-size:16px;
   font-weight:bold;
   cursor:pointer;
 }
 .btn.green{background:#16a34a;color:#fff;}
 .btn.red{background:#dc2626;color:#fff;}
 
+/* === GERİ (INDEX EBATI) === */
 .back{
-  padding:18px;
+  padding:16px;
   text-align:center;
-  border-radius:20px;
-  font-size:18px;
+  border-radius:18px;
+  font-size:17px;
   font-weight:bold;
   cursor:pointer;
   background:#1f2937;
@@ -131,7 +133,7 @@ body.light .back{background:#e5e7eb;}
 
 <body>
 
-<!-- ===== ÜST: TEMA & DİL ===== -->
+<!-- === TEMA & DİL (INDEX.HTML İLE AYNI EBAT) === -->
 <div class="card">
   <div class="top-row">
     <div class="toggle-group">
@@ -146,18 +148,18 @@ body.light .back{background:#e5e7eb;}
   </div>
 </div>
 
-<!-- ===== TARİH ===== -->
+<!-- === TARİH === -->
 <div class="card date-card" id="date"></div>
 
-<!-- ===== KASA BAŞLIK ===== -->
+<!-- === KASA BAŞLIK === -->
 <div class="card kasa-title">🏦 Kasa</div>
 
-<!-- ===== KASA DEĞER ===== -->
+<!-- === KASA DEĞER === -->
 <div class="card kasa-value" id="kasaValue">
-  125.000 TL  =  3.850 $
+  125.000 TL = 3.850 $
 </div>
 
-<!-- ===== GÜNLÜK KAR / ZARAR ===== -->
+<!-- === GÜNLÜK KAR / ZARAR === -->
 <div class="card">
   <div class="kasa-title">Günlük Kar / Zarar Durumu</div>
   <div>Kar : <span class="pos">+1.250 TL</span></div>
@@ -165,7 +167,7 @@ body.light .back{background:#e5e7eb;}
   <div>Günlük Kar/Zarar Oranı : <span class="pos">% +3.4 ▲</span></div>
 </div>
 
-<!-- ===== NAKİT GİRİŞ / ÇIKIŞ ===== -->
+<!-- === NAKİT GİRİŞ / ÇIKIŞ === -->
 <div class="card">
   <div class="kasa-title">Toplam Nakit Giriş / Çıkış Bilgisi</div>
   <input id="amount" placeholder="Tutar (TL)">
@@ -175,45 +177,30 @@ body.light .back{background:#e5e7eb;}
   </div>
 </div>
 
-<!-- ===== GERİ ===== -->
+<!-- === GERİ === -->
 <div class="back" onclick="history.back()">↩️ Geri</div>
 
 <script>
-/* === TARİH === */
+/* TARİH */
 const d=new Date();
 const days=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
 document.getElementById("date").innerText=
 `${String(d.getDate()).padStart(2,"0")}.${String(d.getMonth()+1).padStart(2,"0")}.${d.getFullYear()} ${days[d.getDay()]}`;
 
-/* === TEMA === */
+/* TEMA */
 const sun=document.getElementById("sun");
 const moon=document.getElementById("moon");
+sun.onclick=()=>{document.body.classList.add("light");sun.classList.add("active");moon.classList.remove("active");};
+moon.onclick=()=>{document.body.classList.remove("light");moon.classList.add("active");sun.classList.remove("active");};
 
-sun.onclick=()=>{
-  document.body.classList.add("light");
-  sun.classList.add("active");
-  moon.classList.remove("active");
-};
-moon.onclick=()=>{
-  document.body.classList.remove("light");
-  moon.classList.add("active");
-  sun.classList.remove("active");
-};
-
-/* === SAHTE KASA HAREKET === */
+/* SAHTE KASA */
 let total=125000, usd=3850;
 function update(){
   document.getElementById("kasaValue").innerText=
-    `${total.toLocaleString("tr-TR")} TL  =  ${usd.toLocaleString("en-US")} $`;
+    `${total.toLocaleString("tr-TR")} TL = ${usd.toLocaleString("en-US")} $`;
 }
-function deposit(){
-  const v=Number(amount.value); if(!v)return;
-  total+=v; update(); amount.value="";
-}
-function withdraw(){
-  const v=Number(amount.value); if(!v)return;
-  total-=v; update(); amount.value="";
-}
+function deposit(){const v=+amount.value;if(!v)return;total+=v;update();amount.value="";}
+function withdraw(){const v=+amount.value;if(!v)return;total-=v;update();amount.value="";}
 </script>
 
 </body>
