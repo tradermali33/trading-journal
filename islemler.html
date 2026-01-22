@@ -6,10 +6,7 @@
 <title>İşlemler</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  font-family:"Times New Roman", serif;
-}
+*{box-sizing:border-box;font-family:"Times New Roman",serif;}
 
 body{
   margin:0;
@@ -17,81 +14,73 @@ body{
   background:#f2f4f6;
 }
 
-/* === KART === */
+/* ==== TEMA ==== */
+body.dark{background:#0b1220;color:#fff;}
+body.light{background:#f2f4f6;color:#111;}
+
 .card{
-  background:#ffffff;
-  border-radius:16px;
-  padding:14px;
+  border-radius:18px;
+  padding:16px;
   margin-bottom:14px;
-  box-shadow:0 6px 14px rgba(0,0,0,.06);
+  box-shadow:0 6px 16px rgba(0,0,0,.08);
 }
 
-.card-title{
-  font-size:18px;
-  font-weight:bold;
-  text-align:center;
-  margin-bottom:10px;
-}
+.light .card{background:#fff;}
+.dark .card{background:#111827;}
 
 .center{text-align:center;}
+.row{display:flex;gap:12px;}
+.row>div{flex:1;}
 
-/* === TEMA & DİL (INDEX İLE AYNI) === */
-.theme-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-size:14px;
+.btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  font-size:16px;
   font-weight:bold;
+  cursor:pointer;
 }
 
-/* === MENÜ BUTONLARI === */
+/* ==== TEMA & DİL (INDEX İLE AYNI) ==== */
+.toggle-btn{
+  padding:12px;
+  border-radius:14px;
+  font-weight:bold;
+  cursor:pointer;
+  text-align:center;
+}
+.light .toggle-btn{background:#e5e7eb;color:#111;}
+.dark .toggle-btn{background:#1f2937;color:#fff;}
+
+.active{
+  outline:2px solid #3b82f6;
+}
+
+/* ==== BAŞLIK KARTI (ZIT TEMA) ==== */
+.light .invert{background:#111827;color:#fff;}
+.dark .invert{background:#f9fafb;color:#111;}
+
 .menu-btn{
-  width:100%;
-  padding:16px;
-  border:none;
-  border-radius:14px;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
   background:#e5e7eb;
   color:#111;
-  margin-bottom:10px;
-  transition:transform .08s ease, box-shadow .08s ease;
+}
+.dark .menu-btn{
+  background:#1f2937;
+  color:#fff;
 }
 
-.menu-btn:active{
-  transform:scale(0.97);
-  box-shadow:0 3px 8px rgba(0,0,0,.2) inset;
-}
-
-/* === GERİ === */
-.back-btn{
-  width:100%;
-  padding:16px;
-  border:none;
-  border-radius:14px;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
-  background:#e5e7eb;
-  color:#111;
-  transition:transform .08s ease, box-shadow .08s ease;
-}
-
-.back-btn:active{
-  transform:scale(0.97);
-  box-shadow:0 3px 8px rgba(0,0,0,.2) inset;
-}
+.menu-btn:hover{opacity:.9;}
 </style>
 </head>
 
 <body>
 
-<!-- 🌙 / ☀️ TEMA & 🌐 DİL -->
+<!-- 🌗 TEMA & 🌍 DİL -->
 <div class="card">
-  <div class="theme-row">
-    <div>🌙 / ☀️ Tema</div>
-    <div>TR | EN</div>
+  <div class="row">
+    <div id="themeBtn" class="toggle-btn">🌙 / ☀️ Tema</div>
+    <div class="toggle-btn active">TR | EN</div>
   </div>
 </div>
 
@@ -101,27 +90,43 @@ body{
 </div>
 
 <!-- 📊 İŞLEMLER BAŞLIK -->
-<div class="card">
-  <div class="card-title">İşlemler</div>
+<div class="card invert center">
+  <strong style="font-size:20px;">📊 İşlemler</strong>
 </div>
 
-<!-- 🔽 ALT MENÜ -->
+<!-- 📋 ALT MENÜ -->
 <div class="card">
-  <button class="menu-btn" onclick="go('islem_ac.html')">Yeni İşlem Aç</button>
-  <button class="menu-btn">İşlem Kapat</button>
-  <button class="menu-btn">Açık Olan İşlemlerim</button>
-  <button class="menu-btn">Kapanan İşlemlerim</button>
-  <button class="menu-btn">Günlük İşlem Özeti</button>
-  <button class="menu-btn">Geçmiş İşlem Özeti</button>
+  <button class="btn menu-btn">➕ Yeni İşlem Aç</button><br><br>
+  <button class="btn menu-btn">⛔ İşlem Kapat</button><br><br>
+  <button class="btn menu-btn">📈 Açık Olan İşlemlerim</button><br><br>
+  <button class="btn menu-btn">📉 Kapanan İşlemlerim</button><br><br>
+  <button class="btn menu-btn">🗓️ Günlük İşlem Özeti</button><br><br>
+  <button class="btn menu-btn">📚 Geçmiş İşlem Özeti</button>
 </div>
 
-<!-- ↩️ GERİ -->
-<button class="back-btn" onclick="history.back()">↩️ Geri</button>
+<!-- 🔙 GERİ & 🏠 ANA MENÜ -->
+<div class="card">
+  <div class="row">
+    <div>
+      <button class="btn menu-btn" onclick="history.back()">↩️ Geri</button>
+    </div>
+    <div>
+      <button class="btn menu-btn" onclick="location.href='index.html'">🏠 Ana Menü</button>
+    </div>
+  </div>
+</div>
 
 <script>
-function go(page){
-  window.location.href = page;
-}
+/* ==== TEMA KONTROL ==== */
+const body=document.body;
+const savedTheme=localStorage.getItem("theme")||"light";
+body.classList.add(savedTheme);
+
+document.getElementById("themeBtn").onclick=()=>{
+  body.classList.toggle("dark");
+  body.classList.toggle("light");
+  localStorage.setItem("theme", body.classList.contains("dark")?"dark":"light");
+};
 </script>
 
 </body>
