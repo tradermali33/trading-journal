@@ -6,122 +6,154 @@
 <title>İşlemler</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  font-family:"Times New Roman",serif;
-  -webkit-tap-highlight-color: transparent;
-}
+*{box-sizing:border-box;font-family:"Times New Roman",serif;}
 
 body{
   margin:0;
   padding:16px;
+  transition:.25s;
+}
+
+/* ===== TEMA ===== */
+body.light{
+  background:#f2f4f6;
+  color:#111;
+}
+body.dark{
   background:#0b1220;
   color:#fff;
 }
 
-/* =========================
-   ORTAK KART YAPISI
-========================= */
+/* ===== KART ===== */
 .card{
-  background:#121a2b;
   border-radius:18px;
   padding:16px;
-  margin-bottom:16px;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.06),
-    0 10px 30px rgba(0,0,0,.45);
+  margin-bottom:14px;
+  box-shadow:0 6px 16px rgba(0,0,0,.08);
 }
 
-/* =========================
-   🔥 INDEX.HTML MENÜ HİSSİ
-   (KUTSAL BLOK)
-========================= */
-.menu-btn{
-  background:#1a2336;
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:14px;
-  text-align:center;
-  font-size:18px;
+body.light .card{background:#fff;}
+body.dark .card{background:#111827;}
+
+.center{text-align:center;}
+.row{display:flex;gap:12px;}
+.row>div{flex:1;}
+
+/* ===== INDEX İLE AYNI TEMA & DİL ===== */
+.toggle{
+  padding:14px;
+  border-radius:16px;
   font-weight:bold;
   cursor:pointer;
+  text-align:center;
+  transition:.2s;
+}
 
-  transition:
-    transform .12s ease,
-    box-shadow .12s ease,
-    background .12s ease;
+body.light .toggle{
+  background:#e5e7eb;
+  color:#111;
+}
+body.dark .toggle{
+  background:#1f2937;
+  color:#fff;
+}
+
+.toggle.active{
+  outline:2px solid #3b82f6;
+}
+
+/* ===== BAŞLIK (ZIT TEMA) ===== */
+body.light .invert{
+  background:#111827;
+  color:#fff;
+}
+body.dark .invert{
+  background:#f9fafb;
+  color:#111;
+}
+
+/* ===== MENÜ ===== */
+.menu-btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+body.light .menu-btn{
+  background:#e5e7eb;
+  color:#111;
+}
+body.dark .menu-btn{
+  background:#1f2937;
+  color:#fff;
 }
 
 .menu-btn:active{
-  transform: scale(.96);
-  background:#222e48;
-  box-shadow:
-    inset 0 2px 6px rgba(0,0,0,.6),
-    0 6px 14px rgba(0,0,0,.6);
-}
-
-/* =========================
-   BAŞLIK KARTI
-========================= */
-.title-card{
-  background:#f9fafb;
-  color:#111;
-  font-size:20px;
-  font-weight:bold;
-  text-align:center;
-}
-
-/* =========================
-   GERİ / ANA MENÜ
-========================= */
-.footer-btn{
-  background:#1a2336;
-  border-radius:18px;
-  padding:18px;
-  text-align:center;
-  font-size:18px;
-  font-weight:bold;
-  margin-top:14px;
+  transform:scale(.97);
 }
 </style>
 </head>
 
 <body>
 
+<!-- 🌗 TEMA & 🌍 DİL (INDEX BİREBİR) -->
+<div class="card">
+  <div class="row">
+    <div id="themeBtn" class="toggle">🌙 / ☀️ Tema</div>
+    <div id="langBtn" class="toggle active">TR | EN</div>
+  </div>
+</div>
+
 <!-- 📅 TARİH -->
-<div class="card title-card">
-  12.12.2012 Pazartesi
+<div class="card center">
+  <strong>12.12.2012 Pazartesi</strong>
 </div>
 
 <!-- 📊 İŞLEMLER BAŞLIK -->
-<div class="card title-card">
-  📊 İşlemler
+<div class="card invert center">
+  <strong style="font-size:20px;">📊 İşlemler</strong>
 </div>
 
-<!-- 🔘 MENÜ BUTONLARI (BİREBİR INDEX HİSSİ) -->
-<div class="menu-btn">➕ Yeni İşlem Aç</div>
-<div class="menu-btn">⛔ İşlem Kapat</div>
-<div class="menu-btn">📈 Açık Olan İşlemlerim</div>
-<div class="menu-btn">📉 Kapanan İşlemlerim</div>
-<div class="menu-btn">🗓️ Günlük İşlem Özeti</div>
-<div class="menu-btn">📚 Geçmiş İşlem Özeti</div>
+<!-- 📋 ALT MENÜ -->
+<div class="card">
+  <button class="menu-btn">➕ Yeni İşlem Aç</button><br><br>
+  <button class="menu-btn">⛔ İşlem Kapat</button><br><br>
+  <button class="menu-btn">📈 Açık Olan İşlemlerim</button><br><br>
+  <button class="menu-btn">📉 Kapanan İşlemlerim</button><br><br>
+  <button class="menu-btn">🗓️ Günlük İşlem Özeti</button><br><br>
+  <button class="menu-btn">📚 Geçmiş İşlem Özeti</button>
+</div>
 
-<!-- ↩️ ALT BUTONLAR -->
-<div class="menu-btn footer-btn">↩️ Geri</div>
-<div class="menu-btn footer-btn">🏠 Ana Menü</div>
+<!-- 🔙 GERİ & 🏠 ANA MENÜ -->
+<div class="card">
+  <div class="row">
+    <div>
+      <button class="menu-btn" onclick="history.back()">↩️ Geri</button>
+    </div>
+    <div>
+      <button class="menu-btn" onclick="location.href='index.html'">🏠 Ana Menü</button>
+    </div>
+  </div>
+</div>
 
 <script>
-/* =========================
-   📱 iOS DOKUNMA HİSSİ
-   (INDEX BİREBİR)
-========================= */
-document.querySelectorAll(".menu-btn").forEach(btn=>{
-  btn.addEventListener("touchstart", ()=>{
-    if(navigator.vibrate){
-      navigator.vibrate(10);
-    }
-  });
-});
+/* ===== INDEX İLE AYNI TEMA MANTIĞI ===== */
+const body=document.body;
+const savedTheme=localStorage.getItem("theme")||"light";
+body.classList.add(savedTheme);
+
+document.getElementById("themeBtn").onclick=()=>{
+  body.classList.toggle("dark");
+  body.classList.toggle("light");
+  localStorage.setItem(
+    "theme",
+    body.classList.contains("dark")?"dark":"light"
+  );
+};
 </script>
 
 </body>
