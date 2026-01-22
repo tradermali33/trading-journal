@@ -6,154 +6,135 @@
 <title>İşlemler</title>
 
 <style>
-*{box-sizing:border-box;font-family:"Times New Roman",serif;}
+*{
+  box-sizing:border-box;
+  font-family:"Times New Roman", serif;
+}
 
 body{
   margin:0;
   padding:16px;
-  transition:.25s;
+  background:#f2f4f6;
 }
 
-/* ===== TEMA ===== */
-body.light{
-  background:#f2f4f6;
-  color:#111;
-}
-body.dark{
-  background:#0b1220;
-  color:#fff;
+/* ===== ORTA KONTEYNER ===== */
+.container{
+  max-width:480px;
+  margin:auto;
 }
 
 /* ===== KART ===== */
 .card{
+  background:#ffffff;
   border-radius:18px;
   padding:16px;
-  margin-bottom:14px;
-  box-shadow:0 6px 16px rgba(0,0,0,.08);
+  margin-bottom:16px;
+  box-shadow:0 6px 16px rgba(0,0,0,.06);
 }
 
-body.light .card{background:#fff;}
-body.dark .card{background:#111827;}
-
-.center{text-align:center;}
-.row{display:flex;gap:12px;}
-.row>div{flex:1;}
-
-/* ===== INDEX İLE AYNI TEMA & DİL ===== */
-.toggle{
-  padding:14px;
-  border-radius:16px;
-  font-weight:bold;
-  cursor:pointer;
-  text-align:center;
-  transition:.2s;
-}
-
-body.light .toggle{
-  background:#e5e7eb;
-  color:#111;
-}
-body.dark .toggle{
-  background:#1f2937;
-  color:#fff;
-}
-
-.toggle.active{
-  outline:2px solid #3b82f6;
-}
-
-/* ===== BAŞLIK (ZIT TEMA) ===== */
-body.light .invert{
+/* ===== BAŞLIK KARTI ===== */
+.title-card{
   background:#111827;
   color:#fff;
-}
-body.dark .invert{
-  background:#f9fafb;
-  color:#111;
+  text-align:center;
+  font-size:20px;
+  font-weight:bold;
 }
 
-/* ===== MENÜ ===== */
+/* ===== MENÜ BUTONU (INDEX İLE AYNI HİS) ===== */
 .menu-btn{
   width:100%;
-  padding:14px;
+  padding:18px;
+  border-radius:16px;
   border:none;
-  border-radius:14px;
+  background:#ffffff;
   font-size:16px;
   font-weight:bold;
   cursor:pointer;
-}
-
-body.light .menu-btn{
-  background:#e5e7eb;
-  color:#111;
-}
-body.dark .menu-btn{
-  background:#1f2937;
-  color:#fff;
+  margin-bottom:14px;
+  box-shadow:0 6px 14px rgba(0,0,0,.08);
+  transition:transform .12s ease, box-shadow .12s ease;
 }
 
 .menu-btn:active{
-  transform:scale(.97);
+  transform:scale(0.97);
+  box-shadow:0 3px 8px rgba(0,0,0,.18);
+}
+
+/* ===== GERİ & ANA MENÜ ===== */
+.footer-btn{
+  background:#e5e7eb;
+}
+
+.center{
+  text-align:center;
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🌗 TEMA & 🌍 DİL (INDEX BİREBİR) -->
-<div class="card">
-  <div class="row">
-    <div id="themeBtn" class="toggle">🌙 / ☀️ Tema</div>
-    <div id="langBtn" class="toggle active">TR | EN</div>
+<div class="container">
+
+  <!-- TARİH -->
+  <div class="card center">
+    <strong id="today"></strong>
   </div>
-</div>
 
-<!-- 📅 TARİH -->
-<div class="card center">
-  <strong>12.12.2012 Pazartesi</strong>
-</div>
-
-<!-- 📊 İŞLEMLER BAŞLIK -->
-<div class="card invert center">
-  <strong style="font-size:20px;">📊 İşlemler</strong>
-</div>
-
-<!-- 📋 ALT MENÜ -->
-<div class="card">
-  <button class="menu-btn">➕ Yeni İşlem Aç</button><br><br>
-  <button class="menu-btn">⛔ İşlem Kapat</button><br><br>
-  <button class="menu-btn">📈 Açık Olan İşlemlerim</button><br><br>
-  <button class="menu-btn">📉 Kapanan İşlemlerim</button><br><br>
-  <button class="menu-btn">🗓️ Günlük İşlem Özeti</button><br><br>
-  <button class="menu-btn">📚 Geçmiş İşlem Özeti</button>
-</div>
-
-<!-- 🔙 GERİ & 🏠 ANA MENÜ -->
-<div class="card">
-  <div class="row">
-    <div>
-      <button class="menu-btn" onclick="history.back()">↩️ Geri</button>
-    </div>
-    <div>
-      <button class="menu-btn" onclick="location.href='index.html'">🏠 Ana Menü</button>
-    </div>
+  <!-- BAŞLIK -->
+  <div class="card title-card">
+    📊 İşlemler
   </div>
+
+  <!-- MENÜ -->
+  <div class="card">
+
+    <button class="menu-btn" onclick="location.href='islem_ac.html'">
+      ➕ Yeni İşlem Aç
+    </button>
+
+    <button class="menu-btn" onclick="location.href='islem_kapat.html'">
+      ⛔ İşlem Kapat
+    </button>
+
+    <button class="menu-btn" onclick="location.href='acik_islemler.html'">
+      📈 Açık Olan İşlemlerim
+    </button>
+
+    <button class="menu-btn" onclick="location.href='kapanan_islemler.html'">
+      📉 Kapanan İşlemlerim
+    </button>
+
+    <button class="menu-btn" onclick="location.href='gunluk_ozet.html'">
+      📆 Günlük İşlem Özeti
+    </button>
+
+    <button class="menu-btn" onclick="location.href='gecmis_ozet.html'">
+      🗂️ Geçmiş İşlem Özeti
+    </button>
+
+  </div>
+
+  <!-- ALT BUTONLAR -->
+  <div class="card center">
+
+    <button class="menu-btn footer-btn" onclick="history.back()">
+      ↩️ Geri
+    </button>
+
+    <button class="menu-btn footer-btn" onclick="location.href='index.html'">
+      🏠 Ana Menü
+    </button>
+
+  </div>
+
 </div>
 
 <script>
-/* ===== INDEX İLE AYNI TEMA MANTIĞI ===== */
-const body=document.body;
-const savedTheme=localStorage.getItem("theme")||"light";
-body.classList.add(savedTheme);
-
-document.getElementById("themeBtn").onclick=()=>{
-  body.classList.toggle("dark");
-  body.classList.toggle("light");
-  localStorage.setItem(
-    "theme",
-    body.classList.contains("dark")?"dark":"light"
-  );
-};
+const d = new Date();
+const gunler = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+document.getElementById("today").innerText =
+  d.toLocaleDateString("tr-TR") + " " + gunler[d.getDay()];
 </script>
 
 </body>
