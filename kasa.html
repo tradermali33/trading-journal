@@ -19,43 +19,43 @@ body{
 }
 
 /* ===================== */
-/* INDEX.HTML İLE AYNI TEMA & DİL */
+/* TEMA & DİL (INDEX BOYUTU) */
 /* ===================== */
 
 .top-controls{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:10px 12px;
-  border-radius:20px;
+  padding:8px 10px;
+  border-radius:18px;
   background:#0f172a;
   margin-bottom:14px;
 }
 
 .control-group{
   display:flex;
-  gap:8px;
+  gap:6px;
 }
 
 .control-btn{
-  width:42px;
-  height:42px;
+  width:38px;
+  height:38px;
   display:flex;
   align-items:center;
   justify-content:center;
-  border-radius:12px;
+  border-radius:10px;
   background:#1e293b;
-  font-size:18px;
+  font-size:16px;
   cursor:pointer;
   user-select:none;
 }
 
 .control-btn.active{
-  border:3px solid #ffffff;
+  border:2px solid #ffffff;
 }
 
 /* ===================== */
-/* DİĞER KARTLAR (DEĞİŞMEDİ) */
+/* KARTLAR */
 /* ===================== */
 
 .card{
@@ -69,13 +69,13 @@ body{
 .center{text-align:center}
 
 .title{
-  font-size:20px;
+  font-size:22px;
   font-weight:bold;
   text-align:center;
 }
 
-.value{
-  font-size:24px;
+.sub-value{
+  font-size:18px;
   font-weight:bold;
   text-align:center;
   white-space:nowrap;
@@ -113,7 +113,7 @@ input{
 
 <body>
 
-<!-- === INDEX İLE BİREBİR TEMA & DİL === -->
+<!-- 🌗 TEMA & 🌐 DİL -->
 <div class="top-controls">
   <div class="control-group">
     <div class="control-btn" id="lightBtn">☀️</div>
@@ -126,20 +126,22 @@ input{
   </div>
 </div>
 
-<!-- 📅 TARİH (İKONSUZ) -->
+<!-- 📅 TARİH -->
 <div class="card center">
   <strong>22.01.2026 Perşembe</strong>
 </div>
 
-<!-- 🏦 KASA -->
+<!-- 🏦 KASA BAŞLIK -->
 <div class="card">
   <div class="title">🏦 Kasa</div>
 </div>
 
+<!-- 💰 KASA DEĞERİ (DAHA KÜÇÜK) -->
 <div class="card">
-  <div class="value">125.000 TL = 3.850 $</div>
+  <div class="sub-value">125.000 TL = 3.850 $</div>
 </div>
 
+<!-- 📈 GÜNLÜK KAR / ZARAR -->
 <div class="card">
   <div class="title">Günlük Kar / Zarar Durumu</div>
   <p>Kar : <span class="green">+1.250 TL</span></p>
@@ -147,6 +149,7 @@ input{
   <p>Günlük Kar/Zarar Oranı : <span class="green">% +3.4 ▲</span></p>
 </div>
 
+<!-- 💱 NAKİT GİRİŞ / ÇIKIŞ -->
 <div class="card">
   <div class="title">Toplam Nakit Giriş / Çıkış Bilgisi</div>
   <input placeholder="Tutar (TL)">
@@ -156,12 +159,20 @@ input{
   </div>
 </div>
 
+<!-- 📊 YENİ EKLENEN KART -->
+<div class="card">
+  <div class="title">Kasa Toplam Nakit / Giriş Bilgisi</div>
+  <p>Toplam Giren : <strong class="green">150.000 TL</strong></p>
+  <p>Toplam Çıkan : <strong class="red">25.000 TL</strong></p>
+</div>
+
+<!-- ↩️ GERİ -->
 <div class="card">
   <button class="btn btn-gray" onclick="history.back()">↩️ Geri</button>
 </div>
 
 <script>
-/* === INDEX.HTML İLE AYNI DAVRANIŞ === */
+/* === INDEX İLE AYNI MANTIK === */
 const lightBtn = document.getElementById("lightBtn");
 const darkBtn  = document.getElementById("darkBtn");
 const trBtn    = document.getElementById("trBtn");
@@ -179,13 +190,11 @@ function setLang(lang){
   enBtn.classList.toggle("active", lang==="en");
 }
 
-/* Click */
 lightBtn.onclick = ()=>setTheme("light");
 darkBtn.onclick  = ()=>setTheme("dark");
 trBtn.onclick    = ()=>setLang("tr");
 enBtn.onclick    = ()=>setLang("en");
 
-/* Load */
 setTheme(localStorage.getItem("theme") || "dark");
 setLang(localStorage.getItem("lang") || "tr");
 </script>
