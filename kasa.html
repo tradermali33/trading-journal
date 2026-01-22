@@ -18,7 +18,46 @@ body{
   color:#fff;
 }
 
-/* === ORTAK === */
+/* ===================== */
+/* INDEX İLE AYNI TEMA & DİL */
+/* ===================== */
+
+.top-controls{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 14px;
+  border-radius:22px;
+  background:#0f172a;
+  margin-bottom:16px;
+}
+
+.control-group{
+  display:flex;
+  gap:10px;
+}
+
+.control-btn{
+  width:46px;
+  height:46px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:14px;
+  background:#1e293b;
+  font-size:20px;
+  cursor:pointer;
+  user-select:none;
+}
+
+.control-btn.active{
+  border:3px solid #ffffff;
+}
+
+/* ===================== */
+/* DİĞER KISIMLAR (DEĞİŞMEDİ) */
+/* ===================== */
+
 .card{
   background:#111827;
   border-radius:22px;
@@ -28,56 +67,13 @@ body{
 }
 
 .center{text-align:center}
-.row{display:flex;gap:12px}
-.row>div{flex:1}
 
-/* === TEMA & DİL (ANA PANEL İLE AYNI) === */
-.top-bar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px;
-  border-radius:22px;
-  background:#0f172a;
-  margin-bottom:16px;
-}
-
-.toggle-group{
-  display:flex;
-  gap:10px;
-}
-
-.toggle{
-  width:54px;
-  height:54px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:16px;
-  background:#1e293b;
-  font-size:22px;
-  cursor:pointer;
-}
-
-.toggle.active{
-  border:3px solid #fff;
-}
-
-/* === TARİH === */
-.date-card{
-  font-size:22px;
-  font-weight:bold;
-  text-align:center;
-}
-
-/* === BAŞLIKLAR === */
 .title{
   font-size:20px;
   font-weight:bold;
   text-align:center;
 }
 
-/* === METİN === */
 .value{
   font-size:24px;
   font-weight:bold;
@@ -88,7 +84,9 @@ body{
 .green{color:#22c55e}
 .red{color:#ef4444}
 
-/* === INPUT & BUTON === */
+.row{display:flex;gap:12px}
+.row>div{flex:1}
+
 input{
   width:100%;
   padding:16px;
@@ -109,40 +107,39 @@ input{
 .btn-green{background:#16a34a;color:#fff}
 .btn-red{background:#dc2626;color:#fff}
 .btn-gray{background:#334155;color:#fff}
+
 </style>
 </head>
 
 <body>
 
-<!-- TEMA & DİL -->
-<div class="top-bar">
-  <div class="toggle-group">
-    <div class="toggle">☀️</div>
-    <div class="toggle active">🌙</div>
+<!-- === INDEX İLE AYNI TEMA & DİL === -->
+<div class="top-controls">
+  <div class="control-group">
+    <div class="control-btn" id="lightBtn">☀️</div>
+    <div class="control-btn" id="darkBtn">🌙</div>
   </div>
 
-  <div class="toggle-group">
-    <div class="toggle active">TR</div>
-    <div class="toggle">EN</div>
+  <div class="control-group">
+    <div class="control-btn" id="trBtn">TR</div>
+    <div class="control-btn" id="enBtn">EN</div>
   </div>
 </div>
 
 <!-- TARİH -->
-<div class="card date-card">
-  22.01.2026 Perşembe
+<div class="card center">
+  <strong>22.01.2026 Perşembe</strong>
 </div>
 
-<!-- KASA BAŞLIK -->
+<!-- KASA -->
 <div class="card">
   <div class="title">🏦 Kasa</div>
 </div>
 
-<!-- KASA DEĞER -->
 <div class="card">
   <div class="value">125.000 TL = 3.850 $</div>
 </div>
 
-<!-- GÜNLÜK KAR ZARAR -->
 <div class="card">
   <div class="title">Günlük Kar / Zarar Durumu</div>
   <p>Kar : <span class="green">+1.250 TL</span></p>
@@ -150,7 +147,6 @@ input{
   <p>Günlük Kar/Zarar Oranı : <span class="green">% +3.4 ▲</span></p>
 </div>
 
-<!-- NAKİT GİRİŞ ÇIKIŞ -->
 <div class="card">
   <div class="title">Toplam Nakit Giriş / Çıkış Bilgisi</div>
   <input placeholder="Tutar (TL)">
@@ -160,10 +156,38 @@ input{
   </div>
 </div>
 
-<!-- GERİ -->
 <div class="card">
   <button class="btn btn-gray" onclick="history.back()">↩️ Geri</button>
 </div>
+
+<script>
+/* === INDEX İLE AYNI DAVRANIŞ === */
+const lightBtn = document.getElementById("lightBtn");
+const darkBtn  = document.getElementById("darkBtn");
+const trBtn    = document.getElementById("trBtn");
+const enBtn    = document.getElementById("enBtn");
+
+function setTheme(theme){
+  localStorage.setItem("theme", theme);
+  lightBtn.classList.toggle("active", theme==="light");
+  darkBtn.classList.toggle("active", theme==="dark");
+}
+
+function setLang(lang){
+  localStorage.setItem("lang", lang);
+  trBtn.classList.toggle("active", lang==="tr");
+  enBtn.classList.toggle("active", lang==="en");
+}
+
+lightBtn.onclick = ()=>setTheme("light");
+darkBtn.onclick  = ()=>setTheme("dark");
+trBtn.onclick    = ()=>setLang("tr");
+enBtn.onclick    = ()=>setLang("en");
+
+/* Yüklenince */
+setTheme(localStorage.getItem("theme") || "dark");
+setLang(localStorage.getItem("lang") || "tr");
+</script>
 
 </body>
 </html>
