@@ -8,133 +8,120 @@
 <style>
 *{
   box-sizing:border-box;
-  font-family:"Times New Roman", serif;
+  font-family:"Times New Roman",serif;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body{
   margin:0;
   padding:16px;
-  background:#f2f4f6;
+  background:#0b1220;
+  color:#fff;
 }
 
-/* ===== ORTA KONTEYNER ===== */
-.container{
-  max-width:480px;
-  margin:auto;
-}
-
-/* ===== KART ===== */
+/* =========================
+   ORTAK KART YAPISI
+========================= */
 .card{
-  background:#ffffff;
+  background:#121a2b;
   border-radius:18px;
   padding:16px;
   margin-bottom:16px;
-  box-shadow:0 6px 16px rgba(0,0,0,.06);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    0 10px 30px rgba(0,0,0,.45);
 }
 
-/* ===== BAŞLIK KARTI ===== */
-.title-card{
-  background:#111827;
-  color:#fff;
-  text-align:center;
-  font-size:20px;
-  font-weight:bold;
-}
-
-/* ===== MENÜ BUTONU (INDEX İLE AYNI HİS) ===== */
+/* =========================
+   🔥 INDEX.HTML MENÜ HİSSİ
+   (KUTSAL BLOK)
+========================= */
 .menu-btn{
-  width:100%;
+  background:#1a2336;
+  border-radius:18px;
   padding:18px;
-  border-radius:16px;
-  border:none;
-  background:#ffffff;
-  font-size:16px;
+  margin-bottom:14px;
+  text-align:center;
+  font-size:18px;
   font-weight:bold;
   cursor:pointer;
-  margin-bottom:14px;
-  box-shadow:0 6px 14px rgba(0,0,0,.08);
-  transition:transform .12s ease, box-shadow .12s ease;
+
+  transition:
+    transform .12s ease,
+    box-shadow .12s ease,
+    background .12s ease;
 }
 
 .menu-btn:active{
-  transform:scale(0.97);
-  box-shadow:0 3px 8px rgba(0,0,0,.18);
+  transform: scale(.96);
+  background:#222e48;
+  box-shadow:
+    inset 0 2px 6px rgba(0,0,0,.6),
+    0 6px 14px rgba(0,0,0,.6);
 }
 
-/* ===== GERİ & ANA MENÜ ===== */
-.footer-btn{
-  background:#e5e7eb;
-}
-
-.center{
+/* =========================
+   BAŞLIK KARTI
+========================= */
+.title-card{
+  background:#f9fafb;
+  color:#111;
+  font-size:20px;
+  font-weight:bold;
   text-align:center;
+}
+
+/* =========================
+   GERİ / ANA MENÜ
+========================= */
+.footer-btn{
+  background:#1a2336;
+  border-radius:18px;
+  padding:18px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  margin-top:14px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-
-  <!-- TARİH -->
-  <div class="card center">
-    <strong id="today"></strong>
-  </div>
-
-  <!-- BAŞLIK -->
-  <div class="card title-card">
-    📊 İşlemler
-  </div>
-
-  <!-- MENÜ -->
-  <div class="card">
-
-    <button class="menu-btn" onclick="location.href='islem_ac.html'">
-      ➕ Yeni İşlem Aç
-    </button>
-
-    <button class="menu-btn" onclick="location.href='islem_kapat.html'">
-      ⛔ İşlem Kapat
-    </button>
-
-    <button class="menu-btn" onclick="location.href='acik_islemler.html'">
-      📈 Açık Olan İşlemlerim
-    </button>
-
-    <button class="menu-btn" onclick="location.href='kapanan_islemler.html'">
-      📉 Kapanan İşlemlerim
-    </button>
-
-    <button class="menu-btn" onclick="location.href='gunluk_ozet.html'">
-      📆 Günlük İşlem Özeti
-    </button>
-
-    <button class="menu-btn" onclick="location.href='gecmis_ozet.html'">
-      🗂️ Geçmiş İşlem Özeti
-    </button>
-
-  </div>
-
-  <!-- ALT BUTONLAR -->
-  <div class="card center">
-
-    <button class="menu-btn footer-btn" onclick="history.back()">
-      ↩️ Geri
-    </button>
-
-    <button class="menu-btn footer-btn" onclick="location.href='index.html'">
-      🏠 Ana Menü
-    </button>
-
-  </div>
-
+<!-- 📅 TARİH -->
+<div class="card title-card">
+  12.12.2012 Pazartesi
 </div>
 
+<!-- 📊 İŞLEMLER BAŞLIK -->
+<div class="card title-card">
+  📊 İşlemler
+</div>
+
+<!-- 🔘 MENÜ BUTONLARI (BİREBİR INDEX HİSSİ) -->
+<div class="menu-btn">➕ Yeni İşlem Aç</div>
+<div class="menu-btn">⛔ İşlem Kapat</div>
+<div class="menu-btn">📈 Açık Olan İşlemlerim</div>
+<div class="menu-btn">📉 Kapanan İşlemlerim</div>
+<div class="menu-btn">🗓️ Günlük İşlem Özeti</div>
+<div class="menu-btn">📚 Geçmiş İşlem Özeti</div>
+
+<!-- ↩️ ALT BUTONLAR -->
+<div class="menu-btn footer-btn">↩️ Geri</div>
+<div class="menu-btn footer-btn">🏠 Ana Menü</div>
+
 <script>
-const d = new Date();
-const gunler = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
-document.getElementById("today").innerText =
-  d.toLocaleDateString("tr-TR") + " " + gunler[d.getDay()];
+/* =========================
+   📱 iOS DOKUNMA HİSSİ
+   (INDEX BİREBİR)
+========================= */
+document.querySelectorAll(".menu-btn").forEach(btn=>{
+  btn.addEventListener("touchstart", ()=>{
+    if(navigator.vibrate){
+      navigator.vibrate(10);
+    }
+  });
+});
 </script>
 
 </body>
