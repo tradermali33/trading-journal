@@ -7,210 +7,194 @@
 
 <style>
 *{box-sizing:border-box;font-family:"Times New Roman",serif;}
-:root{
-  --r:18px;
-  --pad:16px;
-  --shadow:0 10px 28px rgba(0,0,0,.12);
-  --press:linear-gradient(120deg, rgba(255,255,255,.35), rgba(255,255,255,0));
-}
+
 body{
-  margin:0;padding:16px;min-height:100vh;
-  background:#f2f4f6;color:#0f172a;
+  margin:0;
+  padding:16px;
+  background:#f2f4f6;
+  color:#0f172a;
 }
 body.dark{
-  background:#0b1220;color:#e5e7eb;
+  background:#0b1220;
+  color:#e5e7eb;
 }
+
 .card{
-  background:#ffffff;border-radius:var(--r);padding:var(--pad);
-  margin-bottom:16px;box-shadow:var(--shadow);
+  background:#ffffff;
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 6px 16px rgba(0,0,0,.06);
 }
 body.dark .card{background:#111827;}
-/* ÜST SABİT ŞERİT */
-.topbar{display:flex;gap:12px}
-.pill{
-  flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
-  border-radius:14px;padding:12px;font-weight:bold;cursor:pointer;
-  position:relative;overflow:hidden;
-}
-.pill::after{
-  content:"";position:absolute;inset:0;opacity:0;transition:.2s;
-  background:var(--press);
-}
-.pill:active::after{opacity:1}
-.pill.active{outline:3px solid #3b82f6}
-body.dark .pill{background:#0f172a;color:#e5e7eb}
-body.light .pill{background:#e5e7eb;color:#0f172a}
 
-/* TARİH */
-.date{text-align:center;font-weight:bold}
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
 
-/* BAŞLIK (ZIT TEMA) */
+.btn-toggle{
+  flex:1;
+  padding:12px;
+  border-radius:14px;
+  font-weight:bold;
+  text-align:center;
+  cursor:pointer;
+  background:#e5e7eb;
+}
+body.dark .btn-toggle{background:#0f172a;}
+
+.btn-toggle.active{
+  outline:3px solid #2563eb;
+}
+
+.center{text-align:center;font-weight:bold;}
+
 .invert{
-  text-align:center;font-size:18px;font-weight:bold;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
 }
-body.light .invert{background:#111827;color:#fff}
-body.dark .invert{background:#f9fafb;color:#111}
+body.light .invert{background:#111827;color:#fff;}
+body.dark .invert{background:#f9fafb;color:#111;}
 
-/* DEĞER */
-.center{text-align:center}
-.big{font-size:20px;font-weight:bold}
-
-/* GÜNLÜK K/Z */
-.pos{color:#16a34a;font-weight:bold}
-.neg{color:#dc2626;font-weight:bold}
-
-/* FORM */
 input{
-  width:100%;padding:14px;border-radius:14px;border:1px solid #cbd5f5;
-  font-size:15px;background:transparent;color:inherit;
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:1px solid #cbd5f5;
+  font-size:15px;
 }
-.row{display:flex;gap:12px}
-.row>div{flex:1}
-.btn{
-  width:100%;padding:14px;border:none;border-radius:14px;
-  font-size:15px;font-weight:bold;cursor:pointer;position:relative;overflow:hidden;
-}
-.btn::after{
-  content:"";position:absolute;inset:0;opacity:0;transition:.15s;
-  background:linear-gradient(120deg, rgba(255,255,255,.4), rgba(255,255,255,0));
-}
-.btn:active::after{opacity:1}
-.green{background:#16a34a;color:#fff}
-.red{background:#dc2626;color:#fff}
 
-/* GERİ */
-.back{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  padding:16px;border-radius:16px;font-weight:bold;cursor:pointer;
+.btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
 }
-body.light .back{background:#e5e7eb}
-body.dark .back{background:#0f172a}
+.green{background:#16a34a;color:#fff;}
+.red{background:#dc2626;color:#fff;}
+
+.back{
+  margin-top:16px;
+  padding:16px;
+  border-radius:16px;
+  text-align:center;
+  font-weight:bold;
+  cursor:pointer;
+}
+body.light .back{background:#e5e7eb;}
+body.dark .back{background:#0f172a;}
+
+.pos{color:#16a34a;}
+.neg{color:#dc2626;}
 </style>
 </head>
 
 <body class="light">
 
-<!-- ÜST SABİT: TEMA & DİL -->
+<!-- 🌗 TEMA & 🌐 DİL (INDEX İLE AYNI) -->
 <div class="card">
-  <div class="topbar">
-    <div id="themeBtn" class="pill active">🌙 Tema</div>
-    <div id="langTR" class="pill active">🌐 TR</div>
-    <div id="langEN" class="pill">🌐 EN</div>
+  <div class="row">
+    <div id="themeBtn" class="btn-toggle active">🌙 Tema</div>
+    <div id="langTR" class="btn-toggle active">TR</div>
+    <div id="langEN" class="btn-toggle">EN</div>
   </div>
 </div>
 
-<!-- TARİH -->
-<div class="card date" id="date"></div>
+<!-- 📅 TARİH -->
+<div class="card center" id="date"></div>
 
-<!-- KASA BAŞLIK (ZIT TEMA) -->
+<!-- 🏦 KASA BAŞLIK -->
 <div class="card invert">🏦 Kasa</div>
 
-<!-- KASA DEĞERİ -->
-<div class="card center">
-  <div class="big" id="totalTL">0 TL</div>
-  <div class="big" id="totalUSD">= 0 $</div>
+<!-- 💰 KASA DEĞERİ (TEK SATIR) -->
+<div class="card center" id="kasaDeger">
+  125.000 TL  =  3.850 $
 </div>
 
-<!-- GÜNLÜK KAR / ZARAR -->
+<!-- 📊 GÜNLÜK KAR / ZARAR -->
 <div class="card">
-  <div class="center" style="font-weight:bold;margin-bottom:8px">Günlük Kar / Zarar Durumu</div>
-  <div>Kar : <span class="pos" id="kar">0 TL</span></div>
-  <div>Zarar : <span class="neg" id="zarar">0 TL</span></div>
-  <div style="margin-top:8px">
+  <div class="center" style="margin-bottom:8px;">Günlük Kar / Zarar Durumu</div>
+  <div>Kar : <span class="pos" id="kar">+1.250 TL</span></div>
+  <div>Zarar : <span class="neg" id="zarar">-320 TL</span></div>
+  <div style="margin-top:8px;">
     Günlük Kar/Zarar Oranı :
-    <span id="oran" class="pos">% 0 ▲</span>
+    <span class="pos" id="oran">% +3.4 ▲</span>
   </div>
 </div>
 
-<!-- NAKİT GİRİŞ / ÇIKIŞ -->
+<!-- 💱 NAKİT GİRİŞ / ÇIKIŞ -->
 <div class="card">
-  <div class="center" style="font-weight:bold;margin-bottom:8px">Toplam Nakit Giriş / Çıkış Bilgisi</div>
-  <input id="amount" placeholder="Tutar (TL)" type="number"/>
-  <div class="row" style="margin-top:12px">
-    <div><button class="btn green" onclick="deposit()">➕ Yatır</button></div>
-    <div><button class="btn red" onclick="withdraw()">➖ Çek</button></div>
+  <div class="center" style="margin-bottom:8px;">Nakit Giriş / Çıkış</div>
+  <input id="amount" placeholder="Tutar (TL)" type="number">
+  <div class="row" style="margin-top:12px;">
+    <button class="btn green" onclick="deposit()">➕ Yatır</button>
+    <button class="btn red" onclick="withdraw()">➖ Çek</button>
   </div>
 </div>
 
-<!-- GERİ -->
-<div class="card back" onclick="history.back()">↩️ Geri</div>
+<!-- ↩️ GERİ -->
+<div class="back" onclick="history.back()">↩️ Geri</div>
 
 <script>
-/* === PERSIST === */
-const S = {
-  theme: localStorage.getItem("theme") || "light",
-  lang: localStorage.getItem("lang") || "tr",
-  total: Number(localStorage.getItem("total")) || 125000,
-  kar: Number(localStorage.getItem("kar")) || 1250,
-  zarar: Number(localStorage.getItem("zarar")) || 320
+/* === STATE === */
+const S={
+  theme:localStorage.getItem("theme")||"light",
+  lang:localStorage.getItem("lang")||"tr",
+  total:125000,
+  usd:3850
 };
-document.body.className = S.theme;
-
-/* === UI INIT === */
-const themeBtn = document.getElementById("themeBtn");
-const langTR = document.getElementById("langTR");
-const langEN = document.getElementById("langEN");
-
-function syncLang(){
-  langTR.classList.toggle("active", S.lang==="tr");
-  langEN.classList.toggle("active", S.lang==="en");
-}
-syncLang();
+document.body.className=S.theme;
 
 /* === TEMA === */
 themeBtn.onclick=()=>{
-  S.theme = (S.theme==="light")?"dark":"light";
-  document.body.className = S.theme;
-  localStorage.setItem("theme", S.theme);
+  S.theme=S.theme==="light"?"dark":"light";
+  document.body.className=S.theme;
+  localStorage.setItem("theme",S.theme);
 };
 
 /* === DİL === */
-langTR.onclick=()=>{S.lang="tr";localStorage.setItem("lang","tr");syncLang()};
-langEN.onclick=()=>{S.lang="en";localStorage.setItem("lang","en");syncLang()};
+langTR.onclick=()=>{
+  S.lang="tr";
+  localStorage.setItem("lang","tr");
+  langTR.classList.add("active");
+  langEN.classList.remove("active");
+};
+langEN.onclick=()=>{
+  S.lang="en";
+  localStorage.setItem("lang","en");
+  langEN.classList.add("active");
+  langTR.classList.remove("active");
+};
 
 /* === TARİH === */
 const d=new Date();
-const daysTR=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
-document.getElementById("date").innerText=
-`${d.getDate().toString().padStart(2,"0")}.${(d.getMonth()+1).toString().padStart(2,"0")}.${d.getFullYear()} ${daysTR[d.getDay()]}`;
-
-/* === KUR === */
-let USDTRY=32.47;
-fetch("https://api.exchangerate.host/latest?base=TRY&symbols=USD")
-.then(r=>r.json()).then(j=>{
-  if(j?.rates?.USD) USDTRY = 1/j.rates.USD;
-  render();
-}).catch(render);
-
-/* === HESAP === */
-function render(){
-  document.getElementById("totalTL").innerText =
-    S.total.toLocaleString("tr-TR")+" TL";
-  document.getElementById("totalUSD").innerText =
-    "= "+Math.round(S.total/USDTRY).toLocaleString("en-US")+" $";
-
-  document.getElementById("kar").innerText = "+"+S.kar.toLocaleString("tr-TR")+" TL";
-  document.getElementById("zarar").innerText = "-"+S.zarar.toLocaleString("tr-TR")+" TL";
-  const net = S.kar - S.zarar;
-  const oran = ((net/S.total)*100).toFixed(1);
-  const oranEl = document.getElementById("oran");
-  oranEl.innerText = `% ${oran} ${oran>=0?"▲":"▼"}`;
-  oranEl.className = oran>=0?"pos":"neg";
-  localStorage.setItem("total",S.total);
-  localStorage.setItem("kar",S.kar);
-  localStorage.setItem("zarar",S.zarar);
-}
-render();
+const days=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+date.innerText=
+`${d.getDate().toString().padStart(2,"0")}.${(d.getMonth()+1)
+.toString().padStart(2,"0")}.${d.getFullYear()} ${days[d.getDay()]}`;
 
 /* === BUTONLAR === */
 function deposit(){
-  const v=Number(amount.value||0); if(!v) return;
-  S.total+=v; S.kar+=v; amount.value=""; render();
+  const v=Number(amount.value||0); if(!v)return;
+  S.total+=v; update();
 }
 function withdraw(){
-  const v=Number(amount.value||0); if(!v) return;
-  S.total-=v; S.zarar+=v; amount.value=""; render();
+  const v=Number(amount.value||0); if(!v)return;
+  S.total-=v; update();
+}
+function update(){
+  document.getElementById("kasaDeger").innerText=
+    `${S.total.toLocaleString("tr-TR")} TL  =  ${S.usd.toLocaleString("en-US")} $`;
+  amount.value="";
 }
 </script>
+
 </body>
 </html>
