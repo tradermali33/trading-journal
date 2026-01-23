@@ -97,9 +97,41 @@ textarea{ resize:none; }
   font-size:18px;
 }
 </style>
+/* ===== TEMA & DİL KARTI (INDEX BİREBİR) ===== */
+.row{
+  display:flex;
+  gap:12px;
+}
+
+.row > div{ flex:1; }
+
+.toggle{
+  padding:14px;
+  border-radius:16px;
+  font-weight:bold;
+  cursor:pointer;
+  text-align:center;
+  transition:.15s;
+  background:#eef1f4;
+}
+
+.toggle:active{
+  transform:scale(.97);
+}
+
+.toggle.active{
+  outline:2px solid #3b82f6;
+}
 </head>
 
 <body>
+<!-- 🌗 TEMA & 🌍 DİL -->
+<div class="card">
+  <div class="row">
+    <div id="themeBtn" class="toggle">🌙 / ☀️ Tema</div>
+    <div id="langBtn" class="toggle active">TR | EN</div>
+  </div>
+</div>
 
 <!-- TARİH -->
 <div class="card center">
@@ -282,6 +314,22 @@ adet.addEventListener("input",()=>{
 tutar.addEventListener("input",()=>{
   if(fiyat.value) adet.value=(tutar.value/fiyat.value).toFixed(2);
 });
+<script>
+/* ===== INDEX İLE AYNI TEMA MANTIĞI ===== */
+const body = document.body;
+const savedTheme = localStorage.getItem("theme") || "light";
+body.classList.add(savedTheme);
+
+document.getElementById("themeBtn").onclick = () => {
+  body.classList.toggle("dark");
+  body.classList.toggle("light");
+
+  localStorage.setItem(
+    "theme",
+    body.classList.contains("dark") ? "dark" : "light"
+  );
+};
+</script>
 </script>
 
 </body>
