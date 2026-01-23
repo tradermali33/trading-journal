@@ -46,7 +46,7 @@ body.dark .card{background:#111827;}
 }
 .row>div{flex:1;}
 
-/* ===== INDEX İLE AYNI TEMA & DİL ===== */
+/* ===== TEMA & DİL ===== */
 .toggle{
   padding:14px;
   border-radius:16px;
@@ -79,8 +79,9 @@ body.dark .invert{
   color:#111;
 }
 
-/* ===== MENÜ BUTONU (INDEX HİSSİ) ===== */
+/* ===== MENÜ ===== */
 .menu-btn{
+  display:block;
   width:100%;
   padding:16px;
   border:none;
@@ -88,6 +89,8 @@ body.dark .invert{
   font-size:16px;
   font-weight:bold;
   cursor:pointer;
+  text-decoration:none;
+  text-align:center;
   transition:.12s;
 }
 
@@ -105,7 +108,6 @@ body.dark .menu-btn{
   box-shadow:0 4px 12px rgba(0,0,0,.25) inset;
 }
 
-/* Menü araları */
 .menu-list .menu-btn{
   margin-bottom:12px;
 }
@@ -114,7 +116,7 @@ body.dark .menu-btn{
 
 <body>
 
-<!-- 🌗 TEMA & 🌍 DİL (INDEX BİREBİR) -->
+<!-- 🌗 TEMA & 🌍 DİL -->
 <div class="card">
   <div class="row">
     <div id="themeBtn" class="toggle">🌙 / ☀️ Tema</div>
@@ -122,9 +124,9 @@ body.dark .menu-btn{
   </div>
 </div>
 
-<!-- 📅 TARİH -->
+<!-- 📅 TARİH (AKTİF) -->
 <div class="card center">
-  <strong>12.12.2012 Pazartesi</strong>
+  <strong id="dateText"></strong>
 </div>
 
 <!-- 📊 İŞLEMLER BAŞLIK -->
@@ -132,32 +134,19 @@ body.dark .menu-btn{
   <strong style="font-size:20px;">📊 İşlemler</strong>
 </div>
 
-<!-- 📋 ALT MENÜ (İÇ İÇE DEĞİL) -->
+<!-- 📋 ALT MENÜ -->
 <div class="card menu-list">
 
-  <button class="menu-btn" onclick="location.href='islem_ac.html'">
+  <!-- ✅ GARANTİLİ YÖNLENDİRME -->
+  <a href="./islem_ac.html" class="menu-btn">
     ➕ Yeni İşlem Aç
-  </button>
+  </a>
 
-  <button class="menu-btn">
-    ⛔ İşlem Kapat
-  </button>
-
-  <button class="menu-btn">
-    📈 Açık Olan İşlemlerim
-  </button>
-
-  <button class="menu-btn">
-    📉 Kapanan İşlemlerim
-  </button>
-
-  <button class="menu-btn">
-    🗓️ Günlük İşlem Özeti
-  </button>
-
-  <button class="menu-btn">
-    📚 Geçmiş İşlem Özeti
-  </button>
+  <button class="menu-btn">⛔ İşlem Kapat</button>
+  <button class="menu-btn">📈 Açık Olan İşlemlerim</button>
+  <button class="menu-btn">📉 Kapanan İşlemlerim</button>
+  <button class="menu-btn">🗓️ Günlük İşlem Özeti</button>
+  <button class="menu-btn">📚 Geçmiş İşlem Özeti</button>
 
 </div>
 
@@ -168,15 +157,13 @@ body.dark .menu-btn{
       <button class="menu-btn" onclick="history.back()">↩️ Geri</button>
     </div>
     <div>
-      <button class="menu-btn" onclick="location.href='index.html'">
-        🏠 Ana Menü
-      </button>
+      <a href="./index.html" class="menu-btn">🏠 Ana Menü</a>
     </div>
   </div>
 </div>
 
 <script>
-/* ===== INDEX İLE AYNI TEMA MANTIĞI ===== */
+/* ===== TEMA ===== */
 const body=document.body;
 const savedTheme=localStorage.getItem("theme") || "light";
 body.classList.add(savedTheme);
@@ -189,6 +176,12 @@ document.getElementById("themeBtn").onclick=()=>{
     body.classList.contains("dark") ? "dark" : "light"
   );
 };
+
+/* ===== TARİH (GÜNCEL) ===== */
+const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+const d=new Date();
+document.getElementById("dateText").innerText =
+  d.toLocaleDateString("tr-TR") + " " + gunler[d.getDay()];
 </script>
 
 </body>
