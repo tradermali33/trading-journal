@@ -3,13 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>İşlemler</title>
+<title>Yeni İşlem Aç</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  font-family:"Times New Roman",serif;
-}
+*{box-sizing:border-box;font-family:"Times New Roman",serif;}
 
 body{
   margin:0;
@@ -39,35 +36,8 @@ body.light .card{background:#fff;}
 body.dark .card{background:#111827;}
 
 .center{text-align:center;}
-
-.row{
-  display:flex;
-  gap:12px;
-}
+.row{display:flex;gap:12px;}
 .row>div{flex:1;}
-
-/* ===== INDEX İLE AYNI TEMA & DİL ===== */
-.toggle{
-  padding:14px;
-  border-radius:16px;
-  font-weight:bold;
-  cursor:pointer;
-  text-align:center;
-  transition:.15s;
-}
-
-body.light .toggle{
-  background:#e5e7eb;
-  color:#111;
-}
-body.dark .toggle{
-  background:#1f2937;
-  color:#fff;
-}
-
-.toggle.active{
-  outline:2px solid #3b82f6;
-}
 
 /* ===== BAŞLIK (ZIT TEMA) ===== */
 body.light .invert{
@@ -79,16 +49,16 @@ body.dark .invert{
   color:#111;
 }
 
-/* ===== MENÜ BUTONU (INDEX HİSSİ) ===== */
+/* ===== BUTON ===== */
 .menu-btn{
   width:100%;
-  padding:16px;
+  padding:14px;
   border:none;
-  border-radius:16px;
+  border-radius:14px;
   font-size:16px;
   font-weight:bold;
   cursor:pointer;
-  transition:.12s;
+  transition:.15s;
 }
 
 body.light .menu-btn{
@@ -101,64 +71,23 @@ body.dark .menu-btn{
 }
 
 .menu-btn:active{
-  transform:scale(.96);
-  box-shadow:0 4px 12px rgba(0,0,0,.25) inset;
-}
-
-/* Menü araları */
-.menu-list .menu-btn{
-  margin-bottom:12px;
+  transform:scale(.97);
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🌗 TEMA & 🌍 DİL (INDEX BİREBİR) -->
-<div class="card">
-  <div class="row">
-    <div id="themeBtn" class="toggle">🌙 / ☀️ Tema</div>
-    <div id="langBtn" class="toggle active">TR | EN</div>
-  </div>
-</div>
-
-<!-- 📅 TARİH -->
-<div class="card center">
-  <strong>12.12.2012 Pazartesi</strong>
-</div>
-
-<!-- 📊 İŞLEMLER BAŞLIK -->
+<!-- 📌 BAŞLIK -->
 <div class="card invert center">
-  <strong style="font-size:20px;">📊 İşlemler</strong>
+  <strong style="font-size:20px;">➕ Yeni İşlem Aç</strong>
 </div>
 
-<!-- 📋 ALT MENÜ (İÇ İÇE DEĞİL) -->
-<div class="card menu-list">
-
-<a href="islem_ac.html" class="menu-btn">
-  ➕ Yeni İşlem Aç
-</a>
-
-  <button class="menu-btn">
-    ⛔ İşlem Kapat
-  </button>
-
-  <button class="menu-btn">
-    📈 Açık Olan İşlemlerim
-  </button>
-
-  <button class="menu-btn">
-    📉 Kapanan İşlemlerim
-  </button>
-
-  <button class="menu-btn">
-    🗓️ Günlük İşlem Özeti
-  </button>
-
-  <button class="menu-btn">
-    📚 Geçmiş İşlem Özeti
-  </button>
-
+<!-- 📊 İŞLEM FORM / SMC / FIBO (YER TUTUCU) -->
+<div class="card">
+  <div class="center" style="opacity:.7;">
+    Buraya SMC + Fibo + işlem detayları gelecek
+  </div>
 </div>
 
 <!-- 🔙 GERİ & 🏠 ANA MENÜ -->
@@ -176,19 +105,10 @@ body.dark .menu-btn{
 </div>
 
 <script>
-/* ===== INDEX İLE AYNI TEMA MANTIĞI ===== */
+/* ===== TEMA (INDEX İLE AYNI) ===== */
 const body=document.body;
-const savedTheme=localStorage.getItem("theme") || "light";
+const savedTheme=localStorage.getItem("theme")||"light";
 body.classList.add(savedTheme);
-
-document.getElementById("themeBtn").onclick=()=>{
-  body.classList.toggle("dark");
-  body.classList.toggle("light");
-  localStorage.setItem(
-    "theme",
-    body.classList.contains("dark") ? "dark" : "light"
-  );
-};
 </script>
 
 </body>
