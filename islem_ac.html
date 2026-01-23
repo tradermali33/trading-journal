@@ -14,7 +14,17 @@
 body{
   margin:0;
   padding:16px;
+  transition:.25s;
+}
+
+body.light{
   background:#f2f4f6;
+  color:#111;
+}
+
+body.dark{
+  background:#0b1220;
+  color:#fff;
 }
 
 .card{
@@ -96,15 +106,44 @@ textarea{ resize:none; }
   margin:20px 0;
   font-size:18px;
 }
+/* ===== TEMA & DİL (INDEX) ===== */
+.toggle{
+  padding:14px;
+  border-radius:16px;
+  font-weight:bold;
+  cursor:pointer;
+  text-align:center;
+  transition:.15s;
+}
+
+body.light .toggle{
+  background:#e5e7eb;
+  color:#111;
+}
+
+body.dark .toggle{
+  background:#1f2937;
+  color:#fff;
+}
+
+.toggle.active{
+  outline:2px solid #3b82f6;
+}
 </style>
 </head>
-
+<!-- 🌗 TEMA & 🌍 DİL (INDEX BİREBİR) -->
+<div class="card">
+  <div class="row">
+    <div id="themeBtn" class="toggle">🌙 / ☀️ Tema</div>
+    <div id="langBtn" class="toggle active">TR | EN</div>
+  </div>
+</div>
 <body>
 
 <!-- TARİH -->
 <div class="card center">
   <div style="font-size:18px;font-weight:bold;">
-    💰 12.12.2012 Pazartesi 💰
+     12.12.2012 Pazartesi 
   </div>
 </div>
 
@@ -282,6 +321,20 @@ adet.addEventListener("input",()=>{
 tutar.addEventListener("input",()=>{
   if(fiyat.value) adet.value=(tutar.value/fiyat.value).toFixed(2);
 });
+<script>
+const body = document.body;
+const savedTheme = localStorage.getItem("theme") || "light";
+body.classList.add(savedTheme);
+
+document.getElementById("themeBtn").onclick = () => {
+  body.classList.toggle("dark");
+  body.classList.toggle("light");
+  localStorage.setItem(
+    "theme",
+    body.classList.contains("dark") ? "dark" : "light"
+  );
+};
+</script>
 </script>
 
 </body>
