@@ -100,18 +100,11 @@ textarea{ resize:none; }
 </head>
 
 <body>
-<!-- 🌗 TEMA & 🌍 DİL -->
-<div class="card">
-  <div class="row">
-    <div id="themeBtn" class="toggle">🌙 / ☀️ Tema</div>
-    <div id="langBtn" class="toggle active">TR | EN</div>
-  </div>
-</div>
 
 <!-- TARİH -->
 <div class="card center">
   <div style="font-size:18px;font-weight:bold;">
-      12.12.2012 Pazartesi
+    💰 12.12.2012 Pazartesi 💰
   </div>
 </div>
 
@@ -289,22 +282,6 @@ adet.addEventListener("input",()=>{
 tutar.addEventListener("input",()=>{
   if(fiyat.value) adet.value=(tutar.value/fiyat.value).toFixed(2);
 });
-<script>
-/* ===== INDEX İLE AYNI TEMA MANTIĞI ===== */
-const body = document.body;
-const savedTheme = localStorage.getItem("theme") || "light";
-body.classList.add(savedTheme);
-
-document.getElementById("themeBtn").onclick = () => {
-  body.classList.toggle("dark");
-  body.classList.toggle("light");
-
-  localStorage.setItem(
-    "theme",
-    body.classList.contains("dark") ? "dark" : "light"
-  );
-};
-</script>
 </script>
 
 </body>
