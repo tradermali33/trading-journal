@@ -474,7 +474,7 @@ function fetchPrice(symbol) {
       })
       .catch(() => livePriceEl.innerHTML = "🔴 Bağlantı hatası");
   } else {
-    const apiKey = "YOUR_FINNHUB_API_KEY_HERE"; // ← BURAYA KENDİ KEY'İNİ YAPISTIR
+    const apiKey = "d5pocqhr01qq2b68e5k0d5pocqhr01qq2b68e5kg"; // ← BURAYA KENDİ KEY'İNİ YAPISTIR
     fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}.IS&token=${apiKey}`)
       .then(res => res.json())
       .then(data => {
