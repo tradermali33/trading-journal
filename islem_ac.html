@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>İşlemler</title>
+<title>Yeni İşlem Aç</title>
 
 <style>
 *{
@@ -39,21 +39,15 @@ body.light .card{background:#fff;}
 body.dark .card{background:#111827;}
 
 .center{text-align:center;}
-
-.row{
-  display:flex;
-  gap:12px;
-}
+.row{display:flex;gap:12px;}
 .row>div{flex:1;}
 
-/* ===== INDEX İLE AYNI TEMA & DİL ===== */
+/* ===== TEMA & DİL (KİLİTLİ – INDEX İLE AYNI) ===== */
 .toggle{
   padding:14px;
   border-radius:16px;
   font-weight:bold;
-  cursor:pointer;
   text-align:center;
-  transition:.15s;
 }
 
 body.light .toggle{
@@ -63,10 +57,6 @@ body.light .toggle{
 body.dark .toggle{
   background:#1f2937;
   color:#fff;
-}
-
-.toggle.active{
-  outline:2px solid #3b82f6;
 }
 
 /* ===== BAŞLIK (ZIT TEMA) ===== */
@@ -79,7 +69,57 @@ body.dark .invert{
   color:#111;
 }
 
-/* ===== MENÜ BUTONU (INDEX HİSSİ) ===== */
+/* ===== FORM ===== */
+label{
+  font-weight:bold;
+  display:block;
+  margin-bottom:6px;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:1px solid #ccc;
+  font-size:15px;
+}
+
+body.dark input{
+  background:#020617;
+  color:#fff;
+  border:1px solid #334155;
+}
+
+/* ===== SEÇİM BUTONLARI ===== */
+.select-row{
+  display:flex;
+  gap:10px;
+}
+
+.select-btn{
+  flex:1;
+  padding:12px;
+  border-radius:14px;
+  border:none;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.12s;
+}
+
+body.light .select-btn{
+  background:#e5e7eb;
+  color:#111;
+}
+body.dark .select-btn{
+  background:#1f2937;
+  color:#fff;
+}
+
+.select-btn:active{
+  transform:scale(.96);
+}
+
+/* ===== ALT MENÜ BUTON ===== */
 .menu-btn{
   width:100%;
   padding:16px;
@@ -104,91 +144,86 @@ body.dark .menu-btn{
   transform:scale(.96);
   box-shadow:0 4px 12px rgba(0,0,0,.25) inset;
 }
-
-/* Menü araları */
-.menu-list .menu-btn{
-  margin-bottom:12px;
-}
 </style>
 </head>
 
 <body>
 
-<!-- 🌗 TEMA & 🌍 DİL (INDEX BİREBİR) -->
+<!-- 🌗 TEMA & 🌍 DİL (SABİT) -->
 <div class="card">
   <div class="row">
-    <div id="themeBtn" class="toggle">🌙 / ☀️ Tema</div>
-    <div id="langBtn" class="toggle active">TR | EN</div>
+    <div class="toggle">🌙 / ☀️ Tema</div>
+    <div class="toggle">TR | EN</div>
   </div>
 </div>
 
-<!-- 📅 TARİH -->
+<!-- 📅 TARİH (OTOMATİK) -->
 <div class="card center">
-  <strong>12.12.2012 Pazartesi</strong>
+  <strong id="dateText"></strong>
 </div>
 
-<!-- 📊 İŞLEMLER BAŞLIK -->
+<!-- ➕ BAŞLIK -->
 <div class="card invert center">
-  <strong style="font-size:20px;">📊 İşlemler</strong>
+  <strong style="font-size:20px;">➕ Yeni İşlem Aç</strong>
 </div>
 
-<!-- 📋 ALT MENÜ (İÇ İÇE DEĞİL) -->
-<div class="card menu-list">
-
-  <button class="menu-btn" onclick="location.href='islem_ac.html'">
-    ➕ Yeni İşlem Aç
-  </button>
-
-  <button class="menu-btn">
-    ⛔ İşlem Kapat
-  </button>
-
-  <button class="menu-btn">
-    📈 Açık Olan İşlemlerim
-  </button>
-
-  <button class="menu-btn">
-    📉 Kapanan İşlemlerim
-  </button>
-
-  <button class="menu-btn">
-    🗓️ Günlük İşlem Özeti
-  </button>
-
-  <button class="menu-btn">
-    📚 Geçmiş İşlem Özeti
-  </button>
-
+<!-- 💎 VARLIK -->
+<div class="card">
+  <label>💎 Varlık</label>
+  <input placeholder="Örn: ALKA / BTCUSDT">
 </div>
 
-<!-- 🔙 GERİ & 🏠 ANA MENÜ -->
+<!-- 📈 TREND -->
+<div class="card">
+  <label>📈 Trend Yönü</label>
+  <div class="select-row">
+    <button class="select-btn">Yükselen</button>
+    <button class="select-btn">Düşen</button>
+    <button class="select-btn">Yatay</button>
+  </div>
+</div>
+
+<!-- ⏱️ ZAMAN -->
+<div class="card">
+  <label>⏱️ Zaman Dilimi</label>
+  <div class="select-row">
+    <button class="select-btn">5m</button>
+    <button class="select-btn">15m</button>
+    <button class="select-btn">1h</button>
+    <button class="select-btn">4h</button>
+    <button class="select-btn">1D</button>
+  </div>
+</div>
+
+<!-- 🎯 HEDEF -->
+<div class="card">
+  <label>🎯 Hedef / Not</label>
+  <input placeholder="Hedef, SMC – Fibo notu…">
+</div>
+
+<!-- 🔙 ALT MENÜ -->
 <div class="card">
   <div class="row">
     <div>
       <button class="menu-btn" onclick="history.back()">↩️ Geri</button>
     </div>
     <div>
-      <button class="menu-btn" onclick="location.href='index.html'">
-        🏠 Ana Menü
-      </button>
+      <button class="menu-btn" onclick="location.href='index.html'">🏠 Ana Menü</button>
     </div>
   </div>
 </div>
 
 <script>
-/* ===== INDEX İLE AYNI TEMA MANTIĞI ===== */
+/* ===== TEMA (KİLİTLİ) ===== */
 const body=document.body;
-const savedTheme=localStorage.getItem("theme") || "light";
+const savedTheme=localStorage.getItem("theme") || "dark";
 body.classList.add(savedTheme);
 
-document.getElementById("themeBtn").onclick=()=>{
-  body.classList.toggle("dark");
-  body.classList.toggle("light");
-  localStorage.setItem(
-    "theme",
-    body.classList.contains("dark") ? "dark" : "light"
-  );
-};
+/* ===== TARİH ===== */
+const d=new Date();
+const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+document.getElementById("dateText").innerText=
+  d.toLocaleDateString("tr-TR") + " " + gunler[d.getDay()];
 </script>
 
 </body>
