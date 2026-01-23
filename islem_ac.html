@@ -37,7 +37,7 @@ body {
   padding: 0;
 }
 
-/* ================= HEADER (index.html'den uyarlama) ================= */
+/* ================= HEADER ================= */
 .header {
   position: sticky;
   top: 0;
@@ -81,13 +81,15 @@ body {
   color: var(--text);
 }
 
-/* ================= ORİJİNAL STYLES (dark theme uyumlu) ================= */
+/* ================= CARD & BADGE ================= */
 .card {
   background: var(--card);
   border-radius: 16px;
   padding: 16px;
   margin: 16px;
   box-shadow: 0 4px 10px var(--shadow);
+  position: relative;
+  overflow: hidden;
 }
 
 .card h2 {
@@ -96,6 +98,36 @@ body {
   font-weight: bold;
   text-align: center;
   color: var(--text);
+}
+
+/* Parlama efekti - tüm card'lara ve seçili badge'lere uygulanabilir */
+.card::after,
+.badge.active::after {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    135deg,
+    transparent 40%,
+    rgba(255,255,255,.35) 50%,
+    transparent 60%
+  );
+  animation: shine 2.5s linear infinite;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.badge.active::after {
+  animation-duration: 1.8s;
+  opacity: 0.8;
+}
+
+@keyframes shine {
+  0%   { transform: translate(-30%, -30%) rotate(0deg); }
+  100% { transform: translate(30%, 30%) rotate(360deg); }
 }
 
 .center { text-align: center; }
@@ -131,6 +163,8 @@ textarea { resize: none; }
   user-select: none;
   color: #333;
   transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
 }
 
 body.dark .badge {
@@ -146,6 +180,11 @@ body.dark .badge {
 .trend-row .badge:nth-child(1).active { background: #2ecc71; } /* Yükselen - Yeşil */
 .trend-row .badge:nth-child(2).active { background: #e74c3c; } /* Düşen - Kırmızı */
 .trend-row .badge:nth-child(3).active { background: #95a5a6; } /* Yatay - Gri */
+
+/* Diğer tüm gruplarda seçili → yeşil (yükselen rengi) */
+.badge-group:not(.trend-row) .badge.active {
+  background: #2ecc71 !important;
+}
 
 .trend-row .badge { flex: 1; text-align: center; }
 
@@ -174,7 +213,7 @@ body.dark .badge {
 
 <body>
 
-<!-- HEADER (index.html'den aynı mantık) -->
+<!-- HEADER -->
 <div class="header">
   <div class="top-row">
     <div class="toggle-group">
@@ -188,14 +227,14 @@ body.dark .badge {
     </div>
   </div>
 
-  <!-- Tarih (dinamik yaptım, istersen statik bırak) -->
   <div class="date-bar" id="today"></div>
 </div>
 
-<!-- 💎 VARLIK -->
+<!-- 💎 VARLIK - Autocomplete eklendi -->
 <div class="card">
   <h2>💎 Varlık</h2>
-  <input placeholder="ALKA / BTCUSDT">
+  <input list="asset-suggestions" id="asset-input" placeholder="ALKA / BTCUSDT" autocomplete="off">
+  <datalist id="asset-suggestions"></datalist>
   <div class="center" style="margin-top:8px;font-weight:bold;">🔴 Canlı Fiyat: --</div>
 </div>
 
@@ -225,7 +264,6 @@ body.dark .badge {
 <div class="card">
   <h2>🎯 Teknik Analiz Paneli</h2>
 
-  <!-- SMC -->
   <div class="card">
     <h2>SMC</h2>
     <div class="badge-group" data-group="smc">
@@ -244,7 +282,6 @@ body.dark .badge {
     </div>
   </div>
 
-  <!-- EMA -->
   <div class="card">
     <h2>EMA</h2>
     <div class="badge-group" data-group="ema">
@@ -257,7 +294,6 @@ body.dark .badge {
     </div>
   </div>
 
-  <!-- RSI -->
   <div class="card">
     <h2>RSI</h2>
     <div class="badge-group" data-group="rsi">
@@ -269,7 +305,6 @@ body.dark .badge {
     </div>
   </div>
 
-  <!-- MACD -->
   <div class="card">
     <h2>MACD</h2>
     <div class="badge-group" data-group="macd">
@@ -282,7 +317,6 @@ body.dark .badge {
     </div>
   </div>
 
-  <!-- HACİM -->
   <div class="card">
     <h2>Hacim</h2>
     <div class="badge-group" data-group="volume">
@@ -347,7 +381,7 @@ body.dark .badge {
 <div class="footer-back">↩️ Geri</div>
 
 <script>
-// ================= THEME TOGGLE (index.html'den aynı) =================
+// ================= THEME TOGGLE =================
 const body = document.body;
 const light = document.getElementById("lightBtn");
 const dark = document.getElementById("darkBtn");
@@ -369,13 +403,11 @@ const gunler = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cum
 document.getElementById("today").innerText = 
   d.toLocaleDateString("tr-TR", {day: '2-digit', month: '2-digit', year: 'numeric'}) + " " + gunler[d.getDay()];
 
-// ================= BADGE SELECTION (özel trend renkleri için ekstra dinleyici) =================
+// ================= BADGE SELECTION =================
 document.querySelectorAll('[data-group]').forEach(group => {
   group.querySelectorAll('.badge').forEach(badge => {
     badge.addEventListener('click', () => {
-      // Tüm badge'leri temizle
       group.querySelectorAll('.badge').forEach(b => b.classList.remove('active'));
-      // Tıklananı aktif yap
       badge.classList.add('active');
     });
   });
@@ -391,6 +423,57 @@ adet.addEventListener("input", () => {
 });
 tutar.addEventListener("input", () => {
   if (fiyat.value) adet.value = (tutar.value / fiyat.value).toFixed(2);
+});
+
+// ================= VARLIK AUTOCOMPLETE =================
+const assetInput = document.getElementById("asset-input");
+const dataList = document.getElementById("asset-suggestions");
+
+// Örnek veri (gerçek projede API'den çekilebilir)
+const suggestions = [
+  "THYAO", "GARAN", "AKBNK", "ISCTR", "PETKM", "SISE", "EREGL", "KCHOL",
+  "BTC", "ETH", "SOL", "XRP", "ADA", "DOGE", "BNB", "AVAX", "LINK"
+];
+
+function updateSuggestions(value) {
+  dataList.innerHTML = "";
+  
+  if (!value) return;
+
+  const upper = value.toUpperCase().trim();
+  
+  // Coin ise USDT ekle
+  if (/^[A-Z]{3,8}$/.test(upper) && !upper.endsWith("USDT")) {
+    const coinOption = document.createElement("option");
+    coinOption.value = upper + "USDT";
+    dataList.appendChild(coinOption);
+  }
+
+  // Genel öneriler (hisse/coin)
+  suggestions
+    .filter(s => s.startsWith(upper))
+    .forEach(s => {
+      const opt = document.createElement("option");
+      opt.value = s.endsWith("USDT") ? s : s; // coin ise USDT'li hali
+      dataList.appendChild(opt);
+    });
+}
+
+assetInput.addEventListener("input", (e) => {
+  updateSuggestions(e.target.value);
+});
+
+// İlk yüklemede örnek birkaç tane göster (isteğe bağlı)
+updateSuggestions("");
+
+// Enter'a basınca USDT tamamla (isteğe bağlı ekstra)
+assetInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && assetInput.value) {
+    let val = assetInput.value.trim().toUpperCase();
+    if (/^[A-Z]{3,8}$/.test(val) && !val.endsWith("USDT")) {
+      assetInput.value = val + "USDT";
+    }
+  }
 });
 </script>
 
