@@ -6,10 +6,7 @@
 <title>İşlemler</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  font-family:"Times New Roman",serif;
-}
+*{box-sizing:border-box;font-family:"Times New Roman",serif;}
 
 body{
   margin:0;
@@ -18,14 +15,8 @@ body{
 }
 
 /* ===== TEMA ===== */
-body.light{
-  background:#f2f4f6;
-  color:#111;
-}
-body.dark{
-  background:#0b1220;
-  color:#fff;
-}
+body.light{background:#f2f4f6;color:#111;}
+body.dark{background:#0b1220;color:#fff;}
 
 /* ===== KART ===== */
 .card{
@@ -34,16 +25,11 @@ body.dark{
   margin-bottom:14px;
   box-shadow:0 6px 16px rgba(0,0,0,.08);
 }
-
 body.light .card{background:#fff;}
 body.dark .card{background:#111827;}
 
 .center{text-align:center;}
-
-.row{
-  display:flex;
-  gap:12px;
-}
+.row{display:flex;gap:12px;}
 .row>div{flex:1;}
 
 /* ===== TEMA & DİL ===== */
@@ -53,35 +39,17 @@ body.dark .card{background:#111827;}
   font-weight:bold;
   cursor:pointer;
   text-align:center;
-  transition:.15s;
 }
-
-body.light .toggle{
-  background:#e5e7eb;
-  color:#111;
-}
-body.dark .toggle{
-  background:#1f2937;
-  color:#fff;
-}
-
-.toggle.active{
-  outline:2px solid #3b82f6;
-}
+body.light .toggle{background:#e5e7eb;color:#111;}
+body.dark .toggle{background:#1f2937;color:#fff;}
+.toggle.active{outline:2px solid #3b82f6;}
 
 /* ===== BAŞLIK (ZIT TEMA) ===== */
-body.light .invert{
-  background:#111827;
-  color:#fff;
-}
-body.dark .invert{
-  background:#f9fafb;
-  color:#111;
-}
+body.light .invert{background:#111827;color:#fff;}
+body.dark .invert{background:#f9fafb;color:#111;}
 
-/* ===== MENÜ ===== */
+/* ===== MENÜ BUTONU ===== */
 .menu-btn{
-  display:block;
   width:100%;
   padding:16px;
   border:none;
@@ -89,28 +57,15 @@ body.dark .invert{
   font-size:16px;
   font-weight:bold;
   cursor:pointer;
-  text-decoration:none;
-  text-align:center;
   transition:.12s;
 }
-
-body.light .menu-btn{
-  background:#e5e7eb;
-  color:#111;
-}
-body.dark .menu-btn{
-  background:#1f2937;
-  color:#fff;
-}
-
+body.light .menu-btn{background:#e5e7eb;color:#111;}
+body.dark .menu-btn{background:#1f2937;color:#fff;}
 .menu-btn:active{
   transform:scale(.96);
   box-shadow:0 4px 12px rgba(0,0,0,.25) inset;
 }
-
-.menu-list .menu-btn{
-  margin-bottom:12px;
-}
+.menu-list .menu-btn{margin-bottom:12px;}
 </style>
 </head>
 
@@ -120,27 +75,26 @@ body.dark .menu-btn{
 <div class="card">
   <div class="row">
     <div id="themeBtn" class="toggle">🌙 / ☀️ Tema</div>
-    <div id="langBtn" class="toggle active">TR | EN</div>
+    <div class="toggle active">TR | EN</div>
   </div>
 </div>
 
-<!-- 📅 TARİH (AKTİF) -->
+<!-- 📅 TARİH (JS İLE) -->
 <div class="card center">
   <strong id="dateText"></strong>
 </div>
 
-<!-- 📊 İŞLEMLER BAŞLIK -->
+<!-- 📊 BAŞLIK -->
 <div class="card invert center">
   <strong style="font-size:20px;">📊 İşlemler</strong>
 </div>
 
-<!-- 📋 ALT MENÜ -->
+<!-- 📋 MENÜ -->
 <div class="card menu-list">
 
-  <!-- ✅ GARANTİLİ YÖNLENDİRME -->
-  <a href="./islem_ac.html" class="menu-btn">
+  <button class="menu-btn" onclick="goIslemAc()">
     ➕ Yeni İşlem Aç
-  </a>
+  </button>
 
   <button class="menu-btn">⛔ İşlem Kapat</button>
   <button class="menu-btn">📈 Açık Olan İşlemlerim</button>
@@ -153,35 +107,33 @@ body.dark .menu-btn{
 <!-- 🔙 GERİ & 🏠 ANA MENÜ -->
 <div class="card">
   <div class="row">
-    <div>
-      <button class="menu-btn" onclick="history.back()">↩️ Geri</button>
-    </div>
-    <div>
-      <a href="./index.html" class="menu-btn">🏠 Ana Menü</a>
-    </div>
+    <div><button class="menu-btn" onclick="history.back()">↩️ Geri</button></div>
+    <div><button class="menu-btn" onclick="location.href='index.html'">🏠 Ana Menü</button></div>
   </div>
 </div>
 
 <script>
 /* ===== TEMA ===== */
 const body=document.body;
-const savedTheme=localStorage.getItem("theme") || "light";
+const savedTheme=localStorage.getItem("theme")||"dark";
 body.classList.add(savedTheme);
 
 document.getElementById("themeBtn").onclick=()=>{
   body.classList.toggle("dark");
   body.classList.toggle("light");
-  localStorage.setItem(
-    "theme",
-    body.classList.contains("dark") ? "dark" : "light"
-  );
+  localStorage.setItem("theme",body.classList.contains("dark")?"dark":"light");
 };
 
-/* ===== TARİH (GÜNCEL) ===== */
-const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+/* ===== TARİH ===== */
 const d=new Date();
-document.getElementById("dateText").innerText =
-  d.toLocaleDateString("tr-TR") + " " + gunler[d.getDay()];
+const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+document.getElementById("dateText").innerText=
+`${d.getDate().toString().padStart(2,"0")}.${(d.getMonth()+1).toString().padStart(2,"0")}.${d.getFullYear()} ${gunler[d.getDay()]}`;
+
+/* ===== YÖNLENDİRME ===== */
+function goIslemAc(){
+  window.location.href="islem_ac.html";
+}
 </script>
 
 </body>
