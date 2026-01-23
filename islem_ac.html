@@ -6,72 +6,77 @@
 <title>Yeni İşlem Aç</title>
 
 <style>
-*{box-sizing:border-box;font-family:"Times New Roman",serif;}
+*{box-sizing:border-box;font-family:"Times New Roman", serif;}
 
-body{margin:0;padding:16px;transition:.25s;}
-
-body.light{background:#f2f4f6;color:#111;}
-body.dark{background:#0b1220;color:#fff;}
+body{
+  margin:0;
+  padding:16px;
+  background:#f2f4f6;
+}
 
 .card{
-  border-radius:18px;
-  padding:16px;
-  margin-bottom:14px;
-  box-shadow:0 6px 16px rgba(0,0,0,.08);
-}
-body.light .card{background:#fff;}
-body.dark .card{background:#111827;}
-
-.center{text-align:center;}
-.row{display:flex;gap:12px;}
-.row>div{flex:1;}
-
-.toggle{
-  padding:14px;
+  background:#fff;
   border-radius:16px;
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.06);
+}
+
+.card h2{
+  margin:0 0 14px 0;
+  font-size:18px;
   font-weight:bold;
   text-align:center;
 }
-body.light .toggle{background:#e5e7eb;color:#111;}
-body.dark .toggle{background:#1f2937;color:#fff;}
 
-body.light .invert{background:#111827;color:#fff;}
-body.dark .invert{background:#f9fafb;color:#111;}
+.center{text-align:center;}
 
-label{font-weight:bold;margin-bottom:6px;display:block;}
-
-input{
+input, textarea{
   width:100%;
-  padding:14px;
-  border-radius:14px;
-  border:1px solid #ccc;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #ddd;
   font-size:15px;
 }
-body.dark input{
-  background:#020617;
-  color:#fff;
-  border:1px solid #334155;
+
+textarea{resize:none;}
+
+.row{display:flex;gap:12px;}
+.row>div{flex:1;}
+
+.badge-group{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
 }
 
-.select-row{display:flex;gap:10px;flex-wrap:wrap;}
-
-.select-btn{
-  flex:1;
-  padding:12px;
-  border-radius:14px;
-  border:none;
-  font-weight:bold;
+.badge{
+  padding:10px 18px;
+  background:#eef1f4;
+  border-radius:20px;
+  font-size:14px;
   cursor:pointer;
-  transition:.12s;
+  user-select:none;
+  transition:.15s;
 }
-body.light .select-btn{background:#e5e7eb;color:#111;}
-body.dark .select-btn{background:#1f2937;color:#fff;}
 
-.select-btn.active{
+body.dark .badge{
+  background:#1f2937;
+  color:#fff;
+}
+
+.badge.active{
   outline:2px solid #3b82f6;
+  background:transparent;
 }
 
-.menu-btn{
+.trend-row .badge{
+  flex:1;
+  text-align:center;
+}
+
+.btn{
   width:100%;
   padding:16px;
   border:none;
@@ -79,102 +84,87 @@ body.dark .select-btn{background:#1f2937;color:#fff;}
   font-size:16px;
   font-weight:bold;
   cursor:pointer;
-  transition:.12s;
 }
-body.light .menu-btn{background:#e5e7eb;color:#111;}
-body.dark .menu-btn{background:#1f2937;color:#fff;}
 
-.menu-btn:active{
-  transform:scale(.96);
-  box-shadow:0 4px 12px rgba(0,0,0,.25) inset;
+.btn-green{background:#2ecc71;color:#fff;}
+.btn-red{background:#e74c3c;color:#fff;}
+.btn-yellow{background:#f1c40f;}
+
+.footer-row{
+  display:flex;
+  gap:12px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- TEMA & DİL -->
-<div class="card">
-  <div class="row">
-    <div class="toggle">🌙 / ☀️ Tema</div>
-    <div class="toggle">TR | EN</div>
-  </div>
-</div>
-
-<!-- TARİH (İKONSUZ) -->
+<!-- TARİH (KESİSİZ) -->
 <div class="card center">
-  <strong id="dateText"></strong>
-</div>
-
-<!-- BAŞLIK -->
-<div class="card invert center">
-  <strong style="font-size:20px;">➕ Yeni İşlem Aç</strong>
+  <div id="dateText" style="font-size:18px;font-weight:bold;"></div>
 </div>
 
 <!-- VARLIK -->
 <div class="card">
-  <label>Varlık</label>
-  <input placeholder="Örn: ALKA / BTCUSDT">
+  <h2>Varlık</h2>
+  <input placeholder="ALKA / BTCUSDT">
+  <div class="center" style="margin-top:8px;font-weight:bold;">Canlı Fiyat: --</div>
 </div>
 
 <!-- TREND -->
 <div class="card">
-  <label>Trend Yönü</label>
-  <div class="select-row" data-group="trend">
-    <button class="select-btn">Yükselen</button>
-    <button class="select-btn">Düşen</button>
-    <button class="select-btn">Yatay</button>
+  <h2>Trend Yönü</h2>
+  <div class="badge-group trend-row" data-group="trend">
+    <div class="badge">Yükselen</div>
+    <div class="badge">Düşen</div>
+    <div class="badge">Yatay</div>
   </div>
 </div>
 
 <!-- ZAMAN -->
 <div class="card">
-  <label>Zaman Dilimi</label>
-  <div class="select-row" data-group="time">
-    <button class="select-btn">5m</button>
-    <button class="select-btn">15m</button>
-    <button class="select-btn">1h</button>
-    <button class="select-btn">4h</button>
-    <button class="select-btn">1D</button>
+  <h2>Zaman Dilimi</h2>
+  <div class="badge-group" data-group="time">
+    <div class="badge">5m</div>
+    <div class="badge active">15m</div>
+    <div class="badge">1h</div>
+    <div class="badge">4h</div>
+    <div class="badge">1D</div>
   </div>
 </div>
 
-<!-- FIBONACCI -->
+<!-- FIBONACCI (EKLENEN) -->
 <div class="card">
-  <label>Fibonacci Seviyesi</label>
-  <div class="select-row" data-group="fibo">
-    <button class="select-btn">0.382</button>
-    <button class="select-btn">0.5</button>
-    <button class="select-btn">0.618</button>
-    <button class="select-btn">0.705</button>
-    <button class="select-btn">0.786</button>
+  <h2>Fibonacci Seviyesi</h2>
+  <div class="badge-group" data-group="fibo">
+    <div class="badge">0.382</div>
+    <div class="badge">0.5</div>
+    <div class="badge">0.618</div>
+    <div class="badge">0.705</div>
+    <div class="badge">0.786</div>
   </div>
 </div>
 
 <!-- NOT -->
 <div class="card">
-  <label>Not / SMC – Fibo</label>
-  <input placeholder="Order block, liquidity, RR...">
+  <h2>Not / SMC – Fibo</h2>
+  <textarea rows="3" placeholder="Order block, liquidity, RR..."></textarea>
+</div>
+
+<!-- BUTONLAR -->
+<div class="card">
+  <button class="btn btn-yellow">🚨 Otomatik İşlem Sonlandır</button><br><br>
+  <button class="btn btn-red">⚠️ Manuel İşlem Sonlandır</button><br><br>
+  <button class="btn btn-green">⚡ İŞLEM BAŞLAT ⚡</button>
 </div>
 
 <!-- ALT MENÜ -->
-<div class="card">
-  <div class="row">
-    <div>
-      <button class="menu-btn" onclick="history.back()">↩️ Geri</button>
-    </div>
-    <div>
-      <button class="menu-btn" onclick="location.href='index.html'">🏠 Ana Menü</button>
-    </div>
-  </div>
+<div class="card footer-row">
+  <button class="btn" onclick="history.back()">↩️ Geri</button>
+  <button class="btn" onclick="location.href='index.html'">🏠 Ana Menü</button>
 </div>
 
 <script>
-/* TEMA */
-const body=document.body;
-const theme=localStorage.getItem("theme")||"dark";
-body.classList.add(theme);
-
 /* TARİH */
 const d=new Date();
 const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
@@ -182,11 +172,11 @@ document.getElementById("dateText").innerText=
   d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
 
 /* AKTİF SEÇİM */
-document.querySelectorAll(".select-row").forEach(row=>{
-  row.querySelectorAll(".select-btn").forEach(btn=>{
-    btn.onclick=()=>{
-      row.querySelectorAll(".select-btn").forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
+document.querySelectorAll('[data-group]').forEach(group=>{
+  group.querySelectorAll('.badge').forEach(badge=>{
+    badge.onclick=()=>{
+      group.querySelectorAll('.badge').forEach(b=>b.classList.remove('active'));
+      badge.classList.add('active');
     };
   });
 });
