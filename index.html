@@ -3,146 +3,248 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yeni İşlem Aç</title>
+<title>Ana Panel</title>
 
 <style>
-* { box-sizing: border-box; font-family: "Times New Roman", serif; }
-body { margin: 0; padding: 0; background: #121212; color: #fff; } /* Dark theme */
-
-.header {
-  position: fixed; top: 0; left: 0; width: 100%; background: #1e1e1e; padding: 10px; display: flex; align-items: center; justify-content: space-between; z-index: 10;
-  border-bottom: 1px solid #333;
+*{
+  box-sizing:border-box;
+  font-family:"Times New Roman", serif;
 }
-.theme-toggle { display: flex; gap: 10px; }
-.theme-toggle button { background: none; border: none; font-size: 20px; cursor: pointer; color: #fff; }
-.lang-toggle button { background: #333; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; color: #fff; }
-.date-bar { background: linear-gradient(to right, #2ecc71, #e74c3c); padding: 10px; text-align: center; font-weight: bold; margin-top: 50px; } /* Header yüksekliği kadar margin */
 
-.logo-container { text-align: center; margin: 20px 0; }
-.logo-svg { width: 150px; height: 150px; animation: rotateGlow 5s infinite linear; }
-@keyframes rotateGlow {
-  0% { transform: rotate(0deg); filter: drop-shadow(0 0 5px #2ecc71); }
-  50% { filter: drop-shadow(0 0 10px #f1c40f); }
-  100% { transform: rotate(360deg); filter: drop-shadow(0 0 5px #2ecc71); }
+/* ================= THEME ================= */
+:root{
+  --bg:#eef1f4;
+  --card:#ffffff;
+  --text:#111;
+  --shadow:rgba(0,0,0,.15);
+  --menu:#ffffff;
 }
-.logo-svg path.bar { animation: riseBar 2s infinite alternate; }
-.logo-svg path.bar:nth-child(2) { animation-delay: 0.3s; }
-.logo-svg path.bar:nth-child(3) { animation-delay: 0.6s; }
-@keyframes riseBar { 0% { transform: translateY(20px); opacity: 0.5; } 100% { transform: translateY(0); opacity: 1; } }
 
-.card { background: #1e1e1e; border-radius: 16px; padding: 16px; margin: 16px; box-shadow: 0 4px 10px rgba(255,255,255,0.05); }
-.card h2 { margin: 0 0 14px 0; font-size: 18px; font-weight: bold; text-align: center; color: #fff; }
-.center { text-align: center; }
-input, textarea { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #444; background: #2a2a2a; color: #fff; font-size: 15px; }
-textarea { resize: none; }
-.row { display: flex; gap: 12px; }
-.row > div { flex: 1; }
-.badge-group { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-.badge { padding: 10px 18px; background: #333; border-radius: 20px; font-size: 14px; cursor: pointer; user-select: none; color: #ddd; }
-.badge.active { background: #2ecc71; color: #000; }
-.trend-row .badge { flex: 1; text-align: center; }
-.btn { width: 100%; padding: 16px; border: none; border-radius: 16px; font-size: 16px; font-weight: bold; cursor: pointer; }
-.btn-green { background: #2ecc71; color: #000; }
-.btn-red { background: #e74c3c; color: #fff; }
-.btn-yellow { background: #f1c40f; color: #000; }
-.footer-back { text-align: center; margin: 20px 0; font-size: 18px; color: #bbb; }
-.user-info { text-align: center; margin: 10px 0; font-size: 14px; }
-.motivation { display: flex; justify-content: center; gap: 10px; font-size: 12px; }
+body.dark{
+  --bg:#0b1220;
+  --card:#161e2e;
+  --text:#f9fafb;
+  --shadow:rgba(0,0,0,.65);
+  --menu:#161e2e;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+}
+
+.container{
+  max-width:480px;
+  margin:auto;
+  padding:16px;
+}
+
+/* ================= CARD ================= */
+.card{
+  background:var(--card);
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 10px 24px var(--shadow);
+}
+
+/* ================= TOP ================= */
+.top-row{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+
+.toggle-group{
+  display:flex;
+  gap:6px;
+}
+
+.toggle{
+  padding:6px 10px;
+  font-size:13px;
+  border-radius:10px;
+  background:var(--card);
+  box-shadow:0 4px 10px var(--shadow);
+  cursor:pointer;
+}
+
+.toggle.active{
+  outline:2px solid currentColor;
+}
+
+/* ================= DATE ================= */
+.date{
+  text-align:center;
+  font-size:16px;
+  font-weight:bold;
+}
+
+/* ================= LOGO CARD ================= */
+.logo-card{
+  text-align:center;
+  position:relative;
+  overflow:hidden; /* taşma yok */
+}
+
+/* 🔥 SOL ÜST → SAĞ ALT METAL YANSIMA */
+.logo-card::after{
+  content:"";
+  position:absolute;
+  top:-60%;
+  left:-60%;
+  width:220%;
+  height:220%;
+  background:linear-gradient(
+    135deg,
+    transparent 40%,
+    rgba(255,255,255,.45) 50%,
+    transparent 60%
+  );
+  animation:logoShine 1.8s linear infinite;
+  pointer-events:none;
+}
+
+@keyframes logoShine{
+  0%{
+    transform:translate(-30%,-30%);
+  }
+  100%{
+    transform:translate(30%,30%);
+  }
+}
+
+/* ================= LOGO ================= */
+.logo{
+  width:220px;
+  display:block;
+  margin:auto;
+  filter:drop-shadow(0 16px 28px rgba(0,0,0,.45));
+}
+
+.title{
+  font-size:22px;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+.subtitle{
+  font-size:14px;
+  margin-top:6px;
+}
+
+/* ================= MENU ================= */
+.menu{
+  display:grid;
+  gap:14px;
+}
+
+.menu-btn{
+  background:var(--menu);
+  border-radius:16px;
+  padding:18px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 8px 18px var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+
+/* SADECE TIKLANAN BUTONDA DOKUNUŞ PARLAMASI */
+.menu-btn::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(
+    circle at var(--x,50%) var(--y,50%),
+    rgba(255,255,255,.35),
+    transparent 55%
+  );
+  opacity:0;
+  transition:.2s;
+}
+
+.menu-btn:active::after{opacity:1;}
+.menu-btn:active{transform:scale(.97);}
 </style>
 </head>
 
 <body>
 
-<!-- Yeni Üst Kısım (Kırmızı Alan Uyarlaması) -->
-<div class="header">
-  <div class="theme-toggle">
-    <button>☀️</button> <!-- Light theme -->
-    <button>🌙</button> <!-- Dark theme, default -->
+<div class="container">
+
+  <!-- TOP -->
+  <div class="top-row">
+    <div class="toggle-group">
+      <div class="toggle" id="lightBtn">☀️</div>
+      <div class="toggle" id="darkBtn">🌙</div>
+    </div>
+
+    <div class="toggle-group">
+      <div class="toggle active">TR</div>
+      <div class="toggle">EN</div>
+    </div>
   </div>
-  <div class="lang-toggle">
-    <button>TR</button>
-    <button>EN</button>
+
+  <!-- DATE -->
+  <div class="card date" id="today"></div>
+
+  <!-- LOGO -->
+  <div class="card logo-card">
+    <img src="assets/logo.png" class="logo">
+    <div class="title">MEHMET ALİ YILMAZ</div>
+    <div class="subtitle">
+      ⚡️ Disiplin 🧠 Analiz 🩸 Motivasyon 🚀 Başarı
+    </div>
   </div>
-</div>
 
-<div class="date-bar">23.01.2026 Cuma</div> <!-- Tarih barı -->
-
-<div class="logo-container">
-  <!-- Animasyonlu Logo SVG (Bull coin: Boğa + chart barlar + $ + glow/rotate) -->
-  <svg class="logo-svg" viewBox="0 0 100 100">
-    <!-- Coin circle -->
-    <circle cx="50" cy="50" r="45" fill="none" stroke="#fff" stroke-width="5"/>
-    <!-- Bull horns/head simplified -->
-    <path d="M30 40 Q50 20 70 40 M40 50 L50 60 L60 50" stroke="#fff" fill="none" stroke-width="3"/>
-    <!-- $ sign -->
-    <text x="50" y="55" font-size="30" fill="#2ecc71" text-anchor="middle">$</text>
-    <!-- Rising bars (animasyonlu) -->
-    <path class="bar" d="M20 70 h10 v-10" fill="#2ecc71"/>
-    <path class="bar" d="M40 70 h10 v-20" fill="#f1c40f"/>
-    <path class="bar" d="M60 70 h10 v-5" fill="#e74c3c"/>
-    <!-- Arrow -->
-    <path d="M70 30 L80 40 L70 50" stroke="#fff" fill="none" stroke-width="3"/>
-  </svg>
-  <div class="user-info">MEHMET ALİ YILMAZ</div>
-  <div class="motivation">
-    ⚡ Disiplin 🧠 Analiz 💧 Motivasyon 🚀 Başarı
+  <!-- MENU -->
+  <div class="card">
+    <div class="menu">
+      <div class="menu-btn" data-page="kasa.html">🏦 Kasa</div>
+      <div class="menu-btn" data-page="islemler.html">📊 İşlemler</div>
+      <div class="menu-btn" data-page="analiz.html">🧠 Analiz</div>
+      <div class="menu-btn" data-page="ayarlar.html">⚙️ Ayarlar</div>
+    </div>
   </div>
+
 </div>
-
-<!-- Orijinal İçerik (Card'lar, dark theme uyarlı) -->
-<div class="card center">
-  <div style="font-size:18px;font-weight:bold;">💰 23.01.2026 Cuma 💰</div> <!-- Tarih sync -->
-</div>
-
-<!-- Diğer card'lar aynı kalır, sadece style'lar dark'a uyarlandı... (kısalttım, orijinali kopyala) -->
-<!-- 💎 VARLIK card'ı örneği -->
-<div class="card">
-  <h2>💎 Varlık</h2>
-  <input placeholder="ALKA / BTCUSDT">
-  <div class="center" style="margin-top:8px;font-weight:bold;">🔴 Canlı Fiyat: --</div>
-</div>
-
-<!-- ... Kalan card'lar, butonlar vs. orijinalden kopyala ... -->
-
-<div class="footer-back">↩️ Geri</div>
 
 <script>
-// Orijinal JS + theme toggle basit ek
-document.querySelectorAll('[data-group]').forEach(group => {
-  group.querySelectorAll('.badge').forEach(badge => {
-    badge.addEventListener('click', () => {
-      group.querySelectorAll('.badge').forEach(b => b.classList.remove('active'));
-      badge.classList.add('active');
-    });
+/* THEME */
+const body=document.body;
+const light=document.getElementById("lightBtn");
+const dark=document.getElementById("darkBtn");
+
+function setTheme(t){
+  body.classList.toggle("dark",t==="dark");
+  localStorage.setItem("theme",t);
+  light.classList.toggle("active",t==="light");
+  dark.classList.toggle("active",t==="dark");
+}
+setTheme(localStorage.getItem("theme")||"light");
+light.onclick=()=>setTheme("light");
+dark.onclick=()=>setTheme("dark");
+
+/* DATE */
+const d=new Date();
+const gunler=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+document.getElementById("today").innerText=
+  d.toLocaleDateString("tr-TR")+" "+gunler[d.getDay()];
+
+/* MENU CLICK EFFECT */
+document.querySelectorAll(".menu-btn").forEach(btn=>{
+  btn.addEventListener("pointerdown",e=>{
+    const r=btn.getBoundingClientRect();
+    btn.style.setProperty("--x",(e.clientX-r.left)+"px");
+    btn.style.setProperty("--y",(e.clientY-r.top)+"px");
   });
-});
-
-const fiyat = document.getElementById("fiyat");
-const adet = document.getElementById("adet");
-const tutar = document.getElementById("tutar");
-
-adet.addEventListener("input", () => {
-  if (fiyat.value) tutar.value = (adet.value * fiyat.value).toFixed(2);
-});
-tutar.addEventListener("input", () => {
-  if (fiyat.value) adet.value = (tutar.value / fiyat.value).toFixed(2);
-});
-
-// Tema toggle (basit, body class ekle)
-document.querySelectorAll('.theme-toggle button').forEach((btn, i) => {
-  btn.addEventListener('click', () => {
-    document.body.classList.toggle('light-theme', i === 0); // Light için class ekle, CSS'te tanımla
-  });
+  btn.onclick=()=>setTimeout(()=>location.href=btn.dataset.page,120);
 });
 </script>
-
-<!-- Light theme için ekstra CSS (isteğe bağlı toggle) -->
-<style id="light-theme" disabled>
-body.light-theme { background: #f2f4f6; color: #000; }
-body.light-theme .card { background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
-body.light-theme input { background: #fff; color: #000; border: 1px solid #ddd; }
-/* Diğer light ayarlar... */
-</style>
 
 </body>
 </html>
