@@ -35,6 +35,25 @@ body {
   background: var(--bg);
   color: var(--text);
   padding: 0;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Seçenek 1: Tek sayfa genelinde çok hafif, yavaş parlama */
+body::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,.10) 50%, transparent 60%);
+  animation: pageShine 15s linear infinite;
+  opacity: 0.25;
+  z-index: -1;
+}
+
+@keyframes pageShine {
+  0%   { transform: translate(-10%, -10%); }
+  100% { transform: translate(10%, 10%); }
 }
 
 /* ================= HEADER ================= */
@@ -88,8 +107,6 @@ body {
   padding: 16px;
   margin: 16px;
   box-shadow: 0 4px 10px var(--shadow);
-  position: relative;
-  overflow: hidden;
 }
 
 .card h2 {
@@ -98,36 +115,6 @@ body {
   font-weight: bold;
   text-align: center;
   color: var(--text);
-}
-
-/* Parlama efekti - tüm card'lara ve seçili badge'lere uygulanabilir */
-.card::after,
-.badge.active::after {
-  content: "";
-  position: absolute;
-  top: -100%;
-  left: -100%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    135deg,
-    transparent 40%,
-    rgba(255,255,255,.35) 50%,
-    transparent 60%
-  );
-  animation: shine 2.5s linear infinite;
-  pointer-events: none;
-  opacity: 0.6;
-}
-
-.badge.active::after {
-  animation-duration: 1.8s;
-  opacity: 0.8;
-}
-
-@keyframes shine {
-  0%   { transform: translate(-30%, -30%) rotate(0deg); }
-  100% { transform: translate(30%, 30%) rotate(360deg); }
 }
 
 .center { text-align: center; }
@@ -162,9 +149,7 @@ textarea { resize: none; }
   cursor: pointer;
   user-select: none;
   color: #333;
-  transition: all 0.2s;
-  position: relative;
-  overflow: hidden;
+  transition: all 0.15s ease;
 }
 
 body.dark .badge {
@@ -174,14 +159,16 @@ body.dark .badge {
 
 .badge.active {
   color: #fff;
+  box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+  transform: scale(1.04);
 }
 
 /* Trend özel renkler */
-.trend-row .badge:nth-child(1).active { background: #2ecc71; } /* Yükselen - Yeşil */
-.trend-row .badge:nth-child(2).active { background: #e74c3c; } /* Düşen - Kırmızı */
-.trend-row .badge:nth-child(3).active { background: #95a5a6; } /* Yatay - Gri */
+.trend-row .badge:nth-child(1).active { background: #2ecc71; }
+.trend-row .badge:nth-child(2).active { background: #e74c3c; }
+.trend-row .badge:nth-child(3).active { background: #95a5a6; }
 
-/* Diğer tüm gruplarda seçili → yeşil (yükselen rengi) */
+/* Diğer gruplar yeşil */
 .badge-group:not(.trend-row) .badge.active {
   background: #2ecc71 !important;
 }
@@ -230,12 +217,12 @@ body.dark .badge {
   <div class="date-bar" id="today"></div>
 </div>
 
-<!-- 💎 VARLIK - Autocomplete eklendi -->
+<!-- 💎 VARLIK -->
 <div class="card">
   <h2>💎 Varlık</h2>
   <input list="asset-suggestions" id="asset-input" placeholder="ALKA / BTCUSDT" autocomplete="off">
   <datalist id="asset-suggestions"></datalist>
-  <div class="center" style="margin-top:8px;font-weight:bold;">🔴 Canlı Fiyat: --</div>
+  <div class="center" style="margin-top:8px;font-weight:bold;" id="live-price">🔴 Canlı Fiyat: --</div>
 </div>
 
 <!-- 📈 TREND -->
@@ -406,9 +393,11 @@ document.getElementById("today").innerText =
 // ================= BADGE SELECTION =================
 document.querySelectorAll('[data-group]').forEach(group => {
   group.querySelectorAll('.badge').forEach(badge => {
-    badge.addEventListener('click', () => {
-      group.querySelectorAll('.badge').forEach(b => b.classList.remove('active'));
-      badge.classList.add('active');
+    badge.addEventListener('pointerup', () => {
+      requestAnimationFrame(() => {
+        group.querySelectorAll('.badge').forEach(b => b.classList.remove('active'));
+        badge.classList.add('active');
+      });
     });
   });
 });
@@ -425,56 +414,83 @@ tutar.addEventListener("input", () => {
   if (fiyat.value) adet.value = (tutar.value / fiyat.value).toFixed(2);
 });
 
-// ================= VARLIK AUTOCOMPLETE =================
+// ================= VARLIK AUTOCOMPLETE + CANLI FİYAT =================
 const assetInput = document.getElementById("asset-input");
-const dataList = document.getElementById("asset-suggestions");
+const livePriceEl = document.getElementById("live-price");
+let currentSymbol = "";
 
-// Örnek veri (gerçek projede API'den çekilebilir)
 const suggestions = [
   "THYAO", "GARAN", "AKBNK", "ISCTR", "PETKM", "SISE", "EREGL", "KCHOL",
   "BTC", "ETH", "SOL", "XRP", "ADA", "DOGE", "BNB", "AVAX", "LINK"
 ];
 
 function updateSuggestions(value) {
+  const dataList = document.getElementById("asset-suggestions");
   dataList.innerHTML = "";
-  
   if (!value) return;
 
   const upper = value.toUpperCase().trim();
-  
-  // Coin ise USDT ekle
+
   if (/^[A-Z]{3,8}$/.test(upper) && !upper.endsWith("USDT")) {
-    const coinOption = document.createElement("option");
-    coinOption.value = upper + "USDT";
-    dataList.appendChild(coinOption);
+    const opt = document.createElement("option");
+    opt.value = upper + "USDT";
+    dataList.appendChild(opt);
   }
 
-  // Genel öneriler (hisse/coin)
-  suggestions
-    .filter(s => s.startsWith(upper))
-    .forEach(s => {
-      const opt = document.createElement("option");
-      opt.value = s.endsWith("USDT") ? s : s; // coin ise USDT'li hali
-      dataList.appendChild(opt);
-    });
+  suggestions.filter(s => s.startsWith(upper)).forEach(s => {
+    const opt = document.createElement("option");
+    opt.value = s;
+    dataList.appendChild(opt);
+  });
 }
 
 assetInput.addEventListener("input", (e) => {
   updateSuggestions(e.target.value);
+  fetchPrice(e.target.value.trim().toUpperCase());
 });
 
-// İlk yüklemede örnek birkaç tane göster (isteğe bağlı)
-updateSuggestions("");
-
-// Enter'a basınca USDT tamamla (isteğe bağlı ekstra)
-assetInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && assetInput.value) {
-    let val = assetInput.value.trim().toUpperCase();
-    if (/^[A-Z]{3,8}$/.test(val) && !val.endsWith("USDT")) {
-      assetInput.value = val + "USDT";
-    }
+function fetchPrice(symbol) {
+  if (!symbol) {
+    livePriceEl.innerHTML = "🔴 Canlı Fiyat: --";
+    return;
   }
-});
+
+  currentSymbol = symbol;
+
+  let apiSymbol = symbol;
+  let isCrypto = apiSymbol.endsWith("USDT") || /^[A-Z]{3,8}$/.test(apiSymbol);
+
+  if (isCrypto && !apiSymbol.endsWith("USDT")) apiSymbol += "USDT";
+
+  if (apiSymbol.endsWith("USDT")) {
+    fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${apiSymbol}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.price) {
+          livePriceEl.innerHTML = `💲 Canlı Fiyat: $${parseFloat(data.price).toFixed(2)}`;
+        } else {
+          livePriceEl.innerHTML = "🔴 Fiyat alınamadı";
+        }
+      })
+      .catch(() => livePriceEl.innerHTML = "🔴 Bağlantı hatası");
+  } else {
+    const apiKey = "YOUR_FINNHUB_API_KEY_HERE"; d5pocqhr01qq2b68e5k0d5pocqhr01qq2b68e5kg
+    fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}.IS&token=${apiKey}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.c && data.c > 0) {
+          livePriceEl.innerHTML = `₺ Canlı Fiyat: ${data.c.toFixed(2)} TL`;
+        } else {
+          livePriceEl.innerHTML = "🔴 Fiyat alınamadı (Finnhub)";
+        }
+      })
+      .catch(() => livePriceEl.innerHTML = "🔴 Bağlantı hatası (Finnhub key kontrol et)");
+  }
+}
+
+setInterval(() => {
+  if (currentSymbol) fetchPrice(currentSymbol);
+}, 15000);
 </script>
 
 </body>
