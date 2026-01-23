@@ -6,106 +6,190 @@
 <title>Yeni İşlem Aç</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  font-family:"Times New Roman", serif;
+* {
+  box-sizing: border-box;
+  font-family: "Times New Roman", serif;
 }
 
-body{
-  margin:0;
-  padding:16px;
-  background:#f2f4f6;
+/* ================= THEME ================= */
+:root {
+  --bg: #eef1f4;
+  --card: #ffffff;
+  --text: #111;
+  --shadow: rgba(0,0,0,.15);
+  --input-bg: #fff;
+  --input-border: #ddd;
 }
 
-.card{
-  background:#fff;
-  border-radius:16px;
-  padding:16px;
-  margin-bottom:16px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.06);
+body.dark {
+  --bg: #0b1220;
+  --card: #161e2e;
+  --text: #f9fafb;
+  --shadow: rgba(0,0,0,.65);
+  --input-bg: #1e293b;
+  --input-border: #334155;
 }
 
-.card h2{
-  margin:0 0 14px 0;
-  font-size:18px;
-  font-weight:bold;
-  text-align:center;
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  padding: 0;
 }
 
-.center{ text-align:center; }
-
-input, textarea{
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  border:1px solid #ddd;
-  font-size:15px;
+/* ================= HEADER (index.html'den uyarlama) ================= */
+.header {
+  position: sticky;
+  top: 0;
+  background: var(--card);
+  padding: 12px 16px;
+  box-shadow: 0 4px 12px var(--shadow);
+  z-index: 10;
 }
 
-textarea{ resize:none; }
-
-.row{
-  display:flex;
-  gap:12px;
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.row > div{ flex:1; }
-
-.badge-group{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  justify-content:center;
+.toggle-group {
+  display: flex;
+  gap: 6px;
 }
 
-.badge{
-  padding:10px 18px;
-  background:#eef1f4;
-  border-radius:20px;
-  font-size:14px;
-  cursor:pointer;
-  user-select:none;
+.toggle {
+  padding: 6px 12px;
+  font-size: 15px;
+  border-radius: 10px;
+  background: var(--bg);
+  box-shadow: 0 3px 8px var(--shadow);
+  cursor: pointer;
+  user-select: none;
 }
 
-.badge.active{
-  background:#2ecc71;
-  color:#fff;
+.toggle.active {
+  outline: 2px solid currentColor;
+  background: var(--card);
 }
 
-.trend-row .badge{
-  flex:1;
-  text-align:center;
+.date-bar {
+  text-align: center;
+  font-size: 17px;
+  font-weight: bold;
+  margin: 12px 0 8px;
+  color: var(--text);
 }
 
-.btn{
-  width:100%;
-  padding:16px;
-  border:none;
-  border-radius:16px;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
+/* ================= ORİJİNAL STYLES (dark theme uyumlu) ================= */
+.card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 16px;
+  margin: 16px;
+  box-shadow: 0 4px 10px var(--shadow);
 }
 
-.btn-green{ background:#2ecc71; color:#fff; }
-.btn-red{ background:#e74c3c; color:#fff; }
-.btn-yellow{ background:#f1c40f; }
+.card h2 {
+  margin: 0 0 14px 0;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  color: var(--text);
+}
 
-.footer-back{
-  text-align:center;
-  margin:20px 0;
-  font-size:18px;
+.center { text-align: center; }
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text);
+  font-size: 15px;
+}
+
+textarea { resize: none; }
+
+.row { display: flex; gap: 12px; }
+.row > div { flex: 1; }
+
+.badge-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.badge {
+  padding: 10px 18px;
+  background: #eef1f4;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+  color: #333;
+  transition: all 0.2s;
+}
+
+body.dark .badge {
+  background: #334155;
+  color: #e2e8f0;
+}
+
+.badge.active {
+  color: #fff;
+}
+
+/* Trend özel renkler */
+.trend-row .badge:nth-child(1).active { background: #2ecc71; } /* Yükselen - Yeşil */
+.trend-row .badge:nth-child(2).active { background: #e74c3c; } /* Düşen - Kırmızı */
+.trend-row .badge:nth-child(3).active { background: #95a5a6; } /* Yatay - Gri */
+
+.trend-row .badge { flex: 1; text-align: center; }
+
+.btn {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-green { background: #2ecc71; color: #000; }
+.btn-red { background: #e74c3c; color: #fff; }
+.btn-yellow { background: #f1c40f; color: #000; }
+
+.footer-back {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 18px;
+  color: var(--text);
 }
 </style>
 </head>
 
 <body>
 
-<!-- TARİH -->
-<div class="card center">
-  <div style="font-size:18px;font-weight:bold;">
-    💰 12.12.2012 Pazartesi 💰
+<!-- HEADER (index.html'den aynı mantık) -->
+<div class="header">
+  <div class="top-row">
+    <div class="toggle-group">
+      <div class="toggle" id="lightBtn">☀️</div>
+      <div class="toggle active" id="darkBtn">🌙</div>
+    </div>
+
+    <div class="toggle-group">
+      <div class="toggle active">TR</div>
+      <div class="toggle">EN</div>
+    </div>
   </div>
+
+  <!-- Tarih (dinamik yaptım, istersen statik bırak) -->
+  <div class="date-bar" id="today"></div>
 </div>
 
 <!-- 💎 VARLIK -->
@@ -263,24 +347,50 @@ textarea{ resize:none; }
 <div class="footer-back">↩️ Geri</div>
 
 <script>
-document.querySelectorAll('[data-group]').forEach(group=>{
-  group.querySelectorAll('.badge').forEach(badge=>{
-    badge.addEventListener('click',()=>{
-      group.querySelectorAll('.badge').forEach(b=>b.classList.remove('active'));
+// ================= THEME TOGGLE (index.html'den aynı) =================
+const body = document.body;
+const light = document.getElementById("lightBtn");
+const dark = document.getElementById("darkBtn");
+
+function setTheme(t) {
+  body.classList.toggle("dark", t === "dark");
+  localStorage.setItem("theme", t);
+  light.classList.toggle("active", t === "light");
+  dark.classList.toggle("active", t === "dark");
+}
+
+setTheme(localStorage.getItem("theme") || "light");
+light.onclick = () => setTheme("light");
+dark.onclick = () => setTheme("dark");
+
+// ================= DATE =================
+const d = new Date();
+const gunler = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+document.getElementById("today").innerText = 
+  d.toLocaleDateString("tr-TR", {day: '2-digit', month: '2-digit', year: 'numeric'}) + " " + gunler[d.getDay()];
+
+// ================= BADGE SELECTION (özel trend renkleri için ekstra dinleyici) =================
+document.querySelectorAll('[data-group]').forEach(group => {
+  group.querySelectorAll('.badge').forEach(badge => {
+    badge.addEventListener('click', () => {
+      // Tüm badge'leri temizle
+      group.querySelectorAll('.badge').forEach(b => b.classList.remove('active'));
+      // Tıklananı aktif yap
       badge.classList.add('active');
     });
   });
 });
 
-const fiyat=document.getElementById("fiyat");
-const adet=document.getElementById("adet");
-const tutar=document.getElementById("tutar");
+// ================= FİYAT HESAPLAMA =================
+const fiyat = document.getElementById("fiyat");
+const adet = document.getElementById("adet");
+const tutar = document.getElementById("tutar");
 
-adet.addEventListener("input",()=>{
-  if(fiyat.value) tutar.value=(adet.value*fiyat.value).toFixed(2);
+adet.addEventListener("input", () => {
+  if (fiyat.value) tutar.value = (adet.value * fiyat.value).toFixed(2);
 });
-tutar.addEventListener("input",()=>{
-  if(fiyat.value) adet.value=(tutar.value/fiyat.value).toFixed(2);
+tutar.addEventListener("input", () => {
+  if (fiyat.value) adet.value = (tutar.value / fiyat.value).toFixed(2);
 });
 </script>
 
