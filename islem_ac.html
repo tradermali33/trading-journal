@@ -455,7 +455,7 @@ function fetchPrice(symbol) {
       .catch(() => livePriceEl.innerHTML = "🔴 Bağlantı hatası (Binance)");
   } else {
     // Hisse - Alpha Vantage (gecikmeli)
-    const apiKey = "YOUR_ALPHA_VANTAGE_KEY_HERE"; // ← BURAYA ALDIĞIN KEY'İ YAPISTIR!
+    const apiKey = "ZLJBIB3ISOUBF3AI"; // ← BURAYA ALDIĞIN KEY'İ YAPISTIR!
     fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}.IS&apikey=${apiKey}`)
       .then(res => res.json())
       .then(data => {
