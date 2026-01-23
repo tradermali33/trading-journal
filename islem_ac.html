@@ -6,9 +6,12 @@
 <title>Yeni İşlem Aç</title>
 
 <style>
-* { box-sizing: border-box; font-family: "Times New Roman", serif; }
+* {
+  box-sizing: border-box;
+  font-family: "Times New Roman", serif;
+}
 
-/* Tema ve stil ayarları aynı (değişiklik yok) */
+/* Tema ve stil ayarları aynı */
 :root {
   --bg: #eef1f4;
   --card: #ffffff;
@@ -53,7 +56,7 @@ body::after {
   100% { transform: translate(10%, 10%); }
 }
 
-/* Header ve diğer stiller aynı kalıyor */
+/* Header ve diğer stiller aynı */
 .header {
   position: sticky;
   top: 0;
@@ -175,20 +178,24 @@ body.dark .badge { background: #334155; color: #e2e8f0; }
 
 <body>
 
+<!-- HEADER -->
 <div class="header">
   <div class="top-row">
     <div class="toggle-group">
       <div class="toggle" id="lightBtn">☀️</div>
       <div class="toggle active" id="darkBtn">🌙</div>
     </div>
+
     <div class="toggle-group">
       <div class="toggle active">TR</div>
       <div class="toggle">EN</div>
     </div>
   </div>
+
   <div class="date-bar" id="today"></div>
 </div>
 
+<!-- 💎 VARLIK -->
 <div class="card">
   <h2>💎 Varlık</h2>
   <input list="asset-suggestions" id="asset-input" placeholder="ALKA / BTCUSDT" autocomplete="off">
@@ -196,6 +203,7 @@ body.dark .badge { background: #334155; color: #e2e8f0; }
   <div class="center" style="margin-top:8px;font-weight:bold;" id="live-price">🔴 Canlı Fiyat: --</div>
 </div>
 
+<!-- 📈 TREND -->
 <div class="card">
   <h2>📈 Trend Yönü</h2>
   <div class="badge-group trend-row" data-group="trend">
@@ -205,6 +213,7 @@ body.dark .badge { background: #334155; color: #e2e8f0; }
   </div>
 </div>
 
+<!-- ⏳ ZAMAN -->
 <div class="card">
   <h2>⏳ Zaman Dilimi</h2>
   <div class="badge-group" data-group="time">
@@ -216,16 +225,81 @@ body.dark .badge { background: #334155; color: #e2e8f0; }
   </div>
 </div>
 
+<!-- 🎯 TEKNİK ANALİZ -->
 <div class="card">
   <h2>🎯 Teknik Analiz Paneli</h2>
-  <!-- SMC, EMA, RSI, MACD, Hacim kartları aynı kalıyor, orijinal kodundan kopyala -->
+
+  <div class="card">
+    <h2>SMC</h2>
+    <div class="badge-group" data-group="smc">
+      <div class="badge">BOS</div>
+      <div class="badge">CHoCH</div>
+      <div class="badge">OB</div>
+      <div class="badge">Demand</div>
+      <div class="badge">Supply</div>
+      <div class="badge">Equal High</div>
+      <div class="badge">Equal Low</div>
+      <div class="badge">Likidite</div>
+      <div class="badge">FVG</div>
+      <div class="badge">Sweep</div>
+      <div class="badge">Premium</div>
+      <div class="badge">Discount</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>EMA</h2>
+    <div class="badge-group" data-group="ema">
+      <div class="badge">3</div><div class="badge">5</div><div class="badge">7</div>
+      <div class="badge">9</div><div class="badge">11</div><div class="badge">13</div>
+      <div class="badge">17</div><div class="badge">19</div><div class="badge">20</div>
+      <div class="badge">21</div><div class="badge">34</div><div class="badge">48</div>
+      <div class="badge">50</div><div class="badge">100</div>
+      <div class="badge">144</div><div class="badge">200</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>RSI</h2>
+    <div class="badge-group" data-group="rsi">
+      <div class="badge">Uyumlu</div>
+      <div class="badge">Aşırı Alım (70+)</div>
+      <div class="badge">Aşırı Satım (30-)</div>
+      <div class="badge">Pozitif Uyumsuzluk</div>
+      <div class="badge">Negatif Uyumsuzluk</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>MACD</h2>
+    <div class="badge-group" data-group="macd">
+      <div class="badge">Bullish Kesişim</div>
+      <div class="badge">Bearish Kesişim</div>
+      <div class="badge">Histogram +</div>
+      <div class="badge">Histogram -</div>
+      <div class="badge">Sıfır Üzeri</div>
+      <div class="badge">Sıfır Altı</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Hacim</h2>
+    <div class="badge-group" data-group="volume">
+      <div class="badge">Artış</div>
+      <div class="badge">Düşüş</div>
+      <div class="badge">Ortalama Üstü</div>
+      <div class="badge">Spike</div>
+    </div>
+  </div>
 </div>
 
+<!-- 🏦 KASA -->
 <div class="card center">
   <h2>🏦 Kasa</h2>
   <div style="font-size:22px;font-weight:bold;">12.500 TL</div>
 </div>
 
+<!-- 📌 GİRİŞ -->
 <div class="card">
   <h2>📌 Giriş</h2>
   <input id="fiyat" placeholder="Giriş Fiyatı">
@@ -235,6 +309,7 @@ body.dark .badge { background: #334155; color: #e2e8f0; }
   </div>
 </div>
 
+<!-- STOP -->
 <div class="card">
   <h2>Stop</h2>
   <div class="badge-group" data-group="stop">
@@ -245,6 +320,7 @@ body.dark .badge { background: #334155; color: #e2e8f0; }
   <input style="margin-top:10px;" placeholder="Stop Fiyatı">
 </div>
 
+<!-- 🚀 HEDEF -->
 <div class="card">
   <h2>🚀 Hedef</h2>
   <div class="row">
@@ -254,12 +330,14 @@ body.dark .badge { background: #334155; color: #e2e8f0; }
   </div>
 </div>
 
+<!-- BUTONLAR -->
 <div class="card">
   <button class="btn btn-yellow">🚨 Otomatik İşlem Sonlandır</button><br><br>
   <button class="btn btn-red">⚠️ Manuel İşlem Sonlandır</button><br><br>
   <button class="btn btn-green">⚡ İŞLEM BAŞLAT ⚡</button>
 </div>
 
+<!-- SON KASA -->
 <div class="card center">
   <h2>İşlem Sonrası Kasa</h2>
   <div style="font-size:22px;font-weight:bold;">0 TL</div>
@@ -268,9 +346,53 @@ body.dark .badge { background: #334155; color: #e2e8f0; }
 <div class="footer-back">↩️ Geri</div>
 
 <script>
-// Theme toggle, date, badge selection, fiyat hesaplama aynı kalıyor...
+// ================= THEME TOGGLE =================
+const body = document.body;
+const light = document.getElementById("lightBtn");
+const dark = document.getElementById("darkBtn");
 
-// VARLIK + FİYAT ÇEKME (Yahoo CORS proxy'li)
+function setTheme(t) {
+  body.classList.toggle("dark", t === "dark");
+  localStorage.setItem("theme", t);
+  light.classList.toggle("active", t === "light");
+  dark.classList.toggle("active", t === "dark");
+}
+
+setTheme(localStorage.getItem("theme") || "light");
+light.onclick = () => setTheme("light");
+dark.onclick = () => setTheme("dark");
+
+// ================= DATE =================
+const d = new Date();
+const gunler = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+document.getElementById("today").innerText = 
+  d.toLocaleDateString("tr-TR", {day: '2-digit', month: '2-digit', year: 'numeric'}) + " " + gunler[d.getDay()];
+
+// ================= BADGE SELECTION =================
+document.querySelectorAll('[data-group]').forEach(group => {
+  group.querySelectorAll('.badge').forEach(badge => {
+    badge.addEventListener('pointerup', () => {
+      requestAnimationFrame(() => {
+        group.querySelectorAll('.badge').forEach(b => b.classList.remove('active'));
+        badge.classList.add('active');
+      });
+    });
+  });
+});
+
+// ================= FİYAT HESAPLAMA =================
+const fiyat = document.getElementById("fiyat");
+const adet = document.getElementById("adet");
+const tutar = document.getElementById("tutar");
+
+adet.addEventListener("input", () => {
+  if (fiyat.value) tutar.value = (adet.value * fiyat.value).toFixed(2);
+});
+tutar.addEventListener("input", () => {
+  if (fiyat.value) adet.value = (tutar.value / fiyat.value).toFixed(2);
+});
+
+// ================= VARLIK AUTOCOMPLETE + CANLI FİYAT =================
 const assetInput = document.getElementById("asset-input");
 const livePriceEl = document.getElementById("live-price");
 let currentSymbol = "";
@@ -284,12 +406,15 @@ function updateSuggestions(value) {
   const dataList = document.getElementById("asset-suggestions");
   dataList.innerHTML = "";
   if (!value) return;
+
   const upper = value.toUpperCase().trim();
+
   if (/^[A-Z]{3,8}$/.test(upper) && !upper.endsWith("USDT")) {
     const opt = document.createElement("option");
     opt.value = upper + "USDT";
     dataList.appendChild(opt);
   }
+
   suggestions.filter(s => s.startsWith(upper)).forEach(s => {
     const opt = document.createElement("option");
     opt.value = s;
@@ -309,38 +434,39 @@ function fetchPrice(symbol) {
   }
 
   currentSymbol = symbol;
-  let apiSymbol = symbol;
 
-  if (/^[A-Z]{3,8}$/.test(symbol) && !symbol.endsWith("USDT")) {
-    apiSymbol = symbol + "USDT";
-  }
+  // Coin algılama ve USDT tamamlama
+  let apiSymbol = symbol;
+  let isCrypto = apiSymbol.endsWith("USDT") || /^[A-Z]{3,8}$/.test(apiSymbol);
+
+  if (isCrypto && !apiSymbol.endsWith("USDT")) apiSymbol += "USDT";
 
   if (apiSymbol.endsWith("USDT")) {
-    // Coin - Binance
+    // Coin - Binance gerçek zamanlı
     fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${apiSymbol}`)
       .then(res => res.json())
       .then(data => {
-        if (data.price) livePriceEl.innerHTML = `💲 Canlı Fiyat: $${parseFloat(data.price).toFixed(2)}`;
-        else livePriceEl.innerHTML = "🔴 Fiyat alınamadı";
-      })
-      .catch(() => livePriceEl.innerHTML = "🔴 Bağlantı hatası");
-  } else {
-    // Hisse - Yahoo Finance + CORS proxy
-    fetch(`https://cors-anywhere.herokuapp.com/https://query1.finance.yahoo.com/v8/finance/chart/${symbol}.IS?interval=1d&range=1d`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.chart && data.chart.result && data.chart.result[0]) {
-          const meta = data.chart.result[0].meta;
-          const price = meta.regularMarketPrice || meta.previousClose || "--";
-          livePriceEl.innerHTML = `₺ Canlı Fiyat: ${parseFloat(price).toFixed(2)} TL (gecikmeli)`;
+        if (data.price) {
+          livePriceEl.innerHTML = `💲 Canlı Fiyat: $${parseFloat(data.price).toFixed(2)}`;
         } else {
-          livePriceEl.innerHTML = "🔴 Fiyat alınamadı (Yahoo)";
+          livePriceEl.innerHTML = "🔴 Fiyat alınamadı (Binance)";
         }
       })
-      .catch(err => {
-        console.error(err);
-        livePriceEl.innerHTML = "🔴 Bağlantı hatası (Yahoo - CORS izni verin)";
-      });
+      .catch(() => livePriceEl.innerHTML = "🔴 Bağlantı hatası (Binance)");
+  } else {
+    // Hisse - Alpha Vantage (gecikmeli)
+    const apiKey = "YOUR_ALPHA_VANTAGE_KEY_HERE"; // ← BURAYA ALDIĞIN KEY'İ YAPISTIR!
+    fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}.IS&apikey=${apiKey}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data["Global Quote"] && data["Global Quote"]["05. price"]) {
+          const price = parseFloat(data["Global Quote"]["05. price"]);
+          livePriceEl.innerHTML = `₺ Canlı Fiyat: ${price.toFixed(2)} TL (gecikmeli)`;
+        } else {
+          livePriceEl.innerHTML = "🔴 Fiyat alınamadı (Alpha Vantage)";
+        }
+      })
+      .catch(() => livePriceEl.innerHTML = "🔴 Bağlantı hatası (Alpha Vantage)");
   }
 }
 
