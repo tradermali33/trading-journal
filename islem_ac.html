@@ -90,6 +90,48 @@ body.dark .badge{background:#1f2937;color:#fff;}
 body.light .toggle{background:#e5e7eb;color:#111;}
 body.dark .toggle{background:#1f2937;color:#fff;}
 .toggle.active{outline:2px solid #3b82f6;}
+
+/* Yeni başlık kartı - koyu temada beyaz, açık temada koyu tema renginde */
+.title-card{
+  background:#111827; /* Varsayılan açık temada koyu */
+  color:#fff;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 4px 10px rgba(0,0,0,.06);
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+body.dark .title-card{
+  background:#ffffff; /* Koyu temada beyaz */
+  color:#111;
+}
+
+/* Varlık kartı için iki bölüm */
+.asset-row{
+  display: flex;
+  gap: 16px;
+}
+.asset-row > div{
+  flex: 1;
+  text-align: center;
+  background: var(--card);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.1);
+}
+.asset-row .label{
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.asset-row input{
+  margin-bottom: 8px;
+}
+.asset-row .live-price{
+  font-weight: bold;
+  font-size: 14px;
+}
 </style>
 </head>
 
@@ -104,20 +146,33 @@ body.dark .toggle{background:#1f2937;color:#fff;}
   <div class="center" style="margin-top:10px;font-weight:bold;" id="dateText"></div>
 </div>
 
+<!-- Yeni İşlem Aç başlık kartı -->
+<div class="title-card">Yeni İşlem Aç</div>
+
 <!-- VARLIK -->
 <div class="card">
   <h2>💎 Varlık</h2>
-  <input placeholder="ALKA / BTCUSDT">
-  <div class="center" style="margin-top:8px;font-weight:bold;">🔴 Canlı Fiyat: --</div>
+  <div class="asset-row">
+    <div>
+      <div class="label">BIST</div>
+      <input placeholder="ALKA">
+      <div class="live-price">🔴 Canlı Fiyat: --</div>
+    </div>
+    <div>
+      <div class="label">USDT</div>
+      <input placeholder="BTCUSDT">
+      <div class="live-price">🔴 Canlı Fiyat: --</div>
+    </div>
+  </div>
 </div>
 
 <!-- TREND -->
 <div class="card">
   <h2>📈 Trend Yönü</h2>
   <div class="badge-group" id="trendGroup">
-    <div class="badge">Yükselen</div>
-    <div class="badge">Düşen</div>
-    <div class="badge">Yatay</div>
+    <div class="badge" data-t="up">Yükselen</div>
+    <div class="badge" data-t="down">Düşen</div>
+    <div class="badge" data-t="flat">Yatay</div>
   </div>
 </div>
 
@@ -126,7 +181,7 @@ body.dark .toggle{background:#1f2937;color:#fff;}
   <h2>⏳ Zaman Dilimi</h2>
   <div class="badge-group" data-group="time">
     <div class="badge">5m</div>
-    <div class="badge active">15m</div>
+    <div class="badge active-up">15m</div>
     <div class="badge">1h</div>
     <div class="badge">4h</div>
     <div class="badge">1D</div>
@@ -140,18 +195,11 @@ body.dark .toggle{background:#1f2937;color:#fff;}
   <div class="card">
     <h2>SMC</h2>
     <div class="badge-group" data-group="smc">
-      <div class="badge">BOS</div>
-      <div class="badge">CHoCH</div>
-      <div class="badge">OB</div>
-      <div class="badge">Demand</div>
-      <div class="badge">Supply</div>
-      <div class="badge">Equal High</div>
-      <div class="badge">Equal Low</div>
-      <div class="badge">Likidite</div>
-      <div class="badge">FVG</div>
-      <div class="badge">Sweep</div>
-      <div class="badge">Premium</div>
-      <div class="badge">Discount</div>
+      <div class="badge">BOS</div><div class="badge">CHoCH</div><div class="badge">OB</div>
+      <div class="badge">Demand</div><div class="badge">Supply</div>
+      <div class="badge">Equal High</div><div class="badge">Equal Low</div>
+      <div class="badge">Likidite</div><div class="badge">FVG</div>
+      <div class="badge">Sweep</div><div class="badge">Premium</div><div class="badge">Discount</div>
     </div>
   </div>
 
@@ -205,7 +253,7 @@ body.dark .toggle{background:#1f2937;color:#fff;}
   <h2>Stop</h2>
   <div class="badge-group" data-group="stop">
     <div class="badge">0.5%</div>
-    <div class="badge active">1%</div>
+    <div class="badge active-up">1%</div>
     <div class="badge">2%</div>
   </div>
   <input placeholder="Stop Fiyatı" style="margin-top:10px;">
@@ -265,23 +313,14 @@ document.querySelectorAll("#trendGroup .badge").forEach(b=>{
   };
 });
 
-// TEK SEÇİM (SMC hariç)
+// TEK SEÇİM
 document.querySelectorAll("[data-group]").forEach(g=>{
-  if(g.dataset.group !== "smc") {
-    g.querySelectorAll(".badge").forEach(b=>{
-      b.onclick=()=>{
-        g.querySelectorAll(".badge").forEach(x=>x.classList.remove("active-up"));
-        b.classList.add("active-up");
-      };
-    });
-  } else {
-    // SADECE SMC için birden fazla seçilebilsin (toggle)
-    g.querySelectorAll(".badge").forEach(b=>{
-      b.onclick=()=>{
-        b.classList.toggle("active-up");
-      };
-    });
-  }
+  g.querySelectorAll(".badge").forEach(b=>{
+    b.onclick=()=>{
+      g.querySelectorAll(".badge").forEach(x=>x.classList.remove("active-up"));
+      b.classList.add("active-up");
+    };
+  });
 });
 
 // ADET / TUTAR
