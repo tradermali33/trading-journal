@@ -7,13 +7,7 @@
 
 <style>
 *{box-sizing:border-box;font-family:"Times New Roman",serif;}
-body{
-  margin:0;padding:16px;
-  background:#f2f4f6;
-  transition:.25s;
-}
-
-/* ===== TEMA ===== */
+body{margin:0;padding:16px;transition:.25s;}
 body.light{background:#f2f4f6;color:#111;}
 body.dark{background:#0b1220;color:#fff;}
 
@@ -25,13 +19,6 @@ body.dark{background:#0b1220;color:#fff;}
   box-shadow:0 4px 10px rgba(0,0,0,.06);
 }
 body.dark .card{background:#111827;}
-
-.card h2{
-  margin:0 0 14px 0;
-  font-size:18px;
-  font-weight:bold;
-  text-align:center;
-}
 
 .center{text-align:center;}
 .row{display:flex;gap:12px;}
@@ -57,6 +44,7 @@ input{
   border-radius:20px;
   font-size:14px;
   cursor:pointer;
+  user-select:none;
 }
 body.dark .badge{background:#1f2937;color:#fff;}
 
@@ -72,7 +60,6 @@ body.dark .badge{background:#1f2937;color:#fff;}
   font-size:16px;
   font-weight:bold;
   cursor:pointer;
-  transition:.15s;
 }
 .btn:active{transform:scale(.96);}
 
@@ -326,14 +313,8 @@ document.querySelectorAll("[data-group]").forEach(g=>{
 
 // SMC ÇOKLU
 document.querySelectorAll('[data-group="smc"] .badge').forEach(b=>{
-  b.onclick=()=>{
-    b.classList.toggle("active-up");
-  };
+  b.onclick=()=>b.classList.toggle("active-up");
 });
-
-// ADET / TUTAR
-adet.oninput=()=>{if(fiyat.value)tutar.value=(adet.value*fiyat.value).toFixed(2);}
-tutar.oninput=()=>{if(fiyat.value)adet.value=(tutar.value/fiyat.value).toFixed(2);}
 </script>
 
 </body>
