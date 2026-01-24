@@ -330,3 +330,347 @@ tutar.oninput=()=>{if(fiyat.value)adet.value=(tutar.value/fiyat.value).toFixed(2
 
 </body>
 </html>
+
+Kodumuz bu kilitle bunu aklına. Evet güzel 
+Şimdi basılan yuş aktif olsun ve yükselen trend yönü yeşilinde yansın. SADECE SMC birden fazla seçilebilsin. Başka neler yapabiliriz<|control12|>```html
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yeni İşlem Aç</title>
+
+<style>
+*{box-sizing:border-box;font-family:"Times New Roman",serif;}
+body{
+  margin:0;padding:16px;
+  background:#f2f4f6;
+  transition:.25s;
+}
+
+/* ===== TEMA ===== */
+body.light{background:#f2f4f6;color:#111;}
+body.dark{background:#0b1220;color:#fff;}
+
+.card{
+  background:#fff;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 4px 10px rgba(0,0,0,.06);
+}
+body.dark .card{background:#111827;}
+
+.card h2{
+  margin:0 0 14px 0;
+  font-size:18px;
+  font-weight:bold;
+  text-align:center;
+}
+
+.center{text-align:center;}
+.row{display:flex;gap:12px;}
+.row>div{flex:1;}
+
+input{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  font-size:15px;
+}
+
+.badge-group{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+}
+.badge{
+  padding:10px 18px;
+  background:#eef1f4;
+  border-radius:20px;
+  font-size:14px;
+  cursor:pointer;
+}
+body.dark .badge{background:#1f2937;color:#fff;}
+
+.badge.active-up{background:#16a34a;color:#fff;}
+.badge.active-down{background:#dc2626;color:#fff;}
+.badge.active-flat{background:#6b7280;color:#fff;}
+
+.btn{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:16px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.15s;
+}
+.btn:active{transform:scale(.96);}
+
+.btn-green{background:#16a34a;color:#fff;}
+.btn-red{background:#dc2626;color:#fff;}
+.btn-yellow{background:#f1c40f;color:#111;}
+
+.toggle{
+  padding:12px;
+  border-radius:14px;
+  font-weight:bold;
+  text-align:center;
+  cursor:pointer;
+}
+body.light .toggle{background:#e5e7eb;color:#111;}
+body.dark .toggle{background:#1f2937;color:#fff;}
+.toggle.active{outline:2px solid #3b82f6;}
+
+/* Yeni başlık kartı - koyu temada beyaz, açık temada koyu tema renginde */
+.title-card{
+  background:#111827; /* Varsayılan açık temada koyu */
+  color:#fff;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 4px 10px rgba(0,0,0,.06);
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+body.dark .title-card{
+  background:#ffffff; /* Koyu temada beyaz */
+  color:#111;
+}
+
+/* Varlık kartı için iki bölüm */
+.asset-row{
+  display: flex;
+  gap: 16px;
+}
+.asset-row > div{
+  flex: 1;
+  text-align: center;
+  background: var(--card);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.1);
+}
+.asset-row .label{
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.asset-row input{
+  margin-bottom: 8px;
+}
+.asset-row .live-price{
+  font-weight: bold;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🌗 TEMA & 🌍 DİL + 📅 TARİH -->
+<div class="card">
+  <div class="row">
+    <div id="themeBtn" class="toggle">🌙 / ☀️ Tema</div>
+    <div id="langBtn" class="toggle active">TR | EN</div>
+  </div>
+  <div class="center" style="margin-top:10px;font-weight:bold;" id="dateText"></div>
+</div>
+
+<!-- Yeni İşlem Aç başlık kartı -->
+<div class="title-card">Yeni İşlem Aç</div>
+
+<!-- VARLIK -->
+<div class="card">
+  <h2>💎 Varlık</h2>
+  <div class="asset-row">
+    <div>
+      <div class="label">BIST</div>
+      <input placeholder="ALKA">
+      <div class="live-price">🔴 Canlı Fiyat: --</div>
+    </div>
+    <div>
+      <div class="label">USDT</div>
+      <input placeholder="BTCUSDT">
+      <div class="live-price">🔴 Canlı Fiyat: --</div>
+    </div>
+  </div>
+</div>
+
+<!-- TREND -->
+<div class="card">
+  <h2>📈 Trend Yönü</h2>
+  <div class="badge-group" id="trendGroup">
+    <div class="badge" data-t="up">Yükselen</div>
+    <div class="badge" data-t="down">Düşen</div>
+    <div class="badge" data-t="flat">Yatay</div>
+  </div>
+</div>
+
+<!-- ZAMAN -->
+<div class="card">
+  <h2>⏳ Zaman Dilimi</h2>
+  <div class="badge-group" data-group="time">
+    <div class="badge">5m</div>
+    <div class="badge active-up">15m</div>
+    <div class="badge">1h</div>
+    <div class="badge">4h</div>
+    <div class="badge">1D</div>
+  </div>
+</div>
+
+<!-- TEKNİK ANALİZ -->
+<div class="card">
+  <h2>🎯 Teknik Analiz</h2>
+
+  <div class="card">
+    <h2>SMC</h2>
+    <div class="badge-group" data-group="smc">
+      <div class="badge">BOS</div><div class="badge">CHoCH</div><div class="badge">OB</div>
+      <div class="badge">Demand</div><div class="badge">Supply</div>
+      <div class="badge">Equal High</div><div class="badge">Equal Low</div>
+      <div class="badge">Likidite</div><div class="badge">FVG</div>
+      <div class="badge">Sweep</div><div class="badge">Premium</div><div class="badge">Discount</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Fibonacci</h2>
+    <div class="badge-group" data-group="fibo">
+      <div class="badge">0.382</div>
+      <div class="badge">0.5</div>
+      <div class="badge">0.618</div>
+      <div class="badge">0.705</div>
+      <div class="badge">0.786</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>EMA</h2>
+    <div class="badge-group" data-group="ema">
+      <div class="badge">3</div><div class="badge">5</div><div class="badge">7</div>
+      <div class="badge">9</div><div class="badge">11</div><div class="badge">13</div>
+      <div class="badge">17</div><div class="badge">19</div><div class="badge">20</div>
+      <div class="badge">21</div><div class="badge">34</div><div class="badge">48</div>
+      <div class="badge">50</div><div class="badge">100</div>
+      <div class="badge">144</div><div class="badge">200</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>RSI</h2>
+    <div class="badge-group" data-group="rsi">
+      <div class="badge">Uyumlu</div>
+      <div class="badge">Aşırı Alım (70+)</div>
+      <div class="badge">Aşırı Satım (30-)</div>
+      <div class="badge">Pozitif Uyumsuzluk</div>
+      <div class="badge">Negatif Uyumsuzluk</div>
+    </div>
+  </div>
+</div>
+
+<!-- GİRİŞ -->
+<div class="card">
+  <h2>📌 Giriş</h2>
+  <input id="fiyat" placeholder="Giriş Fiyatı">
+  <div class="row" style="margin-top:10px;">
+    <div><input id="adet" placeholder="Adet"></div>
+    <div><input id="tutar" placeholder="Tutar (TL)"></div>
+  </div>
+</div>
+
+<!-- STOP -->
+<div class="card">
+  <h2>Stop</h2>
+  <div class="badge-group" data-group="stop">
+    <div class="badge">0.5%</div>
+    <div class="badge active-up">1%</div>
+    <div class="badge">2%</div>
+  </div>
+  <input placeholder="Stop Fiyatı" style="margin-top:10px;">
+</div>
+
+<!-- HEDEF -->
+<div class="card">
+  <h2>🚀 Hedef</h2>
+  <div class="row">
+    <div><input placeholder="TP1"></div>
+    <div><input placeholder="TP2"></div>
+    <div><input placeholder="TP3"></div>
+  </div>
+</div>
+
+<!-- BUTONLAR -->
+<div class="card">
+  <button class="btn btn-yellow">🚨 Otomatik İşlem Sonlandır</button><br><br>
+  <button class="btn btn-red">⚠️ Manuel İşlem Sonlandır</button><br><br>
+  <button class="btn btn-green">⚡ İŞLEM BAŞLAT ⚡</button>
+</div>
+
+<!-- GERİ / ANA MENÜ -->
+<div class="card">
+  <div class="row">
+    <div><button class="btn btn-yellow" onclick="history.back()">↩️ Geri</button></div>
+    <div><button class="btn btn-green" onclick="location.href='index.html'">🏠 Ana Menü</button></div>
+  </div>
+</div>
+
+<script>
+// TEMA
+const body=document.body;
+const savedTheme=localStorage.getItem("theme")||"light";
+body.classList.add(savedTheme);
+themeBtn.onclick=()=>{
+  body.classList.toggle("dark");
+  body.classList.toggle("light");
+  localStorage.setItem("theme",body.classList.contains("dark")?"dark":"light");
+};
+
+// TARİH
+const days=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+const d=new Date();
+dateText.innerText=
+`${String(d.getDate()).padStart(2,"0")}.${String(d.getMonth()+1).padStart(2,"0")}.${d.getFullYear()} ${days[d.getDay()]}`;
+
+// TREND
+document.querySelectorAll("#trendGroup .badge").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll("#trendGroup .badge")
+    .forEach(x=>x.classList.remove("active-up","active-down","active-flat"));
+    b.classList.add(
+      b.dataset.t==="up"?"active-up":
+      b.dataset.t==="down"?"active-down":"active-flat"
+    );
+  };
+});
+
+// TEK SEÇİM (SMC hariç)
+document.querySelectorAll("[data-group]").forEach(g=>{
+  if(g.dataset.group !== "smc") {
+    g.querySelectorAll(".badge").forEach(b=>{
+      b.onclick=()=>{
+        g.querySelectorAll(".badge").forEach(x=>x.classList.remove("active-up"));
+        b.classList.add("active-up");
+      };
+    });
+  } else {
+    // SADECE SMC için birden fazla seçilebilsin (toggle)
+    g.querySelectorAll(".badge").forEach(b=>{
+      b.onclick=()=>{
+        b.classList.toggle("active-up");
+      };
+    });
+  }
+});
+
+// ADET / TUTAR
+adet.oninput=()=>{if(fiyat.value)tutar.value=(adet.value*fiyat.value).toFixed(2);}
+tutar.oninput=()=>{if(fiyat.value)adet.value=(tutar.value/fiyat.value).toFixed(2);}
+</script>
+
+</body>
+</html>
