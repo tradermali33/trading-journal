@@ -6,12 +6,9 @@
 <title>Yeni İşlem Aç</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  font-family: "Times New Roman", serif;
-}
+* { box-sizing: border-box; font-family: "Times New Roman", serif; }
 
-/* ================= THEME ================= */
+/* Tema ayarları */
 :root {
   --bg: #eef1f4;
   --card: #ffffff;
@@ -19,7 +16,6 @@
   --shadow: rgba(0,0,0,.15);
   --input-bg: #fff;
   --input-border: #ddd;
-  --header-bg: #ffffff; /* light tema için başlık arka planı */
 }
 
 body.dark {
@@ -29,7 +25,6 @@ body.dark {
   --shadow: rgba(0,0,0,.65);
   --input-bg: #1e293b;
   --input-border: #334155;
-  --header-bg: #161e2e; /* dark tema için başlık arka planı */
 }
 
 body {
@@ -41,7 +36,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Premium metalik parlama - göz yormayan, yavaş, tüm sayfaya yayılıyor */
+/* Premium metalik parlama - göz yormayan, yavaş döngü */
 body::after {
   content: "";
   position: absolute;
@@ -58,7 +53,7 @@ body::after {
   100% { transform: translate(8%, 8%) rotate(360deg); }
 }
 
-/* ================= HEADER ve BAŞLIK SATIRI ================= */
+/* Header ve başlık */
 .header {
   position: sticky;
   top: 0;
@@ -68,46 +63,25 @@ body::after {
   z-index: 10;
 }
 
-.top-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+.top-row { display: flex; justify-content: space-between; align-items: center; }
+.toggle-group { display: flex; gap: 6px; }
+.toggle { padding: 6px 12px; font-size: 15px; border-radius: 10px; background: var(--bg); box-shadow: 0 3px 8px var(--shadow); cursor: pointer; user-select: none; }
+.toggle.active { outline: 2px solid currentColor; background: var(--card); }
 
-.toggle-group {
-  display: flex;
-  gap: 6px;
-}
+.date-bar { text-align: center; font-size: 17px; font-weight: bold; margin: 8px 0; color: var(--text); }
 
-.toggle {
-  padding: 6px 12px;
-  font-size: 15px;
-  border-radius: 10px;
-  background: var(--bg);
-  box-shadow: 0 3px 8px var(--shadow);
-  cursor: pointer;
-  user-select: none;
-}
-
-.toggle.active {
-  outline: 2px solid currentColor;
-  background: var(--card);
-}
-
-/* Yeni eklenen başlık satırı - seçili olmayan tema renginde */
+/* Yeni başlık satırı - seçili olmayan tema renginde */
 .title-bar {
-  background: var(--header-bg); /* seçili tema'nın tersi */
+  background: var(--card === '#ffffff' ? '#161e2e' : '#ffffff'); /* Ters tema rengi */
   color: var(--text);
   text-align: center;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
-  padding: 12px;
-  margin-bottom: 12px;
+  padding: 14px;
   box-shadow: 0 2px 8px var(--shadow);
 }
 
-/* ... Diğer stiller aynı kalıyor (card, badge, btn vb.) ... */
-
+/* Card ve badge stilleri */
 .card { background: var(--card); border-radius: 16px; padding: 16px; margin: 16px; box-shadow: 0 4px 10px var(--shadow); }
 .card h2 { margin: 0 0 14px 0; font-size: 18px; font-weight: bold; text-align: center; color: var(--text); }
 .center { text-align: center; }
@@ -134,20 +108,17 @@ body.dark .badge { background: #334155; color: #e2e8f0; }
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <div class="top-row">
     <div class="toggle-group">
       <div class="toggle" id="lightBtn">☀️</div>
       <div class="toggle active" id="darkBtn">🌙</div>
     </div>
-
     <div class="toggle-group">
       <div class="toggle active">TR</div>
       <div class="toggle">EN</div>
     </div>
   </div>
-
   <div class="date-bar" id="today"></div>
 </div>
 
@@ -184,14 +155,123 @@ body.dark .badge { background: #334155; color: #e2e8f0; }
   </div>
 </div>
 
-<!-- 🎯 TEKNİK ANALİZ (orijinal kartlar aynı) -->
+<!-- 🎯 TEKNİK ANALİZ -->
 <div class="card">
   <h2>🎯 Teknik Analiz Paneli</h2>
-  <!-- SMC, EMA, RSI, MACD, Hacim kartlarını buraya kopyala -->
-  <!-- ... senin orijinal iç kart kodlarını buraya yapıştır ... -->
+
+  <div class="card">
+    <h2>SMC</h2>
+    <div class="badge-group" data-group="smc">
+      <div class="badge">BOS</div>
+      <div class="badge">CHoCH</div>
+      <div class="badge">OB</div>
+      <div class="badge">Demand</div>
+      <div class="badge">Supply</div>
+      <div class="badge">Equal High</div>
+      <div class="badge">Equal Low</div>
+      <div class="badge">Likidite</div>
+      <div class="badge">FVG</div>
+      <div class="badge">Sweep</div>
+      <div class="badge">Premium</div>
+      <div class="badge">Discount</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>EMA</h2>
+    <div class="badge-group" data-group="ema">
+      <div class="badge">3</div><div class="badge">5</div><div class="badge">7</div>
+      <div class="badge">9</div><div class="badge">11</div><div class="badge">13</div>
+      <div class="badge">17</div><div class="badge">19</div><div class="badge">20</div>
+      <div class="badge">21</div><div class="badge">34</div><div class="badge">48</div>
+      <div class="badge">50</div><div class="badge">100</div>
+      <div class="badge">144</div><div class="badge">200</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>RSI</h2>
+    <div class="badge-group" data-group="rsi">
+      <div class="badge">Uyumlu</div>
+      <div class="badge">Aşırı Alım (70+)</div>
+      <div class="badge">Aşırı Satım (30-)</div>
+      <div class="badge">Pozitif Uyumsuzluk</div>
+      <div class="badge">Negatif Uyumsuzluk</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>MACD</h2>
+    <div class="badge-group" data-group="macd">
+      <div class="badge">Bullish Kesişim</div>
+      <div class="badge">Bearish Kesişim</div>
+      <div class="badge">Histogram +</div>
+      <div class="badge">Histogram -</div>
+      <div class="badge">Sıfır Üzeri</div>
+      <div class="badge">Sıfır Altı</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Hacim</h2>
+    <div class="badge-group" data-group="volume">
+      <div class="badge">Artış</div>
+      <div class="badge">Düşüş</div>
+      <div class="badge">Ortalama Üstü</div>
+      <div class="badge">Spike</div>
+    </div>
+  </div>
 </div>
 
-<!-- Diğer kartlar (KASA, GİRİŞ, STOP, HEDEF, BUTONLAR, SON KASA) aynı kalıyor -->
+<!-- 🏦 KASA -->
+<div class="card center">
+  <h2>🏦 Kasa</h2>
+  <div style="font-size:22px;font-weight:bold;">12.500 TL</div>
+</div>
+
+<!-- 📌 GİRİŞ -->
+<div class="card">
+  <h2>📌 Giriş</h2>
+  <input id="fiyat" placeholder="Giriş Fiyatı">
+  <div class="row" style="margin-top:10px;">
+    <div><input id="adet" placeholder="Adet"></div>
+    <div><input id="tutar" placeholder="Tutar (TL)"></div>
+  </div>
+</div>
+
+<!-- STOP -->
+<div class="card">
+  <h2>Stop</h2>
+  <div class="badge-group" data-group="stop">
+    <div class="badge">0.5%</div>
+    <div class="badge active">1%</div>
+    <div class="badge">2%</div>
+  </div>
+  <input style="margin-top:10px;" placeholder="Stop Fiyatı">
+</div>
+
+<!-- 🚀 HEDEF -->
+<div class="card">
+  <h2>🚀 Hedef</h2>
+  <div class="row">
+    <div><input placeholder="TP1"></div>
+    <div><input placeholder="TP2"></div>
+    <div><input placeholder="TP3"></div>
+  </div>
+</div>
+
+<!-- BUTONLAR -->
+<div class="card">
+  <button class="btn btn-yellow">🚨 Otomatik İşlem Sonlandır</button><br><br>
+  <button class="btn btn-red">⚠️ Manuel İşlem Sonlandır</button><br><br>
+  <button class="btn btn-green">⚡ İŞLEM BAŞLAT ⚡</button>
+</div>
+
+<!-- SON KASA -->
+<div class="card center">
+  <h2>İşlem Sonrası Kasa</h2>
+  <div style="font-size:22px;font-weight:bold;">0 TL</div>
+</div>
 
 <div class="footer-back">↩️ Geri</div>
 
@@ -218,7 +298,7 @@ const gunler = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cum
 document.getElementById("today").innerText = 
   d.toLocaleDateString("tr-TR", {day: '2-digit', month: '2-digit', year: 'numeric'}) + " " + gunler[d.getDay()];
 
-// Badge selection (hızlı tepki)
+// Badge selection
 document.querySelectorAll('[data-group]').forEach(group => {
   group.querySelectorAll('.badge').forEach(badge => {
     badge.addEventListener('pointerup', () => {
@@ -230,7 +310,7 @@ document.querySelectorAll('[data-group]').forEach(group => {
   });
 });
 
-// Fiyat hesaplama (adet/tutar)
+// Fiyat hesaplama
 const fiyat = document.getElementById("fiyat");
 const adet = document.getElementById("adet");
 const tutar = document.getElementById("tutar");
@@ -242,10 +322,9 @@ tutar.addEventListener("input", () => {
   if (fiyat.value) adet.value = (tutar.value / fiyat.value).toFixed(2);
 });
 
-// Varlık autocomplete (şimdilik basit, sonra canlı fiyatı hallederiz)
+// Varlık autocomplete (canlı fiyatı sonra ekleyeceğiz)
 const assetInput = document.getElementById("asset-input");
 const livePriceEl = document.getElementById("live-price");
-let currentSymbol = "";
 
 const suggestions = [
   "THYAO", "GARAN", "AKBNK", "ISCTR", "PETKM", "SISE", "EREGL", "KCHOL",
@@ -274,7 +353,6 @@ function updateSuggestions(value) {
 
 assetInput.addEventListener("input", (e) => {
   updateSuggestions(e.target.value);
-  // Canlı fiyatı sonra ekleyeceğiz
   livePriceEl.innerHTML = "🔴 Canlı Fiyat: --";
 });
 </script>
