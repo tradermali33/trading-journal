@@ -6,24 +6,25 @@
 <title>Yeni İşlem Aç</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  font-family:"Times New Roman", serif;
+*{box-sizing:border-box;font-family:"Times New Roman",serif;}
+body{
+  margin:0;padding:16px;
+  background:#f2f4f6;
+  transition:.25s;
 }
 
-body{
-  margin:0;
-  padding:16px;
-  background:#f2f4f6;
-}
+/* ===== TEMA ===== */
+body.light{background:#f2f4f6;color:#111;}
+body.dark{background:#0b1220;color:#fff;}
 
 .card{
   background:#fff;
   border-radius:16px;
   padding:16px;
   margin-bottom:16px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.06);
+  box-shadow:0 4px 10px rgba(0,0,0,.06);
 }
+body.dark .card{background:#111827;}
 
 .card h2{
   margin:0 0 14px 0;
@@ -32,9 +33,11 @@ body{
   text-align:center;
 }
 
-.center{ text-align:center; }
+.center{text-align:center;}
+.row{display:flex;gap:12px;}
+.row>div{flex:1;}
 
-input, textarea{
+input{
   width:100%;
   padding:12px;
   border-radius:12px;
@@ -42,40 +45,24 @@ input, textarea{
   font-size:15px;
 }
 
-textarea{ resize:none; }
-
-.row{
-  display:flex;
-  gap:12px;
-}
-
-.row > div{ flex:1; }
-
 .badge-group{
   display:flex;
   flex-wrap:wrap;
   gap:10px;
   justify-content:center;
 }
-
 .badge{
   padding:10px 18px;
   background:#eef1f4;
   border-radius:20px;
   font-size:14px;
   cursor:pointer;
-  user-select:none;
 }
+body.dark .badge{background:#1f2937;color:#fff;}
 
-/* TREND RENKLERİ */
-.badge.active-up{background:#2ecc71;color:#fff;}
-.badge.active-down{background:#e74c3c;color:#fff;}
-.badge.active-flat{background:#95a5a6;color:#fff;}
-
-.trend-row .badge{
-  flex:1;
-  text-align:center;
-}
+.badge.active-up{background:#16a34a;color:#fff;}
+.badge.active-down{background:#dc2626;color:#fff;}
+.badge.active-flat{background:#6b7280;color:#fff;}
 
 .btn{
   width:100%;
@@ -85,20 +72,36 @@ textarea{ resize:none; }
   font-size:16px;
   font-weight:bold;
   cursor:pointer;
+  transition:.15s;
 }
+.btn:active{transform:scale(.96);}
 
-.btn-green{ background:#2ecc71; color:#fff; }
-.btn-red{ background:#e74c3c; color:#fff; }
-.btn-yellow{ background:#f1c40f; }
+.btn-green{background:#16a34a;color:#fff;}
+.btn-red{background:#dc2626;color:#fff;}
+.btn-yellow{background:#f1c40f;color:#111;}
 
+.toggle{
+  padding:12px;
+  border-radius:14px;
+  font-weight:bold;
+  text-align:center;
+  cursor:pointer;
+}
+body.light .toggle{background:#e5e7eb;color:#111;}
+body.dark .toggle{background:#1f2937;color:#fff;}
+.toggle.active{outline:2px solid #3b82f6;}
 </style>
 </head>
 
 <body>
 
-<!-- TARİH -->
-<div class="card center">
-  <div id="dateText" style="font-size:18px;font-weight:bold;"></div>
+<!-- 🌗 TEMA & 🌍 DİL + 📅 TARİH -->
+<div class="card">
+  <div class="row">
+    <div id="themeBtn" class="toggle">🌙 / ☀️ Tema</div>
+    <div id="langBtn" class="toggle active">TR | EN</div>
+  </div>
+  <div class="center" style="margin-top:10px;font-weight:bold;" id="dateText"></div>
 </div>
 
 <!-- VARLIK -->
@@ -111,10 +114,10 @@ textarea{ resize:none; }
 <!-- TREND -->
 <div class="card">
   <h2>📈 Trend Yönü</h2>
-  <div class="badge-group trend-row" id="trendGroup">
-    <div class="badge" data-trend="up">Yükselen</div>
-    <div class="badge" data-trend="down">Düşen</div>
-    <div class="badge" data-trend="flat">Yatay</div>
+  <div class="badge-group" id="trendGroup">
+    <div class="badge" data-t="up">Yükselen</div>
+    <div class="badge" data-t="down">Düşen</div>
+    <div class="badge" data-t="flat">Yatay</div>
   </div>
 </div>
 
@@ -132,23 +135,27 @@ textarea{ resize:none; }
 
 <!-- TEKNİK ANALİZ -->
 <div class="card">
-  <h2>🎯 Teknik Analiz Paneli</h2>
+  <h2>🎯 Teknik Analiz</h2>
 
   <div class="card">
     <h2>SMC</h2>
     <div class="badge-group" data-group="smc">
-      <div class="badge">BOS</div>
-      <div class="badge">CHoCH</div>
-      <div class="badge">OB</div>
-      <div class="badge">Demand</div>
-      <div class="badge">Supply</div>
-      <div class="badge">Equal High</div>
-      <div class="badge">Equal Low</div>
-      <div class="badge">Likidite</div>
-      <div class="badge">FVG</div>
-      <div class="badge">Sweep</div>
-      <div class="badge">Premium</div>
-      <div class="badge">Discount</div>
+      <div class="badge">BOS</div><div class="badge">CHoCH</div><div class="badge">OB</div>
+      <div class="badge">Demand</div><div class="badge">Supply</div>
+      <div class="badge">Equal High</div><div class="badge">Equal Low</div>
+      <div class="badge">Likidite</div><div class="badge">FVG</div>
+      <div class="badge">Sweep</div><div class="badge">Premium</div><div class="badge">Discount</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Fibonacci</h2>
+    <div class="badge-group" data-group="fibo">
+      <div class="badge">0.382</div>
+      <div class="badge">0.5</div>
+      <div class="badge">0.618</div>
+      <div class="badge">0.705</div>
+      <div class="badge">0.786</div>
     </div>
   </div>
 
@@ -174,34 +181,6 @@ textarea{ resize:none; }
       <div class="badge">Negatif Uyumsuzluk</div>
     </div>
   </div>
-
-  <div class="card">
-    <h2>MACD</h2>
-    <div class="badge-group" data-group="macd">
-      <div class="badge">Bullish Kesişim</div>
-      <div class="badge">Bearish Kesişim</div>
-      <div class="badge">Histogram +</div>
-      <div class="badge">Histogram -</div>
-      <div class="badge">Sıfır Üzeri</div>
-      <div class="badge">Sıfır Altı</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>Hacim</h2>
-    <div class="badge-group" data-group="volume">
-      <div class="badge">Artış</div>
-      <div class="badge">Düşüş</div>
-      <div class="badge">Ortalama Üstü</div>
-      <div class="badge">Spike</div>
-    </div>
-  </div>
-</div>
-
-<!-- KASA -->
-<div class="card center">
-  <h2>🏦 Kasa</h2>
-  <div style="font-size:22px;font-weight:bold;">12.500 TL</div>
 </div>
 
 <!-- GİRİŞ -->
@@ -222,7 +201,7 @@ textarea{ resize:none; }
     <div class="badge active-up">1%</div>
     <div class="badge">2%</div>
   </div>
-  <input style="margin-top:10px;" placeholder="Stop Fiyatı">
+  <input placeholder="Stop Fiyatı" style="margin-top:10px;">
 </div>
 
 <!-- HEDEF -->
@@ -242,12 +221,6 @@ textarea{ resize:none; }
   <button class="btn btn-green">⚡ İŞLEM BAŞLAT ⚡</button>
 </div>
 
-<!-- SON KASA -->
-<div class="card center">
-  <h2>İşlem Sonrası Kasa</h2>
-  <div style="font-size:22px;font-weight:bold;">0 TL</div>
-</div>
-
 <!-- GERİ / ANA MENÜ -->
 <div class="card">
   <div class="row">
@@ -257,30 +230,47 @@ textarea{ resize:none; }
 </div>
 
 <script>
+// TEMA
+const body=document.body;
+const savedTheme=localStorage.getItem("theme")||"light";
+body.classList.add(savedTheme);
+themeBtn.onclick=()=>{
+  body.classList.toggle("dark");
+  body.classList.toggle("light");
+  localStorage.setItem("theme",body.classList.contains("dark")?"dark":"light");
+};
+
 // TARİH
 const days=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
 const d=new Date();
-document.getElementById("dateText").innerText=
+dateText.innerText=
 `${String(d.getDate()).padStart(2,"0")}.${String(d.getMonth()+1).padStart(2,"0")}.${d.getFullYear()} ${days[d.getDay()]}`;
 
-// TREND SEÇİM
+// TREND
 document.querySelectorAll("#trendGroup .badge").forEach(b=>{
   b.onclick=()=>{
     document.querySelectorAll("#trendGroup .badge")
-      .forEach(x=>x.classList.remove("active-up","active-down","active-flat"));
-    if(b.dataset.trend==="up") b.classList.add("active-up");
-    if(b.dataset.trend==="down") b.classList.add("active-down");
-    if(b.dataset.trend==="flat") b.classList.add("active-flat");
+    .forEach(x=>x.classList.remove("active-up","active-down","active-flat"));
+    b.classList.add(
+      b.dataset.t==="up"?"active-up":
+      b.dataset.t==="down"?"active-down":"active-flat"
+    );
   };
 });
 
-// ADET / TUTAR
-const fiyat=document.getElementById("fiyat");
-const adet=document.getElementById("adet");
-const tutar=document.getElementById("tutar");
+// TEK SEÇİM
+document.querySelectorAll("[data-group]").forEach(g=>{
+  g.querySelectorAll(".badge").forEach(b=>{
+    b.onclick=()=>{
+      g.querySelectorAll(".badge").forEach(x=>x.classList.remove("active-up"));
+      b.classList.add("active-up");
+    };
+  });
+});
 
-adet.oninput=()=>{ if(fiyat.value) tutar.value=(adet.value*fiyat.value).toFixed(2); };
-tutar.oninput=()=>{ if(fiyat.value) adet.value=(tutar.value/fiyat.value).toFixed(2); };
+// ADET / TUTAR
+adet.oninput=()=>{if(fiyat.value)tutar.value=(adet.value*fiyat.value).toFixed(2);}
+tutar.oninput=()=>{if(fiyat.value)adet.value=(tutar.value/fiyat.value).toFixed(2);}
 </script>
 
 </body>
