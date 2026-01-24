@@ -85,10 +85,10 @@ body {
   color: var(--text);
 }
 
-/* Başlık kartı - seçili tema tersinin menü renginde */
+/* Başlık kartı - Koyu tema seçili ise beyaz, açık tema seçili ise koyu tema rengi */
 .title-card {
-  background: var(--card === '#ffffff' ? var(--menu-dark) : var(--menu-light)); /* ters tema menü rengi */
-  color: var(--text);
+  background: body.classList.contains('dark') ? '#ffffff' : '#161e2e'; /* koyu seçili → beyaz, açık seçili → koyu */
+  color: body.classList.contains('dark') ? '#000' : '#fff'; /* kontrast için renk */
   text-align: center;
   font-size: 22px;
   font-weight: bold;
@@ -216,7 +216,7 @@ body.dark .badge {
   <div class="date-bar" id="today"></div>
 </div>
 
-<!-- Başlık Kartı - seçili tema tersinin menü renginde -->
+<!-- Başlık Kartı - koyu tema seçili ise beyaz, açık tema seçili ise koyu -->
 <div class="title-card">Yeni İşlem Aç</div>
 
 <!-- 💎 VARLIK -->
@@ -370,7 +370,7 @@ body.dark .badge {
 <div class="footer-back">↩️ Geri</div>
 
 <script>
-// ================= THEME TOGGLE =================
+// Theme toggle
 const body = document.body;
 const light = document.getElementById("lightBtn");
 const dark = document.getElementById("darkBtn");
@@ -386,13 +386,13 @@ setTheme(localStorage.getItem("theme") || "light");
 light.onclick = () => setTheme("light");
 dark.onclick = () => setTheme("dark");
 
-// ================= DATE =================
+// Date
 const d = new Date();
 const gunler = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
 document.getElementById("today").innerText = 
   d.toLocaleDateString("tr-TR", {day: '2-digit', month: '2-digit', year: 'numeric'}) + " " + gunler[d.getDay()];
 
-// ================= BADGE SELECTION =================
+// Badge selection
 document.querySelectorAll('[data-group]').forEach(group => {
   group.querySelectorAll('.badge').forEach(badge => {
     badge.addEventListener('pointerup', () => {
@@ -404,7 +404,7 @@ document.querySelectorAll('[data-group]').forEach(group => {
   });
 });
 
-// ================= FİYAT HESAPLAMA =================
+// Fiyat hesaplama
 const fiyat = document.getElementById("fiyat");
 const adet = document.getElementById("adet");
 const tutar = document.getElementById("tutar");
@@ -416,10 +416,9 @@ tutar.addEventListener("input", () => {
   if (fiyat.value) adet.value = (tutar.value / fiyat.value).toFixed(2);
 });
 
-// ================= VARLIK AUTOCOMPLETE + CANLI FİYAT =================
+// Varlık autocomplete
 const assetInput = document.getElementById("asset-input");
 const livePriceEl = document.getElementById("live-price");
-let currentSymbol = "";
 
 const suggestions = [
   "THYAO", "GARAN", "AKBNK", "ISCTR", "PETKM", "SISE", "EREGL", "KCHOL",
@@ -448,51 +447,8 @@ function updateSuggestions(value) {
 
 assetInput.addEventListener("input", (e) => {
   updateSuggestions(e.target.value);
-  fetchPrice(e.target.value.trim().toUpperCase());
+  livePriceEl.innerHTML = "🔴 Canlı Fiyat: --";
 });
-
-function fetchPrice(symbol) {
-  if (!symbol) {
-    livePriceEl.innerHTML = "🔴 Canlı Fiyat: --";
-    return;
-  }
-
-  currentSymbol = symbol;
-
-  let apiSymbol = symbol;
-  let isCrypto = apiSymbol.endsWith("USDT") || /^[A-Z]{3,8}$/.test(apiSymbol);
-
-  if (isCrypto && !apiSymbol.endsWith("USDT")) apiSymbol += "USDT";
-
-  if (apiSymbol.endsWith("USDT")) {
-    fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${apiSymbol}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.price) {
-          livePriceEl.innerHTML = `💲 Canlı Fiyat: $${parseFloat(data.price).toFixed(2)}`;
-        } else {
-          livePriceEl.innerHTML = "🔴 Fiyat alınamadı";
-        }
-      })
-      .catch(() => livePriceEl.innerHTML = "🔴 Bağlantı hatası");
-  } else {
-    const apiKey = "YOUR_FINNHUB_API_KEY_HERE"; // ← BURAYA KENDİ KEY'İNİ YAPISTIR
-    fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}.IS&token=${apiKey}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.c && data.c > 0) {
-          livePriceEl.innerHTML = `₺ Canlı Fiyat: ${data.c.toFixed(2)} TL`;
-        } else {
-          livePriceEl.innerHTML = "🔴 Fiyat alınamadı (Finnhub)";
-        }
-      })
-      .catch(() => livePriceEl.innerHTML = "🔴 Bağlantı hatası (Finnhub key kontrol et)");
-  }
-}
-
-setInterval(() => {
-  if (currentSymbol) fetchPrice(currentSymbol);
-}, 15000);
 </script>
 
 </body>
