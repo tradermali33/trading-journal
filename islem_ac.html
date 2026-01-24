@@ -19,8 +19,8 @@
   --shadow: rgba(0,0,0,.15);
   --input-bg: #fff;
   --input-border: #ddd;
-  --menu-light: #f0f2f5;
-  --menu-dark: #1e293b;
+  --menu-light: #f0f2f5; /* light tema menü rengi */
+  --menu-dark: #1e293b; /* dark tema menü rengi */
 }
 
 body.dark {
@@ -42,25 +42,25 @@ body, html {
   min-height: 100vh;
 }
 
-/* Premium metalik yansıma - sayfa geneline güçlü, şık, göz yormayan */
+/* Pin'deki gibi premium metalik yansıma - güçlü, görsel, şık (sayfa geneline) */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(135deg, transparent 35%, rgba(255,215,0,.14) 50%, transparent 65%);
-  animation: premiumShine 10s ease-in-out infinite;
-  opacity: 0.45;
+  background: linear-gradient(135deg, transparent 30%, rgba(255,215,0,.18) 50%, transparent 70%);
+  animation: premiumShine 8s ease-in-out infinite;
+  opacity: 0.5;
   z-index: -1;
   mix-blend-mode: screen;
-  filter: blur(1.8px);
-  box-shadow: inset 0 0 50px rgba(255,255,255,.12);
+  filter: blur(2px);
+  box-shadow: inset 0 0 60px rgba(255,215,0,.15);
 }
 
 @keyframes premiumShine {
-  0%   { transform: translate(-25%, -25%) rotate(-12deg); }
-  50%  { transform: translate(25%, 25%) rotate(12deg); }
-  100% { transform: translate(-25%, -25%) rotate(-12deg); }
+  0%   { transform: translate(-30%, -30%) rotate(-15deg); }
+  50%  { transform: translate(30%, 30%) rotate(15deg); }
+  100% { transform: translate(-30%, -30%) rotate(-15deg); }
 }
 
 /* ================= HEADER ================= */
@@ -103,11 +103,11 @@ body::before {
   text-align: center;
   font-size: 17px;
   font-weight: bold;
-  margin: 12px 0 8px;
+  margin: 12px 0 0;
   color: var(--text);
 }
 
-/* Premium başlık kartı - İşlemler kartı gibi şık, ters tema menü renginde */
+/* Premium başlık kartı - İşlemler kartı gibi şık, üst karta temas etmiş (margin 0) */
 .title-card {
   background: linear-gradient(135deg, var(--card === '#ffffff' ? var(--menu-dark) : var(--menu-light)), var(--card === '#ffffff' ? '#0f172a' : '#e2e8f0'));
   color: var(--text);
@@ -240,7 +240,7 @@ body.dark .badge {
   <div class="date-bar" id="today"></div>
 </div>
 
-<!-- Premium Başlık Kartı -->
+<!-- Premium Başlık Kartı - Üst karta temas etmiş (margin 0), Pin'deki gibi şık -->
 <div class="title-card">Yeni İşlem Aç</div>
 
 <!-- 💎 VARLIK -->
@@ -394,7 +394,7 @@ body.dark .badge {
 <div class="footer-back">↩️ Geri</div>
 
 <script>
-// ================= THEME TOGGLE =================
+// Theme toggle
 const body = document.body;
 const light = document.getElementById("lightBtn");
 const dark = document.getElementById("darkBtn");
@@ -410,13 +410,13 @@ setTheme(localStorage.getItem("theme") || "light");
 light.onclick = () => setTheme("light");
 dark.onclick = () => setTheme("dark");
 
-// ================= DATE =================
+// Date
 const d = new Date();
 const gunler = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
 document.getElementById("today").innerText = 
   d.toLocaleDateString("tr-TR", {day: '2-digit', month: '2-digit', year: 'numeric'}) + " " + gunler[d.getDay()];
 
-// ================= BADGE SELECTION =================
+// Badge selection
 document.querySelectorAll('[data-group]').forEach(group => {
   group.querySelectorAll('.badge').forEach(badge => {
     badge.addEventListener('pointerup', () => {
@@ -428,7 +428,7 @@ document.querySelectorAll('[data-group]').forEach(group => {
   });
 });
 
-// ================= FİYAT HESAPLAMA =================
+// Fiyat hesaplama
 const fiyat = document.getElementById("fiyat");
 const adet = document.getElementById("adet");
 const tutar = document.getElementById("tutar");
@@ -440,10 +440,9 @@ tutar.addEventListener("input", () => {
   if (fiyat.value) adet.value = (tutar.value / fiyat.value).toFixed(2);
 });
 
-// ================= VARLIK AUTOCOMPLETE + CANLI FİYAT =================
+// Varlık autocomplete
 const assetInput = document.getElementById("asset-input");
 const livePriceEl = document.getElementById("live-price");
-let currentSymbol = "";
 
 const suggestions = [
   "THYAO", "GARAN", "AKBNK", "ISCTR", "PETKM", "SISE", "EREGL", "KCHOL",
@@ -472,51 +471,8 @@ function updateSuggestions(value) {
 
 assetInput.addEventListener("input", (e) => {
   updateSuggestions(e.target.value);
-  fetchPrice(e.target.value.trim().toUpperCase());
+  livePriceEl.innerHTML = "🔴 Canlı Fiyat: --";
 });
-
-function fetchPrice(symbol) {
-  if (!symbol) {
-    livePriceEl.innerHTML = "🔴 Canlı Fiyat: --";
-    return;
-  }
-
-  currentSymbol = symbol;
-
-  let apiSymbol = symbol;
-  let isCrypto = apiSymbol.endsWith("USDT") || /^[A-Z]{3,8}$/.test(apiSymbol);
-
-  if (isCrypto && !apiSymbol.endsWith("USDT")) apiSymbol += "USDT";
-
-  if (apiSymbol.endsWith("USDT")) {
-    fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${apiSymbol}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.price) {
-          livePriceEl.innerHTML = `💲 Canlı Fiyat: $${parseFloat(data.price).toFixed(2)}`;
-        } else {
-          livePriceEl.innerHTML = "🔴 Fiyat alınamadı";
-        }
-      })
-      .catch(() => livePriceEl.innerHTML = "🔴 Bağlantı hatası");
-  } else {
-    const apiKey = "YOUR_FINNHUB_API_KEY_HERE"; // ← BURAYA KENDİ KEY'İNİ YAPISTIR
-    fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}.IS&token=${apiKey}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.c && data.c > 0) {
-          livePriceEl.innerHTML = `₺ Canlı Fiyat: ${data.c.toFixed(2)} TL`;
-        } else {
-          livePriceEl.innerHTML = "🔴 Fiyat alınamadı (Finnhub)";
-        }
-      })
-      .catch(() => livePriceEl.innerHTML = "🔴 Bağlantı hatası (Finnhub key kontrol et)");
-  }
-}
-
-setInterval(() => {
-  if (currentSymbol) fetchPrice(currentSymbol);
-}, 15000);
 </script>
 
 </body>
