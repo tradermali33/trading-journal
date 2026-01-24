@@ -6,225 +6,113 @@
 <title>Yeni İşlem Aç</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  font-family: "Times New Roman", serif;
+*{
+  box-sizing:border-box;
+  font-family:"Times New Roman", serif;
 }
 
-/* ================= THEME ================= */
-:root {
-  --bg: #eef1f4;
-  --card: #ffffff;
-  --text: #111;
-  --shadow: rgba(0,0,0,.15);
-  --input-bg: #fff;
-  --input-border: #ddd;
-  --menu-light: #f0f2f5;
-  --menu-dark: #1e293b;
+body{
+  margin:0;
+  padding:16px;
+  background:#f2f4f6;
 }
 
-body.dark {
-  --bg: #0b1220;
-  --card: #161e2e;
-  --text: #f9fafb;
-  --shadow: rgba(0,0,0,.65);
-  --input-bg: #1e293b;
-  --input-border: #334155;
+.card{
+  background:#fff;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.06);
 }
 
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  padding: 0;
-  position: relative;
-  overflow-x: hidden;
+.card h2{
+  margin:0 0 14px 0;
+  font-size:18px;
+  font-weight:bold;
+  text-align:center;
 }
 
-/* ================= HEADER ================= */
-.header {
-  position: sticky;
-  top: 0;
-  background: var(--card);
-  padding: 12px 16px;
-  box-shadow: 0 4px 12px var(--shadow);
-  z-index: 10;
+.center{ text-align:center; }
+
+input, textarea{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  font-size:15px;
 }
 
-.top-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+textarea{ resize:none; }
+
+.row{
+  display:flex;
+  gap:12px;
 }
 
-.toggle-group {
-  display: flex;
-  gap: 6px;
+.row > div{ flex:1; }
+
+.badge-group{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
 }
 
-.toggle {
-  padding: 6px 12px;
-  font-size: 15px;
-  border-radius: 10px;
-  background: var(--bg);
-  box-shadow: 0 3px 8px var(--shadow);
-  cursor: pointer;
-  user-select: none;
+.badge{
+  padding:10px 18px;
+  background:#eef1f4;
+  border-radius:20px;
+  font-size:14px;
+  cursor:pointer;
+  user-select:none;
 }
 
-.toggle.active {
-  outline: 2px solid currentColor;
-  background: var(--card);
+.badge.active{
+  background:#2ecc71;
+  color:#fff;
 }
 
-.date-bar {
-  text-align: center;
-  font-size: 17px;
-  font-weight: bold;
-  margin: 12px 0 8px;
-  color: var(--text);
+.trend-row .badge{
+  flex:1;
+  text-align:center;
 }
 
-/* Başlık kartı - koyu tema seçili ise beyaz, açık tema seçili ise koyu */
-.title-card {
-  background: body.classList.contains('dark') ? '#ffffff' : '#161e2e';
-  color: body.classList.contains('dark') ? '#000000' : '#ffffff'; /* kontrast için */
-  text-align: center;
-  font-size: 22px;
-  font-weight: bold;
-  padding: 18px;
-  margin: 16px;
-  border-radius: 20px;
-  box-shadow: 0 6px 20px var(--shadow);
-  letter-spacing: 1px;
+.btn{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:16px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
 }
 
-/* ================= CARD & BADGE ================= */
-.card {
-  background: var(--card);
-  border-radius: 16px;
-  padding: 16px;
-  margin: 16px;
-  box-shadow: 0 4px 10px var(--shadow);
-}
+.btn-green{ background:#2ecc71; color:#fff; }
+.btn-red{ background:#e74c3c; color:#fff; }
+.btn-yellow{ background:#f1c40f; }
 
-.card h2 {
-  margin: 0 0 14px 0;
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
-  color: var(--text);
-}
-
-.center { text-align: center; }
-
-input, textarea {
-  width: 100%;
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px solid var(--input-border);
-  background: var(--input-bg);
-  color: var(--text);
-  font-size: 15px;
-}
-
-textarea { resize: none; }
-
-.row { display: flex; gap: 12px; }
-.row > div { flex: 1; }
-
-.badge-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-
-.badge {
-  padding: 10px 18px;
-  background: #eef1f4;
-  border-radius: 20px;
-  font-size: 14px;
-  cursor: pointer;
-  user-select: none;
-  color: #333;
-  transition: all 0.15s ease;
-}
-
-body.dark .badge {
-  background: #334155;
-  color: #e2e8f0;
-}
-
-.badge.active {
-  color: #fff;
-  box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
-  transform: scale(1.04);
-}
-
-/* Trend özel renkler */
-.trend-row .badge:nth-child(1).active { background: #2ecc71; }
-.trend-row .badge:nth-child(2).active { background: #e74c3c; }
-.trend-row .badge:nth-child(3).active { background: #95a5a6; }
-
-/* Diğer gruplar yeşil */
-.badge-group:not(.trend-row) .badge.active {
-  background: #2ecc71 !important;
-}
-
-.trend-row .badge { flex: 1; text-align: center; }
-
-.btn {
-  width: 100%;
-  padding: 16px;
-  border: none;
-  border-radius: 16px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.btn-green { background: #2ecc71; color: #000; }
-.btn-red { background: #e74c3c; color: #fff; }
-.btn-yellow { background: #f1c40f; color: #000; }
-
-.footer-back {
-  text-align: center;
-  margin: 20px 0;
-  font-size: 18px;
-  color: var(--text);
+.footer-back{
+  text-align:center;
+  margin:20px 0;
+  font-size:18px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="top-row">
-    <div class="toggle-group">
-      <div class="toggle" id="lightBtn">☀️</div>
-      <div class="toggle active" id="darkBtn">🌙</div>
-    </div>
-
-    <div class="toggle-group">
-      <div class="toggle active">TR</div>
-      <div class="toggle">EN</div>
-    </div>
+<!-- TARİH -->
+<div class="card center">
+  <div style="font-size:18px;font-weight:bold;">
+    💰 12.12.2012 Pazartesi 💰
   </div>
-
-  <div class="date-bar" id="today"></div>
 </div>
-
-<!-- Başlık Kartı - koyu tema seçili ise beyaz, açık tema seçili ise koyu -->
-<div class="title-card">Yeni İşlem Aç</div>
 
 <!-- 💎 VARLIK -->
 <div class="card">
   <h2>💎 Varlık</h2>
-  <input list="asset-suggestions" id="asset-input" placeholder="ALKA / BTCUSDT" autocomplete="off">
-  <datalist id="asset-suggestions"></datalist>
-  <div class="center" style="margin-top:8px;font-weight:bold;" id="live-price">🔴 Canlı Fiyat: --</div>
+  <input placeholder="ALKA / BTCUSDT">
+  <div class="center" style="margin-top:8px;font-weight:bold;">🔴 Canlı Fiyat: --</div>
 </div>
 
 <!-- 📈 TREND -->
@@ -253,6 +141,7 @@ body.dark .badge {
 <div class="card">
   <h2>🎯 Teknik Analiz Paneli</h2>
 
+  <!-- SMC -->
   <div class="card">
     <h2>SMC</h2>
     <div class="badge-group" data-group="smc">
@@ -271,6 +160,7 @@ body.dark .badge {
     </div>
   </div>
 
+  <!-- EMA -->
   <div class="card">
     <h2>EMA</h2>
     <div class="badge-group" data-group="ema">
@@ -283,6 +173,7 @@ body.dark .badge {
     </div>
   </div>
 
+  <!-- RSI -->
   <div class="card">
     <h2>RSI</h2>
     <div class="badge-group" data-group="rsi">
@@ -294,6 +185,7 @@ body.dark .badge {
     </div>
   </div>
 
+  <!-- MACD -->
   <div class="card">
     <h2>MACD</h2>
     <div class="badge-group" data-group="macd">
@@ -306,6 +198,7 @@ body.dark .badge {
     </div>
   </div>
 
+  <!-- HACİM -->
   <div class="card">
     <h2>Hacim</h2>
     <div class="badge-group" data-group="volume">
@@ -370,84 +263,24 @@ body.dark .badge {
 <div class="footer-back">↩️ Geri</div>
 
 <script>
-// Theme toggle
-const body = document.body;
-const light = document.getElementById("lightBtn");
-const dark = document.getElementById("darkBtn");
-
-function setTheme(t) {
-  body.classList.toggle("dark", t === "dark");
-  localStorage.setItem("theme", t);
-  light.classList.toggle("active", t === "light");
-  dark.classList.toggle("active", t === "dark");
-}
-
-setTheme(localStorage.getItem("theme") || "light");
-light.onclick = () => setTheme("light");
-dark.onclick = () => setTheme("dark");
-
-// Date
-const d = new Date();
-const gunler = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
-document.getElementById("today").innerText = 
-  d.toLocaleDateString("tr-TR", {day: '2-digit', month: '2-digit', year: 'numeric'}) + " " + gunler[d.getDay()];
-
-// Badge selection
-document.querySelectorAll('[data-group]').forEach(group => {
-  group.querySelectorAll('.badge').forEach(badge => {
-    badge.addEventListener('pointerup', () => {
-      requestAnimationFrame(() => {
-        group.querySelectorAll('.badge').forEach(b => b.classList.remove('active'));
-        badge.classList.add('active');
-      });
+document.querySelectorAll('[data-group]').forEach(group=>{
+  group.querySelectorAll('.badge').forEach(badge=>{
+    badge.addEventListener('click',()=>{
+      group.querySelectorAll('.badge').forEach(b=>b.classList.remove('active'));
+      badge.classList.add('active');
     });
   });
 });
 
-// Fiyat hesaplama
-const fiyat = document.getElementById("fiyat");
-const adet = document.getElementById("adet");
-const tutar = document.getElementById("tutar");
+const fiyat=document.getElementById("fiyat");
+const adet=document.getElementById("adet");
+const tutar=document.getElementById("tutar");
 
-adet.addEventListener("input", () => {
-  if (fiyat.value) tutar.value = (adet.value * fiyat.value).toFixed(2);
+adet.addEventListener("input",()=>{
+  if(fiyat.value) tutar.value=(adet.value*fiyat.value).toFixed(2);
 });
-tutar.addEventListener("input", () => {
-  if (fiyat.value) adet.value = (tutar.value / fiyat.value).toFixed(2);
-});
-
-// Varlık autocomplete
-const assetInput = document.getElementById("asset-input");
-const livePriceEl = document.getElementById("live-price");
-
-const suggestions = [
-  "THYAO", "GARAN", "AKBNK", "ISCTR", "PETKM", "SISE", "EREGL", "KCHOL",
-  "BTC", "ETH", "SOL", "XRP", "ADA", "DOGE", "BNB", "AVAX", "LINK"
-];
-
-function updateSuggestions(value) {
-  const dataList = document.getElementById("asset-suggestions");
-  dataList.innerHTML = "";
-  if (!value) return;
-
-  const upper = value.toUpperCase().trim();
-
-  if (/^[A-Z]{3,8}$/.test(upper) && !upper.endsWith("USDT")) {
-    const opt = document.createElement("option");
-    opt.value = upper + "USDT";
-    dataList.appendChild(opt);
-  }
-
-  suggestions.filter(s => s.startsWith(upper)).forEach(s => {
-    const opt = document.createElement("option");
-    opt.value = s;
-    dataList.appendChild(opt);
-  });
-}
-
-assetInput.addEventListener("input", (e) => {
-  updateSuggestions(e.target.value);
-  livePriceEl.innerHTML = "🔴 Canlı Fiyat: --";
+tutar.addEventListener("input",()=>{
+  if(fiyat.value) adet.value=(tutar.value/fiyat.value).toFixed(2);
 });
 </script>
 
