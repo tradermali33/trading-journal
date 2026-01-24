@@ -41,25 +41,25 @@ body {
   overflow-x: hidden;
 }
 
-/* Pin'deki gibi premium metalik yansıma - güçlü ışık kayması */
+/* Pin'deki gibi güçlü premium metalik yansıma - altın ışık kayması, yoğun parlama */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(135deg, transparent 25%, rgba(255,215,0,0.3) 50%, transparent 75%);
+  background: linear-gradient(135deg, transparent 20%, rgba(255,215,0,0.35) 50%, transparent 80%);
   animation: pinShine 6s ease-in-out infinite;
-  opacity: 0.55;
+  opacity: 0.65;
   z-index: -1;
   mix-blend-mode: screen;
-  filter: blur(3px);
-  box-shadow: inset 0 0 100px rgba(255,215,0,0.3);
+  filter: blur(4px);
+  box-shadow: inset 0 0 120px rgba(255,215,0,0.35);
 }
 
 @keyframes pinShine {
-  0%   { transform: translate(-50%, -50%) rotate(-30deg); }
-  50%  { transform: translate(50%, 50%) rotate(30deg); }
-  100% { transform: translate(-50%, -50%) rotate(-30deg); }
+  0%   { transform: translate(-60%, -60%) rotate(-35deg); }
+  50%  { transform: translate(60%, 60%) rotate(35deg); }
+  100% { transform: translate(-60%, -60%) rotate(-35deg); }
 }
 
 /* ================= HEADER ================= */
@@ -106,7 +106,7 @@ body::before {
   color: var(--text);
 }
 
-/* Yeni başlık kartı - seçili tema menü renginde, diğer kartlarla aynı boşlukta (margin 16px) */
+/* Başlık kartı - seçili tema menü renginde, üst karta temas etmiyor (margin 16px) */
 .title-card {
   background: var(--card === '#ffffff' ? var(--menu-dark) : var(--menu-light));
   color: var(--text);
@@ -237,7 +237,7 @@ body.dark .badge {
   <div class="date-bar" id="today"></div>
 </div>
 
-<!-- Yeni Başlık Kartı - seçili tema menü renginde, diğer kartlarla aynı boşlukta -->
+<!-- Başlık Kartı - diğer kartlarla aynı mesafede, seçili tema menü renginde -->
 <div class="title-card">Yeni İşlem Aç</div>
 
 <!-- 💎 VARLIK -->
