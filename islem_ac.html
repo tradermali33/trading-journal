@@ -47,10 +47,10 @@ input{
 }
 body.dark .badge{background:#1f2937;color:#fff;}
 
-/* AKTİF RENKLER */
 .badge.active-up{background:#16a34a;color:#fff;}
 .badge.active-down{background:#dc2626;color:#fff;}
 .badge.active-flat{background:#6b7280;color:#fff;}
+.badge.active{background:#2563eb;color:#fff;}
 
 .btn{
   width:100%;
@@ -64,6 +64,7 @@ body.dark .badge{background:#1f2937;color:#fff;}
 .btn:active{transform:scale(.96);}
 .btn-green{background:#16a34a;color:#fff;}
 .btn-yellow{background:#f1c40f;color:#111;}
+.btn-red{background:#dc2626;color:#fff;}
 
 .toggle{
   padding:12px;
@@ -134,7 +135,7 @@ body.dark .title-card{background:#fff;color:#111;}
 <!-- ZAMAN -->
 <div class="card">
   <h2 class="center">⏳ Zaman Dilimi</h2>
-  <div class="badge-group" data-single>
+  <div class="badge-group" data-group="time">
     <div class="badge">5m</div>
     <div class="badge active-up">15m</div>
     <div class="badge">1h</div>
@@ -149,7 +150,7 @@ body.dark .title-card{background:#fff;color:#111;}
 
   <div class="card">
     <h2 class="center">SMC (Çoklu)</h2>
-    <div class="badge-group" data-multi>
+    <div class="badge-group" data-group="smc">
       <div class="badge">BOS</div><div class="badge">CHoCH</div><div class="badge">OB</div>
       <div class="badge">Demand</div><div class="badge">Supply</div>
       <div class="badge">Equal High</div><div class="badge">Equal Low</div>
@@ -160,7 +161,7 @@ body.dark .title-card{background:#fff;color:#111;}
 
   <div class="card">
     <h2 class="center">Fibonacci</h2>
-    <div class="badge-group" data-single>
+    <div class="badge-group" data-group="fibo">
       <div class="badge">0.382</div>
       <div class="badge">0.5</div>
       <div class="badge">0.618</div>
@@ -194,7 +195,7 @@ const d=new Date();
 dateText.innerText=
 `${String(d.getDate()).padStart(2,"0")}.${String(d.getMonth()+1).padStart(2,"0")}.${d.getFullYear()} ${days[d.getDay()]}`;
 
-// TREND – TEK + RENKLİ
+// TREND (TEK + RENK)
 document.querySelectorAll("#trendGroup .badge").forEach(b=>{
   b.onclick=()=>{
     document.querySelectorAll("#trendGroup .badge")
@@ -206,8 +207,9 @@ document.querySelectorAll("#trendGroup .badge").forEach(b=>{
   };
 });
 
-// TEK SEÇİMLİ GRUPLAR (YEŞİL)
-document.querySelectorAll("[data-single]").forEach(g=>{
+// TEK SEÇİMLİ (SMC HARİÇ)
+document.querySelectorAll("[data-group]").forEach(g=>{
+  if(g.dataset.group==="smc") return;
   g.querySelectorAll(".badge").forEach(b=>{
     b.onclick=()=>{
       g.querySelectorAll(".badge").forEach(x=>x.classList.remove("active-up"));
@@ -216,11 +218,15 @@ document.querySelectorAll("[data-single]").forEach(g=>{
   });
 });
 
-// SMC – ÇOKLU (YEŞİL)
-document.querySelectorAll("[data-multi] .badge").forEach(b=>{
+// SMC ÇOKLU
+document.querySelectorAll('[data-group="smc"] .badge').forEach(b=>{
   b.onclick=()=>b.classList.toggle("active-up");
 });
 </script>
 
 </body>
 </html>
+
+
+
+Basılan tuş yeşil yansın sadece smc 1 den fazla seçilebilsin
