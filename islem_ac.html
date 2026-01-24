@@ -2,18 +2,16 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yeni İşlem Aç</title>
 
 <style>
 * {
   box-sizing: border-box;
   font-family: "Times New Roman", serif;
-  margin: 0;
-  padding: 0;
 }
 
-/* Tema ayarları */
+/* ================= THEME ================= */
 :root {
   --bg: #eef1f4;
   --card: #ffffff;
@@ -32,35 +30,33 @@ body.dark {
   --input-border: #334155;
 }
 
-body, html {
+body {
   margin: 0;
-  padding: 0;
-  width: 100%;
-  overflow-x: hidden; /* Yatay kaymayı kesin engelle */
   background: var(--bg);
   color: var(--text);
-  min-height: 100vh;
+  padding: 0;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* Premium metalik yansıma - daha belirgin ama göz yormayan */
-body::before {
+/* Seçenek 1: Tek sayfa genelinde çok hafif, yavaş parlama */
+body::after {
   content: "";
-  position: fixed;
+  position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.12) 50%, transparent 60%);
-  animation: premiumMetal 12s linear infinite;
-  opacity: 0.3;
-  z-index: -2;
-  mix-blend-mode: screen; /* Premium hissi için blend modu */
+  background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,.10) 50%, transparent 60%);
+  animation: pageShine 15s linear infinite;
+  opacity: 0.25;
+  z-index: -1;
 }
 
-@keyframes premiumMetal {
-  0%   { transform: translate(-12%, -12%) rotate(0deg); }
-  100% { transform: translate(12%, 12%) rotate(360deg); }
+@keyframes pageShine {
+  0%   { transform: translate(-10%, -10%); }
+  100% { transform: translate(10%, 10%); }
 }
 
-/* Header ve başlık */
+/* ================= HEADER ================= */
 .header {
   position: sticky;
   top: 0;
@@ -70,71 +66,156 @@ body::before {
   z-index: 10;
 }
 
-.top-row { display: flex; justify-content: space-between; align-items: center; }
-.toggle-group { display: flex; gap: 6px; }
-.toggle { padding: 6px 12px; font-size: 15px; border-radius: 10px; background: var(--bg); box-shadow: 0 3px 8px var(--shadow); cursor: pointer; user-select: none; }
-.toggle.active { outline: 2px solid currentColor; background: var(--card); }
-
-.date-bar { text-align: center; font-size: 17px; font-weight: bold; margin: 8px 0; color: var(--text); }
-
-/* Başlık satırı */
-.title-bar {
-  background: var(--card === '#ffffff' ? '#161e2e' : '#ffffff'); /* Ters tema */
-  color: var(--text);
-  text-align: center;
-  font-size: 20px;
-  font-weight: bold;
-  padding: 14px;
-  box-shadow: 0 2px 8px var(--shadow);
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* Card'lar - yatay taşma engelle */
+.toggle-group {
+  display: flex;
+  gap: 6px;
+}
+
+.toggle {
+  padding: 6px 12px;
+  font-size: 15px;
+  border-radius: 10px;
+  background: var(--bg);
+  box-shadow: 0 3px 8px var(--shadow);
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle.active {
+  outline: 2px solid currentColor;
+  background: var(--card);
+}
+
+.date-bar {
+  text-align: center;
+  font-size: 17px;
+  font-weight: bold;
+  margin: 12px 0 8px;
+  color: var(--text);
+}
+
+/* ================= CARD & BADGE ================= */
 .card {
   background: var(--card);
   border-radius: 16px;
   padding: 16px;
   margin: 16px;
   box-shadow: 0 4px 10px var(--shadow);
-  max-width: 100%;
-  overflow: hidden; /* Taşmayı önle */
 }
 
-/* Diğer stiller aynı */
+.card h2 {
+  margin: 0 0 14px 0;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  color: var(--text);
+}
+
 .center { text-align: center; }
-input, textarea { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text); font-size: 15px; }
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text);
+  font-size: 15px;
+}
+
 textarea { resize: none; }
-.row { display: flex; gap: 12px; max-width: 100%; }
-.row > div { flex: 1; min-width: 0; }
-.badge-group { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 100%; overflow: hidden; }
-.badge { padding: 10px 18px; background: #eef1f4; border-radius: 20px; font-size: 14px; cursor: pointer; user-select: none; color: #333; transition: all 0.15s ease; white-space: nowrap; }
-body.dark .badge { background: #334155; color: #e2e8f0; }
-.badge.active { color: #fff; box-shadow: 0 0 10px rgba(46, 204, 113, 0.5); transform: scale(1.04); }
-.trend-row .badge { flex: 1; text-align: center; min-width: 0; }
-.btn { width: 100%; padding: 16px; border: none; border-radius: 16px; font-size: 16px; font-weight: bold; cursor: pointer; }
+
+.row { display: flex; gap: 12px; }
+.row > div { flex: 1; }
+
+.badge-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.badge {
+  padding: 10px 18px;
+  background: #eef1f4;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+  color: #333;
+  transition: all 0.15s ease;
+}
+
+body.dark .badge {
+  background: #334155;
+  color: #e2e8f0;
+}
+
+.badge.active {
+  color: #fff;
+  box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+  transform: scale(1.04);
+}
+
+/* Trend özel renkler */
+.trend-row .badge:nth-child(1).active { background: #2ecc71; }
+.trend-row .badge:nth-child(2).active { background: #e74c3c; }
+.trend-row .badge:nth-child(3).active { background: #95a5a6; }
+
+/* Diğer gruplar yeşil */
+.badge-group:not(.trend-row) .badge.active {
+  background: #2ecc71 !important;
+}
+
+.trend-row .badge { flex: 1; text-align: center; }
+
+.btn {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 .btn-green { background: #2ecc71; color: #000; }
 .btn-red { background: #e74c3c; color: #fff; }
 .btn-yellow { background: #f1c40f; color: #000; }
-.footer-back { text-align: center; margin: 20px 0; font-size: 18px; color: var(--text); }
+
+.footer-back {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 18px;
+  color: var(--text);
+}
 </style>
 </head>
 
 <body>
 
+<!-- HEADER -->
 <div class="header">
   <div class="top-row">
     <div class="toggle-group">
       <div class="toggle" id="lightBtn">☀️</div>
       <div class="toggle active" id="darkBtn">🌙</div>
     </div>
+
     <div class="toggle-group">
       <div class="toggle active">TR</div>
       <div class="toggle">EN</div>
     </div>
   </div>
+
   <div class="date-bar" id="today"></div>
 </div>
-
-<div class="title-bar">Yeni İşlem Aç</div>
 
 <!-- 💎 VARLIK -->
 <div class="card">
@@ -144,11 +225,272 @@ body.dark .badge { background: #334155; color: #e2e8f0; }
   <div class="center" style="margin-top:8px;font-weight:bold;" id="live-price">🔴 Canlı Fiyat: --</div>
 </div>
 
-<!-- Diğer kartlar (TREND, ZAMAN, TEKNİK ANALİZ, KASA vb.) senin orijinal kodundan kopyala – yukarıdaki gibi tam olarak ekle -->
+<!-- 📈 TREND -->
+<div class="card">
+  <h2>📈 Trend Yönü</h2>
+  <div class="badge-group trend-row" data-group="trend">
+    <div class="badge">Yükselen</div>
+    <div class="badge">Düşen</div>
+    <div class="badge">Yatay</div>
+  </div>
+</div>
+
+<!-- ⏳ ZAMAN -->
+<div class="card">
+  <h2>⏳ Zaman Dilimi</h2>
+  <div class="badge-group" data-group="time">
+    <div class="badge">5m</div>
+    <div class="badge active">15m</div>
+    <div class="badge">1h</div>
+    <div class="badge">4h</div>
+    <div class="badge">1D</div>
+  </div>
+</div>
+
+<!-- 🎯 TEKNİK ANALİZ -->
+<div class="card">
+  <h2>🎯 Teknik Analiz Paneli</h2>
+
+  <div class="card">
+    <h2>SMC</h2>
+    <div class="badge-group" data-group="smc">
+      <div class="badge">BOS</div>
+      <div class="badge">CHoCH</div>
+      <div class="badge">OB</div>
+      <div class="badge">Demand</div>
+      <div class="badge">Supply</div>
+      <div class="badge">Equal High</div>
+      <div class="badge">Equal Low</div>
+      <div class="badge">Likidite</div>
+      <div class="badge">FVG</div>
+      <div class="badge">Sweep</div>
+      <div class="badge">Premium</div>
+      <div class="badge">Discount</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>EMA</h2>
+    <div class="badge-group" data-group="ema">
+      <div class="badge">3</div><div class="badge">5</div><div class="badge">7</div>
+      <div class="badge">9</div><div class="badge">11</div><div class="badge">13</div>
+      <div class="badge">17</div><div class="badge">19</div><div class="badge">20</div>
+      <div class="badge">21</div><div class="badge">34</div><div class="badge">48</div>
+      <div class="badge">50</div><div class="badge">100</div>
+      <div class="badge">144</div><div class="badge">200</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>RSI</h2>
+    <div class="badge-group" data-group="rsi">
+      <div class="badge">Uyumlu</div>
+      <div class="badge">Aşırı Alım (70+)</div>
+      <div class="badge">Aşırı Satım (30-)</div>
+      <div class="badge">Pozitif Uyumsuzluk</div>
+      <div class="badge">Negatif Uyumsuzluk</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>MACD</h2>
+    <div class="badge-group" data-group="macd">
+      <div class="badge">Bullish Kesişim</div>
+      <div class="badge">Bearish Kesişim</div>
+      <div class="badge">Histogram +</div>
+      <div class="badge">Histogram -</div>
+      <div class="badge">Sıfır Üzeri</div>
+      <div class="badge">Sıfır Altı</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Hacim</h2>
+    <div class="badge-group" data-group="volume">
+      <div class="badge">Artış</div>
+      <div class="badge">Düşüş</div>
+      <div class="badge">Ortalama Üstü</div>
+      <div class="badge">Spike</div>
+    </div>
+  </div>
+</div>
+
+<!-- 🏦 KASA -->
+<div class="card center">
+  <h2>🏦 Kasa</h2>
+  <div style="font-size:22px;font-weight:bold;">12.500 TL</div>
+</div>
+
+<!-- 📌 GİRİŞ -->
+<div class="card">
+  <h2>📌 Giriş</h2>
+  <input id="fiyat" placeholder="Giriş Fiyatı">
+  <div class="row" style="margin-top:10px;">
+    <div><input id="adet" placeholder="Adet"></div>
+    <div><input id="tutar" placeholder="Tutar (TL)"></div>
+  </div>
+</div>
+
+<!-- STOP -->
+<div class="card">
+  <h2>Stop</h2>
+  <div class="badge-group" data-group="stop">
+    <div class="badge">0.5%</div>
+    <div class="badge active">1%</div>
+    <div class="badge">2%</div>
+  </div>
+  <input style="margin-top:10px;" placeholder="Stop Fiyatı">
+</div>
+
+<!-- 🚀 HEDEF -->
+<div class="card">
+  <h2>🚀 Hedef</h2>
+  <div class="row">
+    <div><input placeholder="TP1"></div>
+    <div><input placeholder="TP2"></div>
+    <div><input placeholder="TP3"></div>
+  </div>
+</div>
+
+<!-- BUTONLAR -->
+<div class="card">
+  <button class="btn btn-yellow">🚨 Otomatik İşlem Sonlandır</button><br><br>
+  <button class="btn btn-red">⚠️ Manuel İşlem Sonlandır</button><br><br>
+  <button class="btn btn-green">⚡ İŞLEM BAŞLAT ⚡</button>
+</div>
+
+<!-- SON KASA -->
+<div class="card center">
+  <h2>İşlem Sonrası Kasa</h2>
+  <div style="font-size:22px;font-weight:bold;">0 TL</div>
+</div>
+
+<div class="footer-back">↩️ Geri</div>
 
 <script>
-// Theme toggle, date, badge selection, fiyat hesaplama, autocomplete kodları aynı kalıyor...
-// (Önceki mesajlardaki script kısmını buraya kopyala, değişiklik yok)
+// ================= THEME TOGGLE =================
+const body = document.body;
+const light = document.getElementById("lightBtn");
+const dark = document.getElementById("darkBtn");
+
+function setTheme(t) {
+  body.classList.toggle("dark", t === "dark");
+  localStorage.setItem("theme", t);
+  light.classList.toggle("active", t === "light");
+  dark.classList.toggle("active", t === "dark");
+}
+
+setTheme(localStorage.getItem("theme") || "light");
+light.onclick = () => setTheme("light");
+dark.onclick = () => setTheme("dark");
+
+// ================= DATE =================
+const d = new Date();
+const gunler = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+document.getElementById("today").innerText = 
+  d.toLocaleDateString("tr-TR", {day: '2-digit', month: '2-digit', year: 'numeric'}) + " " + gunler[d.getDay()];
+
+// ================= BADGE SELECTION =================
+document.querySelectorAll('[data-group]').forEach(group => {
+  group.querySelectorAll('.badge').forEach(badge => {
+    badge.addEventListener('pointerup', () => {
+      requestAnimationFrame(() => {
+        group.querySelectorAll('.badge').forEach(b => b.classList.remove('active'));
+        badge.classList.add('active');
+      });
+    });
+  });
+});
+
+// ================= FİYAT HESAPLAMA =================
+const fiyat = document.getElementById("fiyat");
+const adet = document.getElementById("adet");
+const tutar = document.getElementById("tutar");
+
+adet.addEventListener("input", () => {
+  if (fiyat.value) tutar.value = (adet.value * fiyat.value).toFixed(2);
+});
+tutar.addEventListener("input", () => {
+  if (fiyat.value) adet.value = (tutar.value / fiyat.value).toFixed(2);
+});
+
+// ================= VARLIK AUTOCOMPLETE + CANLI FİYAT =================
+const assetInput = document.getElementById("asset-input");
+const livePriceEl = document.getElementById("live-price");
+let currentSymbol = "";
+
+const suggestions = [
+  "THYAO", "GARAN", "AKBNK", "ISCTR", "PETKM", "SISE", "EREGL", "KCHOL",
+  "BTC", "ETH", "SOL", "XRP", "ADA", "DOGE", "BNB", "AVAX", "LINK"
+];
+
+function updateSuggestions(value) {
+  const dataList = document.getElementById("asset-suggestions");
+  dataList.innerHTML = "";
+  if (!value) return;
+
+  const upper = value.toUpperCase().trim();
+
+  if (/^[A-Z]{3,8}$/.test(upper) && !upper.endsWith("USDT")) {
+    const opt = document.createElement("option");
+    opt.value = upper + "USDT";
+    dataList.appendChild(opt);
+  }
+
+  suggestions.filter(s => s.startsWith(upper)).forEach(s => {
+    const opt = document.createElement("option");
+    opt.value = s;
+    dataList.appendChild(opt);
+  });
+}
+
+assetInput.addEventListener("input", (e) => {
+  updateSuggestions(e.target.value);
+  fetchPrice(e.target.value.trim().toUpperCase());
+});
+
+function fetchPrice(symbol) {
+  if (!symbol) {
+    livePriceEl.innerHTML = "🔴 Canlı Fiyat: --";
+    return;
+  }
+
+  currentSymbol = symbol;
+
+  let apiSymbol = symbol;
+  let isCrypto = apiSymbol.endsWith("USDT") || /^[A-Z]{3,8}$/.test(apiSymbol);
+
+  if (isCrypto && !apiSymbol.endsWith("USDT")) apiSymbol += "USDT";
+
+  if (apiSymbol.endsWith("USDT")) {
+    fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${apiSymbol}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.price) {
+          livePriceEl.innerHTML = `💲 Canlı Fiyat: $${parseFloat(data.price).toFixed(2)}`;
+        } else {
+          livePriceEl.innerHTML = "🔴 Fiyat alınamadı";
+        }
+      })
+      .catch(() => livePriceEl.innerHTML = "🔴 Bağlantı hatası");
+  } else {
+    const apiKey = "YOUR_FINNHUB_API_KEY_HERE"; // ← BURAYA KENDİ KEY'İNİ YAPISTIR
+    fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}.IS&token=${apiKey}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.c && data.c > 0) {
+          livePriceEl.innerHTML = `₺ Canlı Fiyat: ${data.c.toFixed(2)} TL`;
+        } else {
+          livePriceEl.innerHTML = "🔴 Fiyat alınamadı (Finnhub)";
+        }
+      })
+      .catch(() => livePriceEl.innerHTML = "🔴 Bağlantı hatası (Finnhub key kontrol et)");
+  }
+}
+
+setInterval(() => {
+  if (currentSymbol) fetchPrice(currentSymbol);
+}, 15000);
 </script>
 
 </body>
