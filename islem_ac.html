@@ -74,7 +74,6 @@ body.dark .badge{background:#1f2937;color:#fff;}
 }
 body.light .toggle{background:#e5e7eb;color:#111;}
 body.dark .toggle{background:#1f2937;color:#fff;}
-.toggle.active{outline:2px solid #3b82f6;}
 
 .title-card{
   background:#111827;
@@ -95,11 +94,11 @@ body.dark .title-card{background:#fff;color:#111;}
 
 <body class="light">
 
-<!-- TEMA / DİL / TARİH -->
+<!-- TEMA / TARİH -->
 <div class="card">
   <div class="row">
     <div id="themeBtn" class="toggle">🌙 / ☀️ Tema</div>
-    <div id="langBtn" class="toggle active">TR | EN</div>
+    <div class="toggle">TR | EN</div>
   </div>
   <div class="center" id="dateText" style="margin-top:10px;font-weight:bold;"></div>
 </div>
@@ -125,9 +124,9 @@ body.dark .title-card{background:#fff;color:#111;}
 <div class="card">
   <h2 class="center">📈 Trend Yönü</h2>
   <div class="badge-group" id="trendGroup">
-    <div class="badge" data-t="up">Yükselen</div>
-    <div class="badge" data-t="down">Düşen</div>
-    <div class="badge" data-t="flat">Yatay</div>
+    <div class="badge" data-trend="up">Yükselen</div>
+    <div class="badge" data-trend="down">Düşen</div>
+    <div class="badge" data-trend="flat">Yatay</div>
   </div>
 </div>
 
@@ -194,31 +193,31 @@ const d=new Date();
 dateText.innerText=
 `${String(d.getDate()).padStart(2,"0")}.${String(d.getMonth()+1).padStart(2,"0")}.${d.getFullYear()} ${days[d.getDay()]}`;
 
-// TREND – TEK + RENKLİ
+// TREND (TEK + RENK)
 document.querySelectorAll("#trendGroup .badge").forEach(b=>{
-  b.onclick=()=>{
+  b.addEventListener("click",()=>{
     document.querySelectorAll("#trendGroup .badge")
       .forEach(x=>x.classList.remove("active-up","active-down","active-flat"));
-    b.classList.add(
-      b.dataset.t==="up"?"active-up":
-      b.dataset.t==="down"?"active-down":"active-flat"
-    );
-  };
+
+    if(b.dataset.trend==="up") b.classList.add("active-up");
+    if(b.dataset.trend==="down") b.classList.add("active-down");
+    if(b.dataset.trend==="flat") b.classList.add("active-flat");
+  });
 });
 
-// TEK SEÇİMLİ GRUPLAR (YEŞİL)
-document.querySelectorAll("[data-single]").forEach(g=>{
-  g.querySelectorAll(".badge").forEach(b=>{
-    b.onclick=()=>{
-      g.querySelectorAll(".badge").forEach(x=>x.classList.remove("active-up"));
+// TEK SEÇİM (YEŞİL)
+document.querySelectorAll("[data-single]").forEach(group=>{
+  group.querySelectorAll(".badge").forEach(b=>{
+    b.addEventListener("click",()=>{
+      group.querySelectorAll(".badge").forEach(x=>x.classList.remove("active-up"));
       b.classList.add("active-up");
-    };
+    });
   });
 });
 
 // SMC – ÇOKLU (YEŞİL)
 document.querySelectorAll("[data-multi] .badge").forEach(b=>{
-  b.onclick=()=>b.classList.toggle("active-up");
+  b.addEventListener("click",()=>b.classList.toggle("active-up"));
 });
 </script>
 
