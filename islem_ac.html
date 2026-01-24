@@ -3,52 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>İşlemler</title>
+<title>Yeni İşlem Aç</title>
 
 <style>
-*{box-sizing:border-box;font-family:"Times New Roman",serif;}
-
-body{
-  margin:0;
-  padding:16px;
-  transition:.25s;
+* {
+  box-sizing: border-box;
+  font-family: "Times New Roman", serif;
 }
 
-/* ===== TEMA ===== */
-body.light{background:#f2f4f6;color:#111;}
-body.dark{background:#0b1220;color:#fff;}
-
-/* ===== KART ===== */
-.card{
-  border-radius:18px;
-  padding:16px;
-  margin-bottom:14px;
-  box-shadow:0 6px 16px rgba(0,0,0,.08);
+/* ================= THEME ================= */
+:root {
+  --bg: #eef1f4;
+  --card: #ffffff;
+  --text: #111;
+  --shadow: rgba(0,0,0,.15);
+  --input-bg: #fff;
+  --input-border: #ddd;
+  --menu-light: #f0f2f5;
+  --menu-dark: #1e293b;
 }
-body.light .card{background:#fff;}
-body.dark .card{background:#111827;}
 
-.center{text-align:center;}
-.row{display:flex;gap:12px;}
-.row>div{flex:1;}
-
-/* ===== TEMA & DİL ===== */
-.toggle{
-  padding:14px;
-  border-radius:16px;
-  font-weight:bold;
-  cursor:pointer;
-  text-align:center;
+body.dark {
+  --bg: #0b1220;
+  --card: #161e2e;
+  --text: #f9fafb;
+  --shadow: rgba(0,0,0,.65);
+  --input-bg: #1e293b;
+  --input-border: #334155;
 }
-body.light .toggle{background:#e5e7eb;color:#111;}
-body.dark .toggle{background:#1f2937;color:#fff;}
-.toggle.active{outline:2px solid #3b82f6;}
 
-/* ===== BAŞLIK (ZIT TEMA) ===== */
-body.light .invert{background:#111827;color:#fff;}
-body.dark .invert{background:#f9fafb;color:#111;}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  padding: 0;
+  position: relative;
+  overflow-x: hidden;
+}
 
+/* ================= HEADER ================= */
+.header {
+  position: sticky;
+  top: 0;
+  background: var(--card);
+  padding: 12px 16px;
+  box-shadow: 0 4px 12px var(--shadow);
+  z-index: 10;
+}
 
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toggle-group {
+  display: flex;
+  gap: 6px;
+}
+
+.toggle {
+  padding: 6px 12px;
+  font-size: 15px;
+  border-radius: 10px;
+  background: var(--bg);
+  box-shadow: 0 3px 8px var(--shadow);
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle.active {
+  outline: 2px solid currentColor;
+  background: var(--card);
+}
+
+.date-bar {
+  text-align: center;
+  font-size: 17px;
+  font-weight: bold;
+  margin: 12px 0 8px;
+  color: var(--text);
+}
+
+/* Başlık kartı - seçili tema tersinin menü renginde */
+.title-card {
+  background: var(--card === '#ffffff' ? var(--menu-dark) : var(--menu-light)); /* ters tema menü rengi */
+  color: var(--text);
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  padding: 18px;
+  margin: 16px;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px var(--shadow);
+  letter-spacing: 1px;
+}
 
 /* ================= CARD & BADGE ================= */
 .card {
