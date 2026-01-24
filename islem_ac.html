@@ -90,6 +90,40 @@ body.dark .badge{background:#1f2937;color:#fff;}
 body.light .toggle{background:#e5e7eb;color:#111;}
 body.dark .toggle{background:#1f2937;color:#fff;}
 .toggle.active{outline:2px solid #3b82f6;}
+
+/* Yeni başlık kartı - yatay basit başlık, koyu temada beyaz, açık temada koyu tema renginde */
+.title-card{
+  background:#fff; /* Varsayılan açık temada koyu tema renginde */
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 4px 10px rgba(0,0,0,.06);
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+body.dark .title-card{background:#fff; /* Koyu temada beyaz */
+color: #111;}
+body.light .title-card{background:#111827; /* Açık temada koyu tema renginde */
+color: #fff;}
+
+/* Varlık kartı için yeni yapı - iki bölüm */
+.asset-row{
+  display: flex;
+  gap: 12px;
+}
+.asset-row > div{
+  flex: 1;
+  text-align: center;
+}
+.asset-row input{
+  margin-top: 8px;
+}
+.asset-row .live-price{
+  margin-top: 8px;
+  font-weight: bold;
+  font-size: 14px;
+}
 </style>
 </head>
 
@@ -104,11 +138,24 @@ body.dark .toggle{background:#1f2937;color:#fff;}
   <div class="center" style="margin-top:10px;font-weight:bold;" id="dateText"></div>
 </div>
 
+<!-- Yeni İşlem Aç başlık kartı -->
+<div class="title-card">Yeni İşlem Aç</div>
+
 <!-- VARLIK -->
 <div class="card">
   <h2>💎 Varlık</h2>
-  <input placeholder="ALKA / BTCUSDT">
-  <div class="center" style="margin-top:8px;font-weight:bold;">🔴 Canlı Fiyat: --</div>
+  <div class="asset-row">
+    <div>
+      BIST
+      <input placeholder="ALKA">
+      <div class="live-price">🔴 Canlı Fiyat: --</div>
+    </div>
+    <div>
+      USDT
+      <input placeholder="BTCUSDT">
+      <div class="live-price">🔴 Canlı Fiyat: --</div>
+    </div>
+  </div>
 </div>
 
 <!-- TREND -->
