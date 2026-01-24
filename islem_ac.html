@@ -32,7 +32,6 @@ body.dark {
   --input-border: #334155;
 }
 
-/* Sayfa geneline premium metalik yansıma (güçlü ama göz yormayan) */
 body {
   margin: 0;
   background: var(--bg);
@@ -42,23 +41,25 @@ body {
   overflow-x: hidden;
 }
 
+/* Premium metalik yansıma - daha güçlü, görsel, şık (sayfa geneline) */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,.12) 50%, transparent 60%);
-  animation: premiumMetal 12s ease-in-out infinite;
-  opacity: 0.35;
+  background: linear-gradient(135deg, transparent 35%, rgba(255,215,0,.12) 50%, transparent 65%);
+  animation: premiumShine 10s ease-in-out infinite;
+  opacity: 0.4;
   z-index: -1;
   mix-blend-mode: screen;
-  filter: blur(2px);
+  filter: blur(1.5px);
+  box-shadow: inset 0 0 40px rgba(255,255,255,.08);
 }
 
-@keyframes premiumMetal {
-  0%   { transform: translate(-15%, -15%) rotate(-5deg); }
-  50%  { transform: translate(15%, 15%) rotate(5deg); }
-  100% { transform: translate(-15%, -15%) rotate(-5deg); }
+@keyframes premiumShine {
+  0%   { transform: translate(-20%, -20%) rotate(-10deg); }
+  50%  { transform: translate(20%, 20%) rotate(10deg); }
+  100% { transform: translate(-20%, -20%) rotate(-10deg); }
 }
 
 /* ================= HEADER ================= */
@@ -105,17 +106,20 @@ body::before {
   color: var(--text);
 }
 
-/* Yeni başlık kartı - seçili olmayan temanın menü renginde */
+/* Yeni başlık kartı - İşlemler kartı gibi premium, ters tema menü renginde */
 .title-card {
-  background: var(--card === '#ffffff' ? var(--menu-dark) : var(--menu-light)); /* ters tema menü rengi */
+  background: linear-gradient(135deg, var(--card === '#ffffff' ? var(--menu-dark) : var(--menu-light)), var(--card === '#ffffff' ? '#0f172a' : '#e2e8f0'));
   color: var(--text);
   text-align: center;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
-  padding: 16px;
+  padding: 18px;
   margin: 0 16px 16px;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px var(--shadow);
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.4), inset 0 0 20px rgba(255,255,255,.08);
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0,0,0,.5);
+  border: 1px solid rgba(255,255,255,.1);
 }
 
 /* ================= CARD & BADGE ================= */
@@ -235,7 +239,7 @@ body.dark .badge {
   <div class="date-bar" id="today"></div>
 </div>
 
-<!-- Yeni Başlık Kartı -->
+<!-- Yeni Premium Başlık Kartı -->
 <div class="title-card">Yeni İşlem Aç</div>
 
 <!-- 💎 VARLIK -->
@@ -389,7 +393,7 @@ body.dark .badge {
 <div class="footer-back">↩️ Geri</div>
 
 <script>
-// Theme toggle
+// ================= THEME TOGGLE =================
 const body = document.body;
 const light = document.getElementById("lightBtn");
 const dark = document.getElementById("darkBtn");
@@ -405,13 +409,13 @@ setTheme(localStorage.getItem("theme") || "light");
 light.onclick = () => setTheme("light");
 dark.onclick = () => setTheme("dark");
 
-// Date
+// ================= DATE =================
 const d = new Date();
 const gunler = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
 document.getElementById("today").innerText = 
   d.toLocaleDateString("tr-TR", {day: '2-digit', month: '2-digit', year: 'numeric'}) + " " + gunler[d.getDay()];
 
-// Badge selection
+// ================= BADGE SELECTION =================
 document.querySelectorAll('[data-group]').forEach(group => {
   group.querySelectorAll('.badge').forEach(badge => {
     badge.addEventListener('pointerup', () => {
@@ -423,7 +427,7 @@ document.querySelectorAll('[data-group]').forEach(group => {
   });
 });
 
-// Fiyat hesaplama
+// ================= FİYAT HESAPLAMA =================
 const fiyat = document.getElementById("fiyat");
 const adet = document.getElementById("adet");
 const tutar = document.getElementById("tutar");
@@ -435,9 +439,10 @@ tutar.addEventListener("input", () => {
   if (fiyat.value) adet.value = (tutar.value / fiyat.value).toFixed(2);
 });
 
-// Varlık autocomplete (canlı fiyat placeholder)
+// ================= VARLIK AUTOCOMPLETE + CANLI FİYAT =================
 const assetInput = document.getElementById("asset-input");
 const livePriceEl = document.getElementById("live-price");
+let currentSymbol = "";
 
 const suggestions = [
   "THYAO", "GARAN", "AKBNK", "ISCTR", "PETKM", "SISE", "EREGL", "KCHOL",
@@ -466,8 +471,51 @@ function updateSuggestions(value) {
 
 assetInput.addEventListener("input", (e) => {
   updateSuggestions(e.target.value);
-  livePriceEl.innerHTML = "🔴 Canlı Fiyat: --";
+  fetchPrice(e.target.value.trim().toUpperCase());
 });
+
+function fetchPrice(symbol) {
+  if (!symbol) {
+    livePriceEl.innerHTML = "🔴 Canlı Fiyat: --";
+    return;
+  }
+
+  currentSymbol = symbol;
+
+  let apiSymbol = symbol;
+  let isCrypto = apiSymbol.endsWith("USDT") || /^[A-Z]{3,8}$/.test(apiSymbol);
+
+  if (isCrypto && !apiSymbol.endsWith("USDT")) apiSymbol += "USDT";
+
+  if (apiSymbol.endsWith("USDT")) {
+    fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${apiSymbol}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.price) {
+          livePriceEl.innerHTML = `💲 Canlı Fiyat: $${parseFloat(data.price).toFixed(2)}`;
+        } else {
+          livePriceEl.innerHTML = "🔴 Fiyat alınamadı";
+        }
+      })
+      .catch(() => livePriceEl.innerHTML = "🔴 Bağlantı hatası");
+  } else {
+    const apiKey = "YOUR_FINNHUB_API_KEY_HERE"; // ← BURAYA KENDİ KEY'İNİ YAPISTIR
+    fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}.IS&token=${apiKey}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.c && data.c > 0) {
+          livePriceEl.innerHTML = `₺ Canlı Fiyat: ${data.c.toFixed(2)} TL`;
+        } else {
+          livePriceEl.innerHTML = "🔴 Fiyat alınamadı (Finnhub)";
+        }
+      })
+      .catch(() => livePriceEl.innerHTML = "🔴 Bağlantı hatası (Finnhub key kontrol et)");
+  }
+}
+
+setInterval(() => {
+  if (currentSymbol) fetchPrice(currentSymbol);
+}, 15000);
 </script>
 
 </body>
