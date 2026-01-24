@@ -19,8 +19,8 @@
   --shadow: rgba(0,0,0,.15);
   --input-bg: #fff;
   --input-border: #ddd;
-  --menu-light: #f0f2f5;      /* light tema menü rengi */
-  --menu-dark: #1e293b;       /* dark tema menü rengi */
+  --menu-light: #f0f2f5;
+  --menu-dark: #1e293b;
 }
 
 body.dark {
@@ -32,34 +32,35 @@ body.dark {
   --input-border: #334155;
 }
 
-body {
+body, html {
   margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
   background: var(--bg);
   color: var(--text);
-  padding: 0;
-  position: relative;
-  overflow-x: hidden;
+  min-height: 100vh;
 }
 
-/* Premium metalik yansıma - daha güçlü, görsel, şık (sayfa geneline) */
+/* Premium metalik yansıma - sayfa geneline güçlü, şık, göz yormayan */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(135deg, transparent 35%, rgba(255,215,0,.12) 50%, transparent 65%);
+  background: linear-gradient(135deg, transparent 35%, rgba(255,215,0,.14) 50%, transparent 65%);
   animation: premiumShine 10s ease-in-out infinite;
-  opacity: 0.4;
+  opacity: 0.45;
   z-index: -1;
   mix-blend-mode: screen;
-  filter: blur(1.5px);
-  box-shadow: inset 0 0 40px rgba(255,255,255,.08);
+  filter: blur(1.8px);
+  box-shadow: inset 0 0 50px rgba(255,255,255,.12);
 }
 
 @keyframes premiumShine {
-  0%   { transform: translate(-20%, -20%) rotate(-10deg); }
-  50%  { transform: translate(20%, 20%) rotate(10deg); }
-  100% { transform: translate(-20%, -20%) rotate(-10deg); }
+  0%   { transform: translate(-25%, -25%) rotate(-12deg); }
+  50%  { transform: translate(25%, 25%) rotate(12deg); }
+  100% { transform: translate(-25%, -25%) rotate(-12deg); }
 }
 
 /* ================= HEADER ================= */
@@ -106,7 +107,7 @@ body::before {
   color: var(--text);
 }
 
-/* Yeni başlık kartı - İşlemler kartı gibi premium, ters tema menü renginde */
+/* Premium başlık kartı - İşlemler kartı gibi şık, ters tema menü renginde */
 .title-card {
   background: linear-gradient(135deg, var(--card === '#ffffff' ? var(--menu-dark) : var(--menu-light)), var(--card === '#ffffff' ? '#0f172a' : '#e2e8f0'));
   color: var(--text);
@@ -116,10 +117,10 @@ body::before {
   padding: 18px;
   margin: 0 16px 16px;
   border-radius: 20px;
-  box-shadow: 0 8px 30px rgba(0,0,0,.4), inset 0 0 20px rgba(255,255,255,.08);
-  letter-spacing: 1px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.5), inset 0 0 20px rgba(255,255,255,.1);
+  letter-spacing: 1.5px;
   text-shadow: 0 2px 4px rgba(0,0,0,.5);
-  border: 1px solid rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.12);
 }
 
 /* ================= CARD & BADGE ================= */
@@ -239,7 +240,7 @@ body.dark .badge {
   <div class="date-bar" id="today"></div>
 </div>
 
-<!-- Yeni Premium Başlık Kartı -->
+<!-- Premium Başlık Kartı -->
 <div class="title-card">Yeni İşlem Aç</div>
 
 <!-- 💎 VARLIK -->
